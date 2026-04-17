@@ -8,23 +8,22 @@ import {
   RefreshCw, Clock, CheckCircle2, Circle, Loader2, TrendingUp,
   ArrowUpCircle, ArrowDownCircle, Users, Sparkles, Trophy,
   User, Smartphone, ArrowLeft, ChevronDown, Crown, Gamepad2,
-  Monitor, MapPin, ExternalLink
+  Monitor, MapPin, ExternalLink, Map, Database, Wrench, Image as ImageIcon
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 // ============ TYPES ============
+interface ChampionBuild {
+  name: string;
+  items: string;
+  winRate: number;
+}
+
 interface Champion {
   id: number;
   name: string;
@@ -36,6 +35,11 @@ interface Champion {
   banRate: number;
   patch: string;
   game: string;
+  builds?: ChampionBuild[];
+  counterPick?: string;
+  synergy?: string;
+  aiAnalysis?: string;
+  proPickRate?: number;
 }
 
 interface PatchNote {
@@ -66,11 +70,16 @@ interface TaskItem {
   interval: number;
 }
 
-interface AiReasoning {
-  reasoning: string;
-  confidence: number;
-  factors: string[];
-  relatedChampions: string[];
+interface ProPick {
+  id: number;
+  champion: string;
+  role: string;
+  tournament: string;
+  region: string;
+  pickRate: number;
+  banRate: number;
+  winRate: number;
+  patch: string;
 }
 
 interface SummonerRanked {
@@ -144,6 +153,14 @@ const REGIONS = [
   { value: 'VN', label: 'VN' },
 ];
 
+const TOURNAMENT_REGIONS = [
+  { value: '', label: 'Todos' },
+  { value: 'KR', label: 'LCK' },
+  { value: 'CN', label: 'LPL' },
+  { value: 'EU', label: 'LEC' },
+  { value: 'NA', label: 'LCS' },
+];
+
 // ============ CHAMPION IMAGE URL HELPER ============
 const CHAMPION_NAME_MAP: Record<string, string> = {
   'Wukong': 'MonkeyKing',
@@ -186,6 +203,8 @@ const TAB_ITEMS = [
   { id: 'patches', label: 'Parches', icon: ScrollText },
   { id: 'broken', label: 'Cosas Rotas', icon: AlertTriangle },
   { id: 'tasks', label: 'Tareas', icon: ListTodo },
+  { id: 'roadmap', label: 'Roadmap', icon: Map },
+  { id: 'competitive', label: 'Competitivo', icon: Crown },
   { id: 'profile', label: 'Perfil', icon: User },
 ];
 
@@ -263,6 +282,50 @@ function CategoryBadge({ category }: { category: string }) {
   );
 }
 
+function RoadmapStatusBadge({ status }: { status: string }) {
+  const cfg: Record<string, { color: string; label: string }> = {
+    done: { color: '#0fba81', label: 'Completado' },
+    progress: { color: '#0acbe6', label: 'En progreso' },
+    planned: { color: '#5b5a56', label: 'Planificado' },
+  };
+  const c = cfg[status] || cfg.planned;
+  return (
+    <span
+      className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border"
+      style={{
+        backgroundColor: `${c.color}12`,
+        color: c.color,
+        borderColor: `${c.color}25`,
+      }}
+    >
+      {c.label}
+    </span>
+  );
+}
+
+function TournamentBadge({ tournament }: { tournament: string }) {
+  const colors: Record<string, string> = {
+    LCK: '#e84057',
+    LPL: '#0fba81',
+    LEC: '#0acbe6',
+    LCS: '#c8aa6e',
+  };
+  const color = colors[tournament] || '#5b5a56';
+  return (
+    <Badge
+      variant="outline"
+      className="text-[10px] font-semibold px-2 py-0.5"
+      style={{
+        borderColor: `${color}40`,
+        color: color,
+        backgroundColor: `${color}12`,
+      }}
+    >
+      {tournament}
+    </Badge>
+  );
+}
+
 // ============ SMALL CHAMPION ICON (for profile) ============
 function SmallChampionIcon({ name }: { name: string }) {
   const [imgError, setImgError] = useState(false);
@@ -321,7 +384,32 @@ function ChampionIcon({ name, tier }: { name: string; tier: string }) {
   );
 }
 
-// ============ CHAMPION ROW ============
+// ============ TINY CHAMPION ICON (for Broken Stuff / Competitive) ============
+function TinyChampionIcon({ name }: { name: string }) {
+  const [imgError, setImgError] = useState(false);
+  return (
+    <div
+      className="w-8 h-8 rounded-full overflow-hidden shrink-0"
+      style={{ border: '2px solid rgba(120,90,40,0.3)' }}
+    >
+      {!imgError ? (
+        <img
+          src={getChampionImageUrl(name)}
+          alt={name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-[10px] font-bold bg-[#1e2328] text-[#a09b8c]">
+          {name[0]}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============ CHAMPION ROW (Expandable) ============
 function ChampionRow({ champion, onClick }: { champion: Champion; onClick: () => void }) {
   const cfg = TIER_CONFIG[champion.tier];
 
@@ -360,7 +448,93 @@ function ChampionRow({ champion, onClick }: { champion: Champion; onClick: () =>
           </span>
         </div>
       </div>
-      <ChevronRight className="w-4 h-4 text-[#785a28] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <ChevronDown className="w-4 h-4 text-[#785a28] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+    </motion.div>
+  );
+}
+
+// ============ CHAMPION DETAILS PANEL ============
+function ChampionDetailsPanel({ champion }: { champion: Champion }) {
+  const isS = champion.tier === 'S';
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      exit={{ opacity: 0, height: 0 }}
+      className="overflow-hidden"
+    >
+      <div className="px-4 py-4 rounded-b-lg space-y-4" style={{ background: 'rgba(10, 14, 26, 0.6)', border: '1px solid rgba(120,90,40,0.15)', borderTop: '1px solid rgba(200,170,110,0.15)' }}>
+
+        {/* Builds */}
+        {champion.builds && champion.builds.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Wrench className="w-3.5 h-3.5 text-[#c8aa6e]" />
+              <h4 className="text-[11px] font-semibold text-[#c8aa6e] uppercase tracking-wider">Builds Rotas</h4>
+            </div>
+            <div className="space-y-2">
+              {champion.builds.map((build, i) => (
+                <div key={i} className="rounded-lg p-3" style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.1)' }}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-semibold text-[#f0e6d2]">{build.name}</span>
+                    <span className="text-[10px] font-mono" style={{ color: build.winRate >= 53 ? '#0acbe6' : '#a09b8c' }}>
+                      WR {build.winRate}%
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-[#a09b8c] leading-relaxed">{build.items}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Counter & Synergy */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {champion.counterPick && (
+            <div className="rounded-lg p-3" style={{ background: 'rgba(232,64,87,0.06)', border: '1px solid rgba(232,64,87,0.15)' }}>
+              <div className="flex items-center gap-1.5 mb-1">
+                <Crosshair className="w-3 h-3 text-[#e84057]" />
+                <h4 className="text-[10px] font-semibold text-[#e84057] uppercase tracking-wider">Counters</h4>
+              </div>
+              <p className="text-[10px] text-[#a09b8c]">{champion.counterPick}</p>
+            </div>
+          )}
+          {champion.synergy && (
+            <div className="rounded-lg p-3" style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}>
+              <div className="flex items-center gap-1.5 mb-1">
+                <Users className="w-3 h-3 text-[#0acbe6]" />
+                <h4 className="text-[10px] font-semibold text-[#0acbe6] uppercase tracking-wider">Sinergia</h4>
+              </div>
+              <p className="text-[10px] text-[#a09b8c]">{champion.synergy}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Pro Pick Rate (S-tier) */}
+        {champion.proPickRate && (
+          <div className="flex items-center gap-3">
+            <Crown className="w-3.5 h-3.5 text-[#f0c646]" />
+            <span className="text-[10px] text-[#a09b8c]">Pro Pick Rate:</span>
+            <span className="text-xs font-mono font-semibold text-[#f0c646]">{champion.proPickRate}%</span>
+          </div>
+        )}
+
+        {/* AI Analysis */}
+        {champion.aiAnalysis ? (
+          <div className="rounded-lg p-4" style={{ background: 'rgba(200,170,110,0.05)', border: '1px solid rgba(200,170,110,0.15)' }}>
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-4 h-4 text-[#c8aa6e]" />
+              <h4 className="text-[11px] font-semibold text-[#c8aa6e] uppercase tracking-wider">Análisis IA</h4>
+            </div>
+            <p className="text-xs text-[#a09b8c] leading-relaxed whitespace-pre-wrap">{champion.aiAnalysis}</p>
+          </div>
+        ) : !isS ? (
+          <div className="text-center py-3">
+            <p className="text-[10px] text-[#5b5a56] italic">Sin análisis detallado disponible</p>
+          </div>
+        ) : null}
+      </div>
     </motion.div>
   );
 }
@@ -415,7 +589,7 @@ function TierSection({ tier, champions, onChampionClick }: { tier: string; champ
       </div>
 
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 p-1 rounded-b-xl"
+        className="space-y-0.5 p-1 rounded-b-xl"
         style={{
           background: 'rgba(20, 24, 30, 0.5)',
           border: '1px solid rgba(120, 90, 40, 0.12)',
@@ -423,7 +597,9 @@ function TierSection({ tier, champions, onChampionClick }: { tier: string; champ
         }}
       >
         {champions.map(champ => (
-          <ChampionRow key={champ.id} champion={champ} onClick={() => onChampionClick(champ)} />
+          <div key={champ.id}>
+            <ChampionRow champion={champ} onClick={() => onChampionClick(champ)} />
+          </div>
         ))}
       </div>
     </motion.div>
@@ -505,16 +681,13 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
           }}
           whileTap={{ scale: 0.98 }}
         >
-          {/* Glow effect */}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
               background: 'radial-gradient(circle at 30% 30%, rgba(200,170,110,0.1), transparent 70%)',
             }}
           />
-
           <div className="relative z-10">
-            {/* Icon */}
             <motion.div
               className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6"
               style={{
@@ -527,12 +700,7 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
             >
               <Sword className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: '#c8aa6e' }} />
             </motion.div>
-
-            {/* Text */}
-            <h3
-              className="text-xl sm:text-2xl font-black tracking-wider mb-2"
-              style={{ color: '#c8aa6e' }}
-            >
+            <h3 className="text-xl sm:text-2xl font-black tracking-wider mb-2" style={{ color: '#c8aa6e' }}>
               LEAGUE OF LEGENDS
             </h3>
             <div className="flex items-center gap-2 mb-4">
@@ -544,8 +712,6 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
               <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
-
-          {/* Decorative corner lines */}
           <div className="absolute top-3 right-3 w-6 h-6" style={{ borderTop: '1px solid rgba(200,170,110,0.3)', borderRight: '1px solid rgba(200,170,110,0.3)' }} />
           <div className="absolute bottom-3 left-3 w-6 h-6" style={{ borderBottom: '1px solid rgba(200,170,110,0.3)', borderLeft: '1px solid rgba(200,170,110,0.3)' }} />
         </motion.button>
@@ -569,16 +735,13 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
           }}
           whileTap={{ scale: 0.98 }}
         >
-          {/* Glow effect */}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
               background: 'radial-gradient(circle at 30% 30%, rgba(10,203,230,0.1), transparent 70%)',
             }}
           />
-
           <div className="relative z-10">
-            {/* Icon */}
             <motion.div
               className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6"
               style={{
@@ -591,12 +754,7 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
             >
               <Smartphone className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: '#0acbe6' }} />
             </motion.div>
-
-            {/* Text */}
-            <h3
-              className="text-xl sm:text-2xl font-black tracking-wider mb-2"
-              style={{ color: '#0acbe6' }}
-            >
+            <h3 className="text-xl sm:text-2xl font-black tracking-wider mb-2" style={{ color: '#0acbe6' }}>
               WILD RIFT
             </h3>
             <div className="flex items-center gap-2 mb-4">
@@ -608,12 +766,31 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
               <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
-
-          {/* Decorative corner lines */}
           <div className="absolute top-3 right-3 w-6 h-6" style={{ borderTop: '1px solid rgba(10,203,230,0.3)', borderRight: '1px solid rgba(10,203,230,0.3)' }} />
           <div className="absolute bottom-3 left-3 w-6 h-6" style={{ borderBottom: '1px solid rgba(10,203,230,0.3)', borderLeft: '1px solid rgba(10,203,230,0.3)' }} />
         </motion.button>
       </div>
+
+      {/* Info Section */}
+      <motion.div className="mt-12 max-w-2xl w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="glass-card rounded-xl p-4 text-center">
+            <Database className="w-6 h-6 text-[#c8aa6e] mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Fuentes de Datos</h4>
+            <p className="text-[10px] text-[#5b5a56]">Riot Data Dragon CDN<br/>IA Generativa (GLM)<br/>Estadísticas del Meta</p>
+          </div>
+          <div className="glass-card rounded-xl p-4 text-center">
+            <Clock className="w-6 h-6 text-[#0acbe6] mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Última Actualización</h4>
+            <p className="text-[10px] text-[#5b5a56]">Patch 14.8<br/>18 Abril, 2026<br/>Pipeline: 14 tareas activas</p>
+          </div>
+          <div className="glass-card rounded-xl p-4 text-center">
+            <Shield className="w-6 h-6 text-[#f0c646] mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Beneficios</h4>
+            <p className="text-[10px] text-[#5b5a56]">Tier Lists con IA<br/>Análisis de Campeones<br/>Scout de Invocadores</p>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Footer hint */}
       <motion.p
@@ -644,7 +821,6 @@ function WildRiftComingSoon({ onBack }: { onBack: () => void }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.6 }}
       >
-        {/* Animated ring */}
         <motion.div
           className="w-28 h-28 rounded-full flex items-center justify-center mx-auto mb-8 relative"
           style={{
@@ -663,13 +839,7 @@ function WildRiftComingSoon({ onBack }: { onBack: () => void }) {
           <Smartphone className="w-12 h-12" style={{ color: '#0acbe6' }} />
         </motion.div>
 
-        <h2
-          className="text-3xl sm:text-4xl font-black tracking-[0.15em] mb-4"
-          style={{
-            color: '#0acbe6',
-            textShadow: '0 0 30px rgba(10,203,230,0.3)',
-          }}
-        >
+        <h2 className="text-3xl sm:text-4xl font-black tracking-[0.15em] mb-4" style={{ color: '#0acbe6', textShadow: '0 0 30px rgba(10,203,230,0.3)' }}>
           WILD RIFT
         </h2>
         <p className="text-lg text-[#f0e6d2] font-semibold mb-2">Próximamente</p>
@@ -678,20 +848,13 @@ function WildRiftComingSoon({ onBack }: { onBack: () => void }) {
           builds óptimos y mucho más para la versión móvil de League of Legends.
         </p>
 
-        {/* Feature hints */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
           {[
             { icon: Trophy, label: 'Tier Lists', desc: 'Los mejores campeones' },
             { icon: Brain, label: 'IA Insights', desc: 'Análisis inteligente' },
             { icon: TrendingUp, label: 'Meta Tracker', desc: 'Seguimiento del meta' },
           ].map((feature, i) => (
-            <motion.div
-              key={feature.label}
-              className="glass-card rounded-xl p-4"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.1 }}
-            >
+            <motion.div key={feature.label} className="glass-card rounded-xl p-4" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }}>
               <feature.icon className="w-6 h-6 mx-auto mb-2" style={{ color: '#0acbe6', opacity: 0.7 }} />
               <p className="text-xs font-semibold text-[#f0e6d2]">{feature.label}</p>
               <p className="text-[10px] text-[#5b5a56] mt-0.5">{feature.desc}</p>
@@ -699,11 +862,7 @@ function WildRiftComingSoon({ onBack }: { onBack: () => void }) {
           ))}
         </div>
 
-        <Button
-          onClick={onBack}
-          variant="outline"
-          className="border-[#0acbe6]/30 text-[#0acbe6] hover:bg-[#0acbe6]/10 hover:border-[#0acbe6]/50 gap-2"
-        >
+        <Button onClick={onBack} variant="outline" className="border-[#0acbe6]/30 text-[#0acbe6] hover:bg-[#0acbe6]/10 hover:border-[#0acbe6]/50 gap-2">
           <ArrowLeft className="w-4 h-4" />
           Volver al selector
         </Button>
@@ -720,16 +879,14 @@ export default function Home() {
   const [patches, setPatches] = useState<PatchNote[]>([]);
   const [insights, setInsights] = useState<AiInsight[]>([]);
   const [tasks, setTasks] = useState<TaskItem[]>([]);
+  const [proPicks, setProPicks] = useState<ProPick[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('Todos');
+  const [proRegionFilter, setProRegionFilter] = useState('');
 
-  // AI Reasoning state
-  const [selectedChampion, setSelectedChampion] = useState<Champion | null>(null);
-  const [aiDialogOpen, setAiDialogOpen] = useState(false);
-  const [aiQuestion, setAiQuestion] = useState('');
-  const [aiReasoning, setAiReasoning] = useState<AiReasoning | null>(null);
-  const [aiLoading, setAiLoading] = useState(false);
+  // Expanded champion
+  const [expandedChampionId, setExpandedChampionId] = useState<number | null>(null);
 
   // Summoner profile state
   const [summonerName, setSummonerName] = useState('');
@@ -742,22 +899,25 @@ export default function Home() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [champsRes, patchesRes, insightsRes, tasksRes] = await Promise.all([
+      const [champsRes, patchesRes, insightsRes, tasksRes, proRes] = await Promise.all([
         fetch('/api/champions'),
         fetch('/api/patches'),
         fetch('/api/insights'),
         fetch('/api/tasks'),
+        fetch('/api/pro-picks'),
       ]);
-      const [champsData, patchesData, insightsData, tasksData] = await Promise.all([
+      const [champsData, patchesData, insightsData, tasksData, proData] = await Promise.all([
         champsRes.json(),
         patchesRes.json(),
         insightsRes.json(),
         tasksRes.json(),
+        proRes.json(),
       ]);
       setChampions(champsData);
       setPatches(patchesData);
       setInsights(insightsData);
       setTasks(tasksData);
+      setProPicks(proData);
     } catch (err) {
       console.error('Error fetching data:', err);
     } finally {
@@ -795,36 +955,9 @@ export default function Home() {
     if (tierChamps.length > 0) groupedChampions[tier] = tierChamps;
   });
 
-  // ============ AI REASONING HANDLER ============
-  const handleOpenAi = (champion: Champion) => {
-    setSelectedChampion(champion);
-    setAiQuestion(`¿Por qué ${champion.name} es Tier ${champion.tier}? Analiza su estado actual en el meta.`);
-    setAiReasoning(null);
-    setAiDialogOpen(true);
-  };
-
-  const handleAskAi = async () => {
-    if (!aiQuestion.trim() || !selectedChampion) return;
-    setAiLoading(true);
-    setAiReasoning(null);
-    try {
-      const res = await fetch('/api/ai-reason', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          question: aiQuestion,
-          champion: selectedChampion.name,
-          role: selectedChampion.role,
-          patch: selectedChampion.patch,
-        }),
-      });
-      const data = await res.json();
-      setAiReasoning(data);
-    } catch (err) {
-      console.error('AI reasoning error:', err);
-    } finally {
-      setAiLoading(false);
-    }
+  // ============ CHAMPION EXPAND ============
+  const handleToggleChampion = (champion: Champion) => {
+    setExpandedChampionId(prev => prev === champion.id ? null : champion.id);
   };
 
   // ============ SUMMONER SEARCH ============
@@ -911,10 +1044,29 @@ export default function Home() {
               key={tier}
               tier={tier}
               champions={champs}
-              onChampionClick={handleOpenAi}
+              onChampionClick={handleToggleChampion}
             />
           ))
         )}
+
+        {/* Expanded Champion Details */}
+        <AnimatePresence>
+          {expandedChampionId && (() => {
+            const champ = champions.find(c => c.id === expandedChampionId);
+            if (!champ) return null;
+            return (
+              <motion.div
+                key={`detail-${champ.id}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="mb-4"
+              >
+                <ChampionDetailsPanel champion={champ} />
+              </motion.div>
+            );
+          })()}
+        </AnimatePresence>
 
         {!loading && filteredChampions.length === 0 && (
           <div className="text-center py-16 text-[#5b5a56]">
@@ -947,34 +1099,22 @@ export default function Home() {
           ))
         ) : (
           patches.map(patch => (
-            <motion.div
-              key={patch.id}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="glass-card rounded-xl p-5 border border-[#785a28]/25"
-            >
+            <motion.div key={patch.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="glass-card rounded-xl p-5 border border-[#785a28]/25">
               <div className="flex items-start gap-3 mb-4">
-                <Badge className="bg-[#c8aa6e] text-[#0a0e1a] font-bold text-sm px-3 py-1 shrink-0">
-                  {patch.version}
-                </Badge>
+                <Badge className="bg-[#c8aa6e] text-[#0a0e1a] font-bold text-sm px-3 py-1 shrink-0">{patch.version}</Badge>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-lg font-semibold text-[#f0e6d2]">{patch.title}</h3>
                   <div className="flex items-center gap-2 text-xs text-[#5b5a56] mt-1 flex-wrap">
                     <Clock className="w-3 h-3" />
                     <span>{new Date(patch.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                    <Badge variant="outline" className="text-[10px] border-[#785a28]/40 text-[#5b5a56]">
-                      {patch.sourceGame}
-                    </Badge>
+                    <Badge variant="outline" className="text-[10px] border-[#785a28]/40 text-[#5b5a56]">{patch.sourceGame}</Badge>
                   </div>
                 </div>
               </div>
-
               <div className="mb-4">
                 <h4 className="text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider mb-2">Resumen</h4>
                 <p className="text-sm text-[#a09b8c] leading-relaxed">{patch.summary}</p>
               </div>
-
               {patch.digest && (
                 <div className="rounded-lg p-4 border border-[#0acbe6]/15 bg-[#0acbe6]/5">
                   <div className="flex items-center gap-2 mb-2">
@@ -991,7 +1131,7 @@ export default function Home() {
     );
   }
 
-  // ============ BROKEN STUFF TAB ============
+  // ============ BROKEN STUFF TAB (FIXED with icons) ============
   function BrokenStuffTab() {
     const metaInsights = insights.filter(i => i.category === 'meta' || i.category === 'buff');
 
@@ -1035,6 +1175,7 @@ export default function Home() {
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      <TinyChampionIcon name={insight.champion} />
                       <span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span>
                       <CategoryBadge category={insight.category} />
                       {insight.category === 'meta' && (
@@ -1150,11 +1291,221 @@ export default function Home() {
     );
   }
 
+  // ============ ROADMAP TAB ============
+  function RoadmapTab() {
+    const roadmapCategories = [
+      {
+        title: 'Datos & APIs', icon: Database, items: [
+          { name: 'Conexión Riot API completa', status: 'progress', desc: 'API key configurada, datos reales de invocadores, ranked, historial' },
+          { name: 'Datos en tiempo real (U.GG / Mobalytics)', status: 'planned', desc: 'Conectar APIs de terceros para estadísticas actualizadas automáticamente' },
+          { name: 'Wild Rift - Datos completos', status: 'planned', desc: 'Tier lists, campeones, ranked, insights para Wild Rift' },
+          { name: 'Community Dragon Assets', status: 'progress', desc: 'CDN de imágenes y assets de la comunidad' },
+        ]
+      },
+      {
+        title: 'IA & Analytics', icon: Brain, items: [
+          { name: 'Auto-análisis IA (sin botón)', status: 'progress', desc: 'La IA analiza automáticamente y muestra conclusiones pre-escritas' },
+          { name: 'Coach IA (Chatbot)', status: 'planned', desc: 'Chat con IA especializado en coaching de LoL' },
+          { name: 'Análisis de VODs', status: 'planned', desc: 'Subir replay/VOD y obtener análisis con IA' },
+          { name: 'Team Comp Analyzer', status: 'planned', desc: 'Ingresar 5 campeones y obtener análisis de synergias' },
+          { name: 'Predicción de patches', status: 'planned', desc: 'IA predice cambios de balance antes del parche' },
+        ]
+      },
+      {
+        title: 'Competitivo', icon: Trophy, items: [
+          { name: 'Campeones Pro (LCK/LPL/LEC/LCS)', status: 'planned', desc: 'Listado de campeones más usados en esports profesionales' },
+          { name: 'Ban/Pick Analysis Pro', status: 'planned', desc: 'Análisis de bans y picks en series profesionales' },
+          { name: 'Meta regional', status: 'planned', desc: 'Diferencias de meta entre regiones (KR vs NA vs EU)' },
+        ]
+      },
+      {
+        title: 'Builds & Runas', icon: Wrench, items: [
+          { name: 'Builds recomendados', status: 'progress', desc: '1-2 builds rotas para cada campeón S/A' },
+          { name: 'Runas óptimas', status: 'planned', desc: 'Runas recomendadas por campeon y rol' },
+          { name: 'Item build paths', status: 'planned', desc: 'Order de compra de items optimizado' },
+          { name: 'Counter builds', status: 'planned', desc: 'Items específicos contra cada campeon' },
+        ]
+      },
+      {
+        title: 'Social & Usuarios', icon: Users, items: [
+          { name: 'Autenticación Riot OAuth2', status: 'planned', desc: 'Login con cuenta de Riot Games' },
+          { name: 'Perfiles guardados', status: 'planned', desc: 'Guardar favoritos, tier lists personalizadas' },
+          { name: 'Comunidad', status: 'planned', desc: 'Compartir análisis, votar tier lists' },
+          { name: 'Discord Bot', status: 'planned', desc: 'Notificaciones de meta en canales de Discord' },
+        ]
+      },
+      {
+        title: 'Plataforma', icon: Smartphone, items: [
+          { name: 'PWA completa', status: 'planned', desc: 'Service worker, offline, installable' },
+          { name: 'Notificaciones Push', status: 'planned', desc: 'Alertas de buffs/nerfs de campeones principales' },
+          { name: 'Multi-idioma', status: 'planned', desc: 'Español, inglés, portugués, más' },
+          { name: 'Tema claro/oscuro', status: 'planned', desc: 'Toggle entre temas' },
+        ]
+      },
+      {
+        title: 'Assets & Data que podemos agregar', icon: ImageIcon, items: [
+          { name: 'Spell icons (Q/W/E/R)', status: 'planned', desc: 'Iconos de habilidades de cada campeón' },
+          { name: 'Item icons', status: 'planned', desc: 'Imágenes de items del juego' },
+          { name: 'Rune icons', status: 'planned', desc: 'Iconos de runas (Precisión, Dominación, etc.)' },
+          { name: 'Mapa de visión', status: 'planned', desc: 'Visualización de ward spots óptimos' },
+          { name: 'Splash arts de skins', status: 'planned', desc: 'Galería de skins alternativas' },
+          { name: 'Emotes/Iconos de perfil', status: 'planned', desc: 'Explorador de emotes y iconos' },
+          { name: 'Datos de ranked distribution', status: 'planned', desc: 'Gráfico de distribución de rangos' },
+          { name: 'Champion.gg / U.GG synergy data', status: 'planned', desc: 'Sinergias y matchups basados en millones de partidas' },
+        ]
+      },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <Map className="w-5 h-5 text-[#c8aa6e]" />
+          <div>
+            <h2 className="text-lg font-bold text-[#f0e6d2]">Roadmap</h2>
+            <p className="text-xs text-[#5b5a56]">Plan de desarrollo y features futuras</p>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          {roadmapCategories.map((cat, catIdx) => (
+            <motion.div
+              key={cat.title}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: catIdx * 0.05 }}
+              className="glass-card rounded-xl overflow-hidden"
+            >
+              {/* Category Header */}
+              <div className="flex items-center gap-2 px-4 py-3" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+                <cat.icon className="w-4 h-4 text-[#c8aa6e]" />
+                <h3 className="text-sm font-semibold text-[#f0e6d2]">{cat.title}</h3>
+                <span className="text-[10px] text-[#5b5a56] ml-auto">{cat.items.length} items</span>
+              </div>
+
+              {/* Items */}
+              <div className="divide-y divide-[#785a28]/10">
+                {cat.items.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3 px-4 py-3 hover:bg-[#1e2328]/40 transition-colors">
+                    <div className="mt-0.5 shrink-0">
+                      <RoadmapStatusBadge status={item.status} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-xs font-medium text-[#f0e6d2]">{item.name}</h4>
+                      <p className="text-[10px] text-[#5b5a56] mt-0.5 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ============ COMPETITIVE TAB ============
+  function CompetitiveTab() {
+    const filteredPicks = proRegionFilter
+      ? proPicks.filter(p => p.region === proRegionFilter)
+      : proPicks;
+
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <Crown className="w-5 h-5 text-[#f0c646]" />
+          <div>
+            <h2 className="text-lg font-bold text-[#f0e6d2]">Escena Competitiva</h2>
+            <p className="text-xs text-[#5b5a56]">Campeones más pickados en torneos profesionales — Patch 14.8</p>
+          </div>
+        </div>
+
+        {/* Region Filter */}
+        <div className="flex flex-wrap gap-2">
+          {TOURNAMENT_REGIONS.map(r => (
+            <button
+              key={r.value || 'all'}
+              onClick={() => setProRegionFilter(r.value)}
+              className={`
+                px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200
+                ${proRegionFilter === r.value
+                  ? 'bg-[#f0c646]/15 text-[#f0c646] border border-[#f0c646]/30'
+                  : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
+                }
+              `}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Picks List */}
+        <div className="glass-card rounded-xl overflow-hidden">
+          {/* Header row */}
+          <div className="hidden sm:grid grid-cols-[2.5rem_1fr_4rem_5rem_3.5rem_3.5rem_3.5rem] gap-2 px-4 py-2 text-[8px] text-[#5b5a56] uppercase tracking-widest font-medium" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+            <div />
+            <div>Campeón</div>
+            <div>Rol</div>
+            <div>Torneo</div>
+            <div className="text-right">Pick%</div>
+            <div className="text-right">Ban%</div>
+            <div className="text-right">WR%</div>
+          </div>
+
+          {loading ? (
+            <div className="p-4 space-y-3">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <Skeleton className="w-8 h-8 rounded-full" />
+                  <Skeleton className="h-4 flex-1" />
+                  <Skeleton className="h-4 w-16" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="divide-y divide-[#785a28]/10">
+              {filteredPicks.map((pick, idx) => (
+                <motion.div
+                  key={pick.id}
+                  initial={{ opacity: 0, x: -5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.03 }}
+                  className="flex items-center gap-3 px-4 py-2.5 hover:bg-[#1e2328]/40 transition-colors"
+                >
+                  <TinyChampionIcon name={pick.champion} />
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm font-medium text-[#f0e6d2]">{pick.champion}</span>
+                  </div>
+                  <div className="hidden sm:block w-16 shrink-0">
+                    <RoleBadge role={pick.role} />
+                  </div>
+                  <div className="hidden sm:block w-20 shrink-0">
+                    <TournamentBadge tournament={pick.tournament} />
+                  </div>
+                  <div className="hidden sm:flex items-center gap-2.5 shrink-0 text-[11px] w-[10.5rem] justify-end">
+                    <span className="font-mono font-semibold text-[#0acbe6] w-14 text-right">{pick.pickRate}%</span>
+                    <span className="font-mono font-semibold w-14 text-right" style={{ color: pick.banRate > 10 ? '#e84057' : '#a09b8c' }}>{pick.banRate}%</span>
+                    <span className="font-mono font-semibold w-14 text-right" style={{ color: pick.winRate >= 54 ? '#0acbe6' : pick.winRate >= 50 ? '#a09b8c' : '#e84057' }}>{pick.winRate}%</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {!loading && filteredPicks.length === 0 && (
+          <div className="text-center py-12 text-[#5b5a56]">
+            <Crown className="w-12 h-12 mx-auto mb-3 opacity-20" />
+            <p className="text-sm">No hay datos para esta región</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // ============ PLAYER PROFILE TAB ============
   function ProfileTab() {
     return (
       <div className="space-y-6">
-        {/* Header */}
         <div className="flex items-center gap-3">
           <User className="w-5 h-5 text-[#c8aa6e]" />
           <div>
@@ -1163,21 +1514,15 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Demo mode notice */}
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(200,170,110,0.08)', border: '1px solid rgba(200,170,110,0.15)' }}>
           <Sparkles className="w-4 h-4 text-[#c8aa6e] shrink-0" />
-          <p className="text-xs text-[#a09b8c]">
-            Modo Demo — Conecta tu API Key de Riot para datos reales
-          </p>
+          <p className="text-xs text-[#a09b8c]">Modo Demo — Conecta tu API Key de Riot para datos reales</p>
         </div>
 
-        {/* Search Form */}
         <div className="glass-card rounded-xl p-5 space-y-4">
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">
-                Nombre de Invocador
-              </label>
+              <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">Nombre de Invocador</label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56]" />
                 <Input
@@ -1190,9 +1535,7 @@ export default function Home() {
               </div>
             </div>
             <div>
-              <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">
-                Región
-              </label>
+              <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">Región</label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56] pointer-events-none" />
                 <select
@@ -1202,43 +1545,26 @@ export default function Home() {
                   style={{ backgroundImage: 'none' }}
                 >
                   {REGIONS.map(r => (
-                    <option key={r.value} value={r.value} className="bg-[#1e2328] text-[#f0e6d2]">
-                      {r.label}
-                    </option>
+                    <option key={r.value} value={r.value} className="bg-[#1e2328] text-[#f0e6d2]">{r.label}</option>
                   ))}
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56] pointer-events-none" />
               </div>
             </div>
           </div>
-          <Button
-            onClick={handleSearchSummoner}
-            disabled={summonerLoading || !summonerName.trim()}
-            className="w-full bg-[#c8aa6e] text-[#0a0e1a] hover:bg-[#c8aa6e]/90 font-semibold rounded-lg gap-2"
-          >
-            {summonerLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Search className="w-4 h-4" />
-            )}
+          <Button onClick={handleSearchSummoner} disabled={summonerLoading || !summonerName.trim()} className="w-full bg-[#c8aa6e] text-[#0a0e1a] hover:bg-[#c8aa6e]/90 font-semibold rounded-lg gap-2">
+            {summonerLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
             Buscar
           </Button>
         </div>
 
-        {/* Error */}
         {summonerError && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#e84057]/30"
-            style={{ background: 'rgba(232,64,87,0.08)' }}
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#e84057]/30" style={{ background: 'rgba(232,64,87,0.08)' }}>
             <AlertTriangle className="w-4 h-4 text-[#e84057] shrink-0" />
             <p className="text-sm text-[#e84057]">{summonerError}</p>
           </motion.div>
         )}
 
-        {/* Loading */}
         {summonerLoading && (
           <div className="glass-card rounded-xl p-6 space-y-4">
             <div className="flex items-center gap-4">
@@ -1256,29 +1582,12 @@ export default function Home() {
           </div>
         )}
 
-        {/* Results */}
         {summonerData && !summonerLoading && (
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="space-y-4"
-          >
-            {/* Profile Header */}
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-4">
             <div className="glass-card rounded-xl p-5">
               <div className="flex items-center gap-4">
-                <div
-                  className="w-20 h-20 rounded-full overflow-hidden shrink-0"
-                  style={{
-                    border: '3px solid #c8aa6e',
-                    boxShadow: '0 0 20px rgba(200,170,110,0.2)',
-                  }}
-                >
-                  <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/14.8.1/img/profileicon/${summonerData.profileIconId}.png`}
-                    alt={summonerData.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="w-20 h-20 rounded-full overflow-hidden shrink-0" style={{ border: '3px solid #c8aa6e', boxShadow: '0 0 20px rgba(200,170,110,0.2)' }}>
+                  <img src={`https://ddragon.leagueoflegends.com/cdn/14.8.1/img/profileicon/${summonerData.profileIconId}.png`} alt={summonerData.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-xl font-bold text-[#f0e6d2] truncate">{summonerData.name}</h3>
@@ -1286,14 +1595,11 @@ export default function Home() {
                     <Crown className="w-4 h-4 text-[#c8aa6e]" />
                     <span className="text-sm text-[#a09b8c]">Nivel {summonerData.level}</span>
                   </div>
-                  <Badge variant="outline" className="mt-2 text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">
-                    {summonerRegion}
-                  </Badge>
+                  <Badge variant="outline" className="mt-2 text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">{summonerRegion}</Badge>
                 </div>
               </div>
             </div>
 
-            {/* Ranked Info */}
             {summonerData.ranked.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {summonerData.ranked.map(entry => {
@@ -1304,38 +1610,20 @@ export default function Home() {
                   const winRate = totalGames > 0 ? ((entry.wins / totalGames) * 100).toFixed(1) : '0';
 
                   return (
-                    <motion.div
-                      key={entry.queueType}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.1 }}
-                      className="glass-card rounded-xl p-4"
-                    >
+                    <motion.div key={entry.queueType} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="glass-card rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-3">
                         <queueIcon className="w-4 h-4" style={{ color: tierColor }} />
                         <span className="text-xs font-medium text-[#a09b8c] uppercase tracking-wider">{queueLabel}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="text-center">
-                          <div
-                            className="w-14 h-14 rounded-lg flex items-center justify-center"
-                            style={{
-                              background: `linear-gradient(135deg, ${tierColor}20, ${tierColor}08)`,
-                              border: `1.5px solid ${tierColor}40`,
-                            }}
-                          >
-                            <div className="text-center">
-                              <span className="text-lg font-black block leading-none" style={{ color: tierColor }}>
-                                {entry.tier[0]}{entry.rank}
-                              </span>
-                            </div>
+                          <div className="w-14 h-14 rounded-lg flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${tierColor}20, ${tierColor}08)`, border: `1.5px solid ${tierColor}40` }}>
+                            <span className="text-lg font-black block leading-none" style={{ color: tierColor }}>{entry.tier[0]}{entry.rank}</span>
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold text-[#f0e6d2]">{entry.tier} {entry.rank}</p>
-                          <p className="text-xs text-[#a09b8c]">
-                            <span className="font-mono font-semibold" style={{ color: '#c8aa6e' }}>{entry.lp}</span> LP
-                          </p>
+                          <p className="text-xs text-[#a09b8c]"><span className="font-mono font-semibold" style={{ color: '#c8aa6e' }}>{entry.lp}</span> LP</p>
                           <div className="flex items-center gap-2 mt-1.5 text-[11px]">
                             <span className="text-[#0acbe6]">{entry.wins}V</span>
                             <span className="text-[#5b5a56]">/</span>
@@ -1350,7 +1638,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* Most Played Champions */}
             {summonerData.mostPlayed.length > 0 && (
               <div className="glass-card rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-4">
@@ -1359,30 +1646,17 @@ export default function Home() {
                 </div>
                 <div className="space-y-2">
                   {summonerData.mostPlayed.map((entry, idx) => (
-                      <motion.div
-                        key={entry.champion}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1e2328]/60 transition-colors"
-                      >
-                        <SmallChampionIcon name={entry.champion} />
-                        {/* Name */}
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-[#f0e6d2] truncate">{entry.champion}</p>
-                          <p className="text-[11px] text-[#5b5a56]">{entry.games} partidas</p>
-                        </div>
-                        {/* Win rate */}
-                        <div className="text-right shrink-0">
-                          <p
-                            className="text-sm font-semibold font-mono"
-                            style={{ color: entry.winRate >= 52 ? '#0acbe6' : entry.winRate >= 48 ? '#a09b8c' : '#e84057' }}
-                          >
-                            {entry.winRate}%
-                          </p>
-                          <p className="text-[10px] text-[#5b5a56]">Win Rate</p>
-                        </div>
-                      </motion.div>
+                    <motion.div key={entry.champion} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }} className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1e2328]/60 transition-colors">
+                      <SmallChampionIcon name={entry.champion} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-[#f0e6d2] truncate">{entry.champion}</p>
+                        <p className="text-[11px] text-[#5b5a56]">{entry.games} partidas</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-sm font-semibold font-mono" style={{ color: entry.winRate >= 52 ? '#0acbe6' : entry.winRate >= 48 ? '#a09b8c' : '#e84057' }}>{entry.winRate}%</p>
+                        <p className="text-[10px] text-[#5b5a56]">Win Rate</p>
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -1390,7 +1664,6 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* Empty state */}
         {!summonerData && !summonerLoading && !summonerError && (
           <div className="text-center py-16">
             <User className="w-16 h-16 mx-auto mb-4 text-[#785a28]/30" />
@@ -1399,146 +1672,6 @@ export default function Home() {
           </div>
         )}
       </div>
-    );
-  }
-
-  // ============ AI DIALOG ============
-  function AiDialog() {
-    return (
-      <Dialog open={aiDialogOpen} onOpenChange={setAiDialogOpen}>
-        <DialogContent className="sm:max-w-xl max-h-[85vh] overflow-hidden flex flex-col bg-[#1e2328] border-[#785a28]/40 rounded-xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Brain className="w-5 h-5 text-[#c8aa6e]" />
-              <span className="text-[#f0e6d2]">
-                {selectedChampion ? `Análisis de ${selectedChampion.name}` : 'Análisis con IA'}
-              </span>
-            </DialogTitle>
-            <DialogDescription className="text-[#5b5a56]">
-              {selectedChampion ? (
-                <span className="flex items-center gap-2 flex-wrap">
-                  <RoleBadge role={selectedChampion.role} />
-                  <Badge
-                    variant="outline"
-                    className="text-xs"
-                    style={{ color: TIER_CONFIG[selectedChampion.tier]?.color, borderColor: `${TIER_CONFIG[selectedChampion.tier]?.color}40` }}
-                  >
-                    Tier {selectedChampion.tier}
-                  </Badge>
-                  <span className="text-xs">Patch {selectedChampion.patch}</span>
-                  <span className="text-xs text-[#0acbe6]">WR {selectedChampion.winRate}%</span>
-                </span>
-              ) : ''}
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="flex gap-2">
-            <Input
-              value={aiQuestion}
-              onChange={e => setAiQuestion(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && handleAskAi()}
-              placeholder="Pregunta sobre el meta..."
-              className="bg-[#0a0e1a]/60 border-[#785a28]/30 text-[#f0e6d2] placeholder:text-[#5b5a56] focus-visible:border-[#c8aa6e] focus-visible:ring-[#c8aa6e]/20"
-              disabled={aiLoading}
-            />
-            <Button
-              onClick={handleAskAi}
-              disabled={aiLoading || !aiQuestion.trim()}
-              className="bg-[#c8aa6e] text-[#0a0e1a] hover:bg-[#c8aa6e]/90 shrink-0 rounded-lg"
-            >
-              {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Brain className="w-4 h-4" />}
-            </Button>
-          </div>
-
-          <ScrollArea className="flex-1 -mx-6 px-6">
-            {aiLoading && (
-              <div className="space-y-3 py-4">
-                <div className="flex items-center gap-2 text-[#c8aa6e]">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm">Analizando con IA...</span>
-                </div>
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Skeleton key={i} className="h-4 w-full" />
-                ))}
-              </div>
-            )}
-
-            {aiReasoning && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-4 py-2"
-              >
-                <div className="rounded-lg p-4 bg-[#0a0e1a]/60 border border-[#785a28]/15">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="w-4 h-4 text-[#c8aa6e]" />
-                    <h4 className="text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider">Análisis</h4>
-                  </div>
-                  <p className="text-sm text-[#f0e6d2] leading-relaxed whitespace-pre-wrap">{aiReasoning.reasoning}</p>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-[#5b5a56] shrink-0">Confianza</span>
-                  <Progress value={aiReasoning.confidence * 100} className="h-2 flex-1" />
-                  <span className="text-xs font-mono text-[#c8aa6e] shrink-0">
-                    {(aiReasoning.confidence * 100).toFixed(0)}%
-                  </span>
-                </div>
-
-                {aiReasoning.factors.length > 0 && (
-                  <div>
-                    <h4 className="text-xs font-semibold text-[#5b5a56] uppercase tracking-wider mb-2">Factores Clave</h4>
-                    <div className="space-y-1.5">
-                      {aiReasoning.factors.map((factor, i) => (
-                        <div key={i} className="flex items-start gap-2 text-xs text-[#a09b8c]">
-                          <ChevronRight className="w-3 h-3 text-[#c8aa6e] shrink-0 mt-0.5" />
-                          <span>{factor}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {aiReasoning.relatedChampions.length > 0 && (
-                  <div>
-                    <h4 className="text-xs font-semibold text-[#5b5a56] uppercase tracking-wider mb-2">Campeones Relacionados</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {aiReasoning.relatedChampions.map(name => {
-                        const champ = champions.find(c => c.name === name);
-                        return (
-                          <Badge
-                            key={name}
-                            variant="outline"
-                            className="border-[#785a28]/40 text-[#f0e6d2] hover:border-[#c8aa6e] cursor-pointer transition-colors text-xs"
-                            onClick={() => {
-                              if (champ) {
-                                setSelectedChampion(champ);
-                                setAiQuestion(`¿Por qué ${champ.name} es Tier ${champ.tier}? Analiza su estado actual en el meta.`);
-                                setAiReasoning(null);
-                              }
-                            }}
-                          >
-                            {name}
-                            {champ && <span className="ml-1 opacity-60">({champ.tier})</span>}
-                          </Badge>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            )}
-
-            {!aiLoading && !aiReasoning && (
-              <div className="text-center py-8 text-[#5b5a56]">
-                <Brain className="w-10 h-10 mx-auto mb-3 opacity-20" />
-                <p className="text-sm">Haz una pregunta sobre el meta</p>
-                <p className="text-xs mt-1">La IA analizará datos y generará un insight</p>
-              </div>
-            )}
-          </ScrollArea>
-        </DialogContent>
-      </Dialog>
     );
   }
 
@@ -1556,33 +1689,20 @@ export default function Home() {
               <Sword className="w-4 h-4 text-[#0a0e1a]" />
             </div>
             <div>
-              <h1
-                className="text-lg font-black tracking-wider leading-none"
-                style={{ color: '#c8aa6e', textShadow: '0 0 20px rgba(200,170,110,0.25)' }}
-              >
-                MOBA SAGE
-              </h1>
+              <h1 className="text-lg font-black tracking-wider leading-none" style={{ color: '#c8aa6e', textShadow: '0 0 20px rgba(200,170,110,0.25)' }}>MOBA SAGE</h1>
               <p className="text-[9px] text-[#5b5a56] tracking-[0.2em] uppercase leading-none mt-0.5">Analytics con IA</p>
             </div>
             {selectedGame && (
-              <motion.div
-                initial={{ opacity: 0, x: -5 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="ml-1"
-              >
+              <motion.div initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} className="ml-1">
                 <ArrowLeft className="w-3 h-3 text-[#785a28] group-hover:text-[#c8aa6e] transition-colors" />
               </motion.div>
             )}
           </button>
           <div className="ml-auto flex items-center gap-2">
             {selectedGame === 'lol' && (
-              <Badge variant="outline" className="text-[10px] border-[#c8aa6e]/30 text-[#c8aa6e]">
-                League of Legends
-              </Badge>
+              <Badge variant="outline" className="text-[10px] border-[#c8aa6e]/30 text-[#c8aa6e]">League of Legends</Badge>
             )}
-            <Badge variant="outline" className="text-[10px] border-[#785a28]/30 text-[#5b5a56]">
-              Patch 14.8
-            </Badge>
+            <Badge variant="outline" className="text-[10px] border-[#785a28]/30 text-[#5b5a56]">Patch 14.8</Badge>
             <Badge className="bg-[#0acbe6]/15 text-[#0acbe6] border border-[#0acbe6]/25 text-[10px]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#0acbe6] mr-1.5 animate-pulse" />
               En vivo
@@ -1591,7 +1711,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Tab Navigation - only show when a game is selected */}
+      {/* Tab Navigation */}
       {selectedGame && (
         <nav className="sticky top-[57px] z-30 border-b border-[#785a28]/15" style={{ backgroundColor: 'rgba(10, 14, 26, 0.9)', backdropFilter: 'blur(16px)' }}>
           <div className="max-w-6xl mx-auto px-4">
@@ -1629,17 +1749,13 @@ export default function Home() {
           ) : selectedGame === 'wildrift' ? (
             <WildRiftComingSoon onBack={handleBackToSelector} key="wildrift" />
           ) : (
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-            >
+            <motion.div key={activeTab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
               {activeTab === 'tierlist' && <TierListTab />}
               {activeTab === 'patches' && <PatchesTab />}
               {activeTab === 'broken' && <BrokenStuffTab />}
               {activeTab === 'tasks' && <TasksTab />}
+              {activeTab === 'roadmap' && <RoadmapTab />}
+              {activeTab === 'competitive' && <CompetitiveTab />}
               {activeTab === 'profile' && <ProfileTab />}
             </motion.div>
           )}
@@ -1656,9 +1772,6 @@ export default function Home() {
           </span>
         </div>
       </footer>
-
-      {/* AI Dialog */}
-      <AiDialog />
     </div>
   );
 }
