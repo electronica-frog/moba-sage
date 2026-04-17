@@ -236,6 +236,103 @@ const CHAMPIONS_DATA: Omit<Champion, 'id' | 'createdAt' | 'updatedAt'>[] = [
   { name: 'Skarner', title: 'the Crystal Vanguard', role: 'Jungle', tier: 'A', winRate: 44.1, pickRate: 0.8, banRate: 0.1, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '14.8', game: 'LoL', builds: [] },
   { name: 'Azir', title: 'the Emperor of the Sands', role: 'Mid', tier: 'A', winRate: 43.8, pickRate: 1.0, banRate: 0.2, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '14.8', game: 'LoL', builds: [] },
   { name: 'Urgot', title: 'the Dreadnought', role: 'Top', tier: 'A', winRate: 44.5, pickRate: 1.4, banRate: 0.3, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '14.8', game: 'LoL', builds: [] },
+
+  // ============ WILD RIFT CHAMPIONS ============
+  // Tier S — Dioses del Meta (Wild Rift)
+  {
+    name: 'Master Yi', title: 'Wuju Bladesman', role: 'Jungle', tier: 'S', winRate: 56.8, pickRate: 16.3, banRate: 15.2, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [
+      { name: 'Build Oneshot', items: 'Filo de la Noche → Eclipse → Roca del Eclipse → Última Piedad → Botas de Mercurio', winRate: 56.1 },
+      { name: 'Build Sustained', items: 'Eclipse → Roca del Eclipse → Guardián Angel → Botas de CD', winRate: 53.4 },
+    ],
+    counterPick: 'Rammus, Malzahar, Teemo',
+    synergy: 'Taric, Yuumi — Composición invencible en bot lane',
+    aiAnalysis: 'Master Yi es el jungler más dominante de Wild Rift. Su Alpha Strike con los ajustes de móvil lo convierten en una máquina de snowball. El rango reducido del mapa y los tiempos de respawn más cortos amplifican su capacidad de reseteo.\n\nEl build de Eclipse maximiza burst en ganks tempranos. En Wild Rift, los juegos son más cortos, lo que favorece enormemente su estilo de carry agresivo.\n\nConsejo: Prioriza Dragon y Herald. Los objetivos aparecen más rápido en WR, y Master Yi puede controlarlos fácilmente.',
+    proPickRate: 8.2,
+  },
+  {
+    name: 'Jinx', title: 'the Loose Cannon', role: 'ADC', tier: 'S', winRate: 55.1, pickRate: 14.8, banRate: 6.3, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [
+      { name: 'Build Hypercarry', items: 'Filo Infinito → Huracán de Runaan → Bailarín Espectral → Sed de Sangre → Botas de Berserker', winRate: 55.8 },
+      { name: 'Build Lethality', items: 'Filo de la Noche → Última Piedad → El Colector → Sed de Sangre → Botas de Movilidad', winRate: 53.2 },
+    ],
+    counterPick: 'Caitlyn, Draven, Zed',
+    synergy: 'Thresh, Nautilus — Engage fuerte para activar pasiva',
+    aiAnalysis: 'Jinx domina la bot lane de Wild Rift. Su pasiva se activa con más frecuencia gracias al ritmo más rápido del juego móvil. El buff reciente a su W aumentó el rango, haciéndola aún más segura en lane.\n\nEn Wild Rift, los teamfights son más frecuentes y en espacios más cerrados, lo que maximiza el AoE de su ultimate Zap!. Su scaling es devastador desde minuto 8.\n\nConsejo: Tras level 5, busca robar Herald con tu ultimate. Es game-changing en WR.',
+    proPickRate: 25.3,
+  },
+  {
+    name: 'Lee Sin', title: 'the Blind Monk', role: 'Jungle', tier: 'S', winRate: 53.5, pickRate: 12.1, banRate: 8.5, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [
+      { name: 'Build Bruiser', items: 'Cosechador Nocturno → Eclipse → Hidra Titánica → Fuerza de la Trinidad → Botas de Mercurio', winRate: 53.2 },
+      { name: 'Build Full AD', items: 'Filo de la Noche → Eclipse → Roca del Eclipse → El Coleccionista → Botas de CD', winRate: 51.7 },
+    ],
+    counterPick: 'Nidalee, Elise, Evelynn',
+    synergy: 'Ahri, Yasuo — Buen follow-up para combos',
+    aiAnalysis: 'Lee Sin en Wild Rift es aún más fuerte que en PC. El mapa más chico significa que sus ganks llegan más rápido, y el flash con menor cooldown permite más plays con su combo de insec. Su win rate de 53.5% lo pone como top 3 jungler.\n\nEl build bruiser es el más consistente. La transición de ganker temprano a bruiser de teamfight es natural.\n\nConsejo: En WR, practica las combos de Q + Flash + R. El mapa chico hace que cada gank cuente el doble.',
+    proPickRate: 18.7,
+  },
+  {
+    name: 'Ahri', title: 'the Nine-Tailed Fox', role: 'Mid', tier: 'S', winRate: 54.2, pickRate: 11.5, banRate: 4.2, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [
+      { name: 'Build Oneshot', items: 'Sombrero de Rabadon → Reloj de Zhonya → Llamasomo → Morellonomicon → Botas del Vacío', winRate: 54.8 },
+      { name: 'Build Utility', items: 'Cetro de Rylai → Llamasomo → Morellonomicon → Redención → Botas de CD', winRate: 52.1 },
+    ],
+    counterPick: 'Galio, Kassadin, Fizz',
+    synergy: 'Lee Sin, Jarvan IV — Engage + follow-up mortal',
+    aiAnalysis: 'Ahri es la mid laner más versátil de Wild Rift. Su Charm (E) con el rango ajustado para móvil es más fácil de landing, y su ultimate con 3 cargas le da roaming excepcional. Con el mapa más chico, puede impactar todas las lanes rápidamente.\n\nEl build de Rabadon maximiza burst para one-shot carries. Es especialmente fuerte en el meta actual de partidas rápidas.\n\nConsejo: Roam constantemente tras level 5. En WR, la distancia entre mid y bot/top es menor, aprovecha eso.',
+    proPickRate: 20.1,
+  },
+  {
+    name: 'Darius', title: 'the Hand of Noxus', role: 'Top', tier: 'S', winRate: 54.5, pickRate: 9.8, banRate: 10.1, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [
+      { name: 'Build Bruiser', items: 'Fuerza de Trinidad → Eclipse → Hidra Titánica → Mandato Imperial → Botas de Mercurio', winRate: 55.1 },
+      { name: 'Build Anti-Tank', items: 'Pozo de la Noche → Filo Divino → Hidra → Mandato Imperial → Botas de Placas', winRate: 53.3 },
+    ],
+    counterPick: 'Teemo, Vayne, Gwen',
+    synergy: 'Jarvan IV, Orianna — Comps con engage masivo',
+    aiAnalysis: 'Darius en Wild Rift es un terror en top lane. Su Q con el heal ajustado y el pasiva de hemorragía lo convierten en el mejor trader del meta. Con un ban rate del 10.1%, es el campeón más evitado en draft.\n\nEl meta de bruisers en WR es aún más fuerte que en PC porque los juegos son más cortos y los teamfights más frecuentes.\n\nConsejo: Abusa de tu E para anchor bajo torre. En WR, las torres son más débiles, así que el dive es más riesgoso para el enemigo.',
+    proPickRate: 12.4,
+  },
+  {
+    name: 'Thresh', title: 'the Chain Warden', role: 'Support', tier: 'S', winRate: 52.8, pickRate: 16.5, banRate: 2.1, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [
+      { name: 'Build Engage', items: 'Redención → Convergencia de Zeke → Medallón de los Solari → Mikael → Botas de Movilidad', winRate: 53.2 },
+      { name: 'Build AP', items: 'Reloj de Zhonya → Morellonomicon → Redención → Centro de Gravedad → Botas de CD', winRate: 50.8 },
+    ],
+    counterPick: 'Morgana, Nautilus, Leona',
+    synergy: 'Jinx, Vayne, Caitlyn — Cualquier ADC de hypercarry',
+    aiAnalysis: 'Thresh es el soporte más versátil de Wild Rift. Su lantern con el target adjustado para móvil es más fácil de usar, y su capacidad de peel en el mapa más chico es invaluable. Con el pick rate más alto entre supports, es el pick más seguro.\n\nEn WR, los ganks de jungler son más frecuentes, y Thresh es el mejor soporte para jugar contra ganks con su E y lantern.\n\nConsejo: Usa el lantern ofensivamente para lanzar a tu ADC. En el mapa chico de WR, esto es aún más efectivo.',
+    proPickRate: 27.8,
+  },
+  // Tier A — Fuertes (Wild Rift)
+  { name: 'Ezreal', title: 'the Prodigal Explorer', role: 'ADC', tier: 'A', winRate: 50.8, pickRate: 10.2, banRate: 0.8, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build Blue', items: 'Filo de la Noche → Muramana → Hielo Eterno → Colmillo Infinito → Botas de CD', winRate: 51.2 }],
+  },
+  { name: 'Zed', title: 'the Master of Shadows', role: 'Mid', tier: 'A', winRate: 50.3, pickRate: 9.1, banRate: 4.5, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build Oneshot', items: 'Filo de la Noche → Eclipse → El Coleccionista → Última Piedad → Botas de Movilidad', winRate: 50.9 }],
+  },
+  { name: 'Garen', title: 'The Might of Demacia', role: 'Top', tier: 'A', winRate: 52.1, pickRate: 8.3, banRate: 1.5, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build Bruiser', items: 'Fuerza de Trinidad → Eclipse → Hidra → Resistencia Divina → Botas de Placas', winRate: 52.8 }],
+  },
+  { name: 'Katarina', title: 'the Sinister Blade', role: 'Mid', tier: 'A', winRate: 50.6, pickRate: 7.8, banRate: 2.8, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build Oneshot', items: 'Sombrero de Rabadon → Morellonomicon → Llamasomo → Reloj de Zhonya → Botas del Vacío', winRate: 51.1 }],
+  },
+  { name: 'Vi', title: 'the Piltover Enforcer', role: 'Jungle', tier: 'A', winRate: 51.5, pickRate: 6.8, banRate: 1.8, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build Bruiser', items: 'Cosechador Nocturno → Eclipse → Hidra Titánica → Fuerza de la Trinidad → Botas de Mercurio', winRate: 51.2 }],
+  },
+  { name: 'Lulu', title: 'the Fae Sorceress', role: 'Support', tier: 'A', winRate: 50.9, pickRate: 8.1, banRate: 0.5, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build Enchanter', items: 'Redención → Convergencia de Zeke → Mikael → Medallón → Botas de CD', winRate: 51.4 }],
+  },
+  { name: 'Vayne', title: 'the Night Hunter', role: 'ADC', tier: 'A', winRate: 51.2, pickRate: 5.5, banRate: 0.6, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build On-Hit', items: 'Guja Botadora → Frenesí de Runaan → Bailarín Espectral → Última Piedad → Botas de Berserker', winRate: 51.8 }],
+  },
+  { name: 'Camille', title: 'the Steel Shadow', role: 'Top', tier: 'A', winRate: 50.4, pickRate: 6.2, banRate: 2.5, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR', builds: [] },
+  { name: 'Graves', title: 'the Outlaw', role: 'Jungle', tier: 'A', winRate: 49.8, pickRate: 5.1, banRate: 0.8, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR', builds: [] },
+  { name: 'Morgana', title: 'the Fallen', role: 'Support', tier: 'A', winRate: 51.0, pickRate: 9.5, banRate: 1.5, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR', builds: [] },
+  { name: 'Jhin', title: 'the Virtuoso', role: 'ADC', tier: 'A', winRate: 52.0, pickRate: 7.8, banRate: 1.2, image: '', aiInsight: '', build: '', runes: '', counters: '', synergies: '', patch: '6.4', game: 'WR',
+    builds: [{ name: 'Build Crit', items: 'Filo de la Noche → Colmillo Infinito → Huracán de Runaan → Llamasomo → Botas de Berserker', winRate: 52.3 }],
+  },
 ];
 
 const PATCHES_DATA: Omit<PatchNote, 'id' | 'date'>[] = [
@@ -245,6 +342,13 @@ const PATCHES_DATA: Omit<PatchNote, 'id' | 'date'>[] = [
     summary: 'Ajustes de champions para preparación de mid-season invicta.',
     digest: 'Esta patch trae cambios significativos al meta de mid-season. Se buffean campeones de jungla como Master Yi y Lee Sin, mientras se ajustan ADCs de alta movilidad. Jinx recibe un ligero nerf en su rango de W pero compensa con más daño en su pasiva. Thresh mantiene su dominio en la bot lane con pequeñas mejoras de calidad de vida.',
     sourceGame: 'LoL',
+  },
+  {
+    version: '6.4',
+    title: 'Patch 6.4 — Wild Rift Mid Season',
+    summary: 'Ajustes de balance para Wild Rift mid-season 2026.',
+    digest: 'Patch 6.4 de Wild Rift trae ajustes significativos al meta móvil. Master Yi recibe buffs en su Alpha Strike, Lee Sin tiene mejor scaling con items bruiser. Ahri y Darius se consolidan como los dominadores de mid y top respectivamente. Se ajustan tiempos de objetivos para hacer los juegos más dinámicos.',
+    sourceGame: 'WR',
   },
 ];
 

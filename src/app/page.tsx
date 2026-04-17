@@ -782,7 +782,7 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
               <p className="text-sm text-[#5b5a56] tracking-wide">Mobile Analytics</p>
             </div>
             <div className="flex items-center gap-1 text-xs text-[#5b5a56] group-hover:text-[#0acbe6] transition-colors">
-              <span>Próximamente</span>
+              <span>Tier List &bull; Meta &bull; Builds</span>
               <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
@@ -825,7 +825,33 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
   );
 }
 
-// ============ WILD RIFT COMING SOON ============
+// ============ WILD RIFT HEADER BANNER ============
+function WildRiftHeader() {
+  return (
+    <motion.div
+      className="mb-4 rounded-xl p-4"
+      style={{
+        background: 'linear-gradient(135deg, rgba(10,203,230,0.08), rgba(10,203,230,0.02))',
+        border: '1px solid rgba(10,203,230,0.2)',
+      }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(10,203,230,0.2), rgba(10,203,230,0.05))', border: '1px solid rgba(10,203,230,0.3)' }}>
+          <Smartphone className="w-5 h-5" style={{ color: '#0acbe6' }} />
+        </div>
+        <div className="flex-1">
+          <h3 className="text-sm font-bold" style={{ color: '#0acbe6' }}>WILD RIFT — Patch 6.4</h3>
+          <p className="text-[10px] text-[#5b5a56]">Mobile Analytics — 18 campeones S/A tier con builds y análisis</p>
+        </div>
+        <Badge variant="outline" className="text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">6 S-Tier</Badge>
+      </div>
+    </motion.div>
+  );
+}
+
+// ============ WILD RIFT COMING SOON (deprecated, replaced by real content) ============
 function WildRiftComingSoon({ onBack }: { onBack: () => void }) {
   return (
     <motion.div
@@ -950,9 +976,7 @@ export default function Home() {
   // ============ GAME SELECTION ============
   const handleSelectGame = (game: GameSelection) => {
     setSelectedGame(game);
-    if (game === 'lol') {
-      setActiveTab('tierlist');
-    }
+    setActiveTab('tierlist');
   };
 
   const handleBackToSelector = () => {
@@ -961,6 +985,9 @@ export default function Home() {
 
   // ============ FILTER CHAMPIONS ============
   const filteredChampions = champions.filter(c => {
+    // Filter by selected game
+    if (selectedGame === 'lol' && c.game !== 'LoL') return false;
+    if (selectedGame === 'wildrift' && c.game !== 'WR') return false;
     if (roleFilter !== 'Todos' && c.role !== roleFilter) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -1859,7 +1886,10 @@ export default function Home() {
             {selectedGame === 'lol' && (
               <Badge variant="outline" className="text-[10px] border-[#c8aa6e]/30 text-[#c8aa6e]">League of Legends</Badge>
             )}
-            <Badge variant="outline" className="text-[10px] border-[#785a28]/30 text-[#5b5a56]">Patch 14.8</Badge>
+            {selectedGame === 'wildrift' && (
+              <Badge variant="outline" className="text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">Wild Rift</Badge>
+            )}
+            <Badge variant="outline" className="text-[10px] border-[#785a28]/30 text-[#5b5a56]">{selectedGame === 'wildrift' ? 'Patch 6.4' : 'Patch 14.8'}</Badge>
             <Badge className="bg-[#0acbe6]/15 text-[#0acbe6] border border-[#0acbe6]/25 text-[10px]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#0acbe6] mr-1.5 animate-pulse" />
               En vivo
@@ -1904,7 +1934,14 @@ export default function Home() {
           {!selectedGame ? (
             <GameSelectorLanding onSelectGame={handleSelectGame} key="selector" />
           ) : selectedGame === 'wildrift' ? (
-            <WildRiftComingSoon onBack={handleBackToSelector} key="wildrift" />
+            <motion.div key={activeTab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
+              <WildRiftHeader />
+              {activeTab === 'tierlist' && <TierListTab />}
+              {activeTab === 'broken' && <BrokenStuffTab />}
+              {activeTab === 'tasks' && <TasksTab />}
+              {activeTab === 'roadmap' && <RoadmapTab />}
+              {activeTab === 'profile' && <ProfileTab />}
+            </motion.div>
           ) : (
             <motion.div key={activeTab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
               {activeTab === 'tierlist' && <TierListTab />}
