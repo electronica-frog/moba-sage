@@ -1,14 +1,16 @@
 # DASHBOARD — MOBA SAGE
-> Actualizado: 2026-04-18 01:47 BA | Tick #2
+> Actualizado: 2026-04-18 02:05 BA | Tick #3
 
 ## Estado
 | Campo | Valor |
 |-------|-------|
-| Tareas activas | 5 |
+| Tareas activas | 3 |
 | Estado | ACTIVO |
 | Deploy | Vercel (moba-sage.vercel.app) |
 | Repo | github.com/gamer-frog/moba-sage |
 | Branch | main |
+| Campeones LoL | 49 (8 S-tier, 41 A-tier) |
+| Campeones WR | 18 (6 S-tier, 12 A-tier) |
 | CRONS activas | 3 |
 
 ## CRONS Configuradas
@@ -20,18 +22,20 @@
 
 ## Que hago
 - Pipeline de TAREAS circular (14 tareas automáticas)
-- Tier List S/A con datos de meta (LoL)
+- Tier List S/A LoL (Patch 14.8) — 49 campeones
+- Tier List S/A Wild Rift (Patch 6.4) — 18 campeones
 - Análisis IA automático por campeón (pre-escrito)
-- Builds rotos + counters + sinergias (Tier S)
+- Builds rotos + counters + sinergias (S-tier ambos juegos)
+- Cosas Rotas: splash arts S/A tier + builds + insights IA
 - Escena competitiva pro (LCK/LPL/LEC/LCS)
 - Perfil de invocador (demo mode)
 - Roadmap de desarrollo (7 categorías, 30+ features)
+- Banner transparencia (fuentes, update, beneficios)
 
 ## Necesita al CEO
 | Que | Urgencia |
 |-----|----------|
 | API Key de Riot Games | ALTA — Permite datos reales de ranked/invocadores |
-| Decision: Wild Rift data real vs LoL-first | MEDIA — Priorizar qué juego mejorar primero |
 | API Key U.GG/Mobalytics | MEDIA — Estadísticas actualizadas automáticamente |
 | Feedback usuarios | BAJA — Escuchar qué features quieren más |
 
@@ -66,3 +70,8 @@
 - [2026-04-17] DASHBOARD.md + TASKS.md creados
 - [2026-04-18] CRONS configuradas (Pipeline 2h, Mantenimiento 6h, Deploy check diario)
 - [2026-04-18] Git push de todas las features acumuladas
+- [2026-04-18] Cosas Rotas mejorada: splash arts S/A tier + builds rotos + grid A-tier
+- [2026-04-18] Wild Rift datos reales: 18 campeones (6 S-tier, 12 A-tier)
+- [2026-04-18] WR: Patch 6.4, builds, counters, sinergias, análisis IA para S-tier
+- [2026-04-18] WR: "coming soon" reemplazado con dashboard completo
+- [2026-04-18] DASHBOARD.md Tick #3 actualizado
