@@ -6,7 +6,9 @@ import {
   Search, Filter, Sword, ScrollText, AlertTriangle, ListTodo,
   Brain, ChevronRight, Zap, Shield, Target, Crosshair,
   RefreshCw, Clock, CheckCircle2, Circle, Loader2, TrendingUp,
-  ArrowUpCircle, ArrowDownCircle, Users, Sparkles, Trophy
+  ArrowUpCircle, ArrowDownCircle, Users, Sparkles, Trophy,
+  User, Smartphone, ArrowLeft, ChevronDown, Crown, Gamepad2,
+  Monitor, MapPin, ExternalLink
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -71,18 +73,37 @@ interface AiReasoning {
   relatedChampions: string[];
 }
 
+interface SummonerRanked {
+  queueType: string;
+  tier: string;
+  rank: string;
+  lp: number;
+  wins: number;
+  losses: number;
+}
+
+interface SummonerMostPlayed {
+  champion: string;
+  games: number;
+  winRate: number;
+}
+
+interface SummonerData {
+  name: string;
+  level: number;
+  profileIconId: number;
+  ranked: SummonerRanked[];
+  mostPlayed: SummonerMostPlayed[];
+}
+
 // ============ CONSTANTS ============
+type GameSelection = null | 'lol' | 'wildrift';
+
 const TIERS = ['S', 'A'] as const;
 
 const TIER_CONFIG: Record<string, { color: string; label: string }> = {
-  S: {
-    color: '#c8aa6e',
-    label: 'Dioses del Meta',
-  },
-  A: {
-    color: '#0acbe6',
-    label: 'Fuertes',
-  },
+  S: { color: '#c8aa6e', label: 'Dioses del Meta' },
+  A: { color: '#0acbe6', label: 'Fuertes' },
 };
 
 const ROLE_CONFIG: Record<string, { color: string; label: string; icon: typeof Sword }> = {
@@ -104,6 +125,25 @@ const CATEGORY_CONFIG: Record<string, { color: string; label: string; icon: type
 
 const ROLES = ['Todos', 'Top', 'Jungle', 'Mid', 'ADC', 'Support'];
 
+const REGIONS = [
+  { value: 'NA', label: 'NA' },
+  { value: 'EUW', label: 'EUW' },
+  { value: 'EUNE', label: 'EUNE' },
+  { value: 'KR', label: 'KR' },
+  { value: 'JP', label: 'JP' },
+  { value: 'BR', label: 'BR' },
+  { value: 'LAN', label: 'LAN' },
+  { value: 'LAS', label: 'LAS' },
+  { value: 'OCE', label: 'OCE' },
+  { value: 'TR', label: 'TR' },
+  { value: 'RU', label: 'RU' },
+  { value: 'PH', label: 'PH' },
+  { value: 'SG', label: 'SG' },
+  { value: 'TH', label: 'TH' },
+  { value: 'TW', label: 'TW' },
+  { value: 'VN', label: 'VN' },
+];
+
 // ============ CHAMPION IMAGE URL HELPER ============
 const CHAMPION_NAME_MAP: Record<string, string> = {
   'Wukong': 'MonkeyKing',
@@ -111,7 +151,6 @@ const CHAMPION_NAME_MAP: Record<string, string> = {
   'Fiddlesticks': 'FiddleSticks',
   "Bel'Veth": 'Belveth',
   "K'Sante": 'KSante',
-  "Renata Glasc": 'Renata',
   'Aurelion Sol': 'AurelionSol',
   'Cho\'Gath': 'Chogath',
   'Kha\'Zix': 'Khazix',
@@ -147,7 +186,22 @@ const TAB_ITEMS = [
   { id: 'patches', label: 'Parches', icon: ScrollText },
   { id: 'broken', label: 'Cosas Rotas', icon: AlertTriangle },
   { id: 'tasks', label: 'Tareas', icon: ListTodo },
+  { id: 'profile', label: 'Perfil', icon: User },
 ];
+
+// ============ TIER COLORS FOR RANK ============
+const TIER_COLORS: Record<string, string> = {
+  Iron: '#5b5a56',
+  Bronze: '#8c5e3c',
+  Silver: '#a0a0a0',
+  Gold: '#c8aa6e',
+  Platinum: '#0acbe6',
+  Emerald: '#0fba81',
+  Diamond: '#e84057',
+  Master: '#9d48e0',
+  Grandmaster: '#e040f5',
+  Challenger: '#f0c646',
+};
 
 // ============ HELPER COMPONENTS ============
 function RoleBadge({ role }: { role: string }) {
@@ -209,6 +263,31 @@ function CategoryBadge({ category }: { category: string }) {
   );
 }
 
+// ============ SMALL CHAMPION ICON (for profile) ============
+function SmallChampionIcon({ name }: { name: string }) {
+  const [imgError, setImgError] = useState(false);
+  return (
+    <div
+      className="w-10 h-10 rounded-full overflow-hidden shrink-0"
+      style={{ border: '2px solid rgba(120,90,40,0.25)' }}
+    >
+      {!imgError ? (
+        <img
+          src={getChampionImageUrl(name)}
+          alt={name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-xs font-bold bg-[#1e2328] text-[#a09b8c]">
+          {name[0]}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ============ CHAMPION ICON ============
 function ChampionIcon({ name, tier }: { name: string; tier: string }) {
   const cfg = TIER_CONFIG[tier];
@@ -255,21 +334,14 @@ function ChampionRow({ champion, onClick }: { champion: Champion; onClick: () =>
       onClick={onClick}
       className="champion-row flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 group"
     >
-      {/* Champion Icon */}
       <ChampionIcon name={champion.name} tier={champion.tier} />
-
-      {/* Name + Title */}
       <div className="flex-1 min-w-0">
         <h3 className="font-semibold text-[13px] text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors leading-tight">
           {champion.name}
         </h3>
         <p className="text-[10px] text-[#5b5a56] truncate leading-tight mt-0.5">{champion.title}</p>
       </div>
-
-      {/* Role Badge */}
       <RoleBadge role={champion.role} />
-
-      {/* Stats - inline */}
       <div className="hidden sm:flex items-center gap-2.5 shrink-0 text-[11px]">
         <div className="flex flex-col items-end">
           <span className="text-[8px] text-[#5b5a56] uppercase tracking-wider leading-none">WR</span>
@@ -288,8 +360,6 @@ function ChampionRow({ champion, onClick }: { champion: Champion; onClick: () =>
           </span>
         </div>
       </div>
-
-      {/* Expand */}
       <ChevronRight className="w-4 h-4 text-[#785a28] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
     </motion.div>
   );
@@ -301,7 +371,6 @@ function TierSection({ tier, champions, onChampionClick }: { tier: string; champ
 
   return (
     <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="mb-4">
-      {/* Tier Header Bar */}
       <div
         className="flex items-center gap-3 px-4 py-2.5 rounded-t-xl"
         style={{
@@ -326,7 +395,6 @@ function TierSection({ tier, champions, onChampionClick }: { tier: string; champ
         </span>
       </div>
 
-      {/* Stats sub-header — desktop only */}
       <div
         className="hidden sm:flex items-center px-4 py-1.5 text-[8px] text-[#5b5a56] uppercase tracking-widest font-medium"
         style={{
@@ -346,7 +414,6 @@ function TierSection({ tier, champions, onChampionClick }: { tier: string; champ
         <div className="w-4 shrink-0" />
       </div>
 
-      {/* Champion Rows */}
       <div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 p-1 rounded-b-xl"
         style={{
@@ -385,8 +452,269 @@ function TierSectionSkeleton() {
   );
 }
 
+// ============ GAME SELECTOR LANDING ============
+function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelection) => void }) {
+  return (
+    <motion.div
+      className="min-h-[calc(100vh-57px)] flex flex-col items-center justify-center px-4 py-12"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Title */}
+      <motion.div
+        className="text-center mb-12"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.6 }}
+      >
+        <h2
+          className="text-4xl sm:text-5xl font-black tracking-[0.15em] mb-3"
+          style={{
+            color: '#c8aa6e',
+            textShadow: '0 0 40px rgba(200,170,110,0.3), 0 0 80px rgba(200,170,110,0.1)',
+          }}
+        >
+          ELIGE TU JUEGO
+        </h2>
+        <p className="text-[#5b5a56] text-sm sm:text-base tracking-widest uppercase">
+          Selecciona la plataforma para ver análisis
+        </p>
+        <div className="w-24 h-0.5 mx-auto mt-4" style={{ background: 'linear-gradient(90deg, transparent, #c8aa6e, transparent)' }} />
+      </motion.div>
+
+      {/* Game Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 w-full max-w-2xl">
+        {/* League of Legends Card */}
+        <motion.button
+          onClick={() => onSelectGame('lol')}
+          className="group relative overflow-hidden rounded-2xl p-8 sm:p-10 text-left cursor-pointer transition-all duration-500"
+          style={{
+            background: 'linear-gradient(135deg, rgba(200,170,110,0.08), rgba(200,170,110,0.02))',
+            border: '1px solid rgba(200,170,110,0.2)',
+            backdropFilter: 'blur(20px)',
+          }}
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          whileHover={{
+            scale: 1.03,
+            boxShadow: '0 0 60px rgba(200,170,110,0.15), 0 0 120px rgba(200,170,110,0.05)',
+            borderColor: 'rgba(200,170,110,0.5)',
+          }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {/* Glow effect */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              background: 'radial-gradient(circle at 30% 30%, rgba(200,170,110,0.1), transparent 70%)',
+            }}
+          />
+
+          <div className="relative z-10">
+            {/* Icon */}
+            <motion.div
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6"
+              style={{
+                background: 'linear-gradient(135deg, rgba(200,170,110,0.2), rgba(200,170,110,0.05))',
+                border: '1px solid rgba(200,170,110,0.3)',
+                boxShadow: '0 0 30px rgba(200,170,110,0.1)',
+              }}
+              whileHover={{ rotate: [-2, 2, 0] }}
+              transition={{ duration: 0.4 }}
+            >
+              <Sword className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: '#c8aa6e' }} />
+            </motion.div>
+
+            {/* Text */}
+            <h3
+              className="text-xl sm:text-2xl font-black tracking-wider mb-2"
+              style={{ color: '#c8aa6e' }}
+            >
+              LEAGUE OF LEGENDS
+            </h3>
+            <div className="flex items-center gap-2 mb-4">
+              <Monitor className="w-4 h-4 text-[#5b5a56]" />
+              <p className="text-sm text-[#5b5a56] tracking-wide">PC Analytics</p>
+            </div>
+            <div className="flex items-center gap-1 text-xs text-[#785a28] group-hover:text-[#c8aa6e] transition-colors">
+              <span>Tier List &bull; Meta &bull; Insights</span>
+              <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Decorative corner lines */}
+          <div className="absolute top-3 right-3 w-6 h-6" style={{ borderTop: '1px solid rgba(200,170,110,0.3)', borderRight: '1px solid rgba(200,170,110,0.3)' }} />
+          <div className="absolute bottom-3 left-3 w-6 h-6" style={{ borderBottom: '1px solid rgba(200,170,110,0.3)', borderLeft: '1px solid rgba(200,170,110,0.3)' }} />
+        </motion.button>
+
+        {/* Wild Rift Card */}
+        <motion.button
+          onClick={() => onSelectGame('wildrift')}
+          className="group relative overflow-hidden rounded-2xl p-8 sm:p-10 text-left cursor-pointer transition-all duration-500"
+          style={{
+            background: 'linear-gradient(135deg, rgba(10,203,230,0.08), rgba(10,203,230,0.02))',
+            border: '1px solid rgba(10,203,230,0.2)',
+            backdropFilter: 'blur(20px)',
+          }}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          whileHover={{
+            scale: 1.03,
+            boxShadow: '0 0 60px rgba(10,203,230,0.15), 0 0 120px rgba(10,203,230,0.05)',
+            borderColor: 'rgba(10,203,230,0.5)',
+          }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {/* Glow effect */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              background: 'radial-gradient(circle at 30% 30%, rgba(10,203,230,0.1), transparent 70%)',
+            }}
+          />
+
+          <div className="relative z-10">
+            {/* Icon */}
+            <motion.div
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-6"
+              style={{
+                background: 'linear-gradient(135deg, rgba(10,203,230,0.2), rgba(10,203,230,0.05))',
+                border: '1px solid rgba(10,203,230,0.3)',
+                boxShadow: '0 0 30px rgba(10,203,230,0.1)',
+              }}
+              whileHover={{ rotate: [-2, 2, 0] }}
+              transition={{ duration: 0.4 }}
+            >
+              <Smartphone className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: '#0acbe6' }} />
+            </motion.div>
+
+            {/* Text */}
+            <h3
+              className="text-xl sm:text-2xl font-black tracking-wider mb-2"
+              style={{ color: '#0acbe6' }}
+            >
+              WILD RIFT
+            </h3>
+            <div className="flex items-center gap-2 mb-4">
+              <Gamepad2 className="w-4 h-4 text-[#5b5a56]" />
+              <p className="text-sm text-[#5b5a56] tracking-wide">Mobile Analytics</p>
+            </div>
+            <div className="flex items-center gap-1 text-xs text-[#5b5a56] group-hover:text-[#0acbe6] transition-colors">
+              <span>Próximamente</span>
+              <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Decorative corner lines */}
+          <div className="absolute top-3 right-3 w-6 h-6" style={{ borderTop: '1px solid rgba(10,203,230,0.3)', borderRight: '1px solid rgba(10,203,230,0.3)' }} />
+          <div className="absolute bottom-3 left-3 w-6 h-6" style={{ borderBottom: '1px solid rgba(10,203,230,0.3)', borderLeft: '1px solid rgba(10,203,230,0.3)' }} />
+        </motion.button>
+      </div>
+
+      {/* Footer hint */}
+      <motion.p
+        className="text-[10px] text-[#785a28] mt-10 tracking-wider"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+      >
+        Powered by IA &bull; Datos actualizados al meta actual
+      </motion.p>
+    </motion.div>
+  );
+}
+
+// ============ WILD RIFT COMING SOON ============
+function WildRiftComingSoon({ onBack }: { onBack: () => void }) {
+  return (
+    <motion.div
+      className="min-h-[calc(100vh-57px)] flex flex-col items-center justify-center px-4 py-12"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <motion.div
+        className="text-center max-w-lg"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+      >
+        {/* Animated ring */}
+        <motion.div
+          className="w-28 h-28 rounded-full flex items-center justify-center mx-auto mb-8 relative"
+          style={{
+            background: 'linear-gradient(135deg, rgba(10,203,230,0.1), rgba(10,203,230,0.03))',
+            border: '2px solid rgba(10,203,230,0.25)',
+          }}
+          animate={{
+            boxShadow: [
+              '0 0 20px rgba(10,203,230,0.1)',
+              '0 0 40px rgba(10,203,230,0.2)',
+              '0 0 20px rgba(10,203,230,0.1)',
+            ],
+          }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
+          <Smartphone className="w-12 h-12" style={{ color: '#0acbe6' }} />
+        </motion.div>
+
+        <h2
+          className="text-3xl sm:text-4xl font-black tracking-[0.15em] mb-4"
+          style={{
+            color: '#0acbe6',
+            textShadow: '0 0 30px rgba(10,203,230,0.3)',
+          }}
+        >
+          WILD RIFT
+        </h2>
+        <p className="text-lg text-[#f0e6d2] font-semibold mb-2">Próximamente</p>
+        <p className="text-sm text-[#5b5a56] leading-relaxed mb-8 max-w-sm mx-auto">
+          Estamos preparando análisis completos de Wild Rift. Tier lists, meta insights, 
+          builds óptimos y mucho más para la versión móvil de League of Legends.
+        </p>
+
+        {/* Feature hints */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          {[
+            { icon: Trophy, label: 'Tier Lists', desc: 'Los mejores campeones' },
+            { icon: Brain, label: 'IA Insights', desc: 'Análisis inteligente' },
+            { icon: TrendingUp, label: 'Meta Tracker', desc: 'Seguimiento del meta' },
+          ].map((feature, i) => (
+            <motion.div
+              key={feature.label}
+              className="glass-card rounded-xl p-4"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.1 }}
+            >
+              <feature.icon className="w-6 h-6 mx-auto mb-2" style={{ color: '#0acbe6', opacity: 0.7 }} />
+              <p className="text-xs font-semibold text-[#f0e6d2]">{feature.label}</p>
+              <p className="text-[10px] text-[#5b5a56] mt-0.5">{feature.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <Button
+          onClick={onBack}
+          variant="outline"
+          className="border-[#0acbe6]/30 text-[#0acbe6] hover:bg-[#0acbe6]/10 hover:border-[#0acbe6]/50 gap-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Volver al selector
+        </Button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ============ MAIN APP ============
 export default function Home() {
+  const [selectedGame, setSelectedGame] = useState<GameSelection>(null);
   const [activeTab, setActiveTab] = useState('tierlist');
   const [champions, setChampions] = useState<Champion[]>([]);
   const [patches, setPatches] = useState<PatchNote[]>([]);
@@ -402,6 +730,13 @@ export default function Home() {
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiReasoning, setAiReasoning] = useState<AiReasoning | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
+
+  // Summoner profile state
+  const [summonerName, setSummonerName] = useState('');
+  const [summonerRegion, setSummonerRegion] = useState('NA');
+  const [summonerData, setSummonerData] = useState<SummonerData | null>(null);
+  const [summonerLoading, setSummonerLoading] = useState(false);
+  const [summonerError, setSummonerError] = useState('');
 
   // ============ FETCH DATA ============
   const fetchData = useCallback(async () => {
@@ -432,6 +767,18 @@ export default function Home() {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
+  // ============ GAME SELECTION ============
+  const handleSelectGame = (game: GameSelection) => {
+    setSelectedGame(game);
+    if (game === 'lol') {
+      setActiveTab('tierlist');
+    }
+  };
+
+  const handleBackToSelector = () => {
+    setSelectedGame(null);
+  };
+
   // ============ FILTER CHAMPIONS ============
   const filteredChampions = champions.filter(c => {
     if (roleFilter !== 'Todos' && c.role !== roleFilter) return false;
@@ -442,7 +789,6 @@ export default function Home() {
     return true;
   });
 
-  // Group by tier (only S and A)
   const groupedChampions: Record<string, Champion[]> = {};
   TIERS.forEach(tier => {
     const tierChamps = filteredChampions.filter(c => c.tier === tier);
@@ -481,6 +827,29 @@ export default function Home() {
     }
   };
 
+  // ============ SUMMONER SEARCH ============
+  const handleSearchSummoner = async () => {
+    if (!summonerName.trim()) return;
+    setSummonerLoading(true);
+    setSummonerError('');
+    setSummonerData(null);
+    try {
+      const res = await fetch(`/api/summoner?name=${encodeURIComponent(summonerName)}&region=${summonerRegion}`);
+      if (!res.ok) {
+        const errData = await res.json();
+        setSummonerError(errData.error || 'Error al buscar invocador');
+        return;
+      }
+      const data = await res.json();
+      setSummonerData(data);
+    } catch (err) {
+      console.error('Summoner search error:', err);
+      setSummonerError('Error de conexión. Intenta de nuevo.');
+    } finally {
+      setSummonerLoading(false);
+    }
+  };
+
   // ============ TASK STATUS TOGGLE ============
   const handleToggleTask = async (task: TaskItem) => {
     const nextStatus = task.status === 'done' ? 'pending' : 'running';
@@ -501,7 +870,6 @@ export default function Home() {
   function TierListTab() {
     return (
       <div className="space-y-4">
-        {/* Search & Filter */}
         <div className="space-y-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56]" />
@@ -532,7 +900,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Tier Groups */}
         {loading ? (
           <>
             <TierSectionSkeleton />
@@ -714,7 +1081,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
           <div className="glass-card rounded-xl p-3 text-center">
             <p className="text-2xl font-bold text-[#0acbe6]">{runningCount}</p>
@@ -740,7 +1106,6 @@ export default function Home() {
           Refrescar
         </Button>
 
-        {/* Task List */}
         {loading ? (
           Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="glass-card rounded-xl p-4 space-y-2">
@@ -785,6 +1150,258 @@ export default function Home() {
     );
   }
 
+  // ============ PLAYER PROFILE TAB ============
+  function ProfileTab() {
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <User className="w-5 h-5 text-[#c8aa6e]" />
+          <div>
+            <h2 className="text-lg font-bold text-[#f0e6d2]">Perfil de Invocador</h2>
+            <p className="text-xs text-[#5b5a56]">Busca cualquier invocador para ver su perfil</p>
+          </div>
+        </div>
+
+        {/* Demo mode notice */}
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(200,170,110,0.08)', border: '1px solid rgba(200,170,110,0.15)' }}>
+          <Sparkles className="w-4 h-4 text-[#c8aa6e] shrink-0" />
+          <p className="text-xs text-[#a09b8c]">
+            Modo Demo — Conecta tu API Key de Riot para datos reales
+          </p>
+        </div>
+
+        {/* Search Form */}
+        <div className="glass-card rounded-xl p-5 space-y-4">
+          <div className="space-y-3">
+            <div>
+              <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">
+                Nombre de Invocador
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56]" />
+                <Input
+                  placeholder="Ej: Faker"
+                  value={summonerName}
+                  onChange={e => setSummonerName(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSearchSummoner()}
+                  className="pl-10 bg-[#0a0e1a]/60 border-[#785a28]/30 text-[#f0e6d2] placeholder:text-[#5b5a56] focus-visible:border-[#c8aa6e] focus-visible:ring-[#c8aa6e]/20 h-10 rounded-lg"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">
+                Región
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56] pointer-events-none" />
+                <select
+                  value={summonerRegion}
+                  onChange={e => setSummonerRegion(e.target.value)}
+                  className="w-full pl-10 pr-8 h-10 rounded-lg bg-[#0a0e1a]/60 border-[#785a28]/30 text-[#f0e6d2] text-sm appearance-none cursor-pointer focus:outline-none focus:border-[#c8aa6e] focus:ring-[#c8aa6e]/20"
+                  style={{ backgroundImage: 'none' }}
+                >
+                  {REGIONS.map(r => (
+                    <option key={r.value} value={r.value} className="bg-[#1e2328] text-[#f0e6d2]">
+                      {r.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56] pointer-events-none" />
+              </div>
+            </div>
+          </div>
+          <Button
+            onClick={handleSearchSummoner}
+            disabled={summonerLoading || !summonerName.trim()}
+            className="w-full bg-[#c8aa6e] text-[#0a0e1a] hover:bg-[#c8aa6e]/90 font-semibold rounded-lg gap-2"
+          >
+            {summonerLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Search className="w-4 h-4" />
+            )}
+            Buscar
+          </Button>
+        </div>
+
+        {/* Error */}
+        {summonerError && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#e84057]/30"
+            style={{ background: 'rgba(232,64,87,0.08)' }}
+          >
+            <AlertTriangle className="w-4 h-4 text-[#e84057] shrink-0" />
+            <p className="text-sm text-[#e84057]">{summonerError}</p>
+          </motion.div>
+        )}
+
+        {/* Loading */}
+        {summonerLoading && (
+          <div className="glass-card rounded-xl p-6 space-y-4">
+            <div className="flex items-center gap-4">
+              <Skeleton className="w-20 h-20 rounded-full shrink-0" />
+              <div className="flex-1 space-y-2">
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-4 w-20" />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Skeleton className="h-28 rounded-xl" />
+              <Skeleton className="h-28 rounded-xl" />
+            </div>
+            <Skeleton className="h-40 rounded-xl" />
+          </div>
+        )}
+
+        {/* Results */}
+        {summonerData && !summonerLoading && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="space-y-4"
+          >
+            {/* Profile Header */}
+            <div className="glass-card rounded-xl p-5">
+              <div className="flex items-center gap-4">
+                <div
+                  className="w-20 h-20 rounded-full overflow-hidden shrink-0"
+                  style={{
+                    border: '3px solid #c8aa6e',
+                    boxShadow: '0 0 20px rgba(200,170,110,0.2)',
+                  }}
+                >
+                  <img
+                    src={`https://ddragon.leagueoflegends.com/cdn/14.8.1/img/profileicon/${summonerData.profileIconId}.png`}
+                    alt={summonerData.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-xl font-bold text-[#f0e6d2] truncate">{summonerData.name}</h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Crown className="w-4 h-4 text-[#c8aa6e]" />
+                    <span className="text-sm text-[#a09b8c]">Nivel {summonerData.level}</span>
+                  </div>
+                  <Badge variant="outline" className="mt-2 text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">
+                    {summonerRegion}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+
+            {/* Ranked Info */}
+            {summonerData.ranked.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {summonerData.ranked.map(entry => {
+                  const queueLabel = entry.queueType === 'RANKED_SOLO_5x5' ? 'Solo/Duo' : 'Flex 5v5';
+                  const queueIcon = entry.queueType === 'RANKED_SOLO_5x5' ? Sword : Users;
+                  const tierColor = TIER_COLORS[entry.tier] || '#a09b8c';
+                  const totalGames = entry.wins + entry.losses;
+                  const winRate = totalGames > 0 ? ((entry.wins / totalGames) * 100).toFixed(1) : '0';
+
+                  return (
+                    <motion.div
+                      key={entry.queueType}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.1 }}
+                      className="glass-card rounded-xl p-4"
+                    >
+                      <div className="flex items-center gap-2 mb-3">
+                        <queueIcon className="w-4 h-4" style={{ color: tierColor }} />
+                        <span className="text-xs font-medium text-[#a09b8c] uppercase tracking-wider">{queueLabel}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="text-center">
+                          <div
+                            className="w-14 h-14 rounded-lg flex items-center justify-center"
+                            style={{
+                              background: `linear-gradient(135deg, ${tierColor}20, ${tierColor}08)`,
+                              border: `1.5px solid ${tierColor}40`,
+                            }}
+                          >
+                            <div className="text-center">
+                              <span className="text-lg font-black block leading-none" style={{ color: tierColor }}>
+                                {entry.tier[0]}{entry.rank}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-[#f0e6d2]">{entry.tier} {entry.rank}</p>
+                          <p className="text-xs text-[#a09b8c]">
+                            <span className="font-mono font-semibold" style={{ color: '#c8aa6e' }}>{entry.lp}</span> LP
+                          </p>
+                          <div className="flex items-center gap-2 mt-1.5 text-[11px]">
+                            <span className="text-[#0acbe6]">{entry.wins}V</span>
+                            <span className="text-[#5b5a56]">/</span>
+                            <span className="text-[#e84057]">{entry.losses}D</span>
+                            <span className="text-[#a09b8c] ml-1">({winRate}%)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Most Played Champions */}
+            {summonerData.mostPlayed.length > 0 && (
+              <div className="glass-card rounded-xl p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Trophy className="w-4 h-4 text-[#c8aa6e]" />
+                  <h4 className="text-sm font-semibold text-[#f0e6d2]">Campeones Más Jugados</h4>
+                </div>
+                <div className="space-y-2">
+                  {summonerData.mostPlayed.map((entry, idx) => (
+                      <motion.div
+                        key={entry.champion}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1e2328]/60 transition-colors"
+                      >
+                        <SmallChampionIcon name={entry.champion} />
+                        {/* Name */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-[#f0e6d2] truncate">{entry.champion}</p>
+                          <p className="text-[11px] text-[#5b5a56]">{entry.games} partidas</p>
+                        </div>
+                        {/* Win rate */}
+                        <div className="text-right shrink-0">
+                          <p
+                            className="text-sm font-semibold font-mono"
+                            style={{ color: entry.winRate >= 52 ? '#0acbe6' : entry.winRate >= 48 ? '#a09b8c' : '#e84057' }}
+                          >
+                            {entry.winRate}%
+                          </p>
+                          <p className="text-[10px] text-[#5b5a56]">Win Rate</p>
+                        </div>
+                      </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {/* Empty state */}
+        {!summonerData && !summonerLoading && !summonerError && (
+          <div className="text-center py-16">
+            <User className="w-16 h-16 mx-auto mb-4 text-[#785a28]/30" />
+            <p className="text-[#5b5a56] text-sm">Busca un invocador para ver su perfil</p>
+            <p className="text-[#785a28]/40 text-xs mt-1">Escribe el nombre y selecciona una región</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // ============ AI DIALOG ============
   function AiDialog() {
     return (
@@ -815,7 +1432,6 @@ export default function Home() {
             </DialogDescription>
           </DialogHeader>
 
-          {/* Question Input */}
           <div className="flex gap-2">
             <Input
               value={aiQuestion}
@@ -834,7 +1450,6 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* AI Response */}
           <ScrollArea className="flex-1 -mx-6 px-6">
             {aiLoading && (
               <div className="space-y-3 py-4">
@@ -854,7 +1469,6 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4 py-2"
               >
-                {/* Reasoning */}
                 <div className="rounded-lg p-4 bg-[#0a0e1a]/60 border border-[#785a28]/15">
                   <div className="flex items-center gap-2 mb-3">
                     <Sparkles className="w-4 h-4 text-[#c8aa6e]" />
@@ -863,7 +1477,6 @@ export default function Home() {
                   <p className="text-sm text-[#f0e6d2] leading-relaxed whitespace-pre-wrap">{aiReasoning.reasoning}</p>
                 </div>
 
-                {/* Confidence */}
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-[#5b5a56] shrink-0">Confianza</span>
                   <Progress value={aiReasoning.confidence * 100} className="h-2 flex-1" />
@@ -872,7 +1485,6 @@ export default function Home() {
                   </span>
                 </div>
 
-                {/* Factors */}
                 {aiReasoning.factors.length > 0 && (
                   <div>
                     <h4 className="text-xs font-semibold text-[#5b5a56] uppercase tracking-wider mb-2">Factores Clave</h4>
@@ -887,7 +1499,6 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Related Champions */}
                 {aiReasoning.relatedChampions.length > 0 && (
                   <div>
                     <h4 className="text-xs font-semibold text-[#5b5a56] uppercase tracking-wider mb-2">Campeones Relacionados</h4>
@@ -937,7 +1548,10 @@ export default function Home() {
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-[#785a28]/20" style={{ backgroundColor: 'rgba(10, 14, 26, 0.94)', backdropFilter: 'blur(20px) saturate(1.2)' }}>
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-          <div className="flex items-center gap-2">
+          <button
+            onClick={selectedGame ? handleBackToSelector : undefined}
+            className={`flex items-center gap-2 ${selectedGame ? 'cursor-pointer group' : ''}`}
+          >
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #c8aa6e, #9a7b4f)' }}>
               <Sword className="w-4 h-4 text-[#0a0e1a]" />
             </div>
@@ -950,8 +1564,22 @@ export default function Home() {
               </h1>
               <p className="text-[9px] text-[#5b5a56] tracking-[0.2em] uppercase leading-none mt-0.5">Analytics con IA</p>
             </div>
-          </div>
+            {selectedGame && (
+              <motion.div
+                initial={{ opacity: 0, x: -5 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="ml-1"
+              >
+                <ArrowLeft className="w-3 h-3 text-[#785a28] group-hover:text-[#c8aa6e] transition-colors" />
+              </motion.div>
+            )}
+          </button>
           <div className="ml-auto flex items-center gap-2">
+            {selectedGame === 'lol' && (
+              <Badge variant="outline" className="text-[10px] border-[#c8aa6e]/30 text-[#c8aa6e]">
+                League of Legends
+              </Badge>
+            )}
             <Badge variant="outline" className="text-[10px] border-[#785a28]/30 text-[#5b5a56]">
               Patch 14.8
             </Badge>
@@ -963,49 +1591,58 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Tab Navigation */}
-      <nav className="sticky top-[57px] z-30 border-b border-[#785a28]/15" style={{ backgroundColor: 'rgba(10, 14, 26, 0.9)', backdropFilter: 'blur(16px)' }}>
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex gap-1 overflow-x-auto py-2 scrollbar-none">
-            {TAB_ITEMS.map(tab => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`
-                    flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200
-                    ${isActive
-                      ? 'bg-[#c8aa6e]/12 text-[#c8aa6e] border border-[#c8aa6e]/25 shadow-[0_0_12px_rgba(200,170,110,0.08)]'
-                      : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
-                    }
-                  `}
-                >
-                  <Icon className="w-4 h-4" />
-                  {tab.label}
-                </button>
-              );
-            })}
+      {/* Tab Navigation - only show when a game is selected */}
+      {selectedGame && (
+        <nav className="sticky top-[57px] z-30 border-b border-[#785a28]/15" style={{ backgroundColor: 'rgba(10, 14, 26, 0.9)', backdropFilter: 'blur(16px)' }}>
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="flex gap-1 overflow-x-auto py-2 scrollbar-none">
+              {TAB_ITEMS.map(tab => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`
+                      flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200
+                      ${isActive
+                        ? 'bg-[#c8aa6e]/12 text-[#c8aa6e] border border-[#c8aa6e]/25 shadow-[0_0_12px_rgba(200,170,110,0.08)]'
+                        : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
+                      }
+                    `}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      )}
 
       {/* Content */}
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-6">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-          >
-            {activeTab === 'tierlist' && <TierListTab />}
-            {activeTab === 'patches' && <PatchesTab />}
-            {activeTab === 'broken' && <BrokenStuffTab />}
-            {activeTab === 'tasks' && <TasksTab />}
-          </motion.div>
+          {!selectedGame ? (
+            <GameSelectorLanding onSelectGame={handleSelectGame} key="selector" />
+          ) : selectedGame === 'wildrift' ? (
+            <WildRiftComingSoon onBack={handleBackToSelector} key="wildrift" />
+          ) : (
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+            >
+              {activeTab === 'tierlist' && <TierListTab />}
+              {activeTab === 'patches' && <PatchesTab />}
+              {activeTab === 'broken' && <BrokenStuffTab />}
+              {activeTab === 'tasks' && <TasksTab />}
+              {activeTab === 'profile' && <ProfileTab />}
+            </motion.div>
+          )}
         </AnimatePresence>
       </main>
 
