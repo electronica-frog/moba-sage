@@ -718,7 +718,7 @@ const proPicksWithIds: ProPick[] = PRO_PICKS_DATA.map((p, i) => ({
 
 export function getChampions(filters?: { role?: string; tier?: string; game?: string; search?: string }): Champion[] {
   let data = championsWithIds;
-  if (filters?.role && filters.role !== 'All') data = data.filter(c => c.role === filters.role);
+  if (filters?.role && filters.role !== 'Todos' && filters.role !== 'All') data = data.filter(c => c.role === filters.role);
   if (filters?.tier) data = data.filter(c => c.tier === filters.tier);
   if (filters?.game) data = data.filter(c => c.game === filters.game);
   if (filters?.search) {

@@ -215,7 +215,8 @@ function getChampionImageUrl(name: string): string {
 // ============ ITEM ICON HELPERS ============
 const ITEM_NAME_MAP: Record<string, string> = {
   'Filo de la Noche': '6672', 'Eclipse': '6692', 'Hidra Titánica': '3748',
-  'Fuerza de la Trinidad': '3071', 'Filo Infinito': '3031', 'Huracán de Runaan': '3085',
+  'Fuerza de la Trinidad': '3071', 'Filo Infinito': '3031', 'Colmillo Infinito': '3031',
+  'Huracán de Runaan': '3085', 'Frenesí de Runaan': '3085',
   'Bailarín Espectral': '3124', 'Sed de Sangre': '6333', 'Botas de Berserker': '3006',
   'Sombrero de Rabadon': '3089', 'Reloj de Zhonya': '3157', 'Llamasomo': '3166',
   'Morellonomicon': '3165', 'Botas del Vacío': '3020', 'El Colector': '6676',
@@ -1081,9 +1082,9 @@ function WildRiftHeader() {
         </div>
         <div className="flex-1">
           <h3 className="text-sm font-bold" style={{ color: '#0acbe6' }}>WILD RIFT — Patch 6.4</h3>
-          <p className="text-[10px] text-[#5b5a56]">Mobile Analytics — 18 campeones S/A tier con builds y análisis</p>
+          <p className="text-[10px] text-[#5b5a56]">Mobile Analytics — 20 campeones S/A/B tier con builds y análisis</p>
         </div>
-        <Badge variant="outline" className="text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">6 S-Tier</Badge>
+        <Badge variant="outline" className="text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">20 Campeones</Badge>
       </div>
     </motion.div>
   );
@@ -1308,11 +1309,16 @@ export default function Home() {
 
   // ============ PATCH NOTES TAB ============
   function PatchesTab() {
+    const filteredPatches = patches.filter(p => {
+      if (selectedGame === 'lol') return p.sourceGame === 'LoL';
+      if (selectedGame === 'wildrift') return p.sourceGame === 'WR';
+      return true;
+    });
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-[#5b5a56]">
           <ScrollText className="w-4 h-4" />
-          <span className="text-sm">{patches.length} parche(s) encontrado(s)</span>
+          <span className="text-sm">{filteredPatches.length} parche(s) encontrado(s)</span>
         </div>
 
         {loading ? (
@@ -1324,8 +1330,13 @@ export default function Home() {
               <Skeleton className="h-20 w-full" />
             </div>
           ))
+        ) : filteredPatches.length === 0 ? (
+          <div className="text-center py-12 text-[#5b5a56]">
+            <ScrollText className="w-12 h-12 mx-auto mb-3 opacity-20" />
+            <p className="text-sm">No hay parches disponibles para este juego</p>
+          </div>
         ) : (
-          patches.map(patch => (
+          filteredPatches.map(patch => (
             <motion.div key={patch.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="glass-card rounded-xl p-5 border border-[#785a28]/25">
               <div className="flex items-start gap-3 mb-4">
                 <Badge className="bg-[#c8aa6e] text-[#0a0e1a] font-bold text-sm px-3 py-1 shrink-0">{patch.version}</Badge>
@@ -1360,10 +1371,18 @@ export default function Home() {
 
   // ============ BROKEN STUFF TAB (FIXED with icons) ============
   function BrokenStuffTab() {
-    const metaInsights = insights.filter(i => i.category === 'meta' || i.category === 'buff');
-    const sTierChamps = champions.filter(c => c.tier === 'S');
-    const aTierChamps = champions.filter(c => c.tier === 'A').slice(0, 12);
-    const bTierChamps = champions.filter(c => c.tier === 'B');
+    const gameChampions = champions.filter(c => {
+      if (selectedGame === 'lol') return c.game === 'LoL';
+      if (selectedGame === 'wildrift') return c.game === 'WR';
+      return true;
+    });
+    const metaInsights = insights.filter(i => {
+      const champInGame = gameChampions.some(c => c.name === i.champion);
+      return (i.category === 'meta' || i.category === 'buff') && champInGame;
+    });
+    const sTierChamps = gameChampions.filter(c => c.tier === 'S');
+    const aTierChamps = gameChampions.filter(c => c.tier === 'A').slice(0, 12);
+    const bTierChamps = gameChampions.filter(c => c.tier === 'B');
 
     return (
       <div className="space-y-6">
@@ -1693,7 +1712,7 @@ export default function Home() {
         title: 'Datos & APIs', icon: Database, items: [
           { name: 'Conexión Riot API completa', status: 'progress', desc: 'API key configurada, datos reales de invocadores, ranked, historial' },
           { name: 'Datos en tiempo real (U.GG / Mobalytics)', status: 'planned', desc: 'Conectar APIs de terceros para estadísticas actualizadas automáticamente' },
-          { name: 'Wild Rift - Datos completos', status: 'done', desc: '18 campeones con tier list, builds, counters, sinergias e IA' },
+          { name: 'Wild Rift - Datos completos', status: 'done', desc: '20 campeones con tier list (S/A/B), builds, counters, sinergias e IA' },
           { name: 'Community Dragon Assets', status: 'done', desc: 'CDN Data Dragon para iconos de campeones, items y splash arts' },
         ]
       },
@@ -1922,9 +1941,12 @@ export default function Home() {
 
   // ============ COMPETITIVE TAB ============
   function CompetitiveTab() {
+    // Only LoL has pro pick data currently
+    const isWR = selectedGame === 'wildrift';
+    const gamePicks = isWR ? [] : proPicks;
     const filteredPicks = proRegionFilter
-      ? proPicks.filter(p => p.region === proRegionFilter)
-      : proPicks;
+      ? gamePicks.filter(p => p.region === proRegionFilter)
+      : gamePicks;
 
     return (
       <div className="space-y-4">
@@ -1932,11 +1954,18 @@ export default function Home() {
           <Crown className="w-5 h-5 text-[#f0c646]" />
           <div>
             <h2 className="text-lg font-bold text-[#f0e6d2]">Escena Competitiva</h2>
-            <p className="text-xs text-[#5b5a56]">Campeones más pickados en torneos profesionales — Patch 14.8</p>
+            <p className="text-xs text-[#5b5a56]">Campeones más pickados en torneos profesionales</p>
           </div>
         </div>
 
-        {/* Region Filter */}
+        {isWR && (
+          <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ background: 'rgba(10,203,230,0.08)', border: '1px solid rgba(10,203,230,0.2)' }}>
+            <Info className="w-4 h-4 text-[#0acbe6] shrink-0" />
+            <p className="text-xs text-[#a09b8c]">Datos competitivos de Wild Rift próximamente. Mostrando datos de LoL como referencia.</p>
+          </div>
+        )}
+
+        {/* Region Filter - only show for LoL or as reference for WR */}
         <div className="flex flex-wrap gap-2">
           {TOURNAMENT_REGIONS.map(r => (
             <button

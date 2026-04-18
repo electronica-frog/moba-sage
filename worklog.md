@@ -101,3 +101,31 @@ Stage Summary:
 - CANCELADO items visually distinct (red, strikethrough, X icon)
 - Completado items show green checkmark
 - Deployed to Vercel
+
+---
+Task ID: 3
+Agent: Main Agent + Subagent
+Task: Tier B, 74 champions, builds for all, WR full tabs, visual improvements
+
+Work Log:
+- Analyzed all champion data: found 28 champions with empty builds, 8 misplaced in Tier A
+- Added Tier B (Jugables) with green (#0fba81) theme
+- Moved 8 champions from A to B: Bard (43.5%), Kalista (45.5%), Ivern (45.8%), Azir (43.8%), Urgot (44.5%), Yorick (46.2%), Skarner (44.1%), Mordekaiser (45.2%)
+- Added 7 new B-tier LoL champs: Malphite, Senna, Draven, Elise, Nautilus, Ekko, Kennen
+- Added 3 new B-tier WR champs: Garen, Lulu, Caitlyn
+- Filled builds for ALL 28 champions that had empty builds arrays
+- Added buildLinks (U.GG/OP.GG/Mobalytics) to all 74 champions (was ~50% before)
+- Wild Rift now has all 8 tabs (was missing Patches and Competitive)
+- Updated Cosas Rotas: A tier shows 12 champs, B tier shows all B champs
+- Updated TIERS array: ['S', 'A', 'B']
+- Updated TIER_CONFIG: added B: { color: '#0fba81', label: 'Jugables' }
+- Updated landing page info cards with real stats
+- Build: ✅ Compiled successfully
+- Git push: ✅ commit cd9bdd0 pushed to main
+
+Stage Summary:
+- 74 champions total (54 LoL + 20 WR) across S/A/B tiers
+- 100% build coverage (no more empty builds)
+- 100% buildLinks coverage
+- Wild Rift has full parity with LoL (8 tabs)
+- All tier changes justified by win rate data
