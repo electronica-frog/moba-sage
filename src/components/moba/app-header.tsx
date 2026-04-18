@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Sword, ArrowLeft, Badge, Bell } from 'lucide-react';
+import { Sword, ArrowLeft, Bell } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import type { GameSelection } from './types';
 
 export function AppHeader({

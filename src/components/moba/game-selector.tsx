@@ -85,6 +85,8 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
             borderColor: 'rgba(200,170,110,0.5)',
           }}
           whileTap={{ scale: 0.98 }}
+          role="button"
+          aria-label="Seleccionar League of Legends"
         >
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -138,6 +140,8 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
             borderColor: 'rgba(10,203,230,0.5)',
           }}
           whileTap={{ scale: 0.98 }}
+          role="button"
+          aria-label="Seleccionar Wild Rift"
         >
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"

@@ -50,6 +50,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
                 : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
               }
             `}
+            aria-pressed={sizeFilter === opt.value}
           >
             {opt.label}
           </button>

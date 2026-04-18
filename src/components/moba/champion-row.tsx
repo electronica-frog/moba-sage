@@ -19,6 +19,10 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }:
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.99 }}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`Ver detalles de ${champion.name}`}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
       className="champion-row flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 group"
     >
       <div className="relative">
@@ -60,6 +64,8 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }:
           onClick={(e) => { e.stopPropagation(); onToggleFavorite(e); }}
           className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity p-1"
           title={isFavorite ? 'Quitar favorito' : 'Marcar favorito'}
+          aria-label={isFavorite ? `Quitar ${champion.name} de favoritos` : `Marcar ${champion.name} como favorito`}
+          aria-pressed={isFavorite}
         >
           <Star className={`w-4 h-4 transition-colors ${isFavorite ? 'text-[#f0c646]' : 'text-[#5b5a56] hover:text-[#f0c646]'}`} fill={isFavorite ? '#f0c646' : 'none'} />
         </button>

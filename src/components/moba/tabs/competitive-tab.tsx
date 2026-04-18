@@ -53,6 +53,7 @@ export function CompetitiveTab({
                 : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
               }
             `}
+            aria-pressed={proRegionFilter === r.value}
           >
             {r.label}
           </button>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, memo } from 'react';
+import Image from 'next/image';
 import { TIER_CONFIG } from './constants';
 import { getChampionImageUrl } from './helpers';
 
@@ -17,9 +18,11 @@ export const ChampionIcon = memo(function ChampionIcon({ name, tier }: { name: s
       }}
     >
       {!imgError ? (
-        <img
+        <Image
           src={getChampionImageUrl(name)}
           alt={name}
+          width={44}
+          height={44}
           className="w-full h-full object-cover"
           loading="lazy"
           onError={() => setImgError(true)}
@@ -44,9 +47,11 @@ export const SmallChampionIcon = memo(function SmallChampionIcon({ name }: { nam
       style={{ border: '2px solid rgba(120,90,40,0.25)' }}
     >
       {!imgError ? (
-        <img
+        <Image
           src={getChampionImageUrl(name)}
           alt={name}
+          width={40}
+          height={40}
           className="w-full h-full object-cover"
           loading="lazy"
           onError={() => setImgError(true)}
@@ -64,10 +69,12 @@ export const SplashArtIcon = memo(function SplashArtIcon({ name }: { name: strin
   const [imgError, setImgError] = useState(false);
   return (
     !imgError ? (
-      <img
+      <Image
         src={getChampionImageUrl(name)}
         alt={name}
+        fill
         className="w-full h-full object-cover"
+        sizes="(max-width: 768px) 100vw, 512px"
         loading="lazy"
         onError={() => setImgError(true)}
       />
@@ -87,9 +94,11 @@ export const TinyChampionIcon = memo(function TinyChampionIcon({ name }: { name:
       style={{ border: '2px solid rgba(120,90,40,0.3)' }}
     >
       {!imgError ? (
-        <img
+        <Image
           src={getChampionImageUrl(name)}
           alt={name}
+          width={32}
+          height={32}
           className="w-full h-full object-cover"
           loading="lazy"
           onError={() => setImgError(true)}

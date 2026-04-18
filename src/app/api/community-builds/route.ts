@@ -39,7 +39,6 @@ const CHAMPION_ID_MAP: Record<string, string> = {
   'Twitch': 'Twitch',
   'Renata Glasc': 'Renata',
   'Nunu': 'Nunu',
-  'Aurelion Sol': 'AurelionSol',
   'Aatrox': 'Aatrox',
 };
 

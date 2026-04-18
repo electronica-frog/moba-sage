@@ -76,6 +76,10 @@ export function TierListTab({
               onFocus={() => setShowSuggestions(true)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               className="pl-10 bg-[#1e2328]/60 border-[#785a28]/30 text-[#f0e6d2] placeholder:text-[#5b5a56] focus-visible:border-[#c8aa6e] focus-visible:ring-[#c8aa6e]/20 h-10 rounded-lg"
+              aria-label="Buscar campeón"
+              aria-expanded={showSuggestions && searchSuggestions.length > 0}
+              aria-autocomplete="list"
+              role="combobox"
             />
             {showSuggestions && searchSuggestions.length > 0 && searchQuery.length >= 1 && (
               <div className="absolute top-full left-0 right-0 mt-1 rounded-lg overflow-hidden z-50" style={{ background: 'rgba(30,35,40,0.95)', border: '1px solid rgba(200,170,110,0.2)', backdropFilter: 'blur(12px)' }}>
@@ -118,6 +122,7 @@ export function TierListTab({
                   : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
                 }
               `}
+              aria-pressed={roleFilter === role}
             >
               {role === 'Todos' && <Filter className="w-3 h-3 mr-1 inline" />}
               {role}

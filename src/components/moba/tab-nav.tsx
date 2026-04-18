@@ -6,7 +6,7 @@ export function TabNav({ activeTab, onTabChange }: { activeTab: string; onTabCha
   return (
     <nav className="sticky top-[57px] z-30 border-b border-[#785a28]/15" style={{ backgroundColor: 'rgba(10, 14, 26, 0.9)', backdropFilter: 'blur(16px)' }}>
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex gap-1 overflow-x-auto py-2 scrollbar-none">
+        <div className="flex gap-1 overflow-x-auto py-2 scrollbar-none" role="tablist" aria-label="Navegación de pestañas">
           {TAB_ITEMS.map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -14,6 +14,10 @@ export function TabNav({ activeTab, onTabChange }: { activeTab: string; onTabCha
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`tabpanel-${tab.id}`}
+                tabIndex={isActive ? 0 : -1}
                 className={`
                   flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200
                   ${isActive

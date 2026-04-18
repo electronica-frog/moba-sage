@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
     const zai = await ZAI.create();
 
-    const contextInfo = [];
+    const contextInfo: string[] = [];
     if (champion) contextInfo.push(`Campeón: ${champion}`);
     if (role) contextInfo.push(`Rol: ${role}`);
     if (patch) contextInfo.push(`Patch: ${patch}`);

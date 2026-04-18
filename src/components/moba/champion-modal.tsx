@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { ExternalLink, Info, Sparkles, Crosshair, Users, Wrench, AlertTriangle } from 'lucide-react';
 import { TIER_CONFIG } from './constants';
 import { getChampionImageUrl, getBuildExternalUrl, getItemIconUrl, parseBuildItems } from './helpers';
@@ -23,6 +24,9 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Detalles de ${champion.name}`}
       style={{ backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}
     >
       <motion.div
@@ -40,13 +44,13 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
       >
         {/* Header with splash art */}
         <div className="relative p-5 pb-4" style={{ borderBottom: `1px solid ${cfg.color}20` }}>
-          <button onClick={onClose} className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors z-10">
+          <button onClick={onClose} className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors z-10" aria-label={`Cerrar detalles de ${champion.name}`}>
             <span className="text-[#a09b8c] text-lg font-light">×</span>
           </button>
 
           <div className="absolute inset-0 opacity-10">
             {!imgError ? (
-              <img src={getChampionImageUrl(champion.name)} alt="" className="w-full h-full object-cover" onError={() => setImgError(true)} />
+              <Image src={getChampionImageUrl(champion.name)} alt="" fill className="object-cover" onError={() => setImgError(true)} />
             ) : null}
           </div>
 
@@ -145,7 +149,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                           return (
                             <div key={j} className="relative group" title={item}>
                               {iconUrl ? (
-                                <img src={iconUrl} alt={item} className="w-7 h-7 rounded" style={{ border: '1px solid rgba(200,170,110,0.2)' }} loading="lazy" />
+                                <Image src={iconUrl} alt={item} width={28} height={28} className="w-7 h-7 rounded" style={{ border: '1px solid rgba(200,170,110,0.2)' }} loading="lazy" />
                               ) : (
                                 <div className="w-7 h-7 rounded bg-[#1e2328] flex items-center justify-center text-[8px] text-[#5b5a56] border border-[#785a28]/20">
                                   {item[0]}
