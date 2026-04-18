@@ -277,3 +277,24 @@ Stage Summary:
 - D6: Rune icon helper, RuneIcon component with fallback, champion modal updated
 - Build: PASSED ✓
 - Git push: SUCCESS (4b732c1)
+
+---
+Task ID: 8
+Agent: Aesthetic Improvements Agent
+Task: Splash gallery, themes, minimap, skill icons, vision map
+
+Work Log:
+- Read all relevant source files: champion-modal.tsx, app-header.tsx, helpers.ts, collapsible-section.tsx, layout.tsx, globals.css, constants.ts, types.ts, page.tsx, item-icon.tsx, rune-icon.tsx, champion-icon.tsx, game-selector.tsx, next.config.ts
+- E3: Modified champion-modal.tsx to add horizontal scrollable splash art gallery (5 skin variants: 0-4) with snap scrolling, thumbnails (120x68px), active gold border, animated background transition via framer-motion AnimatePresence, glass overlay on thumbnails, failed skin fallback handling
+- E7: Created theme-provider.tsx with React context (MobaTheme type: 'blue-essence' | 'red-essence' | 'prestige'), localStorage persistence, cycleTheme function; Created theme-toggle.tsx with Palette icon, hover tooltip, framer-motion animations; Added 3 theme CSS variable sets in globals.css; Updated layout.tsx to wrap with MobaThemeProvider and add default theme class; Updated app-header.tsx to include ThemeToggle button
+- E8: Created minimap-decoration.tsx as pure SVG Summoner's Rift map with 3 lanes, river diagonal, jungle camps (blue/red dots), dragon/baron pits with gold pulse animation, tower markers, bush indicators, inhibitors, nexus areas. Fixed position bottom-right, opacity 0.12, delayed fade-in animation. Added to page.tsx (only shows on landing page)
+- E12: Created skill-icon.tsx with SkillIcon component (Data Dragon spell icon with ability key overlay) and AbilityBar component (Q/W/E/R row). Uses CHAMPION_NAME_MAP for champion key resolution, colored fallback badges (Q=cyan, W=green, E=yellow, R=red). Added ability bar section to champion-modal.tsx above builds
+- E13: Created vision-map.tsx with SVG Summoner's Rift map, 4-7 ward positions per role (Top/Jungle/Mid/ADC/Support), Eye icons with green glow pulse animation, click-to-reveal Spanish tooltips, role-based ward positioning legend (common/deep/objective). Added as CollapsibleSection in champion-modal.tsx
+
+Stage Summary:
+- 5 new components created: theme-provider.tsx, theme-toggle.tsx, skill-icon.tsx, minimap-decoration.tsx, vision-map.tsx
+- 5 existing files modified: champion-modal.tsx, app-header.tsx, layout.tsx, page.tsx, globals.css
+- Build: PASSED ✓ (0 TypeScript errors)
+- Lint: 9 pre-existing errors (none from new code)
+- Git commit: 768e2fa "feat: splash gallery, theme toggle, minimap, skill icons, vision map"
+- Git push: SUCCESS (origin main)
