@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Sword, ArrowLeft, Bell } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { ThemeToggle } from './theme-toggle';
 import type { GameSelection } from './types';
 
 export function AppHeader({
@@ -41,6 +42,7 @@ export function AppHeader({
           )}
         </button>
         <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
           {selectedGame === 'lol' && (
             <Badge variant="outline" className="text-[10px] border-[#c8aa6e]/30 text-[#c8aa6e]">League of Legends</Badge>
           )}

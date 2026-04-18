@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { MobaThemeProvider } from "@/components/moba/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,14 +59,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="dark" suppressHydrationWarning>
+    <html lang="es" className="dark theme-blue-essence" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         style={{ backgroundColor: '#0a0e1a', color: '#f0e6d2' }}
       >
-        <ErrorBoundary>
-          {children}
-        </ErrorBoundary>
+        <MobaThemeProvider>
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
+        </MobaThemeProvider>
         <Toaster richColors position="bottom-right" theme="dark" toastOptions={{ style: { background: '#1e2328', border: '1px solid rgba(200,170,110,0.2)', color: '#f0e6d2' } }} />
       </body>
     </html>

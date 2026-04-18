@@ -17,6 +17,7 @@ import { GameSelectorLanding } from '@/components/moba/game-selector';
 import { WildRiftHeader } from '@/components/moba/wr-banner';
 import { ChampionModal } from '@/components/moba/champion-modal';
 import { LoadingScreen } from '@/components/moba/loading-screen';
+import { MinimapDecoration } from '@/components/moba/minimap-decoration';
 
 // Tabs
 import { TierListTab } from '@/components/moba/tabs/tier-list-tab';
@@ -275,6 +276,9 @@ export default function Home() {
           <ChampionModal champion={selectedChampion} onClose={() => setSelectedChampion(null)} />
         )}
       </AnimatePresence>
+
+      {/* Minimap Decoration - only on landing page */}
+      {!selectedGame && <MinimapDecoration />}
 
       <div className="lol-divider" />
 

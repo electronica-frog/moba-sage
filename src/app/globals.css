@@ -440,4 +440,43 @@ body > * {
   animation: lol-skeleton-shimmer 1.5s ease-in-out infinite;
 }
 
+/* ===== MOBA SAGE THEME VARIANTS ===== */
+
+/* Blue Essence (default/current dark gold) */
+.theme-blue-essence {
+  --lol-primary: #c89b3c;
+  --lol-primary-dim: #785a28;
+  --lol-accent: #0397ab;
+  --lol-bg: #0a0e17;
+  --lol-surface: #1e2328;
+  --lol-surface-hover: #2a3040;
+}
+
+/* Red Essence (dark red tones) */
+.theme-red-essence {
+  --lol-primary: #c83232;
+  --lol-primary-dim: #781e1e;
+  --lol-accent: #ff6b35;
+  --lol-bg: #0e0a0a;
+  --lol-surface: #281e1e;
+  --lol-surface-hover: #3a2a2a;
+}
+
+/* Prestige (black + gold) */
+.theme-prestige {
+  --lol-primary: #f0e6d2;
+  --lol-primary-dim: #a8996e;
+  --lol-accent: #c89b3c;
+  --lol-bg: #010a13;
+  --lol-surface: #0a1423;
+  --lol-surface-hover: #142030;
+}
+
+/* Theme transition for smooth switching */
+.theme-blue-essence,
+.theme-red-essence,
+.theme-prestige {
+  transition: background-color 0.5s ease, border-color 0.5s ease, color 0.3s ease;
+}
+
 

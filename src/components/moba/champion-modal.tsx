@@ -1,22 +1,41 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { ExternalLink, Info, Sparkles, Crosshair, Users, Wrench, AlertTriangle } from 'lucide-react';
+import { ExternalLink, Info, Sparkles, Crosshair, Users, Wrench, AlertTriangle, Eye } from 'lucide-react';
 import { TIER_CONFIG } from './constants';
-import { getChampionImageUrl, getBuildExternalUrl, getItemIconUrl, parseBuildItems } from './helpers';
+import { getChampionImageUrl, getBuildExternalUrl, getItemIconUrl, parseBuildItems, getChampionSplashUrl } from './helpers';
 import { RuneIcon } from './rune-icon';
 import { ChampionIcon, SplashArtIcon, TinyChampionIcon } from './champion-icon';
 import { RoleBadge } from './badges';
 import { CollapsibleSection } from './collapsible-section';
 import { CopyBuildButton } from './copy-build-button';
+import { AbilityBar } from './skill-icon';
+import { VisionMap } from './vision-map';
 import type { Champion } from './types';
+
+const SKIN_VARIANTS = [0, 1, 2, 3, 4];
 
 export function ChampionModal({ champion, onClose }: { champion: Champion; onClose: () => void }) {
   const cfg = TIER_CONFIG[champion.tier];
   const extUrls = getBuildExternalUrl(champion.name);
   const [imgError, setImgError] = useState(false);
+  const [activeSkin, setActiveSkin] = useState(0);
+  const [failedSkins, setFailedSkins] = useState<Set<number>>(new Set());
+
+  const handleSkinError = (skinNum: number) => {
+    setFailedSkins(prev => new Set(prev).add(skinNum));
+  };
+
+  const handleSelectSkin = (skinNum: number) => {
+    if (!failedSkins.has(skinNum)) {
+      setActiveSkin(skinNum);
+      setImgError(false);
+    }
+  };
+
+  const currentSplashUrl = getChampionSplashUrl(champion.name, activeSkin);
 
   return (
     <motion.div
@@ -49,10 +68,33 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
             <span className="text-[#a09b8c] text-lg font-light">×</span>
           </button>
 
-          <div className="absolute inset-0 opacity-10">
-            {!imgError ? (
-              <Image src={getChampionImageUrl(champion.name)} alt="" fill className="object-cover" onError={() => setImgError(true)} />
-            ) : null}
+          {/* Splash art background with animated transition */}
+          <div className="absolute inset-0 overflow-hidden rounded-t-2xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSkin}
+                className="absolute inset-0 opacity-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {!imgError && !failedSkins.has(activeSkin) ? (
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: `url(${currentSplashUrl})` }}
+                    onError={() => setImgError(true)}
+                  />
+                ) : (
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: `linear-gradient(135deg, ${cfg.color}15, transparent)`,
+                    }}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           <div className="relative flex items-start gap-4">
@@ -69,6 +111,73 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                 <RoleBadge role={champion.role} />
                 <span className="text-[10px] text-[#5b5a56]">Patch {champion.patch}</span>
               </div>
+            </div>
+          </div>
+
+          {/* Splash Art Gallery */}
+          <div className="relative mt-4">
+            <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1">
+              {SKIN_VARIANTS.map((skinNum) => {
+                const splashUrl = getChampionSplashUrl(champion.name, skinNum);
+                const isFailed = failedSkins.has(skinNum);
+                const isActive = activeSkin === skinNum;
+
+                return (
+                  <motion.button
+                    key={skinNum}
+                    onClick={() => handleSelectSkin(skinNum)}
+                    className="relative shrink-0 rounded-lg overflow-hidden cursor-pointer"
+                    style={{
+                      width: 120,
+                      height: 68,
+                      border: isActive
+                        ? `2px solid ${cfg.color}`
+                        : '2px solid rgba(120,90,40,0.2)',
+                      boxShadow: isActive
+                        ? `0 0 12px ${cfg.color}40`
+                        : 'none',
+                      opacity: isFailed ? 0.3 : 1,
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    disabled={isFailed}
+                    aria-label={`Skin ${skinNum === 0 ? 'Clásica' : skinNum}`}
+                  >
+                    {!isFailed ? (
+                      <div
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{
+                          backgroundImage: `url(${splashUrl})`,
+                          filter: 'brightness(0.7)',
+                        }}
+                        onError={() => handleSkinError(skinNum)}
+                      />
+                    ) : (
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background: `linear-gradient(135deg, ${cfg.color}10, rgba(10,14,26,0.5))`,
+                        }}
+                      />
+                    )}
+                    {/* Glass overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    {/* Skin number label */}
+                    <span className="absolute bottom-1 left-1.5 text-[8px] text-[#a09b8c] font-medium">
+                      {skinNum === 0 ? 'Clásica' : `Skin ${skinNum}`}
+                    </span>
+                    {/* Active indicator */}
+                    {isActive && (
+                      <motion.div
+                        className="absolute inset-0 rounded-lg"
+                        style={{ border: `2px solid ${cfg.color}` }}
+                        layoutId="active-skin-border"
+                        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                      />
+                    )}
+                  </motion.button>
+                );
+              })}
             </div>
           </div>
 
@@ -96,6 +205,19 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
 
         {/* Body */}
         <div className="p-5 space-y-4">
+          {/* Ability Bar */}
+          <div className="rounded-xl p-3" style={{ background: 'linear-gradient(135deg, rgba(10,203,230,0.06), rgba(10,203,230,0.02))', border: '1px solid rgba(10,203,230,0.15)' }}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#0acbe6]" />
+                <span className="text-[10px] font-semibold text-[#0acbe6] uppercase tracking-wider">Habilidades</span>
+              </div>
+            </div>
+            <div className="mt-2">
+              <AbilityBar championName={champion.name} />
+            </div>
+          </div>
+
           <div className="rounded-xl p-3" style={{ background: 'linear-gradient(135deg, rgba(200,170,110,0.08), rgba(200,170,110,0.03))', border: '1px solid rgba(200,170,110,0.2)' }}>
             <div className="flex items-center gap-2 mb-2">
               <Info className="w-4 h-4 text-[#c8aa6e]" />
@@ -198,6 +320,11 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               </div>
             </CollapsibleSection>
           )}
+
+          {/* Vision Map Section */}
+          <CollapsibleSection title="Mapa de Visión" icon={Eye} color="#0fba81" defaultOpen={false}>
+            <VisionMap role={champion.role} />
+          </CollapsibleSection>
 
           <div className="grid grid-cols-2 gap-3">
             {champion.counterPick && (() => {

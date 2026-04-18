@@ -252,3 +252,28 @@ Stage Summary:
 - Full ARIA accessibility labels on all interactive elements
 - All images optimized with next/image for lazy loading and CDN optimization
 - No visual or functional changes - purely technical improvements
+
+---
+Task ID: 7
+Agent: Data Improvements Agent
+Task: Real patches, complete champion data, rune icons
+
+Work Log:
+- Read all source files to understand codebase structure (data.ts, helpers.ts, champion-modal.tsx, patches-tab.tsx, types.ts)
+- Created /src/app/api/patches/route.ts that fetches from CommunityDragon patches.json API with hardcoded fallback
+- Updated patches-tab.tsx to show "Notas Oficiales" external link per patch
+- Identified 45 LoL champions (Tier A + B) missing all 5 fields
+- Generated and patched complete data for all 46 champions (including Vel'Koz) with aiAnalysis, counterPick, synergy, proPickRate, and runes
+- Added getRuneIconUrl() helper to helpers.ts with Data Dragon icon URL mapping and color map
+- Created RuneIcon component (src/components/moba/rune-icon.tsx) with Image + fallback
+- Updated champion-modal.tsx Runas section to display RuneIcon next to primary/secondary rune paths
+- Fixed build errors: unescaped quotes in Kog'Maw, Rek'Sai, and Vel'Koz entries
+- Verified build passes with `npx next build`
+- Committed and pushed to origin main
+
+Stage Summary:
+- D1: Real patch notes API route with CommunityDragon fetch + fallback
+- D2: 46 champions patched with full data (aiAnalysis, counterPick, synergy, proPickRate, runes) — all in Spanish
+- D6: Rune icon helper, RuneIcon component with fallback, champion modal updated
+- Build: PASSED ✓
+- Git push: SUCCESS (4b732c1)
