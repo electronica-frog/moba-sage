@@ -7,6 +7,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { Champion } from './types';
 import type { LucideIcon } from 'lucide-react';
 
+function wrColor(wr: number): string {
+  if (wr >= 53) return '#0fba81';
+  if (wr >= 51) return '#0acbe6';
+  if (wr >= 49) return '#f0c646';
+  return '#e84057';
+}
+
 export function TierSection({ tier, champions, onChampionClick, favorites, onToggleFavorite }: {
   tier: string;
   champions: Champion[];
@@ -15,6 +22,17 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
   onToggleFavorite: (id: number) => void;
 }) {
   const cfg = TIER_CONFIG[tier];
+
+  // Compute tier averages
+  const avgWR = champions.length > 0
+    ? (champions.reduce((sum, c) => sum + c.winRate, 0) / champions.length).toFixed(1)
+    : '0.0';
+  const avgPick = champions.length > 0
+    ? (champions.reduce((sum, c) => sum + c.pickRate, 0) / champions.length).toFixed(1)
+    : '0.0';
+  const avgBan = champions.length > 0
+    ? (champions.reduce((sum, c) => sum + c.banRate, 0) / champions.length).toFixed(1)
+    : '0.0';
 
   return (
     <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="mb-4">
@@ -37,9 +55,24 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
         <span className="text-xs font-medium" style={{ color: cfg.color }}>
           {cfg.label}
         </span>
-        <span className="text-[10px] text-[#5b5a56] ml-auto">
+        <span className="text-[10px] text-[#5b5a56]">
           {champions.length} campeones
         </span>
+        {/* Tier averages */}
+        <div className="hidden md:flex items-center gap-3 ml-auto text-[10px]">
+          <div className="flex items-center gap-1">
+            <span className="text-[#5b5a56]">AVG</span>
+            <span className="font-mono font-semibold" style={{ color: wrColor(parseFloat(avgWR)) }}>{avgWR}% WR</span>
+          </div>
+          <div className="w-px h-3 bg-[#785a28]/30" />
+          <div className="flex items-center gap-1">
+            <span className="font-mono text-[#a09b8c]">{avgPick}% Pick</span>
+          </div>
+          <div className="w-px h-3 bg-[#785a28]/30" />
+          <div className="flex items-center gap-1">
+            <span className="font-mono" style={{ color: parseFloat(avgBan) > 3 ? '#e84057' : '#a09b8c' }}>{avgBan}% Ban</span>
+          </div>
+        </div>
       </div>
 
       <div
@@ -53,10 +86,10 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
         <div className="w-11 shrink-0" />
         <div className="flex-1" />
         <div className="w-14 shrink-0" />
-        <div className="flex items-center gap-2.5 shrink-0 ml-3">
-          <span className="w-8 text-center">WR</span>
-          <span className="w-8 text-center">Pick</span>
-          <span className="w-8 text-center">Ban</span>
+        <div className="flex items-center gap-3 shrink-0 ml-3">
+          <span className="w-16 text-center">Win Rate</span>
+          <span className="w-16 text-center">Pick Rate</span>
+          <span className="w-16 text-center">Ban Rate</span>
         </div>
         <div className="w-4 shrink-0" />
       </div>

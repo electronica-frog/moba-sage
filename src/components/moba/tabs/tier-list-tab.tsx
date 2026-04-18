@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Search, Filter, Star, LayoutGrid, List } from 'lucide-react';
+import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ChampionIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
@@ -24,6 +24,13 @@ interface TierListTabProps {
 }
 
 const ROLES = ['Todos', 'Top', 'Jungle', 'Mid', 'ADC', 'Support'];
+
+function wrColor(wr: number): string {
+  if (wr >= 53) return '#0fba81';
+  if (wr >= 51) return '#0acbe6';
+  if (wr >= 49) return '#f0c646';
+  return '#e84057';
+}
 
 export function TierListTab({
   champions, loading, selectedGame,
@@ -61,6 +68,12 @@ export function TierListTab({
     const tierChamps = filteredChampions.filter(c => c.tier === tier);
     if (tierChamps.length > 0) groupedChampions[tier] = tierChamps;
   });
+
+  // Meta overview stats
+  const sTiers = gameChampions.filter(c => c.tier === 'S');
+  const topWR = [...gameChampions].sort((a, b) => b.winRate - a.winRate).slice(0, 3);
+  const topBan = [...gameChampions].sort((a, b) => b.banRate - a.banRate).slice(0, 3);
+  const topPick = [...gameChampions].sort((a, b) => b.pickRate - a.pickRate).slice(0, 3);
 
   return (
     <div className="space-y-4">
@@ -144,6 +157,44 @@ export function TierListTab({
         </div>
       </div>
 
+      {/* Meta Overview Summary */}
+      {!loading && !searchQuery && roleFilter === 'Todos' && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-2"
+        >
+          <StatCard
+            label="Tier S"
+            value={`${sTiers.length} campeones`}
+            sub="Dioses del meta"
+            color="#c8aa6e"
+            icon={<BarChart3 className="w-4 h-4" />}
+          />
+          <StatCard
+            label="Top Win Rate"
+            value={topWR[0]?.winRate ? `${topWR[0].winRate}%` : '—'}
+            sub={topWR[0]?.name ?? ''}
+            color={wrColor(topWR[0]?.winRate ?? 0)}
+            icon={<TrendingUp className="w-4 h-4" />}
+          />
+          <StatCard
+            label="Más Baneado"
+            value={topBan[0]?.banRate ? `${topBan[0].banRate}%` : '—'}
+            sub={topBan[0]?.name ?? ''}
+            color="#e84057"
+            icon={<BarChart3 className="w-4 h-4" />}
+          />
+          <StatCard
+            label="Más Pick"
+            value={topPick[0]?.pickRate ? `${topPick[0].pickRate}%` : '—'}
+            sub={topPick[0]?.name ?? ''}
+            color="#5b8af5"
+            icon={<BarChart3 className="w-4 h-4" />}
+          />
+        </motion.div>
+      )}
+
       {loading ? (
         <>
           <TierSectionSkeleton />
@@ -171,6 +222,31 @@ export function TierListTab({
           <p className="text-sm mt-1">Intenta con otro filtro o búsqueda</p>
         </div>
       )}
+    </div>
+  );
+}
+
+function StatCard({ label, value, sub, color, icon }: {
+  label: string;
+  value: string;
+  sub: string;
+  color: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div
+      className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
+      style={{
+        background: `linear-gradient(135deg, ${color}08, transparent)`,
+        border: `1px solid ${color}18`,
+      }}
+    >
+      <div className="flex items-center gap-1.5">
+        <div style={{ color }} className="opacity-60">{icon}</div>
+        <span className="text-[10px] text-[#5b5a56] uppercase tracking-wider font-medium">{label}</span>
+      </div>
+      <span className="text-base font-bold font-mono" style={{ color }}>{value}</span>
+      <span className="text-[10px] text-[#a09b8c] truncate">{sub}</span>
     </div>
   );
 }
@@ -207,7 +283,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite }: 
                   <ChampionIcon name={champ.name} tier={champ.tier} />
                   <div className="text-center min-w-0 w-full">
                     <p className="text-[11px] font-semibold text-[#f0e6d2] truncate">{champ.name}</p>
-                    <p className="text-[9px] text-[#5b5a56] font-mono">{champ.winRate}%</p>
+                    <p className="text-[9px] font-mono" style={{ color: wrColor(champ.winRate) }}>{champ.winRate}%</p>
                   </div>
                   <RoleBadge role={champ.role} />
                   {favorites.has(champ.id) && (

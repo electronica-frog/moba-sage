@@ -1,10 +1,42 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, ChevronDown } from 'lucide-react';
+import { Star, ChevronDown, TrendingUp, Minus, TrendingDown } from 'lucide-react';
 import { ChampionIcon } from './champion-icon';
 import { RoleBadge } from './badges';
 import type { Champion } from './types';
+
+// Color coding for win rate: red (<48) → yellow (48-51) → cyan (51-53) → green (>53)
+function wrColor(wr: number): string {
+  if (wr >= 53) return '#0fba81';
+  if (wr >= 51) return '#0acbe6';
+  if (wr >= 49) return '#f0c646';
+  return '#e84057';
+}
+
+// Mini horizontal bar for stat visualization
+function MiniBar({ value, max, color }: { value: number; max: number; color: string }) {
+  const pct = Math.min((value / max) * 100, 100);
+  return (
+    <div className="w-14 h-1 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.12)' }}>
+      <motion.div
+        className="h-full rounded-full"
+        style={{ background: color, opacity: 0.7 }}
+        initial={{ width: 0 }}
+        animate={{ width: `${pct}%` }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      />
+    </div>
+  );
+}
+
+// Trend icon based on pro pick rate
+function TrendIcon({ rate }: { rate: number }) {
+  if (rate >= 15) return <TrendingUp className="w-3 h-3 text-[#0fba81]" />;
+  if (rate >= 8) return <TrendingUp className="w-3 h-3 text-[#0acbe6]" />;
+  if (rate >= 4) return <Minus className="w-3 h-3 text-[#f0c646]" />;
+  return <TrendingDown className="w-3 h-3 text-[#5b5a56]" />;
+}
 
 export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }: {
   champion: Champion;
@@ -12,6 +44,8 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }:
   isFavorite?: boolean;
   onToggleFavorite?: (e: React.MouseEvent) => void;
 }) {
+  const wr = wrColor(champion.winRate);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 5 }}
@@ -34,28 +68,39 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }:
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-[13px] text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors leading-tight">
-          {champion.name}
-        </h3>
+        <div className="flex items-center gap-1.5">
+          <h3 className="font-semibold text-[13px] text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors leading-tight">
+            {champion.name}
+          </h3>
+          {champion.proPickRate !== undefined && champion.proPickRate > 0 && (
+            <TrendIcon rate={champion.proPickRate} />
+          )}
+        </div>
         <p className="text-[10px] text-[#5b5a56] truncate leading-tight mt-0.5">{champion.title}</p>
       </div>
       <RoleBadge role={champion.role} />
-      <div className="hidden sm:flex items-center gap-2.5 shrink-0 text-[11px]">
-        <div className="flex flex-col items-end">
+      <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px]">
+        {/* Win Rate with bar */}
+        <div className="flex flex-col items-end gap-0.5">
           <span className="text-[8px] text-[#5b5a56] uppercase tracking-wider leading-none">WR</span>
-          <span className="font-mono font-semibold leading-tight" style={{ color: champion.winRate >= 52 ? '#0acbe6' : '#a09b8c' }}>
+          <span className="font-mono font-semibold leading-tight" style={{ color: wr }}>
             {champion.winRate}%
           </span>
+          <MiniBar value={champion.winRate} max={60} color={wr} />
         </div>
-        <div className="flex flex-col items-end">
+        {/* Pick Rate with bar */}
+        <div className="flex flex-col items-end gap-0.5">
           <span className="text-[8px] text-[#5b5a56] uppercase tracking-wider leading-none">Pick</span>
           <span className="font-mono font-semibold text-[#a09b8c] leading-tight">{champion.pickRate}%</span>
+          <MiniBar value={champion.pickRate} max={20} color="#5b8af5" />
         </div>
-        <div className="flex flex-col items-end">
+        {/* Ban Rate with bar */}
+        <div className="flex flex-col items-end gap-0.5">
           <span className="text-[8px] text-[#5b5a56] uppercase tracking-wider leading-none">Ban</span>
           <span className="font-mono font-semibold leading-tight" style={{ color: champion.banRate > 5 ? '#e84057' : '#a09b8c' }}>
             {champion.banRate}%
           </span>
+          <MiniBar value={champion.banRate} max={20} color="#e84057" />
         </div>
       </div>
       <ChevronDown className="w-4 h-4 text-[#785a28] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />

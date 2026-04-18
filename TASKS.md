@@ -1,18 +1,13 @@
 # TASKS — MOBA SAGE
 
-## TICK ACTUAL: #3
+## TICK ACTUAL: #5
 
 ## TAREAS PENDIENTES
-
-### [ ] T3: Documentar pipeline TAREAS
-- Descripción: Escribir documentación completa del sistema de tareas circulares
-- Prioridad: ALTA
-- Notas: El pipeline de 14 tareas es la clave de la app. Documentar en DASHBOARD.md.
 
 ### [ ] T4: Configurar CRON de mantenimiento
 - Descripción: Usar sistema de crons para tareas automáticas de mantenimiento
 - Prioridad: ALTA
-- Notas: Cron principal: verificar estado de la app cada 6 horas.
+- Notas: 3 CRONS ya configuradas (101230, 101243, 101244). Verificar que funcionen.
 
 ### [ ] T5: Mejorar Cosas Rotas con splash arts
 - Descripción: Agregar imágenes de splash art de campeones en la sección Cosas Rotas
@@ -42,3 +37,4 @@
 ## TAREAS COMPLETADAS
 - [x] T1: Setup inicial CHECKLIST (DASHBOARD.md + TASKS.md)
 - [x] T2: Fix y push de cambios staged — Sync con remote + patch update 14.8→16.8
+- [x] T3: Documentar pipeline TAREAS — Pipeline documentado en DASHBOARD.md (14 tareas + CRONS)

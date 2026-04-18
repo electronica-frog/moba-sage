@@ -1,5 +1,5 @@
 # DASHBOARD — MOBA SAGE
-> Actualizado: 2026-04-18 17:00 BA | Tick #4
+> Actualizado: 2026-04-18 23:00 BA | Tick #5
 
 ## Estado
 | Campo | Valor |
@@ -81,3 +81,10 @@
 - [2026-04-18] T2 completada: Git sync + patch update
 - [2026-04-18] WR version calculation fix (ya no daba negativo)
 - [2026-04-18] Health check: Vercel 200 OK (26KB, 1.09s) — deploy healthy
+- [2026-04-18] TICK #5: T8 ejecutada — Tier list visual mejorada
+- [2026-04-18] T3 completada: Pipeline documentado en DASHBOARD.md
+- [2026-04-18] Champion rows: mini barras animadas WR/Pick/Ban + colores nuanceados
+- [2026-04-18] Tier sections: estadísticas promedio (AVG WR, Pick, Ban)
+- [2026-04-18] Meta overview: 4 stat cards (Tier S count, top WR, top ban, top pick)
+- [2026-04-18] Trend icons: flechas según pro pick rate en cada campeón
+- [2026-04-18] Board view: win rate coloreado por rango
