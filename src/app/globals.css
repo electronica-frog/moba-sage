@@ -209,6 +209,12 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
+/* Ensure content above particles */
+body > * {
+  position: relative;
+  z-index: 2;
+}
+
 /* LoL Gold decorative corners */
 .lol-corner-tl::before,
 .lol-corner-br::after {
@@ -277,4 +283,112 @@ body::before {
 }
 .lol-pulse {
   animation: lol-pulse-gold 2s ease-in-out infinite;
+}
+
+/* ===== GOLD PARTICLES BACKGROUND ===== */
+@keyframes lol-float-particle {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(90vh) translateX(10px) scale(1);
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(var(--drift, 30px)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.lol-gold-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.lol-gold-particles .particle {
+  position: absolute;
+  bottom: -5px;
+  width: var(--size, 3px);
+  height: var(--size, 3px);
+  background: radial-gradient(circle, rgba(200, 170, 110, 0.8), rgba(200, 170, 110, 0.1));
+  border-radius: 50%;
+  animation: lol-float-particle var(--duration, 12s) var(--delay, 0s) infinite ease-in-out;
+  left: var(--left, 50%);
+  box-shadow: 0 0 var(--glow, 6px) rgba(200, 170, 110, 0.3);
+}
+
+/* Beaufort LoL font for headings */
+@font-face {
+  font-family: 'Beaufort';
+  src: url('https://ddragon.leagueoflegends.com/cdn/lol-beaufont/BeaufortforLOL-Bold.woff2') format('woff2'),
+       url('https://ddragon.leagueoflegends.com/cdn/lol-beaufont/BeaufortforLOL-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Beaufort';
+  src: url('https://ddragon.leagueoflegends.com/cdn/lol-beaufont/BeaufortforLOL-Regular.woff2') format('woff2'),
+       url('https://ddragon.leagueoflegends.com/cdn/lol-beaufont/BeaufortforLOL-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.lol-heading {
+  font-family: 'Beaufort', 'Geist Sans', serif;
+}
+
+/* NEW PATCH badge pulse */
+@keyframes lol-new-patch-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(15, 186, 129, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(15, 186, 129, 0); }
+}
+.lol-new-patch-badge {
+  animation: lol-new-patch-pulse 1.5s ease-in-out infinite;
+}
+
+/* Game switch flash transition */
+@keyframes lol-flash-transition {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.lol-flash-overlay {
+  animation: lol-flash-transition 0.4s ease-out forwards;
+}
+
+/* Collapsible sections */
+.lol-collapsible-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease;
+}
+.lol-collapsible-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+.lol-collapsible-content.expanded {
+  max-height: 2000px;
+  opacity: 1;
+}
+
+/* Favorite star glow */
+@keyframes lol-star-glow {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(240, 198, 70, 0.5)); }
+  50% { filter: drop-shadow(0 0 8px rgba(240, 198, 70, 0.8)); }
+}
+.lol-fav-star {
+  animation: lol-star-glow 2s ease-in-out infinite;
 }

@@ -9,7 +9,7 @@ import {
   ArrowUpCircle, ArrowDownCircle, Users, Sparkles, Trophy,
   User, Smartphone, ArrowLeft, ChevronDown, Crown, Gamepad2,
   Monitor, MapPin, ExternalLink, Map, Database, Wrench, Image as ImageIcon,
-  Flame, X, Info
+  Flame, X, Info, Star, Copy, Check, Bell
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -176,7 +176,9 @@ const TOURNAMENT_REGIONS = [
   { value: 'NA', label: 'LCS' },
 ];
 
-// ============ CHAMPION IMAGE URL HELPER ============
+// ============ CHAMPION IMAGE URL HELPER (uses dynamic version) ============
+let _ddVersion = '14.8.1';
+export function updateDdVersion(v: string) { _ddVersion = v; }
 const CHAMPION_NAME_MAP: Record<string, string> = {
   'Wukong': 'MonkeyKing',
   'Nunu': 'Nunu',
@@ -202,14 +204,14 @@ const CHAMPION_NAME_MAP: Record<string, string> = {
 function getChampionImageUrl(name: string): string {
   const mapped = CHAMPION_NAME_MAP[name];
   if (mapped) {
-    return `https://ddragon.leagueoflegends.com/cdn/14.8.1/img/champion/${mapped}.png`;
+    return `https://ddragon.leagueoflegends.com/cdn/${_ddVersion}/img/champion/${mapped}.png`;
   }
   const normalized = name
     .replace(/'/g, '')
     .replace(/ /g, '')
     .replace(/\./g, '')
     .replace(/&/g, '');
-  return `https://ddragon.leagueoflegends.com/cdn/14.8.1/img/champion/${normalized}.png`;
+  return `https://ddragon.leagueoflegends.com/cdn/${_ddVersion}/img/champion/${normalized}.png`;
 }
 
 // ============ ITEM ICON HELPERS ============
@@ -232,7 +234,7 @@ const ITEM_NAME_MAP: Record<string, string> = {
 
 function getItemIconUrl(itemName: string): string | null {
   const id = ITEM_NAME_MAP[itemName];
-  if (id) return `https://ddragon.leagueoflegends.com/cdn/14.8.1/img/item/${id}.png`;
+  if (id) return `https://ddragon.leagueoflegends.com/cdn/${_ddVersion}/img/item/${id}.png`;
   return null;
 }
 
@@ -487,7 +489,7 @@ function TinyChampionIcon({ name }: { name: string }) {
 }
 
 // ============ CHAMPION ROW (Expandable) ============
-function ChampionRow({ champion, onClick }: { champion: Champion; onClick: () => void }) {
+function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }: { champion: Champion; onClick: () => void; isFavorite?: boolean; onToggleFavorite?: (e: React.MouseEvent) => void }) {
   const cfg = TIER_CONFIG[champion.tier];
 
   return (
@@ -499,7 +501,14 @@ function ChampionRow({ champion, onClick }: { champion: Champion; onClick: () =>
       onClick={onClick}
       className="champion-row flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 group"
     >
-      <ChampionIcon name={champion.name} tier={champion.tier} />
+      <div className="relative">
+        <ChampionIcon name={champion.name} tier={champion.tier} />
+        {isFavorite && (
+          <div className="absolute -top-1 -right-1 z-10 lol-fav-star">
+            <Star className="w-3.5 h-3.5 text-[#f0c646]" fill="#f0c646" />
+          </div>
+        )}
+      </div>
       <div className="flex-1 min-w-0">
         <h3 className="font-semibold text-[13px] text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors leading-tight">
           {champion.name}
@@ -526,6 +535,15 @@ function ChampionRow({ champion, onClick }: { champion: Champion; onClick: () =>
         </div>
       </div>
       <ChevronDown className="w-4 h-4 text-[#785a28] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+      {onToggleFavorite && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onToggleFavorite(e); }}
+          className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity p-1"
+          title={isFavorite ? 'Quitar favorito' : 'Marcar favorito'}
+        >
+          <Star className={`w-4 h-4 transition-colors ${isFavorite ? 'text-[#f0c646]' : 'text-[#5b5a56] hover:text-[#f0c646]'}`} fill={isFavorite ? '#f0c646' : 'none'} />
+        </button>
+      )}
     </motion.div>
   );
 }
@@ -637,11 +655,7 @@ function ChampionModal({ champion, onClose }: { champion: Champion; onClose: () 
 
           {/* Broken Things */}
           {champion.brokenThings && champion.brokenThings.length > 0 && (
-            <div>
-              <div className="flex items-center gap-1.5 mb-2">
-                <AlertTriangle className="w-4 h-4 text-[#e84057]" />
-                <h4 className="text-xs font-semibold text-[#e84057] uppercase tracking-wider">Cosas Rotas</h4>
-              </div>
+            <CollapsibleSection title="Cosas Rotas" icon={AlertTriangle} color="#e84057">
               <div className="space-y-1.5">
                 {champion.brokenThings.map((thing, i) => (
                   <div key={i} className="flex items-start gap-2 text-[11px]">
@@ -650,17 +664,12 @@ function ChampionModal({ champion, onClose }: { champion: Champion; onClose: () 
                   </div>
                 ))}
               </div>
-            </div>
+            </CollapsibleSection>
           )}
 
           {/* Builds with item icons (Reference) */}
           {champion.builds && champion.builds.length > 0 && (
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Wrench className="w-4 h-4 text-[#c8aa6e]" />
-                <h4 className="text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider">Builds de Referencia</h4>
-                <span className="text-[9px] text-[#5b5a56] ml-auto">Revisá arriba para la build actualizada</span>
-              </div>
+            <CollapsibleSection title="Builds de Referencia" icon={Wrench} color="#c8aa6e">
               <div className="space-y-2">
                 {champion.builds.map((build, i) => {
                   const items = parseBuildItems(build.items);
@@ -668,9 +677,12 @@ function ChampionModal({ champion, onClose }: { champion: Champion; onClose: () 
                     <div key={i} className="rounded-lg p-3" style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.1)' }}>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-semibold text-[#f0e6d2]">{build.name}</span>
-                        <span className="text-[10px] font-mono" style={{ color: build.winRate >= 53 ? '#0acbe6' : '#a09b8c' }}>
-                          {build.winRate}% WR
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <CopyBuildButton buildName={build.name} itemsStr={build.items} />
+                          <span className="text-[10px] font-mono" style={{ color: build.winRate >= 53 ? '#0acbe6' : '#a09b8c' }}>
+                            {build.winRate}% WR
+                          </span>
+                        </div>
                       </div>
                       {/* Item icons row */}
                       <div className="flex items-center gap-1.5 mb-2">
@@ -705,16 +717,12 @@ function ChampionModal({ champion, onClose }: { champion: Champion; onClose: () 
                   );
                 })}
               </div>
-            </div>
+            </CollapsibleSection>
           )}
 
           {/* Runas */}
           {champion.runes && (
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-[#f0c646]" />
-                <h4 className="text-xs font-semibold text-[#f0c646] uppercase tracking-wider">Runas</h4>
-              </div>
+            <CollapsibleSection title="Runas" icon={Sparkles} color="#f0c646" defaultOpen={false}>
               <div className="rounded-lg p-3 space-y-2" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.12)' }}>
                 <div className="flex items-start gap-2">
                   <span className="text-[10px] font-semibold text-[#c8aa6e] shrink-0 w-16 uppercase">Ruta 1</span>
@@ -729,7 +737,7 @@ function ChampionModal({ champion, onClose }: { champion: Champion; onClose: () 
                   <span className="text-[11px] text-[#a09b8c]">{champion.runes.shards}</span>
                 </div>
               </div>
-            </div>
+            </CollapsibleSection>
           )}
 
           {/* Counter + Synergy with champion icons */}
@@ -776,17 +784,96 @@ function ChampionModal({ champion, onClose }: { champion: Champion; onClose: () 
 
           {/* AI Analysis */}
           {champion.aiAnalysis && (
-            <div className="rounded-lg p-4" style={{ background: 'rgba(200,170,110,0.05)', border: '1px solid rgba(200,170,110,0.15)' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-[#c8aa6e]" />
-                <h4 className="text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider">Análisis IA</h4>
+            <CollapsibleSection title="Análisis" icon={Sparkles} color="#c8aa6e" defaultOpen={false}>
+              <div className="rounded-lg p-4" style={{ background: 'rgba(200,170,110,0.05)', border: '1px solid rgba(200,170,110,0.15)' }}>
+                <p className="text-[11px] text-[#a09b8c] leading-relaxed whitespace-pre-wrap">{champion.aiAnalysis}</p>
               </div>
-              <p className="text-[11px] text-[#a09b8c] leading-relaxed whitespace-pre-wrap">{champion.aiAnalysis}</p>
-            </div>
+            </CollapsibleSection>
           )}
         </div>
       </motion.div>
     </motion.div>
+  );
+}
+
+// ============ GOLD PARTICLES COMPONENT ============
+function GoldParticles() {
+  const particles = Array.from({ length: 25 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    size: `${2 + Math.random() * 3}px`,
+    duration: `${10 + Math.random() * 15}s`,
+    delay: `${Math.random() * 10}s`,
+    drift: `${-30 + Math.random() * 60}px`,
+    glow: `${4 + Math.random() * 8}px`,
+  }));
+
+  return (
+    <div className="lol-gold-particles">
+      {particles.map(p => (
+        <div
+          key={p.id}
+          className="particle"
+          style={{
+            '--left': p.left,
+            '--size': p.size,
+            '--duration': p.duration,
+            '--delay': p.delay,
+            '--drift': p.drift,
+            '--glow': p.glow,
+          } as React.CSSProperties}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ============ COLLAPSIBLE SECTION ============
+function CollapsibleSection({ title, icon: Icon, color, children, defaultOpen = true }: {
+  title: string;
+  icon: typeof Wrench;
+  color: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  return (
+    <div className="mb-3">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 mb-2 w-full text-left group"
+      >
+        <Icon className="w-4 h-4" style={{ color }} />
+        <h4 className="text-xs font-semibold uppercase tracking-wider" style={{ color }}>{title}</h4>
+        <ChevronDown className={`w-3 h-3 ml-auto transition-transform duration-200 ${isOpen ? 'rotate-0' : '-rotate-90'}`} style={{ color: `${color}80` }} />
+      </button>
+      <div className={`lol-collapsible-content ${isOpen ? 'expanded' : 'collapsed'}`}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ============ COPY TO CLIPBOARD BUTTON ============
+function CopyBuildButton({ buildName, itemsStr }: { buildName: string; itemsStr: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(`${buildName}: ${itemsStr}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch { /* clipboard not available */ }
+  };
+  return (
+    <button
+      onClick={handleCopy}
+      className="inline-flex items-center gap-1 px-2 py-1 rounded text-[9px] font-medium transition-all hover:scale-105"
+      style={{ background: copied ? 'rgba(15,186,129,0.15)' : 'rgba(200,170,110,0.08)', border: `1px solid ${copied ? 'rgba(15,186,129,0.3)' : 'rgba(200,170,110,0.15)'}`, color: copied ? '#0fba81' : '#785a28' }}
+      title="Copiar build"
+    >
+      {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+      {copied ? 'Copiado!' : 'Copiar'}
+    </button>
   );
 }
 
@@ -799,7 +886,7 @@ function ItemIcon({ name }: { name: string }) {
 }
 
 // ============ TIER SECTION ============
-function TierSection({ tier, champions, onChampionClick }: { tier: string; champions: Champion[]; onChampionClick: (c: Champion) => void }) {
+function TierSection({ tier, champions, onChampionClick, favorites, onToggleFavorite }: { tier: string; champions: Champion[]; onChampionClick: (c: Champion) => void; favorites: Set<number>; onToggleFavorite: (id: number) => void }) {
   const cfg = TIER_CONFIG[tier];
 
   return (
@@ -857,7 +944,7 @@ function TierSection({ tier, champions, onChampionClick }: { tier: string; champ
       >
         {champions.map(champ => (
           <div key={champ.id}>
-            <ChampionRow champion={champ} onClick={() => onChampionClick(champ)} />
+            <ChampionRow champion={champ} onClick={() => onChampionClick(champ)} isFavorite={favorites.has(champ.id)} onToggleFavorite={(e) => { e.stopPropagation(); onToggleFavorite(champ.id); }} />
           </div>
         ))}
       </div>
@@ -905,7 +992,7 @@ function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelect
         transition={{ delay: 0.1, duration: 0.6 }}
       >
         <h2
-          className="text-4xl sm:text-5xl font-black tracking-[0.15em] mb-3"
+          className="text-4xl sm:text-5xl font-black tracking-[0.15em] mb-3 lol-heading"
           style={{
             color: '#c8aa6e',
             textShadow: '0 0 40px rgba(200,170,110,0.4), 0 0 80px rgba(200,170,110,0.15), 0 2px 8px rgba(0,0,0,0.8)',
@@ -1120,6 +1207,24 @@ export default function Home() {
   // Live version state
   const [liveVersions, setLiveVersions] = useState<{ lol: string; wr: string }>({ lol: '', wr: '' });
   const [lastUpdate, setLastUpdate] = useState('');
+  const [isNewPatch, setIsNewPatch] = useState(false);
+
+  // Favorites (localStorage)
+  const [favorites, setFavorites] = useState<Set<number>>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('moba-sage-favorites');
+        return saved ? new Set(JSON.parse(saved)) : new Set<number>();
+      } catch { return new Set<number>(); }
+    }
+    return new Set<number>();
+  });
+
+  // Search autocomplete
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Game transition flash
+  const [flashColor, setFlashColor] = useState<string | null>(null);
 
   // ============ FETCH DATA ============
   const fetchData = useCallback(async () => {
@@ -1150,7 +1255,16 @@ export default function Home() {
       setProPicks(proData);
       setCombos(combosData);
       if (versionData?.lol) {
-        setLiveVersions({ lol: versionData.lol.split('.').slice(0, 2).join('.'), wr: versionData.wr || '6.4' });
+        const fullVer = versionData.lol;
+        setLiveVersions({ lol: fullVer.split('.').slice(0, 2).join('.'), wr: versionData.wr || '6.4' });
+        updateDdVersion(fullVer);
+        // Detect new patch: compare major.minor
+        const prevPatch = localStorage.getItem('moba-sage-last-patch');
+        const currentPatch = fullVer.split('.').slice(0, 2).join('.');
+        if (prevPatch && prevPatch !== currentPatch) {
+          setIsNewPatch(true);
+        }
+        localStorage.setItem('moba-sage-last-patch', currentPatch);
       }
       if (versionData?.fetchedAt) {
         const d = new Date(versionData.fetchedAt);
@@ -1166,8 +1280,26 @@ export default function Home() {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
+  // Persist favorites
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('moba-sage-favorites', JSON.stringify([...favorites]));
+    }
+  }, [favorites]);
+
+  const toggleFavorite = (id: number) => {
+    setFavorites(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
   // ============ GAME SELECTION ============
   const handleSelectGame = (game: GameSelection) => {
+    // Flash transition
+    setFlashColor(game === 'lol' ? 'rgba(200,170,110,0.15)' : 'rgba(10,203,230,0.15)');
+    setTimeout(() => setFlashColor(null), 400);
     setSelectedGame(game);
     setActiveTab('tierlist');
   };
@@ -1177,11 +1309,21 @@ export default function Home() {
   };
 
   // ============ FILTER CHAMPIONS ============
+  const searchSuggestions = searchQuery.length >= 1
+    ? champions.filter(c => {
+        if (selectedGame === 'lol' && c.game !== 'LoL') return false;
+        if (selectedGame === 'wildrift' && c.game !== 'WR') return false;
+        const q = searchQuery.toLowerCase();
+        return c.name.toLowerCase().startsWith(q) || c.title.toLowerCase().includes(q);
+      }).slice(0, 5)
+    : [];
+
   const filteredChampions = champions.filter(c => {
     // Filter by selected game
     if (selectedGame === 'lol' && c.game !== 'LoL') return false;
     if (selectedGame === 'wildrift' && c.game !== 'WR') return false;
-    if (roleFilter !== 'Todos' && c.role !== roleFilter) return false;
+    if (roleFilter === '★' && !favorites.has(c.id)) return false;
+    if (roleFilter !== 'Todos' && roleFilter !== '★' && c.role !== roleFilter) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       return c.name.toLowerCase().includes(q) || c.title.toLowerCase().includes(q);
@@ -1249,9 +1391,29 @@ export default function Home() {
             <Input
               placeholder="Buscar campeón..."
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={e => { setSearchQuery(e.target.value); setShowSuggestions(true); }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               className="pl-10 bg-[#1e2328]/60 border-[#785a28]/30 text-[#f0e6d2] placeholder:text-[#5b5a56] focus-visible:border-[#c8aa6e] focus-visible:ring-[#c8aa6e]/20 h-10 rounded-lg"
             />
+            {showSuggestions && searchSuggestions.length > 0 && searchQuery.length >= 1 && (
+              <div className="absolute top-full left-0 right-0 mt-1 rounded-lg overflow-hidden z-50" style={{ background: 'rgba(30,35,40,0.95)', border: '1px solid rgba(200,170,110,0.2)', backdropFilter: 'blur(12px)' }}>
+                {searchSuggestions.map(s => (
+                  <button
+                    key={s.id}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-[#c8aa6e]/10 transition-colors"
+                    onMouseDown={() => { setSearchQuery(s.name); setShowSuggestions(false); setSelectedChampion(s); }}
+                  >
+                    <ChampionIcon name={s.name} tier={s.tier} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-[#f0e6d2] truncate">{s.name}</p>
+                      <p className="text-[9px] text-[#5b5a56]">{s.role} · {s.winRate}% WR</p>
+                    </div>
+                    <span className="text-[10px] font-bold" style={{ color: TIER_CONFIG[s.tier]?.color }}>{s.tier}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             {ROLES.map(role => (
@@ -1270,6 +1432,19 @@ export default function Home() {
                 {role}
               </button>
             ))}
+            <button
+              onClick={() => setRoleFilter(roleFilter === '★' ? 'Todos' : '★')}
+              className={`
+                px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200
+                ${roleFilter === '★'
+                  ? 'bg-[#f0c646]/15 text-[#f0c646] border border-[#f0c646]/30'
+                  : 'text-[#5b5a56] hover:text-[#f0c646] hover:bg-[#1e2328]/40 border border-transparent'
+                }
+              `}
+            >
+              <Star className="w-3 h-3 mr-1 inline" fill={roleFilter === '★' ? '#f0c646' : 'none'} />
+              Favoritos ({favorites.size})
+            </button>
           </div>
         </div>
 
@@ -1285,6 +1460,8 @@ export default function Home() {
               tier={tier}
               champions={champs}
               onChampionClick={handleToggleChampion}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
             />
           ))
         )}
@@ -2224,6 +2401,22 @@ export default function Home() {
   // ============ RENDER ============
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#0a0e1a' }}>
+      {/* Gold Particles */}
+      <GoldParticles />
+
+      {/* Game Switch Flash Overlay */}
+      <AnimatePresence>
+        {flashColor && (
+          <motion.div
+            className="fixed inset-0 z-[100] pointer-events-none lol-flash-overlay"
+            style={{ backgroundColor: flashColor }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Header */}
       <header className="sticky top-0 z-40 border-b-2 border-[#785a28]/30" style={{ backgroundColor: 'rgba(10, 14, 26, 0.94)', backdropFilter: 'blur(20px) saturate(1.2)' }}>
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
@@ -2235,7 +2428,7 @@ export default function Home() {
               <Sword className="w-4 h-4 text-[#0a0e1a]" />
             </div>
             <div>
-              <h1 className="text-lg font-black tracking-[0.2em] leading-none" style={{ color: '#c8aa6e', textShadow: '0 0 30px rgba(200,170,110,0.4), 0 2px 4px rgba(0,0,0,0.8)' }}>MOBA SAGE</h1>
+              <h1 className="text-lg font-black tracking-[0.2em] leading-none lol-heading" style={{ color: '#c8aa6e', textShadow: '0 0 30px rgba(200,170,110,0.4), 0 2px 4px rgba(0,0,0,0.8)' }}>MOBA SAGE</h1>
               <p className="text-[9px] text-[#5b5a56] tracking-[0.2em] uppercase leading-none mt-0.5">Analytics con IA</p>
             </div>
             {selectedGame && (
@@ -2252,6 +2445,12 @@ export default function Home() {
               <Badge variant="outline" className="text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">Wild Rift</Badge>
             )}
             <Badge variant="outline" className="text-[10px] border-[#785a28]/30 text-[#5b5a56]">{selectedGame === 'wildrift' ? `Patch ${liveVersions.wr || '6.4'}` : `Patch ${liveVersions.lol || '25.6'}`}</Badge>
+            {isNewPatch && (
+              <Badge className="lol-new-patch-badge bg-[#0fba81]/15 text-[#0fba81] border border-[#0fba81]/40 text-[10px] cursor-pointer" onClick={() => setIsNewPatch(false)}>
+                <Bell className="w-3 h-3 mr-1" />
+                NUEVO PARCHE
+              </Badge>
+            )}
             <Badge className="bg-[#c8aa6e]/10 text-[#c8aa6e] border border-[#c8aa6e]/25 text-[10px]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] mr-1.5 animate-pulse" />
               En vivo
