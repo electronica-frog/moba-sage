@@ -5,7 +5,7 @@
 import {
   Search, Filter, Sword, ScrollText, AlertTriangle, ListTodo,
   Brain, ChevronRight, Zap, Shield, Target, Crosshair,
-  Trophy, User, Flame, Map, Crown, Sparkles,
+  Trophy, User, Flame, Map, Crown, Sparkles, Lightbulb,
 } from 'lucide-react';
 
 export const TIERS = ['S', 'A', 'B'] as const;
@@ -66,10 +66,10 @@ export const TAB_ITEMS = [
   { id: 'tierlist', label: 'Tier List', icon: Trophy },
   { id: 'patches', label: 'Parches', icon: ScrollText },
   { id: 'broken', label: 'Cosas Rotas', icon: AlertTriangle },
-  { id: 'tasks', label: 'Tareas', icon: ListTodo },
-  { id: 'roadmap', label: 'Roadmap', icon: Map },
   { id: 'combos', label: 'Combos', icon: Flame },
   { id: 'competitive', label: 'Competitivo', icon: Crown },
+  { id: 'ideas', label: 'Ideas', icon: Lightbulb },
+  { id: 'roadmap', label: 'Roadmap', icon: Map },
   { id: 'profile', label: 'Perfil', icon: User },
 ];
 

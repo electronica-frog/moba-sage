@@ -7,6 +7,8 @@ import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SplashArtIcon, TinyChampionIcon } from '../champion-icon';
 import { RoleBadge, CategoryBadge } from '../badges';
+import { ItemIcon } from '../item-icon';
+import { parseBuildItems } from '../helpers';
 import type { Champion, AiInsight, GameSelection } from '../types';
 
 export function BrokenStuffTab({
@@ -48,6 +50,7 @@ export function BrokenStuffTab({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {sTierChamps.map((champ, idx) => {
               const mainBuild = champ.builds?.[0];
+              const buildItems = mainBuild ? parseBuildItems(mainBuild.items) : [];
               return (
                 <motion.div
                   key={champ.id}
@@ -79,12 +82,22 @@ export function BrokenStuffTab({
                   </div>
                   {mainBuild && (
                     <div className="px-4 py-2" style={{ borderTop: '1px solid rgba(200,170,110,0.1)', background: 'rgba(200,170,110,0.03)' }}>
-                      <div className="flex items-center gap-1.5 mb-1">
+                      <div className="flex items-center gap-1.5 mb-1.5">
                         <Wrench className="w-3 h-3 text-[#c8aa6e]" />
                         <span className="text-[10px] font-semibold text-[#c8aa6e] uppercase tracking-wider">Build Roto</span>
                         <span className="text-[9px] font-mono text-[#0acbe6] ml-auto">{mainBuild.winRate}% WR</span>
                       </div>
-                      <p className="text-[10px] text-[#a09b8c] leading-relaxed">{mainBuild.items}</p>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {buildItems.map((item, i) => (
+                          <div key={i} className="flex items-center gap-1">
+                            <ItemIcon name={item} />
+                            <span className="text-[9px] text-[#a09b8c] whitespace-nowrap">{item}</span>
+                            {i < buildItems.length - 1 && (
+                              <svg className="w-3 h-3 text-[#785a28]/40 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                   {(champ.counterPick || champ.synergy) && (

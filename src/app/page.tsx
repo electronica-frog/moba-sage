@@ -25,6 +25,7 @@ import { PatchesTab } from '@/components/moba/tabs/patches-tab';
 import { BrokenStuffTab } from '@/components/moba/tabs/broken-stuff-tab';
 import { TasksTab } from '@/components/moba/tabs/tasks-tab';
 import { RoadmapTab } from '@/components/moba/tabs/roadmap-tab';
+import { IdeasTab } from '@/components/moba/tabs/ideas-tab';
 import { CombosTab } from '@/components/moba/tabs/combos-tab';
 import { CompetitiveTab } from '@/components/moba/tabs/competitive-tab';
 import { ProfileTab } from '@/components/moba/tabs/profile-tab';
@@ -250,6 +251,7 @@ export default function Home() {
               {activeTab === 'patches' && <PatchesTab patches={patches} loading={loading} selectedGame={selectedGame} />}
               {activeTab === 'broken' && <BrokenStuffTab champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />}
               {activeTab === 'tasks' && <TasksTab tasks={tasks} loading={loading} onRefresh={fetchData} onToggleTask={handleToggleTask} />}
+              {activeTab === 'ideas' && <IdeasTab />}
               {activeTab === 'roadmap' && <RoadmapTab />}
               {activeTab === 'combos' && <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />}
               {activeTab === 'competitive' && <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={setProRegionFilter} />}
@@ -261,6 +263,7 @@ export default function Home() {
               {activeTab === 'patches' && <PatchesTab patches={patches} loading={loading} selectedGame={selectedGame} />}
               {activeTab === 'broken' && <BrokenStuffTab champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />}
               {activeTab === 'tasks' && <TasksTab tasks={tasks} loading={loading} onRefresh={fetchData} onToggleTask={handleToggleTask} />}
+              {activeTab === 'ideas' && <IdeasTab />}
               {activeTab === 'roadmap' && <RoadmapTab />}
               {activeTab === 'combos' && <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />}
               {activeTab === 'competitive' && <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={setProRegionFilter} />}
