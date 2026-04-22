@@ -351,3 +351,23 @@ Stage Summary:
 - T8 COMPLETED: Tier list with mini bars, meta overview cards, trend icons, AVG stats
 - 3 files modified: champion-row.tsx, tier-section.tsx, tier-list-tab.tsx
 - 2 docs updated: TASKS.md, DASHBOARD.md
+
+---
+Task ID: tick-152
+Agent: Main Agent (Botardo TICK juegos-2)
+Task: TICK #152 — Behavior Productivo + DISCOVERY
+
+Work Log:
+- Cloned juegos-1 repo, read DASHBOARD.md and TASKS.md (no pending tasks)
+- Executed 7 web searches: gaming news, Pragmata, Masters of Albion, Warframe DS195, esports, breaking, LoL 26.9, Dota 2, Game Pass
+- DISCOVERY: Xbox Game Pass price drop $29.99→$22.99 (Ultimate), $16.49→$13.99 (PC), effective today Apr 22
+- DISCOVERY: Future Call of Duty titles removed from day-one Game Pass
+- Noted: Masters of Albion EA launched today, LoL 26.9 Phroxzon preview, Warframe DS195 in 2 days
+- Created output: ciclo152_digest_gamepass_cod_abril22.md
+- Updated DASHBOARD.md and handoff.md with tick #152 entry
+- Git push: SUCCESS (commit f11fb55)
+
+Stage Summary:
+- DISCOVERY: Microsoft reverses Game Pass price hike but drops CoD day-one — biggest Xbox policy shift in years
+- Budget: 3/5
+- Reported to Discord via send_message
