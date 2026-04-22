@@ -1,7 +1,16 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-22T04:55:00Z",
+  "lastUpdated": "2026-04-22T05:02:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-003",
+      "type": "fix",
+      "title": "Ralph Loop: 3 Fixes críticos",
+      "description": "WR patch mismatch fix (17.8→6.8 en banner y datos). Skill icon overlay duplicado (Q Q→Q). Popup close z-index + Escape handler.",
+      "timestamp": "2026-04-22T05:02:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "meta-001",
       "type": "fix",
