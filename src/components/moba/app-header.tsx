@@ -56,11 +56,11 @@ export function AppHeader({
               NUEVO PARCHE
             </Badge>
           )}
-          <Badge className="lol-live-badge bg-[#c8aa6e]/10 text-[#c8aa6e] border border-[#c8aa6e]/25 text-[10px]">
+          <Badge className="lol-live-badge bg-[#c8aa6e]/10 text-[#c8aa6e] border border-[#c8aa6e]/25 text-[10px] hidden sm:inline-flex">
             <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] mr-1.5 animate-pulse" />
             En vivo
           </Badge>
-          <span className="hidden sm:inline text-[9px] text-[#5b5a56] ml-1">
+          <span className="hidden md:inline text-[9px] text-[#5b5a56] ml-1">
             Update: {lastUpdate || 'Cargando...'}
           </span>
         </div>
