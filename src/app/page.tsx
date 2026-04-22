@@ -13,6 +13,7 @@ import type {
 import { GoldParticles } from '@/components/moba/gold-particles';
 import { AppHeader } from '@/components/moba/app-header';
 import { SidebarNav } from '@/components/moba/sidebar-nav';
+import { BottomNav } from '@/components/moba/bottom-nav';
 import { GameSelectorLanding } from '@/components/moba/game-selector';
 import { WildRiftHeader } from '@/components/moba/wr-banner';
 import { ChampionModal } from '@/components/moba/champion-modal';
@@ -299,8 +300,8 @@ export default function Home() {
       {/* Sidebar Navigation — desktop fixed + mobile drawer */}
       {selectedGame && <SidebarNav activeTab={activeTab} onTabChange={setActiveTab} gamePatch={selectedGame === 'wildrift' ? liveVersions.wr : liveVersions.gamePatch} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
 
-      {/* Content — offset for sidebar on desktop */}
-      <main className={`flex-1 w-full px-4 py-6 transition-all duration-300 ${selectedGame ? 'lg:ml-[220px]' : ''}`}>
+      {/* Content — offset for sidebar on desktop, bottom nav on mobile */}
+      <main className={`flex-1 w-full px-4 py-6 transition-all duration-300 ${selectedGame ? 'lg:ml-[220px] pb-24 lg:pb-6' : ''}`}>
         <div className={selectedGame ? 'max-w-5xl mx-auto' : ''}>
           <AnimatePresence mode="popLayout">
             {!selectedGame ? (
@@ -351,6 +352,9 @@ export default function Home() {
 
       {/* Minimap Decoration - only on landing page */}
       {!selectedGame && <MinimapDecoration />}
+
+      {/* Bottom Navigation — mobile only */}
+      {selectedGame && <BottomNav activeTab={activeTab} onTabChange={setActiveTab} onOpenSidebar={() => setSidebarOpen(true)} />}
 
       <div className="lol-divider" />
 
