@@ -1,14 +1,23 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-22T09:43:00Z",
+  "lastUpdated": "2026-04-22T10:06:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-012",
+      "type": "fix",
+      "title": "3 Fixes: modal key + spell keys + noreferrer",
+      "description": "(1) Modal campeón no abría para algunos campeones (Master Yi, Ahri) — fix: key={selectedChampion.id} en AnimatePresence para que React distinga enter/exit de modales diferentes. (2) Spell icons rotos para 14+ campeones — getSpellKey() ahora busca por display name Y por DDragon key (antes solo display name, pero muchas overrides usaban keys DDragon como 'MasterYi', 'LeeSin', etc). Corregidos: Jinx E ('JinxE'→'JinxEMine'), Katarina W/R completos, Ahri keys correctas. (3) Links externos: rel='noopener noreferrer' en todos los <a> target=_blank (security best practice vs window.opener exploit). Build OK.",
+      "timestamp": "2026-04-22T10:06:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "sidebar-mobile-001",
       "type": "improvement",
       "title": "Sidebar drawer en mobile — reemplaza BottomNav",
       "description": "CEO request: barra lateral en mobile también. SidebarNav convertida a componente responsive: desktop = fixed left (como antes), mobile = drawer que desliza desde la izquierda con backdrop oscuro y botón cerrar. Hamburger menu (icono ☰) agregado al header, visible solo en mobile/tablet. BottomNav eliminada — la sidebar drawer tiene acceso a las 10 tabs completas con secciones colapsables. Animación spring con Framer Motion. Build OK.",
       "timestamp": "2026-04-22T09:43:00Z",
-      "commit": "pending",
+      "commit": "56f0af5",
       "category": "improvement"
     },
     {
