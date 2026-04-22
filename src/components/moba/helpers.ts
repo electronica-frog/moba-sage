@@ -48,20 +48,35 @@ export function getChampionSplashUrl(name: string, skinNum = 0): string {
 }
 
 export const ITEM_NAME_MAP: Record<string, string> = {
-  'Filo de la Noche': '6672', 'Eclipse': '6692', 'Hidra Titánica': '3748',
-  'Fuerza de la Trinidad': '3071', 'Filo Infinito': '3031', 'Colmillo Infinito': '3031',
+  // Miticas
+  'Filo de la Noche': '6672', 'Eclipse': '6692', 'Cosechador Nocturno': '6694',
+  'Pozo de la Noche': '6695', 'Roca del Eclipse': '6693', 'Poder de Kraken Slayer': '6673',
+  'La Séptima': '6671', 'El Coleccionista': '6676', 'El Colector': '6676',
+  'Filo Divino': '6696', 'Mandato Imperial': '6632', 'Hydratación Letal': '3074',
+  // Luchador / Tanque
+  'Hidra Titánica': '3748', 'Hidra': '3748', 'Fuerza de la Trinidad': '3078',
+  'Fuerza de Trinidad': '3078', 'Filo de la Trinidad': '3071', 'Guja Botadora': '3153',
+  'Sed de Sangre': '6333', 'Resistencia Divina': '3065',
+  // ADC / Crit
+  'Filo Infinito': '3031', 'Infinito': '3031', 'Colmillo Infinito': '3031',
   'Huracán de Runaan': '3085', 'Frenesí de Runaan': '3085',
-  'Bailarín Espectral': '3124', 'Sed de Sangre': '6333', 'Botas de Berserker': '3006',
-  'Sombrero de Rabadon': '3089', 'Reloj de Zhonya': '3157', 'Llamasomo': '3166',
-  'Morellonomicon': '3165', 'Botas del Vacío': '3020', 'El Colector': '6676',
-  'Última Piedad': '3036', 'Cosechador Nocturno': '6694', 'Poder de Kraken Slayer': '6673',
-  'La Séptima': '6671', 'Muramana': '3004', 'Hielo Eterno': '6662',
-  'Redención': '3107', 'Convergencia de Zeke': '3190', 'Medallón de los Solari de Hierro': '3194',
-  'Mikael': '3222', 'Botas de Mercurio': '3111', 'Botas de Movilidad': '3009',
-  'Botas de CD': '3158', 'Roca del Eclipse': '6693', 'Guardián Angel': '3026',
-  'El Protegido': '3193', 'Pozo de la Noche': '6695', 'Filo Divino': '6696',
-  'Resistencia Divina': '3065', 'Mandato Imperial': '6632', 'Cetro de Rylai': '3116',
-  'Guja Botadora': '3153', 'Centro de Gravedad': '6664', 'Hydratación Letal': '3074',
+  'Bailarín Espectral': '3124', 'Botas de Berserker': '3006',
+  // AP / Mago
+  'Sombrero de Rabadon': '3089', 'Reloj de Zhonya': '3157', 'Reloj de Arena de Zhonya': '3157',
+  'Llamasomo': '6653', 'Morellonomicon': '3165', 'Cetro de Rylai': '3116',
+  'Cetro de Cristal de Rylai': '3116', 'Centro de Gravedad': '6664',
+  'Botas del Vacío': '3020', 'Hielo Eterno': '6662',
+  // Support
+  'Redención': '3107', 'Convergencia de Zeke': '3190',
+  'Medallón de los Solari de Hierro': '3190', 'Medallón de los Solari': '3190', 'Medallón': '3190',
+  'Mikael': '3222',
+  // Botas
+  'Botas de Mercurio': '3111', 'Botas de Movilidad': '3009',
+  'Botas de CD': '3158', 'Botas de Placas': '3047',
+  // Otros
+  'Última Piedad': '3036', 'Muramana': '3004',
+  'Guardián Angel': '3026', 'Guardián de Angel': '3026',
+  'El Protegido': '3193', 'Llamarada de Pecado': '6698',
 };
 
 export function getItemIconUrl(itemName: string): string | null {

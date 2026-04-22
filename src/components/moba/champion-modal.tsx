@@ -266,18 +266,19 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-1.5 mb-2">
+                      <div className="flex items-center gap-2 mb-2">
                         {items.map((item, j) => {
                           const iconUrl = getItemIconUrl(item);
                           return (
-                            <div key={j} className="relative group" title={item}>
+                            <div key={j} className="relative group/item flex flex-col items-center gap-0.5">
                               {iconUrl ? (
-                                <Image src={iconUrl} alt={item} width={28} height={28} className="w-7 h-7 rounded" style={{ border: '1px solid rgba(200,170,110,0.2)' }} loading="lazy" />
+                                <Image src={iconUrl} alt={item} width={28} height={28} className="w-7 h-7 rounded" style={{ border: '1px solid rgba(200,170,110,0.2)' }} loading="lazy" unoptimized />
                               ) : (
                                 <div className="w-7 h-7 rounded bg-[#1e2328] flex items-center justify-center text-[8px] text-[#5b5a56] border border-[#785a28]/20">
                                   {item[0]}
                                 </div>
                               )}
+                              <span className="text-[7px] text-[#785a28] leading-none text-center max-w-[56px] truncate">{item}</span>
                             </div>
                           );
                         })}

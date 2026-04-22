@@ -107,7 +107,7 @@ const CHAMPIONS_DATA: Omit<Champion, 'id' | 'createdAt' | 'updatedAt'>[] = [
     brokenThings: ['Pasiva 1 kill = limpia teamfight', 'W rango buff → poke sin respuesta', 'Kraken + Runaan = AoE masivo'],
     buildLinks: [{"label": "U.GG", "url": "https://u.gg/lol/champions/jinx/build"}, {"label": "Mobalytics", "url": "https://www.mobalytics.com/lol/champions/jinx"}, {"label": "OP.GG", "url": "https://www.op.gg/champions/jinx"}],
     builds: [
-      { name: 'Build Hypercarry', items: 'Filo Infinito → Huracán de Runaan → Bailarín Espectral → Sed de Sangre → El Final', winRate: 55.3 },
+      { name: 'Build Hypercarry', items: 'Filo Infinito → Huracán de Runaan → Bailarín Espectral → Sed de Sangre → Guardián Angel', winRate: 55.3 },
       { name: 'Build Early Power', items: 'Poder de Kraken Slayer → La Séptima → Infinito → Bailarín Espectral → Botas de Berserker', winRate: 53.1 },
     ],
     counterPick: 'Caitlyn, Varus, Kassadin (gap close)',
@@ -122,7 +122,7 @@ const CHAMPIONS_DATA: Omit<Champion, 'id' | 'createdAt' | 'updatedAt'>[] = [
     buildLinks: [{"label": "U.GG", "url": "https://u.gg/lol/champions/leesin/build"}, {"label": "Mobalytics", "url": "https://www.mobalytics.com/lol/champions/leesin"}, {"label": "OP.GG", "url": "https://www.op.gg/champions/leesin"}],
     builds: [
       { name: 'Build Bruiser', items: 'Cosechador Nocturno → Eclipse → Hidra Titánica → Fuerza de la Trinidad → Botas de Mercurio', winRate: 52.5 },
-      { name: 'Build Full CD', items: 'Conquistador → Eclipse → Hidra → Fuerza de la Trinidad → Botas de CD', winRate: 51.8 },
+      { name: 'Build Full CD', items: 'Sed de Sangre → Eclipse → Hidra → Fuerza de la Trinidad → Botas de CD', winRate: 51.8 },
     ],
     counterPick: 'Nidalee, Elise, Kindred',
     synergy: 'Ahri, Orianna — Buen follow-up para engages y roam',
