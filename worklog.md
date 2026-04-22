@@ -104,3 +104,21 @@ Stage Summary:
 - Tapping a tab or backdrop closes the drawer automatically
 - Desktop sidebar unchanged (always visible, fixed left 220px)
 - BottomNav component file kept but no longer imported/used
+---
+Task ID: 1
+Agent: Ralph Loop (main agent)
+Task: Ralph Loop Auto-Mejora #13 — QA scan + 3 fixes
+
+Work Log:
+- Read ticks.md for pending tasks
+- Parallel scan: agent-browser QA (18 issues found) + web-search competitor analysis
+- Fixed modal not opening for some champions: added key={selectedChampion.id} to AnimatePresence in page.tsx
+- Fixed spell icons broken for 14+ champions: getSpellKey() now tries both display name and DDragon key
+- Fixed Jinx E spell key (JinxE→JinxEMine), added Katarina W/R, fixed Ahri keys
+- Added rel="noopener noreferrer" to all external links (7 instances in champion-modal.tsx + patches-tab.tsx)
+- Build passed, committed a217fed, pushed to main
+
+Stage Summary:
+- 3 fixes deployed: AnimatePresence key, spell key dual lookup, noreferrer security
+- Competitor research: iTero (draft AI), buildzcrank (adaptive builds), STATUP (voice coaching) noted
+- Remaining issues for future runs: mobile game selection (C1), vista tablero toggle (m2), synergy text garbled (m3)
