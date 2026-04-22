@@ -251,7 +251,7 @@ export default function Home() {
             <GameSelectorLanding onSelectGame={handleSelectGame} key="selector" />
           ) : selectedGame === 'wildrift' ? (
             <motion.div key={activeTab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
-              <WildRiftHeader />
+              <WildRiftHeader version={liveVersions.wr} />
               {activeTab === 'novedades' && <ActivityTab />}
               {activeTab === 'tierlist' && <TierListTab champions={champions} loading={loading} selectedGame={selectedGame} searchQuery={searchQuery} onSearchChange={setSearchQuery} roleFilter={roleFilter} onRoleFilterChange={setRoleFilter} favorites={favorites} onToggleFavorite={toggleFavorite} onChampionClick={handleToggleChampion} />}
               {activeTab === 'patches' && <PatchesTab patches={patches} loading={loading} selectedGame={selectedGame} />}

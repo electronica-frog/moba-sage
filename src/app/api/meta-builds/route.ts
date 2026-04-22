@@ -19,14 +19,17 @@ let cachedBuilds: Record<string, ScrapedBuild> = {};
 let cacheTimestamp = 0;
 
 const S_TIER_CHAMPIONS = [
-  { name: 'Master Yi', slug: 'masteryi', role: 'Jungle' },
+  { name: 'Garen', slug: 'garen', role: 'Top' },
+  { name: 'Nocturne', slug: 'nocturne', role: 'Jungle' },
+  { name: 'Katarina', slug: 'katarina', role: 'Mid' },
   { name: 'Jinx', slug: 'jinx', role: 'ADC' },
-  { name: 'Lee Sin', slug: 'leesin', role: 'Jungle' },
+  { name: 'Ashe', slug: 'ashe', role: 'ADC' },
+  { name: 'Caitlyn', slug: 'caitlyn', role: 'ADC' },
   { name: 'Thresh', slug: 'thresh', role: 'Support' },
+  { name: 'Blitzcrank', slug: 'blitzcrank', role: 'Support' },
   { name: 'Darius', slug: 'darius', role: 'Top' },
   { name: 'Ahri', slug: 'ahri', role: 'Mid' },
-  { name: 'Yasuo', slug: 'yasuo', role: 'Mid' },
-  { name: 'Caitlyn', slug: 'caitlyn', role: 'ADC' },
+  { name: 'Graves', slug: 'graves', role: 'Jungle' },
 ];
 
 async function searchBuild(champion: string, slug: string): Promise<Partial<ScrapedBuild>> {
@@ -95,7 +98,7 @@ async function searchBuild(champion: string, slug: string): Promise<Partial<Scra
     return {
       champion,
       source: 'web-search',
-      patch: '16.08',
+      patch: '26.08',
       winRate,
       coreItems: coreItems.map(capitalize),
       boots: capitalize(boots),

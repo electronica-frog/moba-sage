@@ -68,6 +68,18 @@ export function ActivityPopup() {
     return () => { cancelled = true; };
   }, []);
 
+  // Escape key handler
+  useEffect(() => {
+    if (!show) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleDismiss();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [show, handleDismiss]);
+
   if (!feed) return null;
 
   const recentEntries = feed.entries

@@ -1,14 +1,23 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-22T04:45:00Z",
+  "lastUpdated": "2026-04-22T04:55:00Z",
   "entries": [
+    {
+      "id": "meta-001",
+      "type": "fix",
+      "title": "Tier List + Patch actualizados a 26.8 (datos reales)",
+      "description": "Patch 16.8→26.8 en todos los archivos. S-tier actualizado: Master Yi/Lee Sin/Yasuo descendidos a A. Garen/Katarina/Graves/Ashe promovidos a S. +5 nuevos campeones S-tier: Nocturne, Blitzcrank, Brand, K'Sante, Viego. Datos de Mobalytics/U.GG/PropelRC.",
+      "timestamp": "2026-04-22T04:55:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "fix-002",
       "type": "fix",
       "title": "Ralph Loop QA Scan — 3 Fixes",
       "description": "Popup reescrito (AnimatePresence mode=wait, useCallback, type=button). Botón clear X en búsqueda. QA completo de 10 tabs.",
       "timestamp": "2026-04-22T04:45:00Z",
-      "commit": "pending",
+      "commit": "b1fd823",
       "category": "fix"
     },
     {
@@ -62,15 +71,16 @@
       "title": "Auditoría Completa de la App",
       "description": "Revisión crítica: WR usa datos LoL, 22 champs sin brokenThings, SEO muerto, deps muertas. 23 findings totales.",
       "timestamp": "2026-04-22T03:10:00Z",
+      "commit": "",
       "category": "audit"
     }
   ],
   "highlights": [
-    "88 campeones con builds, runas y análisis IA",
+    "83 campeones con builds, runas y análisis IA",
+    "15 campeones S-tier actualizados con datos reales (patch 26.8)",
     "10 pestañas funcionales con datos en vivo",
     "Iconos DDragon para items y campeones",
     "Splash Art Gallery con 5 skins por campeón",
-    "Mapa de Visión interactivo por rol",
     "Activity feed + popup de novedades",
     "Ralph Loop auto-mejora cada 15 minutos",
     "Tabs separadas: Juego (oro) vs Dev (cyan)"

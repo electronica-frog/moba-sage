@@ -62,17 +62,19 @@ export const SkillIcon = memo(function SkillIcon({ championName, skill, size = 3
           {skill}
         </div>
       )}
-      {/* Ability key overlay */}
-      <div
-        className="absolute bottom-0 right-0 w-1/2 h-1/2 flex items-center justify-center text-[8px] font-black"
-        style={{
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          color: '#f0e6d2',
-          borderTopLeftRadius: '2px',
-        }}
-      >
-        {skill}
-      </div>
+      {/* Ability key overlay - only show when image loaded successfully */}
+      {!imgError && (
+        <div
+          className="absolute bottom-0 right-0 w-1/2 h-1/2 flex items-center justify-center text-[8px] font-black"
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            color: '#f0e6d2',
+            borderTopLeftRadius: '2px',
+          }}
+        >
+          {skill}
+        </div>
+      )}
     </div>
   );
 });

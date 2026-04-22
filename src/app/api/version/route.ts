@@ -34,14 +34,14 @@ export async function GET() {
 
     // Filter LoL versions (format: X.Y.Z)
     const lolVersions = versions.filter(v => /^\d+\.\d+\.\d+$/.test(v));
-    const latestLol = lolVersions[0] || '16.8.1';
+    const latestLol = lolVersions[0] || '26.8.1';
     const latestLolShort = latestLol.split('.').slice(0, 2).join('.');
 
     // Wild Rift version (approximate - WR doesn't have a public version API)
-    // WR patches track differently; as of 2025 WR is around 6.x-7.x
-    const lolMajor = parseInt(latestLol.split('.')[0]);
+    // WR patches track differently; actual WR is ~6.x-7.x range
+    // Use a reasonable mapping based on LoL version
     const lolMinor = parseInt(latestLol.split('.')[1]);
-    const wrVersion = `${Math.max(6, lolMajor - 9)}.${lolMinor}`;
+    const wrVersion = `6.${lolMinor <= 8 ? lolMinor : 8}`;
 
     cachedVersions = {
       lol: latestLol,
@@ -58,8 +58,8 @@ export async function GET() {
 
     // Fallback
     return NextResponse.json({
-      lol: '16.8.1',
-      lolFull: '16.8.1',
+      lol: '26.8.1',
+      lolFull: '26.8.1',
       wr: '6.8',
       fetchedAt: new Date().toISOString(),
     });

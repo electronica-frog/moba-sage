@@ -1,6 +1,6 @@
 # TICKS — MOBA SAGE
 > Auto-maintenance tasks executed by cron jobs
-> Last run: 2026-04-22 01:45 BA | Next run: 2026-04-22 02:00 BA (cada 15 min)
+> Last run: 2026-04-22 01:55 BA | Next run: 2026-04-22 02:10 BA (cada 15 min)
 
 ## CRON JOBS CONFIGURED
 | Job | ID | Schedule | Descripción |
@@ -37,3 +37,4 @@
 - [2026-04-22 01:23 BA] Refactor crons: eliminados Ralph Loops semanales (111408, 111409). Creado Ralph Loop auto-mejora cada 15 min (111446). Fix popup close bug (eliminado estado `dismissed` que mataba AnimatePresence).
 - [2026-04-22 01:40 BA] Feature: Meta-builds scraper API (/api/meta-builds). Commit c15326f.
 - [2026-04-22 01:45 BA] Ralph Loop QA: Scan completo 10 tabs. Bugs: popup no cierra (CRITICAL), search no limpia (MAJOR). Fixes: popup reescrito (AnimatePresence mode=wait, useCallback, type=button), botón clear X en búsqueda. Build OK.
+- [2026-04-22 01:55 BA] Ralph Loop Meta Update: Patch 16.8→26.8 en 8 archivos. S-tier actualizado con datos reales (web search Mobalytics/U.GG/PropelRC/Tapin). Demoted: Master Yi, Lee Sin, Yasuo (S→A). Promoted: Garen, Katarina, Graves, Ashe (A→S). Nuevos S-tier: Nocturne, Blitzcrank, Brand, K'Sante, Viego. Total S-tier: 13 campeones. Fecha parche 2025→2026. Build OK.
