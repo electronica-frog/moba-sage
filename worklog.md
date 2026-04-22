@@ -371,3 +371,33 @@ Stage Summary:
 - DISCOVERY: Microsoft reverses Game Pass price hike but drops CoD day-one — biggest Xbox policy shift in years
 - Budget: 3/5
 - Reported to Discord via send_message
+
+---
+Task ID: moba-sage-deploy
+Agent: Main Agent
+Task: Deploy popup, tabs separadas, ticks.md, activity-feed + configurar crons
+
+Work Log:
+- Descubrió que popup + tabs separadas + activity-feed + ticks.md existían localmente pero NUNCA se habían pusheado
+- Build verificado: 0 errores, 0 warnings
+- Commit 1a46a28: "feat: activity popup + tab separation + ticks.md + activity feed" (7 files, +508 lines)
+- Push a GitHub: SUCCESS
+- Verificación con agent-browser en Vercel:
+  - Popup de Novedades funciona (muestra al abrir la app)
+  - Tabs separadas: GAME (Tier List, Parches, Cosas Rotas, Combos, Competitivo, Perfil) | DEV (Novedades, Ideas, Roadmap, Tareas) con divisor Wrench
+  - Tab Novedades muestra 5 entradas con timestamps y commits
+  - Highlights: 88 campeones, 8 tabs, iconos DDragon, splash gallery, vision map
+- Bug encontrado: popup no responde a click en botones (X / Entendido) — necesita fix
+- Configurados 3 crons:
+  - Job 111406: Verificación diaria (06:00, 12:00, 18:00 BA) — build + Vercel 200 + APIs + DDragon sync
+  - Job 111408: Ralph Loop Lunes (08:30 BA) — scan + critique + competidores + fixes
+  - Job 111409: Ralph Loop Jueves (08:30 BA) — scan + critique + competidores + fixes
+- ticks.md actualizado con cron IDs y schedule
+- Commit abb1875: "chore: update ticks.md with cron job IDs and schedule"
+- Push a GitHub: SUCCESS
+
+Stage Summary:
+- Popup + tabs separadas + activity feed DEPLOYADOS y verificados en Vercel
+- 3 crons configurados para auto-mantenimiento (diario) y Ralph Loop (2x semana)
+- Bug pendiente: popup dismiss buttons no funcionan (framer-motion animation issue)
+- commits: 1a46a28, abb1875
