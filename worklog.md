@@ -83,3 +83,24 @@ Stage Summary:
 - Homepage tab count matches actual app (10 tabs)
 - Sidebar section header correctly accented
 - Item and rune names standardized to LoL Spanish client
+---
+Task ID: sidebar-mobile-001
+Agent: Main (CEO Request)
+Task: Sidebar drawer en mobile — reemplaza BottomNav
+
+Work Log:
+- Analyzed current navigation: SidebarNav (desktop only, hidden lg:flex) + BottomNav (mobile only, lg:hidden)
+- Rewrote sidebar-nav.tsx: Split into SidebarContent (shared) + SidebarNav (responsive wrapper). Desktop = fixed left sidebar (same as before). Mobile = slide-in drawer from left with backdrop overlay, animated with Framer Motion spring. Close button X at top of mobile drawer.
+- Updated app-header.tsx: Added hamburger menu button (Menu icon from lucide-react), visible only on mobile/tablet (lg:hidden). Logo text hidden on mobile to save space. Added onMenuToggle prop.
+- Updated page.tsx: Added sidebarOpen state, passed to SidebarNav. Removed BottomNav import and usage. Removed bottom padding (pb-24) from main content area since no bottom nav anymore.
+- Updated activity-feed.json with sidebar-mobile-001 entry, updated highlight
+- Updated ticks.md with run log
+- Build: OK
+- Push: 56f0af5 → main (47bea9d with hash update)
+
+Stage Summary:
+- Mobile users now see hamburger menu (☰) in header
+- Tapping hamburger opens full sidebar drawer from left with all 10 tabs
+- Tapping a tab or backdrop closes the drawer automatically
+- Desktop sidebar unchanged (always visible, fixed left 220px)
+- BottomNav component file kept but no longer imported/used
