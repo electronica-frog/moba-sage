@@ -152,7 +152,7 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
       </div>
 
       {/* Sidebar footer with patch badge */}
-      <div className="px-4 py-3 border-t border-[#785a28]/10">
+      <div className="px-4 py-3 border-t border-[#785a28]/10 mb-16 lg:mb-0">
         <div className="flex items-center justify-between">
           <p className="text-[9px] text-[#785a28]/60 tracking-wider">MOBA SAGE v2.0</p>
           {gamePatch && (

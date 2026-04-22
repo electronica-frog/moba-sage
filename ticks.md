@@ -1,6 +1,6 @@
 # TICKS — MOBA SAGE
 > Auto-maintenance tasks executed by cron jobs
-> Last run: 2026-04-22 06:43 BA | Next run: 2026-04-22 06:58 BA (cada 15 min)
+> Last run: 2026-04-22 06:53 BA | Next run: 2026-04-22 07:08 BA (cada 15 min)
 
 ## CRON JOBS CONFIGURED
 | Job | ID | Schedule | Descripción |
