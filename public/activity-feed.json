@@ -1,7 +1,16 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-22T10:06:00Z",
+  "lastUpdated": "2026-04-22T17:25:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-013",
+      "type": "fix",
+      "title": "3 Fixes: sidebar footer mobile + texto truncado + build items overflow",
+      "description": "(1) Sidebar footer 'MOBA SAGE v2.0' cortado por bottom nav en mobile — padding mb-16→mb-20 (80px > 77px del bottom nav). (2) Cosas Rotas: counters y sinergia con texto truncado sin ellipsis — agregado truncate + min-w-0 + title tooltip. (3) Build items: overflow control con max-h para evitar que items desborden la card. Scan VLM con análisis visual profundo de screenshots desktop + mobile.",
+      "timestamp": "2026-04-22T17:25:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "ralph-loop-012",
       "type": "fix",
