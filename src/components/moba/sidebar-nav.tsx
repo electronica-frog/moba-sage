@@ -21,7 +21,7 @@ const GAME_ICONS: Record<string, typeof Trophy> = {
   profile: User,
 };
 
-export function SidebarNav({ activeTab, onTabChange }: { activeTab: string; onTabChange: (tab: string) => void }) {
+export function SidebarNav({ activeTab, onTabChange, gamePatch }: { activeTab: string; onTabChange: (tab: string) => void; gamePatch?: string }) {
   const [devExpanded, setDevExpanded] = useState(DEV_TAB_IDS.has(activeTab));
 
   return (
@@ -130,9 +130,17 @@ export function SidebarNav({ activeTab, onTabChange }: { activeTab: string; onTa
         </AnimatePresence>
       </div>
 
-      {/* Sidebar footer */}
+      {/* Sidebar footer with patch badge */}
       <div className="px-4 py-3 border-t border-[#785a28]/10">
-        <p className="text-[9px] text-[#785a28]/60 tracking-wider">MOBA SAGE v2.0</p>
+        <div className="flex items-center justify-between">
+          <p className="text-[9px] text-[#785a28]/60 tracking-wider">MOBA SAGE v2.0</p>
+          {gamePatch && (
+            <span className="flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: 'rgba(15,186,129,0.1)', border: '1px solid rgba(15,186,129,0.2)', color: '#0fba81' }}>
+              <span className="w-1 h-1 rounded-full bg-[#0fba81] animate-pulse" />
+              {gamePatch}
+            </span>
+          )}
+        </div>
       </div>
     </aside>
   );

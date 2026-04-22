@@ -294,7 +294,7 @@ export default function Home() {
       />
 
       {/* Sidebar Navigation (desktop) */}
-      {selectedGame && <SidebarNav activeTab={activeTab} onTabChange={setActiveTab} />}
+      {selectedGame && <SidebarNav activeTab={activeTab} onTabChange={setActiveTab} gamePatch={liveVersions.gamePatch} />}
 
       {/* Bottom Navigation (mobile) */}
       {selectedGame && <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />}

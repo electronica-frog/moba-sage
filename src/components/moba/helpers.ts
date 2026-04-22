@@ -63,7 +63,8 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   'Bailarín Espectral': '3124', 'Botas de Berserker': '3006',
   // AP / Mago
   'Sombrero de Rabadon': '3089', 'Reloj de Zhonya': '3157', 'Reloj de Arena de Zhonya': '3157',
-  'Llamasomo': '6653', 'Morellonomicon': '3165', 'Cetro de Rylai': '3116',
+  'Llamarada Sombría': '6653', 'Llamarada SombrÃ­a': '6653', 'Llamasomo': '6653',
+  'Morellonomicon': '3165', 'Cetro de Rylai': '3116',
   'Cetro de Cristal de Rylai': '3116', 'Centro de Gravedad': '6664',
   'Botas del Vacío': '3020', 'Hielo Eterno': '6662',
   // Support
@@ -72,7 +73,7 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   'Mikael': '3222',
   // Botas
   'Botas de Mercurio': '3111', 'Botas de Movilidad': '3009',
-  'Botas de CD': '3158', 'Botas de Placas': '3047',
+  'Botas de Celeridad': '3158', 'Botas de CD': '3158', 'Botas de Placas': '3047',
   // Otros
   'Última Piedad': '3036', 'Muramana': '3004',
   'Guardián Angel': '3026', 'Guardián de Angel': '3026',
