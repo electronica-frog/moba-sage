@@ -1,7 +1,16 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-22T06:05:00Z",
+  "lastUpdated": "2026-04-22T06:01:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-007",
+      "type": "fix",
+      "title": "3 Fixes: items reales + skins DDragon + patch badge",
+      "description": "Nombres items corruptos corregidos: Llamasomo→Llamarada Sombría (24 instancias), Botas de CD→Botas de Celeridad. Skin labels genéricas (Skin 1-4) reemplazadas con nombres reales DDragon para 24 campeones populares (Katarina 'Kitty Cat', Jinx 'Star Guardian', etc). Badge de parche '26.8' agregado al footer de la sidebar con dot pulsante verde. Competidores analizados: Mobalytics, OP.GG, Blitz.gg, U.GG, LoLalytics.",
+      "timestamp": "2026-04-22T06:01:00Z",
+      "commit": "308ab2b",
+      "category": "fix"
+    },
     {
       "id": "nav-refactor-001",
       "type": "improvement",
@@ -91,7 +100,7 @@
     "10 pestañas funcionales con datos en vivo",
     "Sidebar desktop + Bottom Nav mobile (responsive)",
     "Dev tabs colapsables en sidebar",
-    "Iconos DDragon para items y campeones",
+    "Nombres reales de items (Llamarada Sombría, Botas de Celeridad)",
     "Ralph Loop auto-mejora cada 15 minutos",
     "Tabs separadas: Juego (oro) vs Dev (cyan)"
   ]
