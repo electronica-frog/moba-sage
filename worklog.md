@@ -43,3 +43,23 @@ Stage Summary:
 - Fallback spell icons show contextual skill names
 - Rune icon 502s remain (low priority — colored circle fallback works)
 - WR Parches empty content remains (low priority — needs content authoring)
+---
+Task ID: ralph-loop-010
+Agent: Ralph Loop (Main)
+Task: QA scan + 3 fixes (Build Meta Live, Rune tree name, WR Competitivo)
+
+Work Log:
+- Browser scan: All 10 tabs load OK. Found: BUILD META LIVE section shows "No Disponible" for all S-tier champs, "Determinación" rune tree name is wrong (should be "Valor"), WR Competitivo tab shows LoL region filters (LCK/LPL/LEC/LCS) with misleading message
+- Fix 1: champion-modal.tsx — BUILD META LIVE section now only renders when metaBuild has actual coreItems data (hidden when null/empty). Removed unused buildLoading state.
+- Fix 2: data.ts + helpers.ts — Replaced "Determinación" with "Valor" (38 instances in data.ts, 1 in helpers.ts). The LoL "Resolve" rune tree in Spanish is "Valor", not "Determinación".
+- Fix 3: competitive-tab.tsx — When in WR mode, replaced the confusing LoL region filters + "Mostrando datos de LoL" message with a clean "Coming Soon" card. Removed unused Info import.
+- Updated activity-feed.json with ralph-loop-010 entry
+- Updated ticks.md with run log
+- Build: OK (npm run build passed, 0 errors)
+- Push: 5e34a58 → main (37724db with commit hash update)
+
+Stage Summary:
+- No more misleading "No Disponible" BUILD META LIVE section
+- All rune tree names now correct ("Valor" instead of fabricated "Determinación")
+- WR Competitivo tab no longer shows irrelevant LoL region filters
+- 10/10 tabs functional
