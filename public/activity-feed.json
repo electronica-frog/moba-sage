@@ -1,7 +1,16 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-22T06:55:00Z",
+  "lastUpdated": "2026-04-22T07:28:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-009",
+      "type": "improvement",
+      "title": "WR Patch 6.8 expandido + item parsing fix + 7 ideas competencia",
+      "description": "Parche WR 6.8 expandido con contenido real (summary + digest con stats de campeones). Fix parseBuildItems: items con apostrofe (Jak'Sho) ya no se rompen al parsear. Items faltantes agregados al ITEM_NAME_MAP: Jak'Sho (6665), Stridebreaker (6631), Experimental Hexplate (6664). 7 ideas de competencia agregadas al tab Ideas basadas en research de OP.GG, Mobalytics, U.GG, Blitz, iTero, Porofessor, LoLalytics.",
+      "timestamp": "2026-04-22T07:28:00Z",
+      "commit": "a6cfe6a",
+      "category": "improvement"
+    },
     {
       "id": "ralph-loop-008",
       "type": "fix",
