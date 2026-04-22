@@ -1,6 +1,6 @@
 # TICKS — MOBA SAGE
 > Auto-maintenance tasks executed by cron jobs
-> Last run: 2026-04-22 02:40 BA | Next run: 2026-04-22 02:55 BA (cada 15 min)
+> Last run: 2026-04-22 02:55 BA | Next run: 2026-04-22 03:10 BA (cada 15 min)
 
 ## CRON JOBS CONFIGURED
 | Job | ID | Schedule | Descripción |
@@ -42,3 +42,4 @@
 - [2026-04-22 02:31 BA] Ralph Loop Web Scrape Meta: Tier list completamente actualizada con datos reales scrapeados de Blitz.gg, U.GG, Mobalytics, Metabot.gg. +7 nuevos campeones S-tier (Ornn, Briar, Aurelion Sol, Veigar, Nilah, Soraka, Zyra). Demotidos: Thresh, Darius, Caitlyn, K'Sante, Graves, Blitzcrank, Viego (pulled del parche). Nuevo campo metaUpdated + metaSources en interfaz Champion para distinguir datos frescos vs stale. WR/pick/ban rates actualizados con datos reales. Build OK.
 - [2026-04-22 02:35 BA] Ralph Loop: Version API refactor (gamePatch separado de CDN version). Meta freshness indicator en Tier List (timestamp + fuentes). Banner muestra parche correcto. Commit hashes actualizados en activity-feed. Build OK.
 - [2026-04-22 02:40 BA] Ralph Loop: Meta 26.8 refresh con web search (6 fuentes). Malphite B→S, Nautilus B→S, Diana A→S (datos reales Buildzcrank/PropelRC/Amber.gg/Blitz.gg/Mobalytics). Brand S→A. Kennen B→A. metaUpdated + metaSources en todos los promocionados. Fuentes expandidas a 6. Build OK.
+- [2026-04-22 02:55 BA] Ralph Loop: Fix bug CRÍTICO banner mostraba "Patch 16.8" en vez de "Patch 26.8" (GAME_PATCH estaba hardcodeado a 16.8, el CDN usa 16.8.1 para assets pero el parche del juego es 26.8). Fix S-tier count en highlights (17→16). Build OK.
