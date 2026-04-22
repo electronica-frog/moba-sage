@@ -30,7 +30,7 @@ export function SidebarNav({ activeTab, onTabChange, gamePatch }: { activeTab: s
 
       {/* Game Navigation */}
       <div className="flex-1 overflow-y-auto py-4 px-3 scrollbar-none">
-        <p className="text-[9px] text-[#785a28] tracking-[0.25em] uppercase font-semibold px-3 mb-2">Analisis</p>
+        <p className="text-[9px] text-[#785a28] tracking-[0.25em] uppercase font-semibold px-3 mb-2">Análisis</p>
         <div className="space-y-0.5">
           {GAME_TAB_ITEMS.map((tab) => {
             const Icon = GAME_ICONS[tab.id] || Trophy;

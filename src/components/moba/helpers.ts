@@ -64,7 +64,7 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   'Huracán de Runaan': '3085', 'Frenesí de Runaan': '3085',
   'Bailarín Espectral': '3124', 'Botas de Berserker': '3006',
   // AP / Mago
-  'Sombrero de Rabadon': '3089', 'Reloj de Zhonya': '3157', 'Reloj de Arena de Zhonya': '3157',
+  'Sombrero de Rabadón': '3089', 'Reloj de Zhonya': '3157', 'Reloj de Arena de Zhonya': '3157',
   'Llamarada Sombría': '6653', 'Llamarada SombrÃ­a': '6653', 'Llamasomo': '6653',
   'Morellonomicon': '3165', 'Cetro de Rylai': '3116',
   'Cetro de Cristal de Rylai': '3116',
