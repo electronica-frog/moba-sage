@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { TIER_CONFIG } from './constants';
 import { ChampionRow } from './champion-row';
+import { SourceBadge } from './source-badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { Champion } from './types';
 import type { LucideIcon } from 'lucide-react';
@@ -76,6 +77,13 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
           </div>
         </div>
       </div>
+
+      {/* Source attribution under tier header */}
+      {tier === 'S' && (
+        <div className="px-4 py-1" style={{ background: 'rgba(20, 24, 30, 0.6)', borderLeft: '1px solid rgba(120, 90, 40, 0.12)', borderRight: '1px solid rgba(120, 90, 40, 0.12)' }}>
+          <SourceBadge source="U.GG + OP.GG" patch="Patch 26.9" timestamp="2026-04-25T12:00:00Z" size="xs" />
+        </div>
+      )}
 
       <div
         className="hidden sm:flex items-center px-4 py-1.5 text-[8px] text-[#5b5a56] uppercase tracking-widest font-medium"
