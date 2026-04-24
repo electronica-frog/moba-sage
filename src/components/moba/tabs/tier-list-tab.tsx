@@ -10,7 +10,7 @@ import { TierSection, TierSectionSkeleton } from '../tier-section';
 import { TIER_CONFIG } from '../constants';
 import { ChampionCard } from '../champion-card';
 import { WeeklyWRChart } from '../weekly-wr-chart';
-import type { Champion, GameSelection } from './types';
+import type { Champion, GameSelection } from '../types';
 
 // ---- Local types for tierlist feed ----
 interface TierlistFeed {
@@ -252,52 +252,69 @@ export function TierListTab({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+          className="space-y-3"
         >
-          {risingChampions.length > 0 && (
-            <div className="rounded-xl p-3 border border-[#0fba81]/20" style={{ background: 'rgba(15,186,129,0.04)' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <ArrowUpCircle className="w-4 h-4 text-[#0fba81]" />
-                <span className="lol-title text-xs text-[#0fba81]">En Ascenso</span>
-                <span className="text-[9px] text-[#5b5a56] ml-auto">{risingChampions.length}</span>
+          {/* Legend */}
+          <div className="flex items-center gap-4 px-1">
+            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
+              <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Win Rate sube
+            </span>
+            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
+              <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Win Rate baja
+            </span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {risingChampions.length > 0 && (
+              <div className="rounded-xl p-3" style={{ background: 'rgba(15,186,129,0.05)', border: '1.5px solid rgba(15,186,129,0.2)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <ArrowUpCircle className="w-5 h-5 text-[#0fba81]" style={{ filter: 'drop-shadow(0 0 6px rgba(15,186,129,0.4))' }} />
+                  <span className="lol-title text-sm text-[#0fba81]">En Ascenso</span>
+                  <span className="ml-auto px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81' }}>{risingChampions.length}</span>
+                </div>
+                <div className="space-y-2">
+                  {risingChampions.map((entry, i) => {
+                    const name = extractChampName(entry);
+                    const reason = entry.match(/\((.+)\)/)?.[1] || '';
+                    return (
+                      <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg" style={{ background: 'rgba(15,186,129,0.06)', border: '1px solid rgba(15,186,129,0.1)' }}>
+                        <span className="flex items-center justify-center w-5 h-5 rounded text-[10px] font-black" style={{ background: 'rgba(15,186,129,0.2)', color: '#0fba81' }}>▲</span>
+                        <span className="text-[11px] font-semibold text-[#f0e6d2]">{name}</span>
+                        <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(15,186,129,0.1)' }}>
+                          <div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, rgba(15,186,129,0.3), #0fba81)', width: `${Math.max(60, 100 - i * 8)}%`, boxShadow: '0 0 6px rgba(15,186,129,0.3)' }} />
+                        </div>
+                        {reason && <span className="text-[8px] text-[#5b5a56] shrink-0">{reason}</span>}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {risingChampions.map((entry, i) => {
-                  const name = extractChampName(entry);
-                  const reason = entry.match(/\((.+)\)/)?.[1] || '';
-                  return (
-                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium text-[#0fba81]" style={{ background: 'rgba(15,186,129,0.08)', border: '1px solid rgba(15,186,129,0.15)' }}>
-                      <span className="font-bold">↑</span>
-                      {name}
-                      {reason && <span className="text-[8px] text-[#5b5a56]">{reason}</span>}
-                    </span>
-                  );
-                })}
+            )}
+            {fallingChampions.length > 0 && (
+              <div className="rounded-xl p-3" style={{ background: 'rgba(232,64,87,0.05)', border: '1.5px solid rgba(232,64,87,0.2)' }}>
+                <div className="flex items-center gap-2 mb-3">
+                  <ArrowDownCircle className="w-5 h-5 text-[#e84057]" style={{ filter: 'drop-shadow(0 0 6px rgba(232,64,87,0.4))' }} />
+                  <span className="lol-title text-sm text-[#e84057]">En Caída</span>
+                  <span className="ml-auto px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057' }}>{fallingChampions.length}</span>
+                </div>
+                <div className="space-y-2">
+                  {fallingChampions.map((entry, i) => {
+                    const name = extractChampName(entry);
+                    const reason = entry.match(/\((.+)\)/)?.[1] || '';
+                    return (
+                      <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg" style={{ background: 'rgba(232,64,87,0.06)', border: '1px solid rgba(232,64,87,0.1)' }}>
+                        <span className="flex items-center justify-center w-5 h-5 rounded text-[10px] font-black" style={{ background: 'rgba(232,64,87,0.2)', color: '#e84057' }}>▼</span>
+                        <span className="text-[11px] font-semibold text-[#f0e6d2]">{name}</span>
+                        <div className="flex-1 h-1.5 rounded-full overflow-hidden flex justify-end" style={{ background: 'rgba(232,64,87,0.1)' }}>
+                          <div className="h-full rounded-full" style={{ background: 'linear-gradient(270deg, rgba(232,64,87,0.3), #e84057)', width: `${Math.max(60, 100 - i * 8)}%`, boxShadow: '0 0 6px rgba(232,64,87,0.3)' }} />
+                        </div>
+                        {reason && <span className="text-[8px] text-[#5b5a56] shrink-0">{reason}</span>}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
-          {fallingChampions.length > 0 && (
-            <div className="rounded-xl p-3 border border-[#e84057]/20" style={{ background: 'rgba(232,64,87,0.04)' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <ArrowDownCircle className="w-4 h-4 text-[#e84057]" />
-                <span className="lol-title text-xs text-[#e84057]">En Caída</span>
-                <span className="text-[9px] text-[#5b5a56] ml-auto">{fallingChampions.length}</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {fallingChampions.map((entry, i) => {
-                  const name = extractChampName(entry);
-                  const reason = entry.match(/\((.+)\)/)?.[1] || '';
-                  return (
-                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium text-[#e84057]" style={{ background: 'rgba(232,64,87,0.08)', border: '1px solid rgba(232,64,87,0.15)' }}>
-                      <span className="font-bold">↓</span>
-                      {name}
-                      {reason && <span className="text-[8px] text-[#5b5a56]">{reason}</span>}
-                    </span>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </motion.div>
       )}
 
