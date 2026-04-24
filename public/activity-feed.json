@@ -1,7 +1,16 @@
 {
-  "version": "1.4",
-  "lastUpdated": "2026-04-25T00:35:00Z",
+  "version": "1.5",
+  "lastUpdated": "2026-04-25T16:40:00Z",
   "entries": [
+    {
+      "id": "champion-cards-001",
+      "type": "feature",
+      "title": "Champion Cards estilo LoL + Weekly WR Charts + Fuentes de Datos",
+      "description": "Nuevas ChampionCard con splash art fondo estilo tarjeta LoL (tamaño sm para Tier List, lg para Cosas Rotas). Gráfico de barras semanales de WR en modal (7 días con animación). Panel de Fuentes de Datos (U.GG/OP.GG/Mobalytics/Blitz/Buildzcrank/PropelRC) con timestamps de actualización. S-Tier ahora usa tarjetas con splash art + build items inline. Board View completamente rediseñado con tarjetas visuales.",
+      "timestamp": "2026-04-25T16:40:00Z",
+      "commit": "7dbd1d8",
+      "category": "feature"
+    },
     {
       "id": "ralph-loop-024",
       "type": "fix",
@@ -166,12 +175,12 @@
     }
   ],
   "highlights": [
+    "Champion Cards: splash art fondo estilo tarjeta LoL (2 tamaños)",
+    "Weekly WR Chart: gráfico de barras 7 días en modal de campeón",
+    "Fuentes de Datos: panel con 6 sources + timestamps",
+    "S-Tier Cosas Rotas: tarjetas visuales con build items inline",
+    "Board View: completamente rediseñado con ChampionCard",
     "Notificaciones: últimos 7 días con popup detail",
-    "Bottom Nav: Coaching añadido, orden optimizado",
-    "Landing: Champion Showcase Strip animado + Meta Report actualizado",
-    "Tier List: Promedio WR por Rol (Top/JNG/Mid/ADC/Sup)",
-    "Guías: placeholder 'Próximamente' con animación",
-    "Sidebar: atajos de teclado (Ctrl+K, Esc)",
-    "32+ mejoras totales acumuladas"
+    "40+ mejoras totales acumuladas"
   ]
 }
