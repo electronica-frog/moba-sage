@@ -1,0 +1,89 @@
+{
+  "lastUpdated": "2026-04-24T13:30:00Z",
+  "source": "juegos-1 BOTARDO OS",
+  "guides": [
+    {
+      "id": "hwei-mid-268",
+      "champion": "Hwei",
+      "role": "Mid",
+      "patch": "26.8",
+      "title": "Hwei Mid — Combos, Build, Matchups",
+      "summary": "Hwei se posiciona como uno de los mages más versátiles del meta 26.8. Su kit de 10 habilidades permite adaptarse a cualquier situación de lane.",
+      "tags": ["combos", "build", "matchups", "mid"],
+      "keyPoints": [
+        "Maximizar combo Q+E+W para burst en lane",
+        "Build: Luden's Companion → Sorcerer's Shoes → Shadowflame",
+        "Runas: Electrocute + Domination",
+        "Fuerte contra control mages, débil contra assassins gap-close"
+      ],
+      "fileName": "guia_hwei_mid_lol268.md"
+    },
+    {
+      "id": "ksante-top-268",
+      "champion": "K'Sante",
+      "role": "Top",
+      "patch": "26.8",
+      "title": "K'Sante Top — WR, Build, Counters",
+      "summary": "K'Sante domina la top lane con su kit tanque/bruiser híbrido. Alto WR y presencia en ranked.",
+      "tags": ["build", "counters", "wr", "top"],
+      "keyPoints": [
+        "WR consistentemente por encima de 52%",
+        "Build: Sunfire Aegis → Iceborn Gauntlet → Force of Nature",
+        "Runas: Grasp of the Undying + Resolve",
+        "Fuerte contra bruisers melee, vulnerable a poke range"
+      ],
+      "fileName": "guia_ksante_wr_2026-04-18_ciclo13.md"
+    },
+    {
+      "id": "clove-valorant-1207",
+      "champion": "Clove",
+      "role": "Duelist",
+      "patch": "12.07",
+      "title": "Clove — Guía Completa Valorant",
+      "summary": "Clove se mantiene como S-tier en 12.07. Utilidad única con su ultimate global.",
+      "tags": ["build", "abilities", "strategy"],
+      "keyPoints": [
+        "Ultimate global permite impacto sin estar en sitio",
+        "Pick rate alto en ranked",
+        "Synergia fuerte con controllers (Omen, Brimstone)"
+      ],
+      "fileName": "guia_clove_valorant_2026-04-18_ciclo9.md"
+    },
+    {
+      "id": "lol-269-season2-prep",
+      "champion": "General",
+      "role": "All",
+      "patch": "26.9",
+      "title": "Preparación Season 2 Pandemonium — LoL 26.9",
+      "summary": "Guía completa de preparación para Season 2: items, campeones, plan de práctica.",
+      "tags": ["season2", "pandemonium", "preparacion", "items", "builds"],
+      "keyPoints": [
+        "Nuevos Doran's reemplazan Trailblazer/Opportunity",
+        "Botas Omnivamp (1.5%) cambian el timing de sustain items",
+        "WASD opcional para nueva audiencia",
+        "Ranked reset Season 2 — primeras 20 partidas definen MMR",
+        "Testear Taliyah y Warwick post-buff primero",
+        "AP midlaner nuevo campeón llegando en Season 2"
+      ],
+      "fileName": "BA_20260423_0730_guia_lol269_season2_preparacion.md"
+    },
+    {
+      "id": "lol-269-patch-preview",
+      "champion": "General",
+      "role": "All",
+      "patch": "26.9",
+      "title": "LoL 26.9 Full Preview — Cambios de Campeones",
+      "summary": "Preview completo: Ambessa/Briar nerf, Zeri/Shyvana adjust, Taliyah/Warwick buff, nuevos items.",
+      "tags": ["patches", "champions", "changes", "preview"],
+      "keyPoints": [
+        "~15 campeones cambian entre buffs/nerfs/adjustments",
+        "Ambessa y Briar nerf significativo",
+        "Zeri cambio mayor (DPS balance sin inviabilidad)",
+        "Shyvana reajuste iterativo (potencial S-tier)",
+        "Endless Hunger system buff",
+        "Campeón nuevo AP midlaner en Season 2"
+      ],
+      "fileName": "BA_20260423_0530_patches_lol269_fullpreview_cs2_shake.md"
+    }
+  ]
+}
