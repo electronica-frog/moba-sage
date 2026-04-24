@@ -97,6 +97,7 @@ export function TierListTab({
   const [showSources, setShowSources] = useState(false);
   const [expandedWeekly, setExpandedWeekly] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('winRate');
+  const [versionData, setVersionData] = useState<{ cdn: string; gamePatch: string; metaLastUpdated: string; fetchedAt: string } | null>(null);
 
   // Fetch tierlist-feed.json on mount
   useEffect(() => {
@@ -114,6 +115,25 @@ export function TierListTab({
       }
     }
     fetchFeed();
+  }, []);
+
+  // Fetch /api/version for enhanced data sources
+  useEffect(() => {
+    async function fetchVersion() {
+      try {
+        const res = await fetch('/api/version');
+        if (res.ok) {
+          const data = await res.json();
+          setVersionData({
+            cdn: data.lol || '',
+            gamePatch: data.gamePatch || (data.lol ? data.lol.split('.').slice(0, 2).join('.') : ''),
+            metaLastUpdated: data.metaLastUpdated || '',
+            fetchedAt: data.fetchedAt || new Date().toISOString(),
+          });
+        }
+      } catch { /* ignore */ }
+    }
+    fetchVersion();
   }, []);
 
   // Build trend map from feed data
@@ -185,8 +205,84 @@ export function TierListTab({
     ? new Date(feedData.lastUpdated).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
     : null;
 
+  // Color-coded freshness
+  const freshnessInfo = (() => {
+    if (!versionData?.fetchedAt) return { color: '#5b5a56', label: 'Desconocido' };
+    const diffMs = Date.now() - new Date(versionData.fetchedAt).getTime();
+    const hours = diffMs / 3600000;
+    if (hours < 1) return { color: '#0fba81', label: 'Fresco' };
+    if (hours < 6) return { color: '#f0c646', label: 'Aceptable' };
+    return { color: '#e84057', label: 'Antiguo' };
+  })();
+  const lastCheckTime = versionData?.fetchedAt
+    ? new Date(versionData.fetchedAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+    : '\u2014';
+
   return (
     <div className="space-y-4">
+      {/* ===== SNAPSHOT DEL META ===== */}
+      {!loading && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <p className="lol-label text-[10px] text-[#c8aa6e] mb-2 tracking-wider uppercase">Snapshot del Meta</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div
+              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
+              style={{ background: 'rgba(200,170,110,0.06)', border: '1px solid rgba(200,170,110,0.15)' }}
+            >
+              <div className="flex items-center gap-1.5">
+                <Database className="w-3.5 h-3.5 text-[#c8aa6e] opacity-60" />
+                <span className="lol-label text-[10px] text-[#5b5a56]">Total campeones</span>
+              </div>
+              <span className="text-base font-bold font-mono text-[#c8aa6e]">{gameChampions.length}</span>
+              <span className="text-[10px] text-[#a09b8c]">en el sistema</span>
+            </div>
+            <div
+              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
+              style={{ background: 'rgba(200,170,110,0.08)', border: '1px solid rgba(200,170,110,0.25)' }}
+            >
+              <div className="flex items-center gap-1.5">
+                <TrendingUp className="w-3.5 h-3.5 text-[#c8aa6e] opacity-60" />
+                <span className="lol-label text-[10px] text-[#5b5a56]">Tier S</span>
+              </div>
+              <span className="text-base font-bold font-mono text-[#c8aa6e]">{sTiers.length}</span>
+              <span className="text-[10px] text-[#a09b8c]">Dioses del meta</span>
+            </div>
+            <div
+              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
+              style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}
+            >
+              <div className="flex items-center gap-1.5">
+                <BarChart3 className="w-3.5 h-3.5 text-[#0acbe6] opacity-60" />
+                <span className="lol-label text-[10px] text-[#5b5a56]">WR Promedio</span>
+              </div>
+              <span className="text-base font-bold font-mono text-[#0acbe6]">
+                {gameChampions.length > 0
+                  ? (gameChampions.reduce((s, c) => s + c.winRate, 0) / gameChampions.length).toFixed(1) + '%'
+                  : '\u2014'}
+              </span>
+              <span className="text-[10px] text-[#a09b8c]">todos los campeones</span>
+            </div>
+            <div
+              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
+              style={{ background: 'rgba(15,186,129,0.06)', border: '1px solid rgba(15,186,129,0.15)' }}
+            >
+              <div className="flex items-center gap-1.5">
+                <TrendingUp className="w-3.5 h-3.5 text-[#0fba81] opacity-60" />
+                <span className="lol-label text-[10px] text-[#5b5a56]">Mayor WR</span>
+              </div>
+              <span className="text-base font-bold font-mono text-[#0fba81]">
+                {topWR[0]?.winRate ? `${topWR[0].winRate}%` : '\u2014'}
+              </span>
+              <span className="text-[10px] text-[#a09b8c]">{topWR[0]?.name ?? ''}</span>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       <div className="space-y-3">
         {/* View toggle + Search */}
         <div className="flex items-center gap-2">
@@ -617,7 +713,7 @@ export function TierListTab({
         </div>
       )}
 
-      {/* Collapsible Data Sources */}
+      {/* Collapsible Data Sources — Enhanced */}
       {!loading && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -634,8 +730,15 @@ export function TierListTab({
               Fuentes de Datos
             </span>
             <span className="text-[9px] text-[#5b5a56]">{dataSources.length} fuentes</span>
+            <span
+              className="ml-auto mr-2 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[8px] font-bold"
+              style={{ background: `${freshnessInfo.color}18`, color: freshnessInfo.color, border: `1px solid ${freshnessInfo.color}30` }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: freshnessInfo.color }} />
+              {freshnessInfo.label}
+            </span>
             <ChevronDown
-              className={`w-3.5 h-3.5 ml-auto text-[#5b5a56] transition-transform duration-200 ${showSources ? '' : '-rotate-90'}`}
+              className={`w-3.5 h-3.5 text-[#5b5a56] transition-transform duration-200 ${showSources ? '' : '-rotate-90'}`}
             />
           </button>
           <AnimatePresence>
@@ -646,7 +749,35 @@ export function TierListTab({
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
-                <div className="px-3 pb-3">
+                <div className="px-3 pb-3 space-y-3">
+                  {/* Version Info Panel */}
+                  <div className="rounded-lg p-3" style={{ background: 'rgba(10,203,230,0.04)', border: '1px solid rgba(10,203,230,0.12)' }}>
+                    <p className="lol-label text-[10px] text-[#0acbe6] mb-2 uppercase tracking-wider">Estado de Datos</p>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-[#a09b8c]">Versi\u00f3n CDN (Data Dragon)</span>
+                        <span className="text-[10px] font-mono text-[#f0e6d2]">{versionData?.cdn || '\u2014'}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-[#a09b8c]">Parche del juego</span>
+                        <span className="text-[10px] font-mono text-[#c8aa6e]">{versionData?.gamePatch || '26.9'}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-[#a09b8c]">Meta actualizada</span>
+                        <span className="text-[10px] text-[#f0e6d2]">{versionData?.metaLastUpdated || '\u2014'}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-[#a09b8c]">Tier list feed</span>
+                        <span className="text-[10px] text-[#f0e6d2]">{feedLastUpdated || '\u2014'}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-[#a09b8c]">\u00daltima verificaci\u00f3n</span>
+                        <span className="text-[10px] font-mono" style={{ color: freshnessInfo.color }}>{lastCheckTime}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Source Cards */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                     {dataSources.map((source) => (
                       <a
