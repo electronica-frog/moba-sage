@@ -65,7 +65,7 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   'Bailarín Espectral': '3124', 'Botas de Berserker': '3006',
   // AP / Mago
   'Sombrero de Rabadón': '3089', 'Reloj de Zhonya': '3157', 'Reloj de Arena de Zhonya': '3157',
-  'Llamarada Sombría': '6653', 'Llamarada SombrÃ­a': '6653', 'Llamasomo': '6653',
+  'Llamarada Sombría': '6653', 'Llamasomo': '6653',
   'Morellonomicon': '3165', 'Cetro de Rylai': '3116',
   'Cetro de Cristal de Rylai': '3116',
   'Botas del Vacío': '3020', 'Hielo Eterno': '6662',
@@ -108,7 +108,7 @@ const RUNE_ICON_MAP: Record<string, string> = {
   'Phase Rush': '8200_Sorcery/PhaseRush/PhaseRush.png',
   // Domination Keystones
   'Electrocutar': '8100_Domination/Electrocute/Electrocute.png',
-  'Oscuro Colhar': '8100_Domination/DarkHarvest/DarkHarvest.png',
+  'Cosecha Oscura': '8100_Domination/DarkHarvest/DarkHarvest.png',
   // Resolve Keystones
   'Guardián': '8400_Resolve/Guardian/Guardian.png',
   'Demolir': '8400_Resolve/Demolish/Demolish.png',

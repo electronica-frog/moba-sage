@@ -98,7 +98,7 @@ async function searchBuild(champion: string, slug: string): Promise<Partial<Scra
     return {
       champion,
       source: 'web-search',
-      patch: '26.08',
+      patch: '26.8',
       winRate,
       coreItems: coreItems.map(capitalize),
       boots: capitalize(boots),
