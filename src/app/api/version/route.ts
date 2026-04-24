@@ -13,8 +13,8 @@ interface VersionInfo {
 const CACHE_DURATION = 1000 * 60 * 30; // 30 minutes
 
 // This is updated manually when we refresh tier list data with real meta
-let GAME_PATCH = '26.8';
-let META_LAST_UPDATED = '2026-04-22T05:35:00Z';
+let GAME_PATCH = '26.9';
+let META_LAST_UPDATED = '2026-04-25T12:00:00Z';
 
 export function setGamePatch(patch: string) { GAME_PATCH = patch; }
 export function setMetaLastUpdated(date: string) { META_LAST_UPDATED = date; }
@@ -73,11 +73,11 @@ export async function GET() {
 
     // Fallback
     return NextResponse.json({
-      lol: '16.8.1',
-      lolFull: '16.8.1',
-      wr: '6.8',
-      gamePatch: GAME_PATCH || '26.8',
-      cdnVersion: '16.8.1',
+      lol: '16.9.1',
+      lolFull: '16.9.1',
+      wr: '6.9',
+      gamePatch: GAME_PATCH || '26.9',
+      cdnVersion: '16.9.1',
       metaLastUpdated: META_LAST_UPDATED,
       fetchedAt: new Date().toISOString(),
     });
