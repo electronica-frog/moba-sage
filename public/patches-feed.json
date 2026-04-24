@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-24T13:30:00Z",
+  "lastUpdated": "2026-04-24T14:01:00Z",
   "source": "juegos-1 BOTARDO OS",
   "patches": [
     {
@@ -9,16 +9,47 @@
       "date": "2026-04-29",
       "sourceGame": "LoL",
       "status": "upcoming",
-      "summary": "Lanzamiento de Season 2 Pandemonium. Nuevos Doran's, botas Omnivamp (1.5%), WASD keybinds por campeón, ranked reset, Endless Hunger buff.",
-      "digest": "CAMBIOS DE SISTEMAS: Nuevos items de inicio (reemplazan Trailblazer/Opportunity), Doran's Bow confirmado, Dusk and Dawn rework, botas Omnivamp 1.5%, WASD controles, ranked Season 1 termina. NERFS: Ambessa (burst/survivability), Briar (dive sostenido). BUFFS: Taliyah (control mapa), Warwick (jungle sustain), Tahm Kench (utilidad support). AJUSTES: Zeri (DPS balance), Shyvana (reajuste iterativo), Xin Zhao (enganche), Ezreal (nuevos Doran's), Kennen, Teemo, Udyr, Zoe. SISTEMAS: Endless Hunger buff, keybinds por campeón. NUEVO CAMPEON: AP midlaner en Season 2.",
+      "summary": "Lanzamiento de Season 2 Pandemonium. Nuevos Doran's, Gluttonous Greaves, Immortal Path, Doran's Helm, botas Omnivamp (1.5%), WASD keybinds por campeón, ranked reset, Endless Hunger buff.",
+      "digest": "CAMBIOS DE SISTEMAS: Nuevos items de inicio (reemplazan Trailblazer/Opportunity), Doran's Bow confirmado, Dusk and Dawn rework, botas Omnivamp 1.5%, WASD controles, ranked Season 1 termina. NERFS: Ambessa (burst/survivability), Briar (dive sostenido). BUFFS: Taliyah (control mapa), Warwick (jungle sustain), Tahm Kench (utilidad support). AJUSTES: Zeri (DPS balance), Shyvana (reajuste iterativo), Xin Zhao (enganche), Ezreal (nuevos Doran's), Kennen, Teemo, Udyr, Zoe. SISTEMAS: Endless Hunger buff, keybinds por campeón. NUEVO CAMPEON: AP midlaner en Season 2.\n\nNUEVOS ITEMS PBE (Apr 23): Doran's Helm, Gluttonous Greaves, Immortal Path. Massive item & rune update confirmado — más de 10 items nuevos/reworkeados.",
       "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-26-9-notes/",
       "changes": {
-        "nerfs": ["Ambessa", "Briar"],
-        "buffs": ["Taliyah", "Warwick", "Tahm Kench"],
-        "adjustments": ["Zeri", "Shyvana", "Xin Zhao", "Ezreal", "Kennen", "Teemo", "Udyr", "Zoe"],
-        "newItems": ["Doran's Bow", "Dusk and Dawn (rework)", "Omnivamp Boots (1.5%)"],
-        "removedItems": ["Trailblazer", "Opportunity"],
-        "systems": ["WASD keybinds", "Endless Hunger buff", "Ranked Season 1 end", "Ranked Season 2 start"]
+        "nerfs": [
+          "Ambessa",
+          "Briar"
+        ],
+        "buffs": [
+          "Taliyah",
+          "Warwick",
+          "Tahm Kench"
+        ],
+        "adjustments": [
+          "Zeri",
+          "Shyvana",
+          "Xin Zhao",
+          "Ezreal",
+          "Kennen",
+          "Teemo",
+          "Udyr",
+          "Zoe"
+        ],
+        "newItems": [
+          "Doran's Helm",
+          "Dusk and Dawn (rework)",
+          "Gluttonous Greaves",
+          "Omnivamp Boots (1.5%)",
+          "Immortal Path",
+          "Doran's Bow"
+        ],
+        "removedItems": [
+          "Trailblazer",
+          "Opportunity"
+        ],
+        "systems": [
+          "WASD keybinds",
+          "Endless Hunger buff",
+          "Ranked Season 1 end",
+          "Ranked Season 2 start"
+        ]
       }
     },
     {
@@ -54,8 +85,12 @@
       "digest": "Waylay recibe nerfo significativo: Saturate pasa de INSTANT a EQUIP, limitando combo flash+trap. Viper backend improvements en ultimate. Bind sale de rotación competitiva Act 3. Implementándose en VCT Pacific Week 4 (24/04).",
       "url": "https://playvalorant.com/en-us/news/game-updates/",
       "changes": {
-        "nerfs": ["Waylay (Saturate INSTANT → EQUIP)"],
-        "maps": ["Bind out of Act 3 rotation"]
+        "nerfs": [
+          "Waylay (Saturate INSTANT → EQUIP)"
+        ],
+        "maps": [
+          "Bind out of Act 3 rotation"
+        ]
       }
     },
     {
@@ -80,7 +115,12 @@
       "digest": "Valve deployed AnimGraph 2 overhaul para todas las animaciones third-person. Screen shake al spray reducido significativamente. Burst fire bug fix. Knife attack transitions fix. Elites third-person fix.",
       "url": "https://blog.counter-strike.net/",
       "changes": {
-        "fixes": ["Screen shake spray", "Burst fire delay", "Knife transitions", "Elites third-person"]
+        "fixes": [
+          "Screen shake spray",
+          "Burst fire delay",
+          "Knife transitions",
+          "Elites third-person"
+        ]
       }
     }
   ]
