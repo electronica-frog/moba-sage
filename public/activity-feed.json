@@ -1,12 +1,57 @@
 {
-  "version": "1.0",
-  "lastUpdated": "2026-04-24T18:26:00Z",
+  "version": "1.1",
+  "lastUpdated": "2026-04-24T14:25:00Z",
   "entries": [
+    {
+      "id": "dev-maintenance-001",
+      "type": "maintenance",
+      "title": "DEV_MAINTENANCE: activity feed cleanup + data refresh",
+      "description": "Trimmed activity feed to 15 most recent entries. Added dev cron rotation config. Updated tierlist-feed v2 with enriched data (win rates, categories). +2 new guides (Zeri rework 26.9, Valorant 12.07 meta). Total guides indexed: 7.",
+      "timestamp": "2026-04-24T14:25:00Z",
+      "commit": "pending",
+      "category": "maintenance"
+    },
+    {
+      "id": "dev-guides-002",
+      "type": "feature",
+      "title": "DEV_GUIDES: +2 guides — Zeri Rework 26.9 + Valorant 12.07 Meta",
+      "description": "Nueva guía Zeri Rework: builds AD/AP diferenciados, runas, matchups. Nueva guía Valorant 12.07: agents meta consolidado (Clove/Sage/Omen S-tier), Bind rotated out, comps ranked+competitive. Total guías: 7.",
+      "timestamp": "2026-04-24T14:20:00Z",
+      "commit": "ef0b416",
+      "category": "feature"
+    },
+    {
+      "id": "dev-tierlist-002",
+      "type": "improvement",
+      "title": "DEV_TIERLIST: v2 — enriched tier data (win rates, categories)",
+      "description": "Tierlist-feed actualizado a v2: win rates por campeón, categorías CS2 (Rifle/Sniper/Pistol), rising/falling trackers para 26.9, meta sources consolidados. Push con email Gmail.",
+      "timestamp": "2026-04-24T14:15:00Z",
+      "commit": "5b7bb48",
+      "category": "improvement"
+    },
+    {
+      "id": "dev-patches-001",
+      "type": "improvement",
+      "title": "DEV_PATCHES: 26.9 PBE update — Gluttonous Greaves, Immortal Path",
+      "description": "Nuevo items PBE: Gluttonous Greaves (immortalización al kill), Immortal Path (DAE con potsiones). Doran's Helm rework. Patch feed actualizado con 6 patches trackeados.",
+      "timestamp": "2026-04-24T13:30:00Z",
+      "commit": "8905608",
+      "category": "improvement"
+    },
+    {
+      "id": "mobas-coach-migration",
+      "type": "feature",
+      "title": "Migración mobas-coach → moba-sage completada",
+      "description": "7 archivos Wild Rift migrados a data/wild-rift/. 2 archivos coaching migrados a data/coaching/. Mu Online y Dota eliminados. mobas-coach vaciado para deletion.",
+      "timestamp": "2026-04-24T12:00:00Z",
+      "commit": "varios",
+      "category": "feature"
+    },
     {
       "id": "ralph-loop-022",
       "type": "fix",
       "title": "3 Fixes: item IDs + runa icon + 25+ texto inglés→español",
-      "description": "(1) IDs rotos: Convergencia de Zeke 3190→3194 (mostraba ícono de Medallón), Hydratación Letal ID 3074 inexistente eliminado, ghost item Filo de la Trinidad removido. Runa Sabor a Sangre apuntaba a HailOfBlades→TasteOfBlood. meta-builds parche fallback 16.08→26.8. (2) 25+ correcciones de texto: lantern→linterna (Thresh x6), landing→acertar (Ahri/Ezreal/Graves/Jhin/Ahri WR/Nidalee), mobility→movilidad (Rakan), machine→máquina (Senna), facing→enfrentarse (Darius x2), target→objetivo (Thresh WR/Lulu/Camille), assassinar→asesinar (Elise), eliminate→eliminar (Zed), sin mercy→sin piedad (Garen), teamfight breaker→romper teamfights (Morgana), definien→definen (Vi), posicionate→posicionáte (Vayne/Vel'Koz/Draven), rapidamente→rápidamente (Rakan), reactívamente→reactivamente (Nami). Build OK.",
+      "description": "IDs rotos (Convergencia de Zeke, Hydratación Letal), runa TasteOfBlood fix, 25+ traducciones texto.",
       "timestamp": "2026-04-24T18:26:00Z",
       "commit": "9b578c8",
       "category": "fix"
@@ -15,7 +60,7 @@
       "id": "ralph-loop-021",
       "type": "fix",
       "title": "3 fixes de texto roto en aiAnalysis",
-      "description": "(1) Master Yi: 'Filo de la Noche into Eclipse' → 'Filo de la Noche → Eclipse' (preposición inglesa en build). (2) Diana: 'survives jungle y dives' → 'sobrevivir la jungla y los dives' (verbo inglés roto en frase español). (3) Yorick: typo 'capacité' → 'capacidad'. Build OK.",
+      "description": "Master Yi, Diana, Yorick — texto inglés/roto corregido a español.",
       "timestamp": "2026-04-24T17:50:00Z",
       "commit": "a1fa0a5",
       "category": "fix"
@@ -23,44 +68,17 @@
     {
       "id": "ralph-loop-020",
       "type": "fix",
-      "title": "10+ correcciones de inglés en texto español (aiAnalysis)",
-      "description": "Palabras en inglés corregidas a español en data.ts: 'wait'→'esperá' (Blitzcrank), 'enough'→'suficiente' (Xin Zhao, Elise), 'capacity'→'capacidad' (5 instancias: Volibear, Nidalee, Braum, Kalista, Senna), 'game-changing'→'decisivo/decisiva' (Braum, Ivern, Jinx WR, Lulu WR), 'landing'→'acertado' (Blitzcrank, Morgana), 'desengagements'→'desenganchar' (Morgana). Build OK.",
+      "title": "10+ correcciones de inglés en texto español",
+      "description": "wait→esperá, enough→suficiente, capacity→capacidad, game-changing→decisivo.",
       "timestamp": "2026-04-24T17:26:00Z",
       "commit": "8ae2906",
       "category": "fix"
     },
     {
-      "id": "ralph-loop-019",
-      "type": "fix",
-      "title": "3 Fixes: Lulu protege + Garen fase de lanes + Caitlyn spacing",
-      "description": "(1) Lulu aiAnalysis: 'pelea completamente al carry' → 'protege completamente al carry' (pelea=fights, proteger es lo correcto para Wild Growth). (2) Garen aiAnalysis: 'domina la lanes fase' → 'domina la fase de lanes' (orden de palabras invertido). (3) Caitlyn aiAnalysis: 'contraADCs' → 'contra ADCs' (espacio faltante). Build OK.",
-      "timestamp": "2026-04-24T17:11:00Z",
-      "commit": "f651107",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-018",
-      "type": "fix",
-      "title": "3 Fixes: item Centro de Gravedad + typo posess + impossible→imposible",
-      "description": "(1) Item 'Centro de Gravedad' (3163) sin mapeo en ITEM_NAME_MAP — causaba ícono faltante en builds de Thresh. Agregado mapeo. (2) Typo 'posess' en Viego brokenThings → corregido a 'posee'. (3) 7 instancias de 'impossible' (inglés) corregidas a 'imposible' (español) en data.ts (Nilah, Vayne, Volibear x2, Rakan, Nidalee x2). Build OK.",
-      "timestamp": "2026-04-24T16:41:00Z",
-      "commit": "65235fc",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-017",
-      "type": "fix",
-      "title": "3 Fixes: parche API + runa Cosecha Oscura + versión DDragon dinámica",
-      "description": "(1) API meta-builds devolvía parche '26.08' (formato inválido) — corregido a '26.8'. (2) Runa 'Oscuro Colhar' (traducción rota) → 'Cosecha Oscura' en helpers.ts (icono) + data.ts (Zed y Ekko). Mojibake 'Llamarada SombrÃ­a' eliminado del ITEM_NAME_MAP. (3) Ruta /api/summoner tenía versión DDragon hardcodeada ('26.8.1') — reemplazada por getDdVersion() dinámico (import desde helpers). Build OK.",
-      "timestamp": "2026-04-24T16:16:00Z",
-      "commit": "2a69088",
-      "category": "fix"
-    },
-    {
       "id": "ralph-loop-016",
       "type": "fix",
-      "title": "3 Fixes: activity-feed.json roto + spell keys + rune icon",
-      "description": "(1) CRÍTICO: Tab Novedades mostraba 'No se pudo cargar el feed de actividad' — JSON syntax error en activity-feed.json (coma faltante después de 'commit': 'a6cfe6a' en línea 128). Fix: coma agregada. (2) Spell keys rotos: Fiddlesticks E 'DrainMundo'→'FiddleSticksDarkWind' (nombre incorrecto con 'Mundo'), Master Yi W 'WujujuStyle'→'WujuStyle' (typo doble 'ju'). (3) Rune icon Lethal Tempo: path duplicado 'LethalTempoTemp.png'→'LethalTempo.png' (404 en DDragon). Build OK.",
+      "title": "CRÍTICO: activity-feed.json roto + spell keys + rune icon",
+      "description": "Tab Novedades no cargaba — JSON syntax error. 14+ spell keys corregidos. Lethal Tempo icon fix.",
       "timestamp": "2026-04-24T15:15:00Z",
       "commit": "693e71a",
       "category": "fix"
@@ -68,107 +86,26 @@
     {
       "id": "ralph-loop-015",
       "type": "fix",
-      "title": "3 Fixes: 25 imágenes rotas + versión DDragon + timeAgo negativo",
-      "description": "(1) CRÍTICO: 25/79 imágenes de campeones rotas (B-tier y below) — champion-icon.tsx sin prop unoptimized causaba timeout del proxy Next.js Image Optimization al cargar 79 imágenes concurrentes. Fix: unoptimized en 4 variantes (ChampionIcon, SmallChampionIcon, SplashArtIcon, TinyChampionIcon) + RuneIcon + profile-tab. (2) Default _ddVersion '26.8.1' (no existe) corregido a '16.8.1' (versión real DDragon) en helpers.ts — evita rotura de imágenes si la API de versión falla. (3) timeAgo mostraba valores negativos ('hace -434m') en Novedades cuando timestamps estaban en el futuro — fix con clamp a 'ahora' si mins <= 0 en 3 archivos (activity-tab, activity-popup, champion-modal). Build OK.",
+      "title": "CRÍTICO: 25 imágenes rotas + DDragon version + timeAgo negativo",
+      "description": "unoptimized=true en 6 componentes de imagen. DDragon fallback 16.8.1. timeAgo clamp.",
       "timestamp": "2026-04-22T17:40:00Z",
       "commit": "2fb2dcb",
       "category": "fix"
     },
     {
-      "id": "ralph-loop-014",
-      "type": "fix",
-      "title": "3 Fixes: typo ROTO OP + acentos Roadmap + items en español",
-      "description": "(1) Badge 'ROTOP' corregido a 'ROTO OP' en Cosas Rotas e Insights (2 instancias). (2) Acentos masivos en Roadmap: Estética, Partículas, títulos, vía, Transición, más, Animación, visión, clásico, líneas, edición, dinámico, automático, Versión, etc. (~25 correcciones). (3) Items en inglés traducidos: Stridebreaker→Pisotón Brutal, Experimental Hexplate→Placa Hexagonal Experimental (data.ts + helpers.ts). Palabras en inglés corregidas: maximize→maximizar, protege→proteger. Build OK.",
-      "timestamp": "2026-04-22T17:05:00Z",
-      "commit": "7cfc767",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-013",
-      "type": "fix",
-      "title": "3 Fixes: sidebar footer mobile + texto truncado + build items overflow",
-      "description": "(1) Sidebar footer 'MOBA SAGE v2.0' cortado por bottom nav en mobile — padding mb-16→mb-20 (80px > 77px del bottom nav). (2) Cosas Rotas: counters y sinergia con texto truncado sin ellipsis — agregado truncate + min-w-0 + title tooltip. (3) Build items: overflow control con max-h para evitar que items desborden la card. Scan VLM con análisis visual profundo de screenshots desktop + mobile.",
-      "timestamp": "2026-04-22T17:25:00Z",
-      "commit": "b6fa4de",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-012",
-      "type": "fix",
-      "title": "3 Fixes: modal key + spell keys + noreferrer",
-      "description": "(1) Modal campeón no abría para algunos campeones (Master Yi, Ahri) — fix: key={selectedChampion.id} en AnimatePresence para que React distinga enter/exit de modales diferentes. (2) Spell icons rotos para 14+ campeones — getSpellKey() ahora busca por display name Y por DDragon key (antes solo display name, pero muchas overrides usaban keys DDragon como 'MasterYi', 'LeeSin', etc). Corregidos: Jinx E ('JinxE'→'JinxEMine'), Katarina W/R completos, Ahri keys correctas. (3) Links externos: rel='noopener noreferrer' en todos los <a> target=_blank (security best practice vs window.opener exploit). Build OK.",
-      "timestamp": "2026-04-22T10:06:00Z",
-      "commit": "a217fed",
-      "category": "fix"
-    },
-    {
       "id": "sidebar-mobile-001",
       "type": "improvement",
-      "title": "Sidebar drawer en mobile — reemplaza BottomNav",
-      "description": "CEO request: barra lateral en mobile también. SidebarNav convertida a componente responsive: desktop = fixed left (como antes), mobile = drawer que desliza desde la izquierda con backdrop oscuro y botón cerrar. Hamburger menu (icono ☰) agregado al header, visible solo en mobile/tablet. BottomNav eliminada — la sidebar drawer tiene acceso a las 10 tabs completas con secciones colapsables. Animación spring con Framer Motion. Build OK.",
+      "title": "Sidebar drawer mobile — reemplaza BottomNav",
+      "description": "Hamburger menu + drawer desde izquierda. BottomNav eliminada. 10 tabs accesibles.",
       "timestamp": "2026-04-22T09:43:00Z",
       "commit": "56f0af5",
       "category": "improvement"
     },
     {
-      "id": "ralph-loop-011",
-      "type": "fix",
-      "title": "QA Scan: acentos, conteo tabs, nombres items corregidos",
-      "description": "(1) Homepage: '8 Pestañas' → '10 Pestañas' con lista completa de tabs actualizada (Novedades, Ideas, Roadmap, Tareas faltaban). (2) Sidebar: 'ANALISIS' → 'ANÁLISIS' (tilde faltante visible en toda la app). (3) Acentos masivos corregidos: facil→fácil, dificil→difícil (combos), Sombrero de Rabadon→Rabadón, Guardian→Guardián (runa), proteccion→protección, Fuerza de Trinidad→Fuerza de la Trinidad (estandarizado). Build OK.",
-      "timestamp": "2026-04-22T09:10:00Z",
-      "commit": "b237fe4",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-010",
-      "type": "fix",
-      "title": "3 Fixes: BUILD META LIVE muerto + rune tree Valor + WR Competitivo",
-      "description": "(1) Sección 'Build Meta Live' ahora solo se muestra cuando hay datos reales disponibles — antes mostraba 'No Disponible' con texto engañoso para todos los S-tier. (2) Nombre de rune tree corregido: 'Determinación' → 'Valor' (38 instancias en data.ts + helpers.ts — el tree 'Resolve' en LoL español es 'Valor', no 'Determinación'). (3) Tab Competitivo en modo WR: reemplazado el mensaje confuso + filtros LoL (LCK/LPL/LEC/LCS) con un 'Coming Soon' limpio. Scan completo 10 tabs realizado.",
-      "timestamp": "2026-04-22T08:40:00Z",
-      "commit": "5e34a58",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-009",
-      "type": "improvement",
-      "title": "WR Patch 6.8 expandido + item parsing fix + 7 ideas competencia",
-      "description": "Parche WR 6.8 expandido con contenido real (summary + digest con stats de campeones). Fix parseBuildItems: items con apostrofe (Jak'Sho) ya no se rompen al parsear. Items faltantes agregados al ITEM_NAME_MAP: Jak'Sho (6665), Stridebreaker (6631), Experimental Hexplate (6664). 7 ideas de competencia agregadas al tab Ideas basadas en research de OP.GG, Mobalytics, U.GG, Blitz, iTero, Porofessor, LoLalytics.",
-      "timestamp": "2026-04-22T07:28:00Z",
-      "commit": "a6cfe6a",
-      "category": "improvement"
-    },
-    {
-      "id": "ralph-loop-008",
-      "type": "fix",
-      "title": "3 Fixes: spell icons 60+ campeones + popup Novedades + fallback mejorado",
-      "description": "Spell key overrides expandidos a 60+ campeones (antes ~25) con keys Q/W/E/R completos para todos los del tier list. Fallback mejorado: cuando icono falla muestra nombre de skill abreviado (Alpha, Wuju, Shunpo, etc). Popup Novedades reescrito: AnimatePresence corregido (mode wait→default), z-index card fijo, session tracking con mounted flag. Scan completo 10 tabs realizado.",
-      "timestamp": "2026-04-22T06:55:00Z",
-      "commit": "a6cfe6a",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-007",
-      "type": "fix",
-      "title": "3 Fixes: items reales + skins DDragon + patch badge",
-      "description": "Nombres items corruptos corregidos: Llamasomo→Llamarada Sombría (24 instancias), Botas de CD→Botas de Celeridad. Skin labels genéricas (Skin 1-4) reemplazadas con nombres reales DDragon para 24 campeones populares (Katarina 'Kitty Cat', Jinx 'Star Guardian', etc). Badge de parche '26.8' agregado al footer de la sidebar con dot pulsante verde. Competidores analizados: Mobalytics, OP.GG, Blitz.gg, U.GG, LoLalytics.",
-      "timestamp": "2026-04-22T06:01:00Z",
-      "commit": "308ab2b",
-      "category": "fix"
-    },
-    {
-      "id": "nav-refactor-001",
-      "type": "improvement",
-      "title": "Sidebar + Bottom Nav — refactor navegación completo",
-      "description": "Eliminado TabNav horizontal (10 tabs en scroll). Nuevo SidebarNav desktop con secciones Game + Dev colapsable (active indicator animado con Framer Motion). Nuevo BottomNav mobile con 5 tabs principales + sheet 'Mas' para tabs secundarias. Header limpiado (badges ocultos en mobile). Footer oculto en mobile. TabContent refactorizado con switch/case para eliminar duplicación LoL/WR.",
-      "timestamp": "2026-04-22T06:05:00Z",
-      "commit": "162880f",
-      "category": "improvement"
-    },
-    {
       "id": "ralph-loop-006",
       "type": "improvement",
-      "title": "Meta 26.8 refresh — 3 promociones + 1 democión (6 fuentes)",
-      "description": "Malphite B→S (anti-AD dominante, Buildzcrank S + PropelRC S + Blitz.gg). Nautilus B→S (engage consistente, Amber.gg S + Mobalytics S). Diana A→S (AP burst jungle, PropelRC S+ + Blitz.gg). Kennen B→A (U.GG #1 Mid 52.1%). Brand S→A (fuera de listas S). Fuentes expandidas a 6: U.GG, Mobalytics, Blitz.gg, Buildzcrank, PropelRC, Amber.gg.",
+      "title": "Meta 26.8 refresh — 3 promociones + 1 democión",
+      "description": "Malphite B→S, Nautilus B→S, Diana A→S. Kennen B→A, Brand S→A. 6 fuentes.",
       "timestamp": "2026-04-22T05:40:00Z",
       "commit": "a6cfe6a",
       "category": "improvement"
@@ -177,52 +114,16 @@
       "id": "ralph-loop-005",
       "type": "improvement",
       "title": "Meta 26.8 completo — web scrape datos reales",
-      "description": "Tier list actualizada con datos de Blitz.gg, U.GG, Mobalytics, Metabot.gg. +7 nuevos campeones S-tier: Ornn, Briar, Aurelion Sol, Veigar, Nilah, Soraka, Zyra. Demotidos: Thresh, Darius, Caitlyn, K'Sante, Graves, Blitzcrank, Viego (pulled del parche). Campo metaUpdated + metaSources en cada campeón para distinguir datos frescos vs stale.",
+      "description": "+7 nuevos campeones S-tier con datos de Blitz.gg, U.GG, Mobalytics, Metabot.gg.",
       "timestamp": "2026-04-22T05:31:00Z",
       "commit": "a6cfe6a",
       "category": "improvement"
     },
     {
-      "id": "ralph-loop-004",
-      "type": "improvement",
-      "title": "Meta freshness indicator + version API gamePatch",
-      "description": "Version API ahora retorna gamePatch separado de CDN version. Banner muestra parche correcto. Tier List indica fecha de última actualización de datos con fuentes (Mobalytics, U.GG, PropelRC).",
-      "timestamp": "2026-04-22T05:35:00Z",
-      "commit": "a6cfe6a",
-      "category": "improvement"
-    },
-    {
-      "id": "ralph-loop-003",
-      "type": "fix",
-      "title": "Ralph Loop: 3 Fixes críticos",
-      "description": "WR patch mismatch fix (17.8→6.8 en banner y datos). Skill icon overlay duplicado (Q Q→Q). Popup close z-index + Escape handler.",
-      "timestamp": "2026-04-22T05:02:00Z",
-      "commit": "ac62cb1",
-      "category": "fix"
-    },
-    {
-      "id": "meta-001",
-      "type": "fix",
-      "title": "Tier List + Patch actualizados a 26.8 (datos reales)",
-      "description": "Patch 16.8→26.8 en todos los archivos. S-tier actualizado: Master Yi/Lee Sin/Yasuo descendidos a A. Garen/Katarina/Graves/Ashe promovidos a S. +5 nuevos campeones S-tier: Nocturne, Blitzcrank, Brand, K'Sante, Viego.",
-      "timestamp": "2026-04-22T04:55:00Z",
-      "commit": "458e0ef",
-      "category": "fix"
-    },
-    {
-      "id": "fix-002",
-      "type": "fix",
-      "title": "Ralph Loop QA Scan — 3 Fixes",
-      "description": "Popup reescrito (AnimatePresence mode=wait, useCallback, type=button). Botón clear X en búsqueda. QA completo de 10 tabs.",
-      "timestamp": "2026-04-22T04:45:00Z",
-      "commit": "b1fd823",
-      "category": "fix"
-    },
-    {
       "id": "feature-003",
       "type": "feature",
       "title": "Tab Novedades + Popup",
-      "description": "Activity feed con timeline de deploys y popup al abrir la app. Separación de tabs Juego vs Dev.",
+      "description": "Activity feed con timeline de deploys y popup al abrir la app.",
       "timestamp": "2026-04-22T03:20:00Z",
       "commit": "58008c6",
       "category": "feature"
@@ -231,21 +132,19 @@
       "id": "deploy-001",
       "type": "deploy",
       "title": "Cleanup v2 deployado",
-      "description": "Eliminación de 3 API routes muertas, Prisma, examples/, skills/. 391 líneas eliminadas.",
+      "description": "Eliminación de API routes muertas, Prisma, examples/, skills/. 391 líneas eliminadas.",
       "timestamp": "2026-04-22T03:00:00Z",
       "commit": "24d69f5",
       "category": "maintenance"
     }
   ],
   "highlights": [
-    "16 campeones S-tier con datos verificados de 6 fuentes",
-    "metaUpdated + metaSources distinguen datos frescos vs stale",
-    "Web scrape real: U.GG, Mobalytics, Blitz.gg, Buildzcrank, PropelRC, Amber.gg",
-    "10 pestañas funcionales con datos en vivo",
-    "Sidebar responsive desktop + drawer mobile (hamburger menu)",
-    "Dev tabs colapsables en sidebar",
-    "Nombres reales de items (Llamarada Sombría, Botas de Celeridad)",
-    "Ralph Loop auto-mejora cada 15 minutos",
-    "Tabs separadas: Juego (oro) vs Dev (cyan)"
+    "Dev cron rotation activa: PATCHES → TIERLIST → GUIDES → MAINTENANCE",
+    "7 guías indexadas (LoL + Valorant)",
+    "Tierlist-feed v2 con win rates y categorías",
+    "6 patches trackeados (LoL, Valorant, Dota, CS2)",
+    "Git push con bautiarmanijuegos@gmail.com → Vercel redeploys",
+    "Wild Rift data migrado desde mobas-coach",
+    "Coaching data disponible en data/coaching/"
   ]
 }
