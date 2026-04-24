@@ -1,13 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Trophy, AlertTriangle, Flame, ScrollText, Crown, Menu } from 'lucide-react';
+import { Trophy, AlertTriangle, Flame, ScrollText, Crown, Menu, BookOpen } from 'lucide-react';
 
 // The 5 most important tabs for bottom nav
 const PRIMARY_BOTTOM_TABS = [
   { id: 'tierlist', label: 'Tier List', icon: Trophy },
   { id: 'broken', label: 'Rotas', icon: AlertTriangle },
-  { id: 'combos', label: 'Combos', icon: Flame },
+  { id: 'guides', label: 'Guías', icon: BookOpen },
   { id: 'patches', label: 'Parches', icon: ScrollText },
   { id: 'competitive', label: 'Comp.', icon: Crown },
 ];

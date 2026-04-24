@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GAME_TAB_ITEMS, DEV_TAB_ITEMS, DEV_TAB_IDS } from './constants';
-import { Trophy, ScrollText, AlertTriangle, Flame, Crown, User, Rocket, Lightbulb, Map, Wrench, ChevronDown, ChevronRight, X } from 'lucide-react';
+import { Trophy, ScrollText, AlertTriangle, Flame, Crown, User, Rocket, Lightbulb, Map, Wrench, ChevronDown, ChevronRight, X, BookOpen } from 'lucide-react';
 
 const DEV_ICONS: Record<string, typeof Wrench> = {
   novedades: Rocket,
@@ -17,6 +17,7 @@ const GAME_ICONS: Record<string, typeof Trophy> = {
   patches: ScrollText,
   broken: AlertTriangle,
   combos: Flame,
+  guides: BookOpen,
   competitive: Crown,
   profile: User,
 };

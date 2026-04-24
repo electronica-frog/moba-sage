@@ -130,16 +130,38 @@ export function BrokenStuffTab({
             <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.3), transparent)' }} />
             <span className="text-[10px] text-[#5b5a56]">También fuertes</span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {aTierChamps.map(champ => (
-              <motion.div key={champ.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-2 p-2.5 rounded-lg" style={{ background: 'rgba(10,203,230,0.04)', border: '1px solid rgba(10,203,230,0.12)' }}>
-                <div className="w-9 h-9 rounded-full overflow-hidden shrink-0" style={{ border: '2px solid #0acbe680' }}>
-                  <TinyChampionIcon name={champ.name} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {aTierChamps.map((champ, idx) => (
+              <motion.div
+                key={champ.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.03 }}
+                className="flex items-start gap-3 p-3 rounded-xl group cursor-pointer transition-all duration-300"
+                style={{
+                  background: 'rgba(10,203,230,0.04)',
+                  border: '1px solid rgba(10,203,230,0.12)',
+                }}
+                whileHover={{
+                  borderColor: 'rgba(200,170,110,0.5)',
+                  boxShadow: '0 0 20px rgba(200,170,110,0.15), 0 0 40px rgba(200,170,110,0.05)',
+                }}
+              >
+                <div className="relative shrink-0">
+                  <div className="w-14 h-14 rounded-xl overflow-hidden transition-all duration-300 group-hover:shadow-[0_0_16px_rgba(200,170,110,0.3)]"
+                    style={{ border: '2px solid #0acbe680' }}>
+                    <SplashArtIcon name={champ.name} />
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black" style={{ backgroundColor: '#0acbe6', color: '#0a0e1a' }}>A</div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[11px] font-semibold text-[#f0e6d2] truncate">{champ.name}</p>
-                  <p className="text-[9px] text-[#5b5a56]">{champ.role}</p>
-                  <p className="text-[10px] font-mono font-semibold" style={{ color: champ.winRate >= 51 ? '#0acbe6' : '#a09b8c' }}>{champ.winRate}%</p>
+                  <p className="text-[12px] font-semibold text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors">{champ.name}</p>
+                  <p className="text-[9px] text-[#5b5a56] mb-0.5">{champ.role}</p>
+                  <div className="flex items-center gap-2 text-[11px]">
+                    <span className="font-mono font-semibold" style={{ color: champ.winRate >= 51 ? '#0acbe6' : '#a09b8c' }}>{champ.winRate}% WR</span>
+                    <span className="text-[#5b5a56]">·</span>
+                    <span className="font-mono text-[#a09b8c]">{champ.pickRate}% Pick</span>
+                  </div>
                 </div>
               </motion.div>
             ))}

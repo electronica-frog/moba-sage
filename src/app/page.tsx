@@ -31,6 +31,7 @@ import { CombosTab } from '@/components/moba/tabs/combos-tab';
 import { CompetitiveTab } from '@/components/moba/tabs/competitive-tab';
 import { ProfileTab } from '@/components/moba/tabs/profile-tab';
 import { ActivityTab } from '@/components/moba/tabs/activity-tab';
+import { GuidesTab } from '@/components/moba/tabs/guides-tab';
 import { ActivityPopup } from '@/components/moba/activity-popup';
 
 // ============ TAB CONTENT RENDERER ============
@@ -64,6 +65,7 @@ function TabContent({
       case 'broken': return <BrokenStuffTab champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />;
       case 'combos': return <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />;
       case 'competitive': return <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;
+      case 'guides': return <GuidesTab />;
       case 'profile': return <ProfileTab summonerName={summonerName} onSummonerNameChange={onSummonerNameChange} summonerRegion={summonerRegion} onSummonerRegionChange={onSummonerRegionChange} summonerData={summonerData} summonerLoading={summonerLoading} summonerError={summonerError} onSearchSummoner={onSearchSummoner} />;
       case 'novedades': return <ActivityTab />;
       case 'ideas': return <IdeasTab />;

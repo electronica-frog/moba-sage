@@ -1,14 +1,31 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ChampionIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
 import { TierSection, TierSectionSkeleton } from '../tier-section';
 import { TIER_CONFIG } from '../constants';
 import type { Champion, GameSelection } from '../types';
+
+// ---- Local types for tierlist feed ----
+interface TierlistFeed {
+  lastUpdated: string;
+  source: string;
+  version: number;
+  lol?: {
+    patch?: string;
+    rising?: string[];
+    falling?: string[];
+    sTier?: Array<{ name: string; role: string; winrate?: string; reason?: string }>;
+    aTier?: Array<{ name: string; role: string; winrate?: string; reason?: string }>;
+    watch26_9?: string[];
+  };
+  valorant?: Record<string, unknown>;
+  cs2?: Record<string, unknown>;
+}
 
 interface TierListTabProps {
   champions: Champion[];
@@ -33,6 +50,11 @@ function wrColor(wr: number): string {
   return '#e84057';
 }
 
+// Extract champion name from feed entry (e.g. "Taliyah (buff 26.9)" → "Taliyah")
+function extractChampName(entry: string): string {
+  return entry.replace(/\s*\(.*\)\s*$/, '').trim();
+}
+
 export function TierListTab({
   champions, loading, selectedGame,
   searchQuery, onSearchChange, roleFilter, onRoleFilterChange,
@@ -40,6 +62,39 @@ export function TierListTab({
 }: TierListTabProps) {
   const [viewMode, setViewMode] = useState<'list' | 'board'>('list');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [feedData, setFeedData] = useState<TierlistFeed | null>(null);
+  const [feedLoading, setFeedLoading] = useState(true);
+
+  // Fetch tierlist-feed.json on mount
+  useEffect(() => {
+    async function fetchFeed() {
+      try {
+        const res = await fetch('/tierlist-feed.json');
+        if (res.ok) {
+          const data: TierlistFeed = await res.json();
+          setFeedData(data);
+        }
+      } catch (err) {
+        console.error('Error loading tierlist feed:', err);
+      } finally {
+        setFeedLoading(false);
+      }
+    }
+    fetchFeed();
+  }, []);
+
+  // Build trend map from feed data
+  const trendMap: Record<string, 'rising' | 'falling'> = {};
+  if (feedData?.lol?.rising) {
+    for (const entry of feedData.lol.rising) {
+      trendMap[extractChampName(entry)] = 'rising';
+    }
+  }
+  if (feedData?.lol?.falling) {
+    for (const entry of feedData.lol.falling) {
+      trendMap[extractChampName(entry)] = 'falling';
+    }
+  }
 
   const gameChampions = champions.filter(c => {
     if (selectedGame === 'lol' && c.game !== 'LoL') return false;
@@ -75,6 +130,10 @@ export function TierListTab({
   const topWR = [...gameChampions].sort((a, b) => b.winRate - a.winRate).slice(0, 3);
   const topBan = [...gameChampions].sort((a, b) => b.banRate - a.banRate).slice(0, 3);
   const topPick = [...gameChampions].sort((a, b) => b.pickRate - a.pickRate).slice(0, 3);
+
+  // Rising & falling data from feed
+  const risingChampions = feedData?.lol?.rising || [];
+  const fallingChampions = feedData?.lol?.falling || [];
 
   return (
     <div className="space-y-4">
@@ -168,6 +227,60 @@ export function TierListTab({
         </div>
       </div>
 
+      {/* Rising & Falling Sections from tierlist-feed.json */}
+      {!feedLoading && (risingChampions.length > 0 || fallingChampions.length > 0) && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+        >
+          {risingChampions.length > 0 && (
+            <div className="rounded-xl p-3 border border-[#0fba81]/20" style={{ background: 'rgba(15,186,129,0.04)' }}>
+              <div className="flex items-center gap-2 mb-2">
+                <ArrowUpCircle className="w-4 h-4 text-[#0fba81]" />
+                <span className="text-xs font-bold text-[#0fba81] uppercase tracking-wider">En Ascenso</span>
+                <span className="text-[9px] text-[#5b5a56] ml-auto">{risingChampions.length}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {risingChampions.map((entry, i) => {
+                  const name = extractChampName(entry);
+                  const reason = entry.match(/\((.+)\)/)?.[1] || '';
+                  return (
+                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium text-[#0fba81]" style={{ background: 'rgba(15,186,129,0.08)', border: '1px solid rgba(15,186,129,0.15)' }}>
+                      <span className="font-bold">↑</span>
+                      {name}
+                      {reason && <span className="text-[8px] text-[#5b5a56]">{reason}</span>}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          {fallingChampions.length > 0 && (
+            <div className="rounded-xl p-3 border border-[#e84057]/20" style={{ background: 'rgba(232,64,87,0.04)' }}>
+              <div className="flex items-center gap-2 mb-2">
+                <ArrowDownCircle className="w-4 h-4 text-[#e84057]" />
+                <span className="text-xs font-bold text-[#e84057] uppercase tracking-wider">En Caída</span>
+                <span className="text-[9px] text-[#5b5a56] ml-auto">{fallingChampions.length}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {fallingChampions.map((entry, i) => {
+                  const name = extractChampName(entry);
+                  const reason = entry.match(/\((.+)\)/)?.[1] || '';
+                  return (
+                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium text-[#e84057]" style={{ background: 'rgba(232,64,87,0.08)', border: '1px solid rgba(232,64,87,0.15)' }}>
+                      <span className="font-bold">↓</span>
+                      {name}
+                      {reason && <span className="text-[8px] text-[#5b5a56]">{reason}</span>}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </motion.div>
+      )}
+
       {/* Meta Overview Summary */}
       {!loading && !searchQuery && roleFilter === 'Todos' && (
         <motion.div
@@ -230,10 +343,11 @@ export function TierListTab({
             onChampionClick={onChampionClick}
             favorites={favorites}
             onToggleFavorite={onToggleFavorite}
+            trendMap={trendMap}
           />
         ))
       ) : (
-        <BoardView champions={filteredChampions} favorites={favorites} onChampionClick={onChampionClick} onToggleFavorite={onToggleFavorite} />
+        <BoardView champions={filteredChampions} favorites={favorites} onChampionClick={onChampionClick} onToggleFavorite={onToggleFavorite} trendMap={trendMap} />
       )}
 
       {!loading && filteredChampions.length === 0 && (
@@ -272,11 +386,12 @@ function StatCard({ label, value, sub, color, icon }: {
   );
 }
 
-function BoardView({ champions, favorites, onChampionClick, onToggleFavorite }: {
+function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, trendMap }: {
   champions: Champion[];
   favorites: Set<number>;
   onChampionClick: (c: Champion) => void;
   onToggleFavorite: (id: number) => void;
+  trendMap?: Record<string, 'rising' | 'falling'>;
 }) {
   return (
     <div className="space-y-4">
@@ -303,7 +418,11 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite }: 
                 >
                   <ChampionIcon name={champ.name} tier={champ.tier} />
                   <div className="text-center min-w-0 w-full">
-                    <p className="text-[11px] font-semibold text-[#f0e6d2] truncate">{champ.name}</p>
+                    <p className="text-[11px] font-semibold text-[#f0e6d2] truncate flex items-center justify-center gap-0.5">
+                      {champ.name}
+                      {trendMap?.[champ.name] === 'rising' && <span className="text-[9px] font-bold text-[#0fba81]">↑</span>}
+                      {trendMap?.[champ.name] === 'falling' && <span className="text-[9px] font-bold text-[#e84057]">↓</span>}
+                    </p>
                     <p className="text-[9px] font-mono" style={{ color: wrColor(champ.winRate) }}>{champ.winRate}%</p>
                   </div>
                   <RoleBadge role={champ.role} />

@@ -38,11 +38,12 @@ function TrendIcon({ rate }: { rate: number }) {
   return <TrendingDown className="w-3 h-3 text-[#5b5a56]" />;
 }
 
-export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }: {
+export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, trend }: {
   champion: Champion;
   onClick: () => void;
   isFavorite?: boolean;
   onToggleFavorite?: (e: React.MouseEvent) => void;
+  trend?: 'rising' | 'falling';
 }) {
   const wr = wrColor(champion.winRate);
 
@@ -72,6 +73,8 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }:
           <h3 className="font-semibold text-[13px] text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors leading-tight">
             {champion.name}
           </h3>
+          {trend === 'rising' && <span className="text-[11px] font-bold text-[#0fba81]">↑</span>}
+          {trend === 'falling' && <span className="text-[11px] font-bold text-[#e84057]">↓</span>}
           {champion.proPickRate !== undefined && champion.proPickRate > 0 && (
             <TrendIcon rate={champion.proPickRate} />
           )}
@@ -79,6 +82,19 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite }:
         <p className="text-[10px] text-[#5b5a56] truncate leading-tight mt-0.5">{champion.title}</p>
       </div>
       <RoleBadge role={champion.role} />
+      {/* Mobile WR bar — subtle inline indicator */}
+      <div className="flex sm:hidden items-center gap-1.5 shrink-0">
+        <span className="text-[10px] font-mono font-semibold" style={{ color: wr }}>{champion.winRate}%</span>
+        <div className="w-12 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.12)' }}>
+          <motion.div
+            className="h-full rounded-full"
+            style={{ background: wr, opacity: 0.8 }}
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.min((champion.winRate / 58) * 100, 100)}%` }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          />
+        </div>
+      </div>
       <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px]">
         {/* Win Rate with bar */}
         <div className="flex flex-col items-end gap-0.5">
