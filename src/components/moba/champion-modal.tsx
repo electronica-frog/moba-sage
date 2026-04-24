@@ -417,7 +417,7 @@ function EnhancedRunesDisplay({ champion, metaBuild }: { champion: Champion; met
           <div className="flex items-center gap-2 px-2 py-1.5 rounded-md" style={{ background: `${primaryColor}12`, border: `1px solid ${primaryColor}30` }}>
             <RuneIcon runeName={runePage.keystone} size={24} />
             <span className="text-[11px] font-semibold text-[#f0e6d2]">{runePage.keystone}</span>
-            <span className="text-[8px] px-1 py-0.5 rounded ml-auto" style={{ background: `${primaryColor}20`, color: primaryColor }}>KEystone</span>
+            <span className="text-[8px] px-1 py-0.5 rounded ml-auto" style={{ background: `${primaryColor}20`, color: primaryColor }}>Keystone</span>
           </div>
           {/* Primary runes */}
           {runePage.primaryRunes.map((rune, i) => (

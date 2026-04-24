@@ -50,7 +50,7 @@ export function getChampionSplashUrl(name: string, skinNum = 0): string {
 
 export const ITEM_NAME_MAP: Record<string, string> = {
   // Miticas
-  'Filo de la Noche': '6672', 'Eclipse': '6692', 'Cosechador Nocturno': '6676',
+  'Filo de la Noche': '6672', 'Eclipse': '6692',
   'Pozo de la Noche': '6695', 'Roca del Eclipse': '6693', 'Poder de Kraken Slayer': '6673',
   'La Séptima': '6671', 'El Colector': '6676',
   'Filo Divino': '6696', 'Mandato Imperial': '6632',
