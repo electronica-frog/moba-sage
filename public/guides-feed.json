@@ -1,7 +1,45 @@
 {
-  "lastUpdated": "2026-04-24T13:30:00Z",
+  "lastUpdated": "2026-04-24T14:20:00Z",
   "source": "juegos-1 BOTARDO OS",
+  "totalGuides": 7,
   "guides": [
+    {
+      "id": "zeri-rework-269",
+      "champion": "Zeri",
+      "role": "ADC",
+      "patch": "26.9",
+      "title": "Zeri Rework — Builds AD/AP, Runas, Matchups",
+      "summary": "Rework significativo en 26.9: diferenciación builds AD vs AP, nuevas interacciones con items, potencial S-tier.",
+      "tags": ["rework", "build", "runas", "matchups", "adc"],
+      "keyPoints": [
+        "Diferenciación clara entre build AD (hyper carry) y AP (poke/burst)",
+        "Q interacción con items on-hit actualizada",
+        "Build AD: Kraken Slayer → IE → Phantom Dancer",
+        "Build AP: Luden's → Horizon Focus → Rabadon's",
+        "Matchups favorables: Caitlyn, Jinx, Varus",
+        "Potencial S-tier si tuning PBE se mantiene"
+      ],
+      "fileName": "BA_20260424_1430_guia_zeri_rework_lol269.md"
+    },
+    {
+      "id": "valorant-1207-meta",
+      "champion": "General",
+      "role": "All",
+      "patch": "12.07",
+      "game": "valorant",
+      "title": "Meta Update: Valorant 12.07 — Season 2026 Act 2",
+      "summary": "Meta consolidado: Clove/Sage/Omen dominan. Bind rotated out Act 3. Discord integration beta.",
+      "tags": ["meta", "tierlist", "agents", "comps"],
+      "keyPoints": [
+        "S-Tier: Clove, Sage, Omen",
+        "A-Tier: Jett, Killjoy, Gekko (rising)",
+        "B-Tier: Reyna, Breach, Waylay (nerfed)",
+        "Bind rotated out para Act 3",
+        "Comp ranked: Jett/Omen/Clove/Gekko/Sage",
+        "Discord integration beta rolling out"
+      ],
+      "fileName": "BA_20260424_1440_valorant_1207_meta_update.md"
+    },
     {
       "id": "hwei-mid-268",
       "champion": "Hwei",
@@ -39,6 +77,7 @@
       "champion": "Clove",
       "role": "Duelist",
       "patch": "12.07",
+      "game": "valorant",
       "title": "Clove — Guía Completa Valorant",
       "summary": "Clove se mantiene como S-tier en 12.07. Utilidad única con su ultimate global.",
       "tags": ["build", "abilities", "strategy"],
@@ -60,10 +99,7 @@
       "keyPoints": [
         "Nuevos Doran's reemplazan Trailblazer/Opportunity",
         "Botas Omnivamp (1.5%) cambian el timing de sustain items",
-        "WASD opcional para nueva audiencia",
-        "Ranked reset Season 2 — primeras 20 partidas definen MMR",
-        "Testear Taliyah y Warwick post-buff primero",
-        "AP midlaner nuevo campeón llegando en Season 2"
+        "Ranked reset Season 2 — primeras 20 partidas definen MMR"
       ],
       "fileName": "BA_20260423_0730_guia_lol269_season2_preparacion.md"
     },
@@ -79,9 +115,7 @@
         "~15 campeones cambian entre buffs/nerfs/adjustments",
         "Ambessa y Briar nerf significativo",
         "Zeri cambio mayor (DPS balance sin inviabilidad)",
-        "Shyvana reajuste iterativo (potencial S-tier)",
-        "Endless Hunger system buff",
-        "Campeón nuevo AP midlaner en Season 2"
+        "Shyvana reajuste iterativo (potencial S-tier)"
       ],
       "fileName": "BA_20260423_0530_patches_lol269_fullpreview_cs2_shake.md"
     }
