@@ -8,7 +8,7 @@
       "title": "3 Fixes: activity-feed.json roto + spell keys + rune icon",
       "description": "(1) CRÍTICO: Tab Novedades mostraba 'No se pudo cargar el feed de actividad' — JSON syntax error en activity-feed.json (coma faltante después de 'commit': 'a6cfe6a' en línea 128). Fix: coma agregada. (2) Spell keys rotos: Fiddlesticks E 'DrainMundo'→'FiddleSticksDarkWind' (nombre incorrecto con 'Mundo'), Master Yi W 'WujujuStyle'→'WujuStyle' (typo doble 'ju'). (3) Rune icon Lethal Tempo: path duplicado 'LethalTempoTemp.png'→'LethalTempo.png' (404 en DDragon). Build OK.",
       "timestamp": "2026-04-24T15:15:00Z",
-      "commit": "pending",
+      "commit": "693e71a",
       "category": "fix"
     },
     {
