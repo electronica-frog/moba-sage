@@ -1,36 +1,56 @@
 {
-  "lastUpdated": "2026-04-24T13:30:00Z",
+  "lastUpdated": "2026-04-24T14:15:00Z",
   "source": "juegos-1 BOTARDO OS",
-  "patch": "26.8 → 26.9 (upcoming)",
+  "version": 2,
   "lol": {
+    "patch": "26.8 (live) → 26.9 PBE preview",
     "sTier": [
-      {"name": "K'Sante", "role": "Top", "reason": "Tanque dominante con sustain alto. Guía disponible."},
-      {"name": "Hwei", "role": "Mid", "reason": "Control de mapa y burst combo. Guía disponible."},
-      {"name": "Jinx", "role": "ADC", "reason": "WR 52.82%, hyper carry fuerte en teamfights."},
-      {"name": "Thresh", "role": "Support", "reason": "WR 51.76%, utilidad máxima con pick engage."},
-      {"name": "Warwick", "role": "Jungle", "reason": "Buff incoming 26.9, sustain jungle ya fuerte."},
-      {"name": "Taliyah", "role": "Mid", "reason": "Buff 26.9 confirmado, wave clear y roam."}
+      {"name": "K'Sante", "role": "Top", "winrate": "51.2%", "reason": "Tanque dominante con sustain alto. Guía disponible en data/guides/."},
+      {"name": "Hwei", "role": "Mid", "winrate": "51.5%", "reason": "Control de mapa y burst combo. Guía disponible en data/guides/."},
+      {"name": "Jinx", "role": "ADC", "winrate": "52.8%", "reason": "Hyper carry fuerte en teamfights, consistente S-tier."},
+      {"name": "Thresh", "role": "Support", "winrate": "51.8%", "reason": "Utilidad máxima con pick engage, meta favorita."},
+      {"name": "Taliyah", "role": "Mid", "winrate": "51.1%", "reason": "Buff 26.9 confirmado. Wave clear y roam fortalecidos."},
+      {"name": "Warwick", "role": "Jungle", "winrate": "50.8%", "reason": "Buff incoming 26.9, sustain jungle dominante."}
     ],
     "aTier": [
-      {"name": "Darius", "role": "Top", "reason": "WR 50.12%, bruiser consistente."},
-      {"name": "Lee Sin", "role": "Jungle", "reason": "WR 50.55%, early game pressure."},
-      {"name": "Master Yi", "role": "Jungle", "reason": "WR alto en ELOs bajos, farm jungler."},
-      {"name": "Ezreal", "role": "ADC", "reason": "Ajuste 26.9 + nuevos Doran's."},
-      {"name": "Shyvana", "role": "Jungle", "reason": "Reajuste 26.9, potencial S-tier si tuning favorable."}
+      {"name": "Darius", "role": "Top", "winrate": "50.1%", "reason": "Bruiser consistente en lane phase."},
+      {"name": "Lee Sin", "role": "Jungle", "winrate": "50.6%", "reason": "Early game pressure, snowball dependiente."},
+      {"name": "Ezreal", "role": "ADC", "winrate": "49.8%", "reason": "Ajuste 26.9 + nuevos Doran's Helm sinergia."},
+      {"name": "Shyvana", "role": "Jungle", "winrate": "49.5%", "reason": "Reajuste grande 26.9. Potencial S si tuning favorable."},
+      {"name": "Master Yi", "role": "Jungle", "winrate": "51.2%", "reason": "Alto WR en ELOs bajos, farm jungler sólido."}
     ],
-    "falling": ["Ambessa", "Briar"],
-    "rising": ["Taliyah", "Warwick", "Shyvana"],
-    "watch26_9": ["Zeri", "Xin Zhao", "Kennen"]
+    "falling": ["Ambessa (nerf 26.9)", "Briar"],
+    "rising": ["Taliyah (buff 26.9)", "Warwick (buff 26.9)", "Zeri (rework 26.9)"],
+    "watch26_9": ["Zeri (rework grande)", "Xin Zhao", "Kennen", "Shyvana (rework)"]
   },
   "valorant": {
-    "patch": "12.07 → 12.06 rolling out",
-    "sTier": ["Clove", "Sage"],
-    "aTier": ["Omen", "Jett", "Killjoy"],
-    "nerfed": ["Waylay"],
-    "maps_removed": ["Bind (Act 3)"]
+    "patch": "12.07 (live)",
+    "season": "2026 Act 2",
+    "sTier": [
+      {"name": "Clove", "role": "Sentinel", "reason": "Consistente top pick, fuerte en todas las ranks."},
+      {"name": "Sage", "role": "Sentinel", "reason": "Heal y wall siguen siendo meta dominante."},
+      {"name": "Omen", "role": "Controller", "reason": "Smokes meta, pick rate alto."}
+    ],
+    "aTier": [
+      {"name": "Jett", "role": "Duelist", "reason": "Operador picks, mobility sigue fuerte."},
+      {"name": "Killjoy", "role": "Sentinel", "reason": "Lockdown utility, consistente A-tier."},
+      {"name": "Gekko", "role": "Initiator", "reason": "Rising pick en ranked."}
+    ],
+    "nerfed": ["Waylay (ajustes Act 2)"],
+    "maps_note": "Bind rotated out for Act 3"
   },
   "cs2": {
     "patch": "1.41.5.1 (AnimGraph 2)",
-    "notes": "AnimGraph 2 deployed, screen shake reducido, recoil patterns changing."
+    "notes": "AnimGraph 2 deployed, screen shake reducido, recoil patterns changing.",
+    "sTier": [
+      {"name": "AK-47", "category": "Rifle", "reason": "Core meta, DPS/price ratio imbatible."},
+      {"name": "AWP", "category": "Sniper", "reason": "One-shot potential, indispensable."},
+      {"name": "M4A1-S", "category": "Rifle", "reason": "CT-side staple, silenciado y preciso."}
+    ],
+    "aTier": [
+      {"name": "M4A4", "category": "Rifle", "reason": "Alternative CT, spray predecible."},
+      {"name": "MAC-10", "category": "SMG", "reason": "Best eco/force buy option."},
+      {"name": "Five-SeveN", "category": "Pistol", "reason": "Best armor-piercing pistol."}
+    ]
   }
 }
