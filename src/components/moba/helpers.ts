@@ -52,12 +52,12 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   'Filo de la Noche': '6672', 'Eclipse': '6692', 'Cosechador Nocturno': '6676',
   'Pozo de la Noche': '6695', 'Roca del Eclipse': '6693', 'Poder de Kraken Slayer': '6673',
   'La Séptima': '6671', 'El Coleccionista': '6676', 'El Colector': '6676',
-  'Filo Divino': '6696', 'Mandato Imperial': '6632', 'Hydratación Letal': '3074',
+  'Filo Divino': '6696', 'Mandato Imperial': '6632',
   'Stridebreaker': '6631', 'Pisotón Brutal': '6631', 'Experimental Hexplate': '6664', 'Placa Hexagonal Experimental': '6664',
   "Jak'Sho": '6665', "Jak'Sho, el Proteico": '6665', 'JakSho': '6665',
   // Luchador / Tanque
   'Hidra Titánica': '3748', 'Hidra': '3748', 'Fuerza de la Trinidad': '3078',
-  'Fuerza de Trinidad': '3078', 'Filo de la Trinidad': '3071', 'Guja Botadora': '3153',
+  'Fuerza de Trinidad': '3078', 'Guja Botadora': '3153',
   'Sed de Sangre': '6333', 'Resistencia Divina': '3065',
   // ADC / Crit
   'Filo Infinito': '3031', 'Infinito': '3031', 'Colmillo Infinito': '3031',
@@ -70,7 +70,7 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   'Cetro de Cristal de Rylai': '3116',
   'Botas del Vacío': '3020', 'Hielo Eterno': '6662',
   // Support
-  'Redención': '3107', 'Convergencia de Zeke': '3190',
+  'Redención': '3107', 'Convergencia de Zeke': '3194',
   'Medallón de los Solari de Hierro': '3190', 'Medallón de los Solari': '3190', 'Medallón': '3190',
   'Mikael': '3222',
   // Botas
@@ -102,7 +102,7 @@ const RUNE_ICON_MAP: Record<string, string> = {
   'Pies Veloces': '7201_Precision/FleetFootwork/FleetFootwork.png',
   'Conquistador': '7201_Precision/Conqueror/Conqueror.png',
   'Lethal Tempo': '7201_Precision/LethalTempo/LethalTempo.png',
-  'Sabor a Sangre': '8100_Domination/HailOfBlades/HailOfBlades.png',
+  'Sabor a Sangre': '8100_Domination/TasteOfBlood/TasteOfBlood.png',
   // Sorcery Keystones
   'Cometa Arcano': '8200_Sorcery/ArcaneComet/ArcaneComet.png',
   'Invocar Aery': '8200_Sorcery/SummonAery/SummonAery.png',

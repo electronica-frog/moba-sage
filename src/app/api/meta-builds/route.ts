@@ -140,7 +140,7 @@ export async function GET(request: Request) {
         cachedBuilds[result.champion] = {
           champion: result.champion || '',
           source: result.source || 'unknown',
-          patch: result.patch || '16.08',
+          patch: result.patch || '26.8',
           winRate: result.winRate || 0,
           coreItems: result.coreItems || [],
           boots: result.boots || '',
