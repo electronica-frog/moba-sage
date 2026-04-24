@@ -1,7 +1,16 @@
 {
   "version": "1.5",
-  "lastUpdated": "2026-04-25T04:37:00Z",
+  "lastUpdated": "2026-04-25T06:50:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-027",
+      "type": "fix",
+      "title": "3 fixes: labels EN→ES + activity feed IDs + Master Yi comment",
+      "description": "(1) Labels EN→ES en 3 archivos: tier-section (Win Rate→TV, Pick Rate→Pick, Ban Rate→Ban), tier-list-tab (Top Win Rate→Mejor Win Rate, Más Pick→Más Pickeados), champion-modal (Historial Win Rate→Historial de Win Rate, Build Meta Live→Build Meta en Vivo, Live→En Vivo). (2) Activity feed: duplicate ID ralph-loop-025→ralph-loop-026, commit 'pending'→'N/A'. (3) Master Yi: comentario aclaratorio de demotion a Tier A. Build OK.",
+      "timestamp": "2026-04-25T06:50:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "champion-cards-001",
       "type": "feature",
@@ -21,7 +30,7 @@
       "category": "fix"
     },
     {
-      "id": "ralph-loop-025",
+      "id": "ralph-loop-026",
       "type": "fix",
       "title": "3 fixes: coaching EN→ES + AVG→PROM + Notas Oficiales es-es",
       "description": "(1) Coaching tab: 6 títulos EN→ES (Last Hitting→Último Golpe, Wave Management→Manejo de Oleadas, Trading Stance→Postura de Trading, Creep Block→Bloqueo de Minions, Map Awareness→Conciencia del Mapa, Powerspikes→Picos de Poder) + MOBA Coach→Entrenador MOBA. (2) Tier List AVG→PROM. (3) Notas Oficiales link en-us→es-es (LoL + WR). Build OK.",
@@ -89,7 +98,7 @@
       "title": "DEV_MAINTENANCE: activity feed cleanup + data refresh",
       "description": "Trimmed activity feed to 15 most recent entries. Added dev cron rotation config. Updated tierlist-feed v2 with enriched data (win rates, categories). +2 new guides (Zeri rework 26.9, Valorant 12.07 meta). Total guides indexed: 7.",
       "timestamp": "2026-04-24T14:25:00Z",
-      "commit": "pending",
+      "commit": "N/A",
       "category": "maintenance"
     },
     {

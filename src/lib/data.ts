@@ -90,6 +90,7 @@ export interface BrokenCombo {
 
 const CHAMPIONS_DATA: Omit<Champion, 'id' | 'createdAt' | 'updatedAt'>[] = [
   // Tier S — Dioses del Meta
+  // NOTA: Master Yi fue demoted a A en 26.8 (run 02) pero queda primero por posición en el array. El campo tier determina su sección real.
   {
     name: 'Master Yi', title: 'el Buscador de Wuju', role: 'Jungle', tier: 'A', winRate: 50.8, pickRate: 8.2, banRate: 6.1, image: '', aiInsight: '', build: '', counters: '', synergies: '', patch: '26.8', game: 'LoL',
     brokenThings: ['Q resetea en kills → snowball infinito', 'Combo Yi+Taric invulnerable → sin interacción', 'Alpha Strike dodgea habilidades intargetable'],

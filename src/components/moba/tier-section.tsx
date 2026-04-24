@@ -88,9 +88,9 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
         <div className="flex-1" />
         <div className="w-14 shrink-0" />
         <div className="flex items-center gap-3 shrink-0 ml-3">
-          <span className="w-16 text-center">Win Rate</span>
-          <span className="w-16 text-center">Pick Rate</span>
-          <span className="w-16 text-center">Ban Rate</span>
+          <span className="w-16 text-center">TV</span>
+          <span className="w-16 text-center">Pick</span>
+          <span className="w-16 text-center">Ban</span>
         </div>
         <div className="w-4 shrink-0" />
       </div>

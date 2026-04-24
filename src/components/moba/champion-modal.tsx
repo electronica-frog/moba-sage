@@ -472,7 +472,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
           </div>
 
           {/* Weekly WR History */}
-          <CollapsibleSection title="Historial Win Rate" icon={TrendingUp} color="#0acbe6" defaultOpen={true}>
+          <CollapsibleSection title="Historial de Win Rate" icon={TrendingUp} color="#0acbe6" defaultOpen={true}>
             <WeeklyWRChart currentWR={champion.winRate} name={champion.name} />
           </CollapsibleSection>
 
@@ -482,12 +482,12 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#0fba81]" />
-                  <span className="text-[10px] font-semibold text-[#0fba81] uppercase tracking-wider">Build Meta Live</span>
+                  <span className="text-[10px] font-semibold text-[#0fba81] uppercase tracking-wider">Build Meta en Vivo</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] animate-pulse" />
                   <span className="text-[9px] text-[#0fba81] font-medium">
-                    {metaBuild.scrapedAt ? timeAgoMeta(metaBuild.scrapedAt) : 'Live'}
+                    {metaBuild.scrapedAt ? timeAgoMeta(metaBuild.scrapedAt) : 'En Vivo'}
                   </span>
                 </div>
               </div>

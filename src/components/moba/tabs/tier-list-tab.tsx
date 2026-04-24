@@ -298,7 +298,7 @@ export function TierListTab({
             icon={<BarChart3 className="w-4 h-4" />}
           />
           <StatCard
-            label="Top Win Rate"
+            label="Mejor Win Rate"
             value={topWR[0]?.winRate ? `${topWR[0].winRate}%` : '—'}
             sub={topWR[0]?.name ?? ''}
             color={wrColor(topWR[0]?.winRate ?? 0)}
@@ -312,7 +312,7 @@ export function TierListTab({
             icon={<BarChart3 className="w-4 h-4" />}
           />
           <StatCard
-            label="Más Pick"
+            label="Más Pickeados"
             value={topPick[0]?.pickRate ? `${topPick[0].pickRate}%` : '—'}
             sub={topPick[0]?.name ?? ''}
             color="#5b8af5"
