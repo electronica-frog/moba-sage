@@ -121,7 +121,7 @@ const RUNE_ICON_MAP: Record<string, string> = {
   'Presencia de Campeón': '7201_Precision/PresenceOfMind/PresenceOfMind.png',
   'Sobrecrecimiento': '8400_Resolve/Overgrowth/Overgrowth.png',
   'Revitalizar': '8400_Resolve/Revitalize/Revitalize.png',
-  'Frailidad': '8200_Sorcery/Weakness/Weakness.png',
+  'Debilidad': '8200_Sorcery/Weakness/Weakness.png',
   'Golpe de Gracia': '8100_Domination/CoupDeGrace/CoupDeGrace.png',
 };
 

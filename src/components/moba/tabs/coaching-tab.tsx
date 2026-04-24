@@ -82,8 +82,8 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
     { champion: 'Taliyah', tip: 'Wardia jungle entries. Engage cuando use E en combo. Cleanse si tenés. Su roca sigue un patrón — aprendé a esquivarla. Post-6 roamea mucho, tené cuidado.' },
     { champion: 'Warwick', tip: 'Comprá Quicksilver Sash para su R. No te pelees a bajo HP (su Q y R healing es enorme). Wardia su jungle para trackearlo. Es débil al burst antes de stackear.' },
     { champion: 'Lee Sin', tip: 'Esquivá su Q (Tempest). Incentivá misses de Dragon Rage (R). Es débil en late game — procrastiná el juego. Si falla la Q, castigá sin piedad.' },
-    { champion: 'Master Yi', tip: 'Comprá CC (Randuin, Thornmail, Warden\'s Mail). Focus en early game. Alpha Strike (Q) lo hace invulnerable — no waste CC mientras la use. Grevious Wounds es clave.' },
-    { champion: 'Yasuo', tip: 'Sin tornado (Q3) = sin kill. Dodge el Q3. Comprá Grevious Wounds. Es débil contra hard CC. Engage cuando esté sin stacks de Q. No trades cerca de minions.' },
+    { champion: 'Master Yi', tip: 'Comprá CC (Randuin, Thornmail, Warden\'s Mail). Focus en early game. Alpha Strike (Q) lo hace invulnerable — no waste CC mientras la use. Heridas Mortales es clave.' },
+    { champion: 'Yasuo', tip: 'Sin tornado (Q3) = sin kill. Dodge el Q3. Comprá Heridas Mortales. Es débil contra hard CC. Engage cuando esté sin stacks de Q. No trades cerca de minions.' },
   ];
 
   // Section 5: Keystones por Rol
@@ -204,7 +204,7 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
     { id: 'comps', label: 'Composiciones Pro', icon: <Target className="w-4 h-4" />, content: 'comps' as const },
     { id: 'counters', label: 'Counter Tips', icon: <Target className="w-4 h-4" />, content: 'counters' as const },
     { id: 'keystones', label: 'Keystones por Rol', icon: <Zap className="w-4 h-4" />, content: 'keystones' as const },
-    { id: 'runas', label: 'Runas por Campeon S-Tier', icon: <Gem className="w-4 h-4" />, content: 'runas' as const },
+    { id: 'runas', label: 'Runas por Campeón S-Tier', icon: <Gem className="w-4 h-4" />, content: 'runas' as const },
   ];
 
   return (

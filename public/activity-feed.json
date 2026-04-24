@@ -1,7 +1,16 @@
 {
   "version": "1.4",
-  "lastUpdated": "2026-04-25T00:35:00Z",
+  "lastUpdated": "2026-04-25T04:37:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-025",
+      "type": "fix",
+      "title": "3 fixes: runa Debilidad + títulos campeones + Ornn Q/R + coaching",
+      "description": "(1) Runa 'Frailidad'→'Debilidad' — nombre inexistente en LoL español, corregido en 19 instancias (data.ts + helpers.ts). Iconos de runa ahora se muestran correctamente para 10+ campeones. (2) Títulos de campeones corregidos: Brand 'el Llamas Vengativo'→'el Llamado Vengativo', Ornn 'el Fuego del Monte'→'el Dios del Forja'. Habilidades Ornn Q/R intercambiadas corregidas (Q=Volcanic Rite, R=Call of the Forge God). (3) Coaching tab: 'Grevious Wounds'→'Heridas Mortales' (2 instancias), 'Campeon'→'Campeón' (tilde). Build OK.",
+      "timestamp": "2026-04-25T04:37:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "ralph-loop-024",
       "type": "fix",
