@@ -36,6 +36,7 @@ import { GuidesTab } from '@/components/moba/tabs/guides-tab';
 import { CoachingTab } from '@/components/moba/tabs/coaching-tab';
 import { ComparisonTab } from '@/components/moba/tabs/comparison-tab';
 import { ActivityPopup } from '@/components/moba/activity-popup';
+import { FloatingNotes } from '@/components/moba/floating-notes';
 
 // ============ TAB CONTENT RENDERER ============
 function TabContent({
@@ -507,7 +508,8 @@ export default function Home() {
             )}
           </AnimatePresence>
         </div>
-      </main>
+            <FloatingNotes />
+    </main>
 
       {/* Champion Modal */}
       <AnimatePresence>
