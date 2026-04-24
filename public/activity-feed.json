@@ -1,7 +1,16 @@
 {
   "version": "1.6",
-  "lastUpdated": "2026-04-25T07:20:00Z",
+  "lastUpdated": "2026-04-25T07:41:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-030",
+      "type": "fix",
+      "title": "3 fixes: tier mismatch Yasuo/Viego + item names Ángel Guardián/El Colector",
+      "description": "(1) CRÍTICO: Yasuo aiAnalysis decía 'Tier S' pero era tier A — corregido texto para reflejar tier real. Insight también corregido. (2) CRÍTICO: Viego aiAnalysis decía 'S-tier en jungle' pero era tier B — corregido texto para reflejar tier real. (3) Item names: 'Guardián Angel'→'Ángel Guardián' en builds Jinx + WR Master Yi (2 instancias), 'El Coleccionista'→'El Colector' en WR Lee Sin + WR Zed (2 instancias). Íconos ahora se muestran correctamente. Build OK.",
+      "timestamp": "2026-04-25T07:41:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "ralph-loop-029",
       "type": "fix",
