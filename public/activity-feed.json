@@ -8,7 +8,7 @@
       "title": "3 fixes: item Cosechador Nocturno erróneo + Ángel Guardián + KEystone typo",
       "description": "(1) 'Cosechador Nocturno' (ID 6676 = El Colector/lethality item) removido — era el primer item en ~10 builds bruiser (Lee Sin, Viego, Vi, Briar, Camille, Graves, etc.) mostrando ícono incorrecto de The Collector. Reemplazado por 'Pisotón Brutal' (Stridebreaker, ID 6631) en todos los builds. (2) 'Guardián de Angel'→'Ángel Guardián' en build Master Yi — nombre oficial LoL, ahora muestra ícono correctamente. (3) 'KEystone'→'Keystone' en badge del modal de campeón. Build OK.",
       "timestamp": "2026-04-25T07:20:00Z",
-      "commit": "pending",
+      "commit": "2f039b1",
       "category": "fix"
     },
     {
