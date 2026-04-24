@@ -88,3 +88,14 @@
 - [2026-04-18] Meta overview: 4 stat cards (Tier S count, top WR, top ban, top pick)
 - [2026-04-18] Trend icons: flechas según pro pick rate en cada campeón
 - [2026-04-18] Board view: win rate coloreado por rango
+
+## DEV CRONS (via TICK rotation)
+| Cron | Frecuencia | Método | Descripción |
+|------|-----------|--------|-------------|
+| DEV_PATCHES | Cada 4 ticks (~2h) | cycle%4==0 | Busca parches nuevos, actualiza patches-feed.json |
+| DEV_TIERLIST | Cada 4 ticks (~2h) | cycle%4==1 | Busca tier changes, actualiza tierlist-feed.json |
+| DEV_GUIDES | Cada 4 ticks (~2h) | cycle%4==2 | Busca guías nuevas, actualiza guides-feed.json |
+| DEV_SYNC | Cada 4 ticks (~2h) | cycle%4==3 | Health check Vercel, actualiza DASHBOARD.md |
+
+> Git author: bautiarmanijuegos@gmail.com
+> Regla: solo toca public/*.json + data/*.md + DASHBOARD.md. Nunca src/
