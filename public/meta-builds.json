@@ -1,164 +1,277 @@
 {
-  "lastScraped": "2026-04-22T04:35:00Z",
-  "source": "OP.GG",
-  "patch": "16.08",
+  "lastScraped": "2026-04-25T12:00:00Z",
+  "source": "OP.GG + U.GG",
+  "patch": "26.9",
   "champions": {
-    "masteryi": {
-      "error": "[Errno 2] No such file or directory: '/home/z/my-project/moba-sage/scrape-masteryi.json'"
-    },
-    "jinx": {
-      "wr": 52.82,
+    "sion": {
+      "wr": 54.6,
       "core_items": [
-        "Switcheroo!",
-        "Super Mega Death Rocket!",
-        "Legend: Bloodline",
-        "Hextech Flashtraption",
-        "Cosmic Insight",
-        "Doran's Blade"
+        "Fuerza de la Trinidad",
+        "Hidra Titánica",
+        "Visión Divina",
+        "Eclipse"
       ],
       "boots": [
-        "Berserker's Greaves"
+        "Grebas de Placa"
       ],
       "runes": [
-        "Precision",
-        "Lethal Tempo",
-        "Inspiration",
-        "Fleet Footwork",
-        "Conqueror"
+        "Precisión",
+        "Conquistador",
+        "Determinación",
+        "Second Wind",
+        "Inspiración",
+        "Calzado Mágico"
       ],
-      "skill_order": null
+      "skill_order": [
+        "Q",
+        "W",
+        "E"
+      ]
     },
-    "leesin": {
-      "wr": 50.55,
+    "garen": {
+      "wr": 54.7,
       "core_items": [
-        "Legend: Bloodline",
-        "Hextech Flashtraption",
-        "Cosmic Insight",
-        "Eclipse",
-        "Sundered Sky",
-        "Death's Dance"
+        "Fuerza de la Trinidad",
+        "Malla de Espinas",
+        "Bastón de los Sigilos",
+        "Visión Divina"
       ],
       "boots": [
-        "Plated Steelcaps"
+        "Grebas de Placa"
       ],
       "runes": [
-        "Precision",
-        "Conqueror",
-        "Inspiration",
-        "Lethal Tempo",
-        "Fleet Footwork"
+        "Precisión",
+        "Conquistador",
+        "Determinación",
+        "Inquebrantable",
+        "Inspiración",
+        "Calzado Mágico"
       ],
-      "skill_order": null
+      "skill_order": [
+        "Q",
+        "E",
+        "W"
+      ]
+    },
+    "karthus": {
+      "wr": 55.1,
+      "core_items": [
+        "Sombrero Rabadon",
+        "Reloj de Zhonya",
+        "Llama Sombría",
+        "Implacable Markái"
+      ],
+      "boots": [
+        "Botas del Hechicero"
+      ],
+      "runes": [
+        "Brujería",
+        "Dao a Tiempo (DFT)",
+        "Inspiración",
+        "Entrega de Galletas",
+        "Calzado Mágico"
+      ],
+      "skill_order": [
+        "Q",
+        "W",
+        "E"
+      ]
+    },
+    "malzahar": {
+      "wr": 53.8,
+      "core_items": [
+        "Dao de Liandry",
+        "Sombrero Rabadon",
+        "Llama Sombría",
+        "Reloj de Zhonya"
+      ],
+      "boots": [
+        "Botas del Hechicero"
+      ],
+      "runes": [
+        "Brujería",
+        "Dao a Tiempo (DFT)",
+        "Determinación",
+        "Inquebrantable",
+        "Inspiración",
+        "Calzado Mágico"
+      ],
+      "skill_order": [
+        "Q",
+        "E",
+        "W"
+      ]
+    },
+    "brand": {
+      "wr": 53.5,
+      "core_items": [
+        "Dao de Liandry",
+        "Llama Sombría",
+        "Sombrero Rabadon",
+        "Impulso Cósmico"
+      ],
+      "boots": [
+        "Botas del Hechicero"
+      ],
+      "runes": [
+        "Brujería",
+        "Dao a Tiempo (DFT)",
+        "Inspiración",
+        "Entrega de Galletas",
+        "Calzado Mágico"
+      ],
+      "skill_order": [
+        "W",
+        "Q",
+        "E"
+      ]
     },
     "thresh": {
-      "wr": 51.76,
+      "wr": 52.4,
       "core_items": [
-        "Death Sentence",
-        "Guardian",
-        "Hextech Flashtraption",
-        "Cosmic Insight",
-        "Glacial Augment",
-        "Locket of the Iron Solari"
+        "Redención",
+        "Reloj de Arena",
+        "Piedra de Visión",
+        "Eco de Helene"
       ],
       "boots": [
-        "Boots of Swiftness"
+        "Botas de Celeridad"
       ],
       "runes": [
-        "Resolve",
-        "Aftershock",
-        "Inspiration",
-        "Grasp of the Undying",
-        "Guardian"
+        "Determinación",
+        "Fuerza de Marea",
+        "Inspiración",
+        "Calzado Mágico",
+        "Entrega de Galletas"
       ],
-      "skill_order": null
+      "skill_order": [
+        "Q",
+        "W",
+        "E"
+      ]
     },
-    "darius": {
-      "wr": 50.12,
+    "jinx": {
+      "wr": 52.8,
       "core_items": [
-        "Legend: Bloodline",
-        "Axiom Arcanist",
-        "Absolute Focus",
-        "Doran's Blade",
-        "Youmuu's Ghostblade",
-        "Dead Man's Plate"
+        "Filo Infinito",
+        "Bailarín Espectral",
+        "Sed de Sangre",
+        "Pulverizador"
       ],
       "boots": [
-        "Plated Steelcaps"
+        "Grebas Berserker"
       ],
       "runes": [
-        "Precision",
-        "Conqueror",
-        "Sorcery",
-        "Lethal Tempo",
-        "Fleet Footwork"
+        "Precisión",
+        "Tempo Letal",
+        "Determinación",
+        "Sangre de Leyenda",
+        "Inspiración",
+        "Tónico de Salud"
       ],
-      "skill_order": null
+      "skill_order": [
+        "Q",
+        "W",
+        "E"
+      ]
     },
-    "ahri": {
-      "wr": 51.51,
+    "leesin": {
+      "wr": 50.6,
       "core_items": [
-        "Spirit Rush",
-        "Hail of Blades",
-        "Axiom Arcanist",
-        "Absolute Focus",
-        "Malignance",
-        "Shadowflame"
+        "Eclipse",
+        "Cielo Hendido",
+        "Hidra Titánica",
+        "Fuerza de la Trinidad"
       ],
       "boots": [
-        "Sorcerer's Shoes"
+        "Grebas de Placa"
       ],
       "runes": [
-        "Domination",
-        "Electrocute",
-        "Sorcery",
-        "Dark Harvest",
-        "Hail of Blades"
+        "Precisión",
+        "Conquistador",
+        "Determinación",
+        "Inquebrantable",
+        "Inspiración",
+        "Calzado Mágico"
       ],
-      "skill_order": null
+      "skill_order": [
+        "Q",
+        "W",
+        "E"
+      ]
     },
-    "yasuo": {
-      "wr": 49.74,
+    "gragas": {
+      "wr": 53.2,
       "core_items": [
-        "Sweeping Blade",
-        "Legend: Bloodline",
-        "Doran's Blade",
-        "Blade of The Ruined King",
-        "Immortal Shieldbow",
-        "Infinity Edge"
+        "Dao de Liandry",
+        "Sombrero Rabadon",
+        "Llama Sombría",
+        "Impulso Cósmico"
       ],
       "boots": [
-        "Berserker's Greaves"
+        "Botas del Hechicero"
       ],
       "runes": [
-        "Precision",
-        "Lethal Tempo",
-        "Resolve",
-        "Fleet Footwork",
-        "Conqueror"
+        "Brujería",
+        "Dao a Tiempo (DFT)",
+        "Inspiración",
+        "Entrega de Galletas",
+        "Calzado Mágico"
       ],
-      "skill_order": null
+      "skill_order": [
+        "Q",
+        "E",
+        "W"
+      ]
     },
-    "caitlyn": {
-      "wr": 50.24,
+    "teemo": {
+      "wr": 52.1,
       "core_items": [
-        "Legend: Bloodline",
-        "Axiom Arcanist",
-        "Absolute Focus",
-        "Doran's Blade",
-        "Infinity Edge",
-        "Rapid Firecannon"
+        "Dao de Liandry",
+        "Sombrero Rabadon",
+        "Llama Sombría",
+        "Diente de Nashor"
       ],
       "boots": [
-        "Berserker's Greaves"
+        "Botas Rápidas de Nether"
       ],
       "runes": [
-        "Precision",
-        "Lethal Tempo",
-        "Sorcery",
-        "Fleet Footwork",
-        "Conqueror"
+        "Brujería",
+        "Dao a Tiempo (DFT)",
+        "Inspiración",
+        "Calzado Mágico",
+        "Entrega de Galletas"
       ],
-      "skill_order": null
+      "skill_order": [
+        "E",
+        "Q",
+        "W"
+      ]
+    },
+    "ksante": {
+      "wr": 51.9,
+      "core_items": [
+        "Visión Divina",
+        "Hidra Titánica",
+        "Fuerza de la Trinidad",
+        "Eclipse"
+      ],
+      "boots": [
+        "Grebas de Placa"
+      ],
+      "runes": [
+        "Precisión",
+        "Conquistador",
+        "Determinación",
+        "Second Wind",
+        "Inspiración",
+        "Calzado Mágico"
+      ],
+      "skill_order": [
+        "Q",
+        "W",
+        "E"
+      ]
     }
   }
 }
