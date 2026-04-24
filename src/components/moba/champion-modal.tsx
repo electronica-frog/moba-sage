@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { ExternalLink, Info, Sparkles, Crosshair, Users, Wrench, AlertTriangle, Eye, RefreshCw, ShieldCheck } from 'lucide-react';
@@ -11,9 +11,119 @@ import { ChampionIcon, SplashArtIcon, TinyChampionIcon } from './champion-icon';
 import { RoleBadge } from './badges';
 import { CollapsibleSection } from './collapsible-section';
 import { CopyBuildButton } from './copy-build-button';
-import { AbilityBar } from './skill-icon';
+import { AbilityBar, SkillIcon } from './skill-icon';
 import { VisionMap } from './vision-map';
 import type { Champion } from './types';
+
+// ============================================================
+// Ability tooltip helpers
+// ============================================================
+
+const GENERIC_ABILITY_DESCRIPTIONS: Record<'Q'|'W'|'E'|'R', string> = {
+  Q: 'Habilidad principal — principal fuente de daño',
+  W: 'Habilidad secundaria — utilidad o control',
+  E: 'Habilidad de movimiento — escape o enganche',
+  R: 'Ultimate — define el power spike del campeón',
+};
+
+function getAbilityName(championName: string, skill: 'Q'|'W'|'E'|'R'): string {
+  const SKILL_NAMES: Record<string, Record<'Q'|'W'|'E'|'R', string>> = {
+    'Master Yi':    { Q: 'Alpha Strike', W: 'Wuju Style', E: 'Meditate', R: 'Highlander' },
+    'Jinx':         { Q: 'Switcheroo!', W: 'Zap!', E: 'Flame Chompers!', R: 'Super Mega Death Rocket!' },
+    'Lee Sin':      { Q: 'Sonic Wave', W: 'Safeguard', E: 'Iron Will', R: 'Dragon\'s Rage' },
+    'Katarina':     { Q: 'Bouncing Blade', W: 'Preparation', E: 'Shunpo', R: 'Death Lotus' },
+    'Ahri':         { Q: 'Orb of Deception', W: 'Fox-Fire', E: 'Charm', R: 'Spirit Rush' },
+    'Darius':       { Q: 'Decimate', W: 'Crippling Strike', E: 'Apprehend', R: 'Noxian Guillotine' },
+    'Thresh':       { Q: 'Death Sentence', W: 'Dark Passage', E: 'Flay', R: 'The Box' },
+    'Malphite':     { Q: 'Seismic Shard', W: 'Thunderclap', E: 'Ground Slam', R: 'Unstoppable Force' },
+    'Nautilus':     { Q: 'Anchor Drag', W: 'Titan\'s Wrath', E: 'Riptide', R: 'Depth Charge' },
+    'Brand':        { Q: 'Brand\'s Blaze', W: 'Pillar of Flame', E: 'Conflagration', R: 'Pyroclasm' },
+    'Garen':        { Q: 'Decisive Strike', W: 'Courage', E: 'Judgment', R: 'Demacian Justice' },
+    'Diana':        { Q: 'Crescent Strike', W: 'Pale Cascade', E: 'Moonfall', R: 'Lunar Rush' },
+    'Ashe':         { Q: 'Frost Shot', W: 'Ranger\'s Focus', E: 'Volley', R: 'Enchanted Crystal Arrow' },
+    'Ezreal':       { Q: 'Mystic Shot', W: 'Essence Flux', E: 'Arcane Shift', R: 'Trueshot Barrage' },
+    'Zed':          { Q: 'Razor Shuriken', W: 'Living Shadow', E: 'Shadow Slash', R: 'Death Mark' },
+    'Vayne':        { Q: 'Tumble', W: 'Silver Bolts', E: 'Condemn', R: 'Final Hour' },
+    'Caitlyn':      { Q: 'Piltover Peacemaker', W: 'Yordle Snap Trap', E: '90 Caliber Net', R: 'Ace in the Hole' },
+    'Morgana':      { Q: 'Dark Binding', W: 'Black Shield', E: 'Tormented Shadow', R: 'Soul Shackles' },
+    'Jhin':         { Q: 'Dancing Grenade', W: 'Deadly Flourish', E: 'Captive Audience', R: 'Curtain Call' },
+    'Vi':           { Q: 'Vault Breaker', W: 'Denting Blows', E: 'Relentless Force', R: 'Cease and Desist' },
+    'Yasuo':        { Q: 'Steel Tempest', W: 'Wind Wall', E: 'Sweeping Blade', R: 'Last Breath' },
+    'Ornn':         { Q: 'Call of the Forge God', W: 'Bellows Breath', E: 'Searing Charge', R: 'Tempest Rite' },
+    'Briar':        { Q: 'Chilling Scream', W: 'Failed Experiment', E: 'Snatch and Stash', R: 'Certain Death' },
+    'Aurelion Sol': { Q: 'Center of the Universe', W: 'Astral Flight', E: 'Celestial Expansion', R: 'The Skies Descend' },
+    'Veigar':       { Q: 'Baleful Strike', W: 'Dark Matter', E: 'Event Horizon', R: 'Primordial Burst' },
+    'Nilah':        { Q: 'Joyous Unleashing', W: 'Jubilant Veil', E: 'Apex Bliss', R: 'Apotheosis' },
+    'Soraka':       { Q: 'Starcall', W: 'Astral Infusion', E: 'Equinox', R: 'Wish' },
+    'Zyra':         { Q: 'Deadly Spines', W: 'Rampant Growth', E: 'Grasping Roots', R: 'Stranglethorns' },
+    'Kennen':       { Q: 'Thundering Shuriken', W: 'Electrical Surge', E: 'Lightning Rush', R: 'Slicing Maelstrom' },
+  };
+  const names = SKILL_NAMES[championName];
+  if (names && names[skill]) return names[skill];
+  return `${championName} ${skill}`;
+}
+
+function getAbilityDescription(champion: Champion, skill: 'Q'|'W'|'E'|'R'): string {
+  // Check if brokenThings mentions the ability
+  if (champion.brokenThings && champion.brokenThings.length > 0) {
+    const skillMention = champion.brokenThings.find(t => t.toLowerCase().includes(skill.toLowerCase()));
+    if (skillMention) return skillMention;
+  }
+  // Check if aiAnalysis mentions the ability
+  if (champion.aiAnalysis) {
+    const lines = champion.aiAnalysis.split(/[.\n]/);
+    const relevant = lines.find(l => l.toLowerCase().includes(skill.toLowerCase()));
+    if (relevant && relevant.length > 10) return relevant.trim();
+  }
+  return GENERIC_ABILITY_DESCRIPTIONS[skill];
+}
+
+// ============================================================
+// AbilityBar wrapper with hover callbacks
+// ============================================================
+
+function AbilityBarWithTooltips({
+  championName,
+  hoveredAbility,
+  onHoverAbility,
+}: {
+  championName: string;
+  hoveredAbility: 'Q' | 'W' | 'E' | 'R' | null;
+  onHoverAbility: (skill: 'Q' | 'W' | 'E' | 'R' | null) => void;
+  brokenThings?: string[];
+  aiAnalysis?: string;
+}) {
+  const skills: Array<'Q' | 'W' | 'E' | 'R'> = ['Q', 'W', 'E', 'R'];
+  return (
+    <div className="flex items-center gap-1.5">
+      {skills.map(skill => (
+        <div
+          key={skill}
+          className="relative"
+          onMouseEnter={() => onHoverAbility(skill)}
+          onMouseLeave={() => onHoverAbility(null)}
+          onTouchStart={() => onHoverAbility(hoveredAbility === skill ? null : skill)}
+        >
+          <div
+            className="rounded-lg transition-all duration-150 cursor-pointer"
+            style={{
+              outline: hoveredAbility === skill ? '2px solid' : 'none',
+              outlineColor: hoveredAbility === skill
+                ? (skill === 'Q' ? '#0acbe6' : skill === 'W' ? '#0fba81' : skill === 'E' ? '#f0c646' : '#e84057')
+                : 'transparent',
+              outlineOffset: '2px',
+              boxShadow: hoveredAbility === skill
+                ? `0 0 12px ${(skill === 'Q' ? '#0acbe6' : skill === 'W' ? '#0fba81' : skill === 'E' ? '#f0c646' : '#e84057')}40`
+                : 'none',
+            }}
+          >
+            <SkillIcon championName={championName} skill={skill} size={32} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const SKIN_VARIANTS = [0, 1, 2, 3, 4];
 
@@ -70,6 +180,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
   const [activeSkin, setActiveSkin] = useState(0);
   const [failedSkins, setFailedSkins] = useState<Set<number>>(new Set());
   const [metaBuild, setMetaBuild] = useState<any>(null);
+  const [hoveredAbility, setHoveredAbility] = useState<'Q' | 'W' | 'E' | 'R' | null>(null);
 
   // Fetch live meta builds for S-tier champions
   useEffect(() => {
@@ -265,7 +376,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
 
         {/* Body */}
         <div className="p-5 space-y-4">
-          {/* Ability Bar */}
+          {/* Ability Bar with Tooltips */}
           <div className="rounded-xl p-3" style={{ background: 'linear-gradient(135deg, rgba(10,203,230,0.06), rgba(10,203,230,0.02))', border: '1px solid rgba(10,203,230,0.15)' }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -274,8 +385,33 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               </div>
             </div>
             <div className="mt-2">
-              <AbilityBar championName={champion.name} />
+              <AbilityBarWithTooltips championName={champion.name} hoveredAbility={hoveredAbility} onHoverAbility={setHoveredAbility} brokenThings={champion.brokenThings} aiAnalysis={champion.aiAnalysis} />
             </div>
+            {/* Tooltip */}
+            <AnimatePresence>
+              {hoveredAbility && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                  className="mt-3 rounded-lg p-3"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(30,35,40,0.95), rgba(10,14,26,0.95))',
+                    border: '1px solid rgba(10,203,230,0.2)',
+                    backdropFilter: 'blur(12px)',
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-sm font-black" style={{ color: hoveredAbility === 'Q' ? '#0acbe6' : hoveredAbility === 'W' ? '#0fba81' : hoveredAbility === 'E' ? '#f0c646' : '#e84057' }}>{hoveredAbility}</span>
+                    <span className="text-xs font-semibold text-[#f0e6d2]">{getAbilityName(champion.name, hoveredAbility)}</span>
+                  </div>
+                  <p className="text-[10px] text-[#a09b8c] leading-relaxed">
+                    {getAbilityDescription(champion, hoveredAbility)}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Build Section — Only shows live scraped data when available */}

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   creator: "MOBA Sage",
   publisher: "MOBA Sage",
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>",
   },
   openGraph: {
     type: "website",

@@ -1,7 +1,22 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 export function GoldParticles() {
-  const particles = Array.from({ length: 25 }, (_, i) => ({
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  // If user prefers reduced motion, render minimal static particles (no animation)
+  const particleCount = reducedMotion ? 0 : 25;
+
+  const particles = Array.from({ length: particleCount }, (_, i) => ({
     id: i,
     left: `${Math.random() * 100}%`,
     size: `${2 + Math.random() * 3}px`,
@@ -12,7 +27,7 @@ export function GoldParticles() {
   }));
 
   return (
-    <div className="lol-gold-particles">
+    <div className="lol-gold-particles" aria-hidden="true">
       {particles.map(p => (
         <div
           key={p.id}

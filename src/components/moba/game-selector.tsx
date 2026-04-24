@@ -2,8 +2,11 @@
 
 import { useState, useEffect, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
-import { Sword, Monitor, Smartphone, Gamepad2, ChevronRight, Database, Clock, Shield } from 'lucide-react';
+import { Sword, Monitor, Smartphone, Gamepad2, ChevronRight, Database, Clock, Shield, GraduationCap } from 'lucide-react';
+import { GAME_TAB_ITEMS, DEV_TAB_ITEMS } from './constants';
 import type { GameSelection } from './types';
+
+const TOTAL_TABS = GAME_TAB_ITEMS.length + DEV_TAB_ITEMS.length;
 
 const SPLASH_CHAMPIONS = ['Yasuo', 'Jinx', 'Ahri', 'LeeSin'];
 
@@ -115,7 +118,7 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
               <p className="text-sm text-[#5b5a56] tracking-wide">PC Analytics</p>
             </div>
             <div className="flex items-center gap-1 text-xs text-[#785a28] group-hover:text-[#c8aa6e] transition-colors">
-              <span>Campeones &bull; Tier List &bull; Meta</span>
+              <span>Campeones &bull; Tier List &bull; Coaching</span>
               <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
@@ -180,7 +183,7 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
       </div>
 
       <motion.div className="mt-12 max-w-2xl w-full relative z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div className="glass-card rounded-xl p-4 text-center">
             <Database className="w-6 h-6 text-[#c8aa6e] mx-auto mb-2" />
             <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Fuentes de Datos</h4>
@@ -193,8 +196,13 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
             <Shield className="w-6 h-6 text-[#f0c646] mx-auto mb-2" />
-            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">10 Pestañas</h4>
-            <p className="text-[10px] text-[#5b5a56]">Tier List &bull; Parches<br/>Cosas Rotas &bull; Combos<br/>Competitivo &bull; Perfil<br/>Novedades &bull; Ideas<br/>Roadmap &bull; Tareas</p>
+            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">{TOTAL_TABS} Pestañas</h4>
+            <p className="text-[10px] text-[#5b5a56]">Tier List &bull; Parches<br/>Cosas Rotas &bull; Combos<br/>Competitivo &bull; Perfil</p>
+          </div>
+          <div className="glass-card rounded-xl p-4 text-center">
+            <GraduationCap className="w-6 h-6 text-[#0fba81] mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Coaching IA</h4>
+            <p className="text-[10px] text-[#5b5a56]">Mecánicas clave<br/>Warding y Visión<br/>Composiciones Pro</p>
           </div>
         </div>
       </motion.div>
