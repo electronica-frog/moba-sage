@@ -37,14 +37,14 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
     : '0.0';
 
   return (
-    <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="mb-4">
+    <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="mb-5">
+      {/* Gold accent line */}
+      <div className="w-full h-[2px] rounded-full mb-1" style={{ background: `linear-gradient(90deg, ${cfg.color}60, ${cfg.color}20, transparent)` }} />
       <div
         className="flex items-center gap-3 px-4 py-2.5 rounded-t-xl"
         style={{
-          background: `linear-gradient(90deg, ${cfg.color}18, ${cfg.color}05)`,
-          borderTop: `2px solid ${cfg.color}`,
-          borderLeft: `1px solid ${cfg.color}25`,
-          borderRight: `1px solid ${cfg.color}25`,
+          background: `linear-gradient(90deg, ${cfg.color}15, transparent)`,
+          borderLeft: `2px solid ${cfg.color}80`,
         }}
       >
         <span
