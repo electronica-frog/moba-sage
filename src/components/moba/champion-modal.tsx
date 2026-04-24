@@ -564,11 +564,11 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                 <div className="flex items-center gap-2">
                   <Info className="w-4 h-4 text-[#c8aa6e]" />
                   <span className="text-[10px] font-semibold text-[#c8aa6e] uppercase tracking-wider">
-                    Builds de Referencia
+                    Fuentes Externas
                   </span>
                 </div>
               </div>
-              <p className="text-[10px] text-[#785a28] mb-3">Fuentes externas con builds siempre actualizadas:</p>
+              <p className="text-[10px] text-[#785a28] mb-3">Links a builds siempre actualizados:</p>
               <div className="flex items-center gap-2 flex-wrap">
                 <a href={extUrls.ugg} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all hover:scale-105 hover:shadow-lg" style={{ background: 'rgba(0,203,230,0.12)', border: '1.5px solid rgba(0,203,230,0.35)', color: '#0acbe6', boxShadow: '0 0 12px rgba(0,203,230,0.08)' }}>
                   <div className="w-5 h-5 rounded flex items-center justify-center text-[9px] font-black" style={{ background: 'rgba(0,203,230,0.2)', border: '1px solid rgba(0,203,230,0.3)' }}>UG</div>
@@ -607,9 +607,9 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               </CollapsibleSection>
             )}
 
-            {/* Reference Builds */}
+            {/* Reference Builds — collapsible with item icons */}
             {champion.builds && champion.builds.length > 0 && (
-              <CollapsibleSection title="Builds de Referencia" icon={Wrench} color="#c8aa6e">
+              <CollapsibleSection title="Builds de Referencia" icon={Wrench} color="#c8aa6e" defaultOpen={false}>
                 <div className="space-y-2">
                   {champion.builds.map((build, i) => {
                     const items = parseBuildItems(build.items);
