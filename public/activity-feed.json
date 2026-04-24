@@ -1,7 +1,16 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-24T16:16:00Z",
+  "lastUpdated": "2026-04-24T16:41:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-018",
+      "type": "fix",
+      "title": "3 Fixes: item Centro de Gravedad + typo posess + impossible→imposible",
+      "description": "(1) Item 'Centro de Gravedad' (3163) sin mapeo en ITEM_NAME_MAP — causaba ícono faltante en builds de Thresh. Agregado mapeo. (2) Typo 'posess' en Viego brokenThings → corregido a 'posee'. (3) 7 instancias de 'impossible' (inglés) corregidas a 'imposible' (español) en data.ts (Nilah, Vayne, Volibear x2, Rakan, Nidalee x2). Build OK.",
+      "timestamp": "2026-04-24T16:41:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "ralph-loop-017",
       "type": "fix",

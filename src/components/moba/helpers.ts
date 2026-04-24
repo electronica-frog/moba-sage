@@ -77,6 +77,7 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   'Botas de Mercurio': '3111', 'Botas de Movilidad': '3009',
   'Botas de Celeridad': '3158', 'Botas de CD': '3158', 'Botas de Placas': '3047',
   // Otros
+  'Centro de Gravedad': '3163',
   'Última Piedad': '3036', 'Muramana': '3004',
   'Guardián Angel': '3026', 'Guardián de Angel': '3026',
   'El Protegido': '3193', 'Llamarada de Pecado': '6698',
