@@ -52,7 +52,7 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   // Miticas
   'Filo de la Noche': '6672', 'Eclipse': '6692', 'Cosechador Nocturno': '6676',
   'Pozo de la Noche': '6695', 'Roca del Eclipse': '6693', 'Poder de Kraken Slayer': '6673',
-  'La Séptima': '6671', 'El Coleccionista': '6676', 'El Colector': '6676',
+  'La Séptima': '6671', 'El Colector': '6676',
   'Filo Divino': '6696', 'Mandato Imperial': '6632',
   'Stridebreaker': '6631', 'Pisotón Brutal': '6631', 'Experimental Hexplate': '6664', 'Placa Hexagonal Experimental': '6664',
   "Jak'Sho": '6665', "Jak'Sho, el Proteico": '6665', 'JakSho': '6665',
@@ -80,7 +80,7 @@ export const ITEM_NAME_MAP: Record<string, string> = {
   // Otros
   'Centro de Gravedad': '3163',
   'Última Piedad': '3036', 'Muramana': '3004',
-  'Guardián Angel': '3026', 'Guardián de Angel': '3026',
+  'Ángel Guardián': '3026',
   'El Protegido': '3193', 'Llamarada de Pecado': '6698',
 };
 
@@ -114,8 +114,9 @@ const RUNE_ICON_MAP: Record<string, string> = {
   // Resolve Keystones
   'Guardián': '8400_Resolve/Guardian/Guardian.png',
   'Demolir': '8400_Resolve/Demolish/Demolish.png',
-  'Fuente de Vida': '8400_Resolve/Revitalize/Revitalize.png',
+  'Fuente de Vida': '8400_Resolve/FontofLife/FontofLife.png',
   // Inspiration Keystones
+  'Calzado Mágico': '8300_Inspiration/MagicalFootwear/MagicalFootwear.png',
   'Viento Favorable': '8300_Inspiration/GlacialAugment/GlacialAugment.png',
   // Runas secundarias comunes
   'Segunda Vida': '8400_Resolve/SecondWind/SecondWind.png',
