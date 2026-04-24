@@ -174,7 +174,7 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
             <Clock className="w-5 h-5 text-[#c8aa6e]" />
           </div>
           <p className="text-xs font-semibold text-[#f0e6d2] mb-1">Contenido en desarrollo</p>
-          <p className="text-[10px] text-[#5b5a56]">La guía completa con builds, runas y strategias estará disponible próximamente.</p>
+          <p className="text-[10px] text-[#5b5a56]">La guía completa con builds, runas y estrategias estará disponible próximamente.</p>
         </div>
       </motion.div>
     </motion.div>
