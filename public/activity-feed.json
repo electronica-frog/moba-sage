@@ -1,7 +1,16 @@
 {
-  "version": "1.2",
-  "lastUpdated": "2026-04-24T15:10:00Z",
+  "version": "1.3",
+  "lastUpdated": "2026-04-24T16:00:00Z",
   "entries": [
+    {
+      "id": "ux-overhaul-002",
+      "type": "feature",
+      "title": "Major UX Overhaul — notif popups, coaching x3, global search, matchup icons",
+      "description": "Notificaciones tappable con popup detail. Coaching +3 secciones (Counter Tips, Keystones, Runas S-Tier). Tier List con matchup icons como U.GG. Global Search Ctrl+K. Profile Match History placeholder. Landing Meta Report banner. External links estilizados. Patch Analysis con proTips + runeChanges. 9 archivos, 817 líneas.",
+      "timestamp": "2026-04-24T16:00:00Z",
+      "commit": "44a2c58",
+      "category": "feature"
+    },
     {
       "id": "ui-overhaul-001",
       "type": "feature",
@@ -136,27 +145,17 @@
       "timestamp": "2026-04-22T05:40:00Z",
       "commit": "a6cfe6a",
       "category": "improvement"
-    },
-    {
-      "id": "ralph-loop-005",
-      "type": "improvement",
-      "title": "Meta 26.8 completo — web scrape datos reales",
-      "description": "+7 nuevos campeones S-tier con datos de Blitz.gg, U.GG, Mobalytics, Metabot.gg.",
-      "timestamp": "2026-04-22T05:31:00Z",
-      "commit": "a6cfe6a",
-      "category": "improvement"
     }
   ],
   "highlights": [
-    "Beaufort font en headings/labels — auténtico LoL style",
-    "Campanita de notificaciones con dropdown de actividad del día",
-    "Nueva tab Coaching — mecánicas, warding por rol, composiciones pro",
-    "ANÁLISIS DE PARCHE — quién queda roto/caído con cada parche",
-    "Patches feeds con metaShifts + tierBefore/tierAfter",
-    "Guías con modal funcional (champ icon, key points)",
-    "Combos expandibles inline con stats completos",
-    "Ideas+Roadmap merge en una sola tab",
-    "12 tabs funcionales (down de 13 por merge)",
-    "Dev tabs claramente marcadas con [DEV]"
+    "Notificaciones tappable — popup detail con description + commit link",
+    "Coaching: Counter Tips (10 champs) + Keystones por Rol + Runas S-Tier",
+    "Tier List: matchup icons inline (synergias cyan + counters red)",
+    "Global Search: Ctrl+K command palette",
+    "Profile: Match History placeholder",
+    "Landing: Meta Report banner + date footer",
+    "Champion Modal: external links estilizados (U.GG/OP.GG/Mobalytics)",
+    "Patch Analysis: proTips + runeChanges",
+    "26 mejoras totales en la sesión"
   ]
 }
