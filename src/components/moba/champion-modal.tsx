@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { ExternalLink, Info, Sparkles, Crosshair, Users, Wrench, AlertTriangle, Eye, ShieldCheck, TrendingUp, X, Star } from 'lucide-react';
+import { ExternalLink, Info, Sparkles, Crosshair, Users, Wrench, AlertTriangle, Eye, ShieldCheck, TrendingUp, X, Star, Swords, Flame, Wind, Shield, Lightbulb } from 'lucide-react';
 import { TIER_CONFIG } from './constants';
 import { getChampionImageUrl, getBuildExternalUrl, getItemIconUrl, parseBuildItems, getChampionSplashUrl } from './helpers';
 import { RuneIcon } from './rune-icon';
@@ -15,6 +15,152 @@ import { SkillIcon } from './skill-icon';
 import { VisionMap } from './vision-map';
 import { WeeklyWRChart as SharedWeeklyWRChart } from './weekly-wr-chart';
 import type { Champion } from './types';
+
+// ============================================================
+// Rune Tree Types & Helpers
+// ============================================================
+
+const RUNE_TREE_CONFIG: Record<string, { color: string; label: string; esLabel: string; icon: string }> = {
+  'Precision': { color: '#c8aa6e', label: 'Precision', esLabel: 'Precisión', icon: 'sword' },
+  'Precisión': { color: '#c8aa6e', label: 'Precision', esLabel: 'Precisión', icon: 'sword' },
+  'Sorcery': { color: '#7b4dff', label: 'Sorcery', esLabel: 'Brujería', icon: 'orb' },
+  'Brujería': { color: '#7b4dff', label: 'Sorcery', esLabel: 'Brujería', icon: 'orb' },
+  'Domination': { color: '#d44444', label: 'Domination', esLabel: 'Dominación', icon: 'claw' },
+  'Dominación': { color: '#d44444', label: 'Domination', esLabel: 'Dominación', icon: 'claw' },
+  'Resolve': { color: '#1b998b', label: 'Resolve', esLabel: 'Valor', icon: 'shield' },
+  'Valor': { color: '#1b998b', label: 'Resolve', esLabel: 'Valor', icon: 'shield' },
+  'Inspiration': { color: '#14b8a6', label: 'Inspiration', esLabel: 'Inspiración', icon: 'gear' },
+  'Inspiración': { color: '#14b8a6', label: 'Inspiration', esLabel: 'Inspiración', icon: 'gear' },
+};
+
+function getRuneTreeColor(treeName: string): string {
+  for (const [key, val] of Object.entries(RUNE_TREE_CONFIG)) {
+    if (treeName.toLowerCase().includes(key.toLowerCase())) return val.color;
+  }
+  return '#c8aa6e';
+}
+
+function getRuneTreeEsLabel(treeName: string): string {
+  for (const [key, val] of Object.entries(RUNE_TREE_CONFIG)) {
+    if (treeName.toLowerCase().includes(key.toLowerCase())) return val.esLabel;
+  }
+  return treeName;
+}
+
+// Rune Tree Icon Component
+function RuneTreeIcon({ tree, size = 16 }: { tree: string; size?: number }) {
+  const config = Object.values(RUNE_TREE_CONFIG).find(c => tree.toLowerCase().includes(c.label.toLowerCase()) || tree.toLowerCase().includes(c.esLabel.toLowerCase()));
+  const color = config?.color || '#c8aa6e';
+  const iconType = config?.icon || 'sword';
+
+  return (
+    <div
+      className="rounded-full flex items-center justify-center shrink-0"
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: `${color}20`,
+        border: `1px solid ${color}40`,
+      }}
+      title={tree}
+    >
+      {iconType === 'sword' && <Swords className="w-[60%] h-[60%]" style={{ color }} strokeWidth={2.5} />}
+      {iconType === 'orb' && <Flame className="w-[60%] h-[60%]" style={{ color }} strokeWidth={2.5} />}
+      {iconType === 'claw' && <AlertTriangle className="w-[60%] h-[60%]" style={{ color }} strokeWidth={2.5} />}
+      {iconType === 'shield' && <Shield className="w-[60%] h-[60%]" style={{ color }} strokeWidth={2.5} />}
+      {iconType === 'gear' && <Lightbulb className="w-[60%] h-[60%]" style={{ color }} strokeWidth={2.5} />}
+    </div>
+  );
+}
+
+// ============================================================
+// Meta Rune Data Parser
+// ============================================================
+
+interface ParsedRunePage {
+  primaryTree: string;
+  keystone: string;
+  primaryRunes: string[];
+  secondaryTree: string;
+  secondaryRunes: string[];
+  shards: string[];
+  rawRunes: string[];
+}
+
+function parseMetaRunes(runesArray: string[]): ParsedRunePage | null {
+  if (!runesArray || runesArray.length < 6) return null;
+
+  // Try to detect trees from rune names
+  const precisionRunes = ['Pies Veloces', 'Conquistador', 'Lethal Tempo', 'Fleet Footwork', 'Triumph', 'Presencia de Campeón', 'Leyenda: Imparabilidad', 'Leyenda: Tenacidad', 'Leyenda: Linaje', 'Golpe de Gracia', 'Coup de Grace', 'Precision'];
+  const sorceryRunes = ['Cometa Arcano', 'Invocar Aery', 'Phase Rush', 'Arcane Comet', 'Summon Aery', 'Nullifying Orb', 'Manaflow Band', 'Transcendence', 'Celeridad', 'Scorch', 'Waterwalking', 'Sorcery'];
+  const dominationRunes = ['Electrocutar', 'Cosecha Oscura', 'Dark Harvest', 'Sabor a Sangre', 'Cheap Shot', 'Taste of Blood', 'Zombie Ward', 'Ghost Poro', 'Eyeball Collection', 'Ultimate Hunter', 'Relentless Hunter', 'Ravenous Hunter', 'Ingenious Hunter', 'Domination'];
+  const resolveRunes = ['Guardián', 'Demolir', 'Fuente de Vida', 'Revitalizar', 'Segunda Vida', 'Bone Plating', 'Unflinching', 'Conditioning', 'Overgrowth', 'Font of Life', 'Second Wind', 'Revitalize', 'Resolve'];
+  const inspirationRunes = ['Viento Favorable', 'Glacial Augment', 'Unsealed Spellbook', 'Magical Footwear', 'Perfect Timing', 'Biscuit Delivery', 'Cosmic Insight', 'Approach Velocity', 'Legend of the Empty Queue', 'Hextech Flashtraption', 'First Strike', 'Inspiration'];
+
+  function detectTree(rune: string): string | null {
+    const r = rune.toLowerCase();
+    if (precisionRunes.some(p => r.includes(p.toLowerCase()) || p.toLowerCase().includes(r.replace(/\s/g, '')))) return 'Precisión';
+    if (sorceryRunes.some(p => r.includes(p.toLowerCase()) || p.toLowerCase().includes(r.replace(/\s/g, '')))) return 'Brujería';
+    if (dominationRunes.some(p => r.includes(p.toLowerCase()) || p.toLowerCase().includes(r.replace(/\s/g, '')))) return 'Dominación';
+    if (resolveRunes.some(p => r.includes(p.toLowerCase()) || p.toLowerCase().includes(r.replace(/\s/g, '')))) return 'Valor';
+    if (inspirationRunes.some(p => r.includes(p.toLowerCase()) || p.toLowerCase().includes(r.replace(/\s/g, '')))) return 'Inspiración';
+    return null;
+  }
+
+  // Detect keystones (first 4 are usually primary tree runes with keystone first)
+  const keystone = runesArray[0];
+  const primaryTree = detectTree(keystone) || 'Precisión';
+
+  // Find the tree switch point (when a different tree is detected)
+  let switchIdx = runesArray.length;
+  for (let i = 1; i < runesArray.length; i++) {
+    const tree = detectTree(runesArray[i]);
+    if (tree && tree !== primaryTree) {
+      switchIdx = i;
+      break;
+    }
+  }
+
+  const primaryRunes = runesArray.slice(1, switchIdx);
+  const remaining = runesArray.slice(switchIdx);
+
+  // Separate secondary tree and shards
+  let secondaryTree = 'Inspiración';
+  const secondaryRunes: string[] = [];
+  const shards: string[] = [];
+
+  for (const rune of remaining) {
+    const tree = detectTree(rune);
+    if (tree && tree !== primaryTree) {
+      secondaryTree = tree;
+      secondaryRunes.push(rune);
+    } else {
+      shards.push(rune);
+    }
+  }
+
+  return {
+    primaryTree,
+    keystone,
+    primaryRunes: primaryRunes.slice(0, 3),
+    secondaryTree,
+    secondaryRunes: secondaryRunes.slice(0, 2),
+    shards: shards.slice(0, 3),
+    rawRunes: runesArray,
+  };
+}
+
+function parseStringRunes(runes: { primary: string; secondary: string; shards: string }): ParsedRunePage | null {
+  const allNames = [runes.primary, runes.secondary, runes.shards]
+    .join(' — ')
+    .split(/[—,\n]/)
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  if (allNames.length < 2) return null;
+
+  return parseMetaRunes(allNames.length >= 4 ? allNames : [allNames[0], allNames[0], allNames[0], allNames[1], allNames[1], ...allNames.slice(2)]);
+}
 
 // ============================================================
 // Ability tooltip helpers
@@ -31,17 +177,17 @@ function getAbilityName(championName: string, skill: 'Q'|'W'|'E'|'R'): string {
   const SKILL_NAMES: Record<string, Record<'Q'|'W'|'E'|'R', string>> = {
     'Master Yi':    { Q: 'Alpha Strike', W: 'Wuju Style', E: 'Meditate', R: 'Highlander' },
     'Jinx':         { Q: 'Switcheroo!', W: 'Zap!', E: 'Flame Chompers!', R: 'Super Mega Death Rocket!' },
-    'Lee Sin':      { Q: 'Sonic Wave', W: 'Safeguard', E: 'Iron Will', R: 'Dragon\'s Rage' },
+    'Lee Sin':      { Q: 'Sonic Wave', W: 'Safeguard', E: 'Iron Will', R: "Dragon's Rage" },
     'Katarina':     { Q: 'Bouncing Blade', W: 'Preparation', E: 'Shunpo', R: 'Death Lotus' },
     'Ahri':         { Q: 'Orb of Deception', W: 'Fox-Fire', E: 'Charm', R: 'Spirit Rush' },
     'Darius':       { Q: 'Decimate', W: 'Crippling Strike', E: 'Apprehend', R: 'Noxian Guillotine' },
     'Thresh':       { Q: 'Death Sentence', W: 'Dark Passage', E: 'Flay', R: 'The Box' },
     'Malphite':     { Q: 'Seismic Shard', W: 'Thunderclap', E: 'Ground Slam', R: 'Unstoppable Force' },
-    'Nautilus':     { Q: 'Anchor Drag', W: 'Titan\'s Wrath', E: 'Riptide', R: 'Depth Charge' },
-    'Brand':        { Q: 'Brand\'s Blaze', W: 'Pillar of Flame', E: 'Conflagration', R: 'Pyroclasm' },
+    'Nautilus':     { Q: 'Anchor Drag', W: "Titan's Wrath", E: 'Riptide', R: 'Depth Charge' },
+    'Brand':        { Q: "Brand's Blaze", W: 'Pillar of Flame', E: 'Conflagration', R: 'Pyroclasm' },
     'Garen':        { Q: 'Decisive Strike', W: 'Courage', E: 'Judgment', R: 'Demacian Justice' },
     'Diana':        { Q: 'Crescent Strike', W: 'Pale Cascade', E: 'Moonfall', R: 'Lunar Rush' },
-    'Ashe':         { Q: 'Frost Shot', W: 'Ranger\'s Focus', E: 'Volley', R: 'Enchanted Crystal Arrow' },
+    'Ashe':         { Q: 'Frost Shot', W: "Ranger's Focus", E: 'Volley', R: 'Enchanted Crystal Arrow' },
     'Ezreal':       { Q: 'Mystic Shot', W: 'Essence Flux', E: 'Arcane Shift', R: 'Trueshot Barrage' },
     'Zed':          { Q: 'Razor Shuriken', W: 'Living Shadow', E: 'Shadow Slash', R: 'Death Mark' },
     'Vayne':        { Q: 'Tumble', W: 'Silver Bolts', E: 'Condemn', R: 'Final Hour' },
@@ -177,6 +323,120 @@ function wrStatColor(wr: number, label: string): string {
 }
 
 // ============================================================
+// Runes Display Component
+// ============================================================
+
+function EnhancedRunesDisplay({ champion, metaBuild }: { champion: Champion; metaBuild?: any }) {
+  let runePage: ParsedRunePage | null = null;
+
+  // Priority: meta-build runes array > champion.runes string data
+  if (metaBuild?.runes && Array.isArray(metaBuild.runes) && metaBuild.runes.length >= 4) {
+    runePage = parseMetaRunes(metaBuild.runes);
+  } else if (champion.runes) {
+    runePage = parseStringRunes(champion.runes);
+  }
+
+  if (!runePage) {
+    // Fallback to simple display
+    return (
+      <div className="rounded-lg p-3 space-y-2" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.12)' }}>
+        {champion.runes && (
+          <>
+            <div className="flex items-center gap-2.5">
+              <RuneIcon runeName={champion.runes.primary} size={20} />
+              <span className="text-[11px] text-[#a09b8c]">{champion.runes.primary}</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <RuneIcon runeName={champion.runes.secondary} size={20} />
+              <span className="text-[11px] text-[#a09b8c]">{champion.runes.secondary}</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <div className="w-5 h-5 rounded shrink-0 flex items-center justify-center" style={{ background: 'rgba(240,198,70,0.15)', border: '1px solid rgba(240,198,70,0.3)' }}>
+                <span className="text-[8px] text-[#f0c646] font-bold">F</span>
+              </div>
+              <span className="text-[11px] text-[#a09b8c]">{champion.runes.shards}</span>
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  const primaryColor = getRuneTreeColor(runePage.primaryTree);
+  const secondaryColor = getRuneTreeColor(runePage.secondaryTree);
+  const primaryEs = getRuneTreeEsLabel(runePage.primaryTree);
+  const secondaryEs = getRuneTreeEsLabel(runePage.secondaryTree);
+
+  return (
+    <div className="space-y-3">
+      {/* Primary Tree */}
+      <div className="rounded-lg p-3" style={{ background: `${primaryColor}08`, border: `1px solid ${primaryColor}25` }}>
+        <div className="flex items-center gap-2 mb-2.5">
+          <RuneTreeIcon tree={runePage.primaryTree} size={18} />
+          <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: primaryColor }}>
+            {primaryEs}
+          </span>
+          <div className="h-px flex-1" style={{ background: `${primaryColor}20` }} />
+        </div>
+        <div className="space-y-1.5">
+          {/* Keystone — larger, highlighted */}
+          <div className="flex items-center gap-2 px-2 py-1.5 rounded-md" style={{ background: `${primaryColor}12`, border: `1px solid ${primaryColor}30` }}>
+            <RuneIcon runeName={runePage.keystone} size={24} />
+            <span className="text-[11px] font-semibold text-[#f0e6d2]">{runePage.keystone}</span>
+            <span className="text-[8px] px-1 py-0.5 rounded ml-auto" style={{ background: `${primaryColor}20`, color: primaryColor }}>KEystone</span>
+          </div>
+          {/* Primary runes */}
+          {runePage.primaryRunes.map((rune, i) => (
+            <div key={i} className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/[0.02] transition-colors">
+              <RuneIcon runeName={rune} size={18} />
+              <span className="text-[10px] text-[#a09b8c]">{rune}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Secondary Tree */}
+      <div className="rounded-lg p-3" style={{ background: `${secondaryColor}08`, border: `1px solid ${secondaryColor}25` }}>
+        <div className="flex items-center gap-2 mb-2.5">
+          <RuneTreeIcon tree={runePage.secondaryTree} size={18} />
+          <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: secondaryColor }}>
+            {secondaryEs}
+          </span>
+          <div className="h-px flex-1" style={{ background: `${secondaryColor}20` }} />
+        </div>
+        <div className="space-y-1.5">
+          {runePage.secondaryRunes.map((rune, i) => (
+            <div key={i} className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/[0.02] transition-colors">
+              <RuneIcon runeName={rune} size={18} />
+              <span className="text-[10px] text-[#a09b8c]">{rune}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Shards */}
+      {runePage.shards.length > 0 && (
+        <div className="rounded-lg p-3" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.15)' }}>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: 'rgba(240,198,70,0.15)', border: '1px solid rgba(240,198,70,0.3)' }}>
+              <span className="text-[7px] text-[#f0c646] font-bold">F</span>
+            </div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#f0c646]">Fragmentos</span>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            {runePage.shards.map((shard, i) => (
+              <span key={i} className="text-[9px] px-2 py-1 rounded-md text-[#a09b8c]" style={{ background: 'rgba(240,198,70,0.08)', border: '1px solid rgba(240,198,70,0.15)' }}>
+                {shard}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============================================================
 // Champion Modal — Enhanced LoL Card Design
 // ============================================================
 
@@ -285,16 +545,15 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               </motion.div>
             </AnimatePresence>
 
-            {/* Gradient overlays — LoL card style */}
+            {/* Gradient overlays */}
             <div className="absolute inset-0" style={{
               background: 'linear-gradient(to bottom, rgba(10,14,26,0.2) 0%, rgba(10,14,26,0.1) 30%, rgba(10,14,26,0.5) 60%, rgba(10,14,26,0.95) 85%, rgba(10,14,26,0.99) 100%)',
             }} />
-            {/* Side vignette */}
             <div className="absolute inset-0" style={{
               background: 'linear-gradient(to right, rgba(10,14,26,0.3) 0%, transparent 30%, transparent 70%, rgba(10,14,26,0.3) 100%)',
             }} />
 
-            {/* Gold corner accents — LoL card style */}
+            {/* Gold corner accents */}
             <div className="absolute top-0 left-0 w-10 h-10" style={{
               borderTop: `2px solid ${cfg.color}60`,
               borderLeft: `2px solid ${cfg.color}60`,
@@ -308,7 +567,6 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
 
             {/* Champion info OVER splash art */}
             <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
-              {/* Champion tile icon */}
               <div className="flex items-end gap-4">
                 <motion.div
                   className="w-20 h-20 rounded-xl overflow-hidden shrink-0 relative"
@@ -334,7 +592,6 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                 </motion.div>
 
                 <div className="flex-1 min-w-0 pb-0.5">
-                  {/* Tier diamond badge + Name */}
                   <div className="flex items-center gap-2.5 mb-1">
                     <motion.div
                       className="px-2.5 py-1 relative"
@@ -363,7 +620,6 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                       {champion.name}
                     </motion.h2>
                   </div>
-                  {/* Title + Role + Patch */}
                   <motion.div
                     className="flex items-center gap-2 flex-wrap"
                     initial={{ y: 10, opacity: 0 }}
@@ -378,7 +634,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                 </div>
               </div>
 
-              {/* Stats row — card-like overlay */}
+              {/* Stats row */}
               <motion.div
                 className="flex items-stretch gap-2 mt-4 rounded-xl overflow-hidden"
                 style={{
@@ -399,9 +655,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                   <div
                     key={stat.label}
                     className="flex-1 text-center px-2 py-2.5"
-                    style={{
-                      borderRight: i < 3 ? '1px solid rgba(120,90,40,0.15)' : 'none',
-                    }}
+                    style={{ borderRight: i < 3 ? '1px solid rgba(120,90,40,0.15)' : 'none' }}
                   >
                     <p
                       className="text-lg font-mono font-bold leading-tight"
@@ -545,14 +799,6 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                       </span>
                     ))}
                   </div>
-                  {metaBuild.runes && metaBuild.runes.length > 0 && (
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[9px] text-[#5b5a56]">Runas:</span>
-                      {metaBuild.runes.map((rune: string, i: number) => (
-                        <span key={i} className="text-[9px] text-[#0fba81]">{rune}</span>
-                      ))}
-                    </div>
-                  )}
                   <p className="text-[8px] text-[#5b5a56]">Fuente: {metaBuild.source} | Patch {metaBuild.patch}</p>
                 </div>
               </div>
@@ -607,7 +853,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               </CollapsibleSection>
             )}
 
-            {/* Reference Builds — collapsible with item icons */}
+            {/* Reference Builds */}
             {champion.builds && champion.builds.length > 0 && (
               <CollapsibleSection title="Builds de Referencia" icon={Wrench} color="#c8aa6e" defaultOpen={false}>
                 <div className="space-y-2">
@@ -659,25 +905,10 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               </CollapsibleSection>
             )}
 
-            {/* Runes */}
+            {/* Enhanced Runes Display */}
             {champion.runes && (
               <CollapsibleSection title="Runas" icon={Sparkles} color="#f0c646" defaultOpen={false}>
-                <div className="rounded-lg p-3 space-y-2" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.12)' }}>
-                  <div className="flex items-center gap-2.5">
-                    <RuneIcon runeName={champion.runes.primary} size={20} />
-                    <span className="text-[11px] text-[#a09b8c]">{champion.runes.primary}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <RuneIcon runeName={champion.runes.secondary} size={20} />
-                    <span className="text-[11px] text-[#a09b8c]">{champion.runes.secondary}</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-5 h-5 rounded shrink-0 flex items-center justify-center" style={{ background: 'rgba(240,198,70,0.15)', border: '1px solid rgba(240,198,70,0.3)' }}>
-                      <span className="text-[8px] text-[#f0c646] font-bold">F</span>
-                    </div>
-                    <span className="text-[11px] text-[#a09b8c]">{champion.runes.shards}</span>
-                  </div>
-                </div>
+                <EnhancedRunesDisplay champion={champion} metaBuild={metaBuild} />
               </CollapsibleSection>
             )}
 
