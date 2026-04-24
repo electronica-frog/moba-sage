@@ -100,7 +100,7 @@ const RUNE_ICON_MAP: Record<string, string> = {
   // Precision Keystones
   'Pies Veloces': '7201_Precision/FleetFootwork/FleetFootwork.png',
   'Conquistador': '7201_Precision/Conqueror/Conqueror.png',
-  'Lethal Tempo': '7201_Precision/LethalTempo/LethalTempoTemp.png',
+  'Lethal Tempo': '7201_Precision/LethalTempo/LethalTempo.png',
   'Sabor a Sangre': '8100_Domination/HailOfBlades/HailOfBlades.png',
   // Sorcery Keystones
   'Cometa Arcano': '8200_Sorcery/ArcaneComet/ArcaneComet.png',

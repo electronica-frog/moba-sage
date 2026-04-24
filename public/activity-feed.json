@@ -1,7 +1,16 @@
 {
   "version": "1.0",
-  "lastUpdated": "2026-04-22T17:40:00Z",
+  "lastUpdated": "2026-04-24T15:15:00Z",
   "entries": [
+    {
+      "id": "ralph-loop-016",
+      "type": "fix",
+      "title": "3 Fixes: activity-feed.json roto + spell keys + rune icon",
+      "description": "(1) CRÍTICO: Tab Novedades mostraba 'No se pudo cargar el feed de actividad' — JSON syntax error en activity-feed.json (coma faltante después de 'commit': 'a6cfe6a' en línea 128). Fix: coma agregada. (2) Spell keys rotos: Fiddlesticks E 'DrainMundo'→'FiddleSticksDarkWind' (nombre incorrecto con 'Mundo'), Master Yi W 'WujujuStyle'→'WujuStyle' (typo doble 'ju'). (3) Rune icon Lethal Tempo: path duplicado 'LethalTempoTemp.png'→'LethalTempo.png' (404 en DDragon). Build OK.",
+      "timestamp": "2026-04-24T15:15:00Z",
+      "commit": "pending",
+      "category": "fix"
+    },
     {
       "id": "ralph-loop-015",
       "type": "fix",
@@ -125,7 +134,7 @@
       "title": "Meta freshness indicator + version API gamePatch",
       "description": "Version API ahora retorna gamePatch separado de CDN version. Banner muestra parche correcto. Tier List indica fecha de última actualización de datos con fuentes (Mobalytics, U.GG, PropelRC).",
       "timestamp": "2026-04-22T05:35:00Z",
-      "commit": "a6cfe6a"
+      "commit": "a6cfe6a",
       "category": "improvement"
     },
     {
