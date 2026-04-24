@@ -1,8 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, ExternalLink, Database, ChevronDown } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, ExternalLink, Database, ChevronDown, ArrowUpDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ChampionIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
@@ -27,8 +27,18 @@ interface TierlistFeed {
     watch26_9?: string[];
     weeklyTop?: Array<{ name: string; role: string; currentWR: number; change: number }>;
   };
+  valorant?: Record<string, unknown>;
   cs2?: Record<string, unknown>;
 }
+
+type SortOption = 'winRate' | 'pickRate' | 'banRate' | 'name';
+
+const SORT_OPTIONS: Array<{ id: SortOption; label: string }> = [
+  { id: 'winRate', label: 'Win Rate' },
+  { id: 'pickRate', label: 'Pick Rate' },
+  { id: 'banRate', label: 'Ban Rate' },
+  { id: 'name', label: 'Nombre' },
+];
 
 interface TierListTabProps {
   champions: Champion[];
@@ -58,6 +68,23 @@ function extractChampName(entry: string): string {
   return entry.replace(/\s*\(.*\)\s*$/, '').trim();
 }
 
+// Sorting comparator
+function sortChampions(champions: Champion[], sortBy: SortOption): Champion[] {
+  const sorted = [...champions];
+  switch (sortBy) {
+    case 'winRate':
+      return sorted.sort((a, b) => b.winRate - a.winRate);
+    case 'pickRate':
+      return sorted.sort((a, b) => b.pickRate - a.pickRate);
+    case 'banRate':
+      return sorted.sort((a, b) => b.banRate - a.banRate);
+    case 'name':
+      return sorted.sort((a, b) => a.name.localeCompare(b.name));
+    default:
+      return sorted;
+  }
+}
+
 export function TierListTab({
   champions, loading, selectedGame,
   searchQuery, onSearchChange, roleFilter, onRoleFilterChange,
@@ -69,6 +96,7 @@ export function TierListTab({
   const [feedLoading, setFeedLoading] = useState(true);
   const [showSources, setShowSources] = useState(false);
   const [expandedWeekly, setExpandedWeekly] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState<SortOption>('winRate');
 
   // Fetch tierlist-feed.json on mount
   useEffect(() => {
@@ -124,9 +152,12 @@ export function TierListTab({
     return true;
   });
 
+  // Apply sorting to filtered champions
+  const sortedChampions = useMemo(() => sortChampions(filteredChampions, sortBy), [filteredChampions, sortBy]);
+
   const groupedChampions: Record<string, Champion[]> = {};
   ['S', 'A', 'B'].forEach(tier => {
-    const tierChamps = filteredChampions.filter(c => c.tier === tier);
+    const tierChamps = sortedChampions.filter(c => c.tier === tier);
     if (tierChamps.length > 0) groupedChampions[tier] = tierChamps;
   });
 
@@ -212,6 +243,8 @@ export function TierListTab({
             {viewMode === 'list' ? <LayoutGrid className="w-4 h-4 text-[#a09b8c]" /> : <List className="w-4 h-4 text-[#a09b8c]" />}
           </button>
         </div>
+
+        {/* Role filter + Sort options */}
         <div className="flex flex-wrap gap-2">
           {ROLES.map(role => (
             <button
@@ -243,6 +276,37 @@ export function TierListTab({
             <Star className="w-3 h-3 mr-1 inline" fill={roleFilter === '★' ? '#f0c646' : 'none'} />
             Favoritos ({favorites.size})
           </button>
+        </div>
+
+        {/* Sort Options */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
+            <ArrowUpDown className="w-3 h-3" />
+            <span>Ordenar:</span>
+          </div>
+          {SORT_OPTIONS.map(opt => (
+            <button
+              key={opt.id}
+              onClick={() => setSortBy(opt.id)}
+              className={`
+                px-2.5 py-1 rounded-md text-[10px] font-medium transition-all duration-200 relative
+                ${sortBy === opt.id
+                  ? 'text-[#c8aa6e] border border-[#c8aa6e]/30'
+                  : 'text-[#5b5a56] hover:text-[#a09b8c] border border-transparent hover:border-[#785a28]/20'
+                }
+              `}
+            >
+              {sortBy === opt.id && (
+                <motion.div
+                  layoutId="sort-active-indicator"
+                  className="absolute inset-0 rounded-md"
+                  style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.3)' }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10">{opt.label}</span>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -334,7 +398,6 @@ export function TierListTab({
               <span className="text-[9px] text-[#5b5a56]">Patch {feedData?.lol?.patch || '26.8'}</span>
             </div>
             <div className="flex items-center gap-2">
-              {/* Green/Red legend */}
               <div className="flex items-center gap-1.5">
                 <div className="flex items-center gap-0.5">
                   <div className="w-2 h-2 rounded-sm bg-[#0fba81]" />
@@ -352,7 +415,7 @@ export function TierListTab({
             </div>
           </div>
 
-          {/* Bar chart — horizontal bars for weekly changes, GREEN=up RED=down */}
+          {/* Bar chart — horizontal bars for weekly changes */}
           <div className="space-y-2">
             {weeklyTop.map((mover, i) => {
               const champ = gameChampions.find(c => c.name === mover.name);
@@ -391,7 +454,6 @@ export function TierListTab({
                         <span className="text-[11px] font-semibold text-[#f0e6d2] truncate">{mover.name}</span>
                         <div className="flex items-center gap-1.5 shrink-0">
                           <RoleBadge role={mover.role} />
-                          {/* Clear direction indicator */}
                           <span
                             className="text-[11px] font-mono font-black px-1.5 py-0.5 rounded"
                             style={{
@@ -405,7 +467,6 @@ export function TierListTab({
                           <span className="text-[9px] text-[#a09b8c] font-mono">{mover.currentWR}%</span>
                         </div>
                       </div>
-                      {/* Animated bar — GREEN fills right if positive, RED fills left if negative */}
                       <div className="w-full h-2 rounded-full overflow-hidden relative" style={{ background: 'rgba(120,90,40,0.08)' }}>
                         {isPositive ? (
                           <motion.div
@@ -433,7 +494,6 @@ export function TierListTab({
                       </div>
                     </div>
                   </button>
-                  {/* Expanded weekly chart */}
                   <AnimatePresence>
                     {isExpanded && (
                       <motion.div
@@ -639,7 +699,7 @@ export function TierListTab({
           />
         ))
       ) : (
-        <BoardView champions={filteredChampions} favorites={favorites} onChampionClick={onChampionClick} onToggleFavorite={onToggleFavorite} trendMap={trendMap} />
+        <BoardView champions={sortedChampions} favorites={favorites} onChampionClick={onChampionClick} onToggleFavorite={onToggleFavorite} trendMap={trendMap} />
       )}
 
       {!loading && filteredChampions.length === 0 && (
@@ -699,17 +759,25 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
               <div className="h-px flex-1" style={{ background: `linear-gradient(90deg, ${cfg.color}30, transparent)` }} />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-              {tierChamps.map(champ => (
-                <ChampionCard
+              {tierChamps.map((champ, idx) => (
+                <motion.div
                   key={champ.id}
-                  champion={champ}
-                  onClick={() => onChampionClick(champ)}
-                  showFavorite={true}
-                  isFavorite={favorites.has(champ.id)}
-                  trend={trendMap?.[champ.name]}
-                  size="sm"
-                  showWeeklyChart={false}
-                />
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2, delay: idx * 0.02 }}
+                >
+                  <ChampionCard
+                    champion={champ}
+                    onClick={() => onChampionClick(champ)}
+                    showFavorite={true}
+                    isFavorite={favorites.has(champ.id)}
+                    trend={trendMap?.[champ.name]}
+                    size="sm"
+                    showWeeklyChart={false}
+                  />
+                </motion.div>
               ))}
             </div>
           </div>
