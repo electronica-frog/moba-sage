@@ -8,7 +8,7 @@
       "title": "Spanglish data.ts: damage→daño, level→nivel, snowbolla→snowballea",
       "description": "(1) 'damage' como sustantivo en aiAnalysis reemplazado por 'daño' en 7 campeones (Zyra, Ezreal, Lux, Nami, Draven x2). (2) 'level' reemplazado por 'nivel' en aiAnalysis de 6 campeones (Ahri LoL, Caitlyn, Aurelion Sol, Nidalee, Jinx WR, Ahri WR). (3) Draven 'snowbolla'→'snowballea' (conjugación corregida). Build OK.",
       "timestamp": "2026-04-25T10:11:00Z",
-      "commit": "pending",
+      "commit": "292be9d",
       "category": "fix"
     },
     {
