@@ -108,7 +108,7 @@ const CHAMPIONS_DATA: Omit<Champion, 'id' | 'createdAt' | 'updatedAt'>[] = [
   // NOTA: Master Yi fue demoted a A en 26.8 (run 02) pero queda primero por posición en el array. El campo tier determina su sección real.
   {
     name: 'Master Yi', title: 'el Buscador de Wuju', role: 'Jungle', tier: 'A', winRate: 50.8, pickRate: 8.2, banRate: 6.1, image: '', aiInsight: '', build: '', counters: '', synergies: '', patch: '26.8', game: 'LoL',
-    brokenThings: ['Q resetea en kills → snowball infinito', 'Combo Yi+Taric invulnerable → sin interacción', 'Alpha Strike dodgea habilidades intargetable'],
+    brokenThings: ['Q resetea en kills → snowball infinito', 'Combo Yi+Taric invulnerable → sin interacción', 'Alpha Strike dodgea habilidades siendo intocable'],
     buildLinks: [{"label": "U.GG", "url": "https://u.gg/lol/champions/masteryi/build"}, {"label": "Mobalytics", "url": "https://www.mobalytics.com/lol/champions/masteryi"}, {"label": "OP.GG", "url": "https://www.op.gg/champions/masteryi"}],
     builds: [
       { name: 'Build Oneshot', items: 'Filo de la Noche → Eclipse → Hydratación Letal → Última Piedad → Fuerza de la Trinidad', winRate: 54.8 },
@@ -160,7 +160,7 @@ const CHAMPIONS_DATA: Omit<Champion, 'id' | 'createdAt' | 'updatedAt'>[] = [
     ],
     counterPick: 'Morgana, Nautilus, Leona',
     synergy: 'Jinx, Vayne, Caitlyn — Cualquier ADC de hypercarry',
-    aiAnalysis: 'Thresh es el soporte más versátil del meta. Su kit completo (enganche, escudo, linterna pull, peel con E) lo hace útil en cualquier composición. Con el pick rate más alto entre supports (15.2%), es el pick más seguro para la bot lane.\n\nLa sinergia Thresh + Jinx es la más fuerte del parche. La linterna permite repositioning instantáneo de Jinx para teamfights.\n\nConsejo principal: Usa tu E (Flail) para interrumpir engages enemigos. No tengas miedo de usar la linterna ofensivamente para lanzar a tu ADC hacia el enemigo.',
+    aiAnalysis: 'Thresh es el soporte más versátil del meta. Su kit completo (enganche, escudo, linterna pull, peel con E) lo hace útil en cualquier composición. Con el pick rate más alto entre supports (15.2%), es el pick más seguro para la bot lane.\n\nLa sinergia Thresh + Jinx es la más fuerte del parche. La linterna permite reposicionamiento instantáneo de Jinx para teamfights.\n\nConsejo principal: Usa tu E (Flail) para interrumpir engages enemigos. No tengas miedo de usar la linterna ofensivamente para lanzar a tu ADC hacia el enemigo.',
     proPickRate: 25.6,
     runes: { primary: 'Valor — Guardián', secondary: 'Brujería — Debilidad', shards: 'Armadura + Fuerza + Resistencia' },
   },
@@ -845,7 +845,7 @@ const CHAMPIONS_DATA: Omit<Champion, 'id' | 'createdAt' | 'updatedAt'>[] = [
   // Tier S — Dioses del Meta (Wild Rift)
   {
     name: 'Master Yi', title: 'el Buscador de Wuju', role: 'Jungle', tier: 'S', winRate: 56.8, pickRate: 16.3, banRate: 15.2, image: '', aiInsight: '', build: '', counters: '', synergies: '', patch: '6.8', game: 'WR',
-    brokenThings: ['Q resetea en kills → snowball infinito', 'Combo Yi+Taric invulnerable → sin interacción', 'Alpha Strike dodgea habilidades intargetable'],
+    brokenThings: ['Q resetea en kills → snowball infinito', 'Combo Yi+Taric invulnerable → sin interacción', 'Alpha Strike dodgea habilidades siendo intocable'],
     buildLinks: [{"label": "U.GG", "url": "https://u.gg/lol/champions/masteryi/build"}, {"label": "Mobalytics", "url": "https://www.mobalytics.com/lol/champions/masteryi"}, {"label": "OP.GG", "url": "https://www.op.gg/champions/masteryi"}],
     builds: [
       { name: 'Build Oneshot', items: 'Filo de la Noche → Eclipse → Roca del Eclipse → Última Piedad → Botas de Mercurio', winRate: 56.1 },
@@ -1065,8 +1065,8 @@ const PATCHES_DATA: Omit<PatchNote, 'id' | 'date'>[] = [
   {
     version: '6.8',
     title: 'Patch 6.8 — Wild Rift Mid Season',
-    summary: 'El parche mid-season de Wild Rift 6.8 trae cambios masivos de balance. Master Yi recibe buffs significativos en Alpha Strike que reducen el cooldown entre resets, consolidándolo como el jungler dominante del meta móvil. Lee Sin escala mejor con items bruiser gracias a ajustes en sus ratios de AD. Ahri obtiene mayor rango base en Charm (E), permitiéndole atrapar desde posiciones más seguras. Darius se beneficia del meta de bruisers con reducción de defensas mágicas en varios items. Se ajustan tiempos de objetivos (Dragón, Heraldo, Baron) para dinamizar las partidas. Nuevos items de bruiser y ajustes a runas de precisión cambian el landscape de builds.',
-    digest: 'Patch 6.8 de Wild Rift redefine el meta móvil con ajustes significativos. Master Yi (56.8% WR) domina la jungle con Q buffs que aceleran resets. Jinx (55.1% WR) sigue siendo la ADC más fuerte con sinergia de runa de cosecha. Lee Sin (53.5% WR) y Darius (54.5% WR) se consolidan como pick must-ban en sus roles. Ahri (54.2% WR) asciende a Tier S con Charm mejorado. Los tiempos de objetivos se acortaron para partidas más dinámicas. El meta actual favorece pick-and-roll con bruisers de top y junglers capaces de snowball temprano. Cambios en items de bruiser (Hidra Titánica, Sed de Sangre) afectan directamente el power level de fighters y tanks.',
+    summary: 'El parche mid-season de Wild Rift 6.8 trae cambios masivos de balance. Master Yi recibe buffs significativos en Alpha Strike que reducen el cooldown entre resets, consolidándolo como el jungler dominante del meta móvil. Lee Sin escala mejor con items bruiser gracias a ajustes en sus ratios de AD. Ahri obtiene mayor rango base en Charm (E), permitiéndole atrapar desde posiciones más seguras. Darius se beneficia del meta de bruisers con reducción de defensas mágicas en varios items. Se ajustan tiempos de objetivos (Dragón, Heraldo, Baron) para dinamizar las partidas. Nuevos items de bruiser y ajustes a runas de precisión cambian el panorama de builds.',
+    digest: 'Patch 6.8 de Wild Rift redefine el meta móvil con ajustes significativos. Master Yi (56.8% WR) domina la jungle con Q buffs que aceleran resets. Jinx (55.1% WR) sigue siendo la ADC más fuerte con sinergia de runa de cosecha. Lee Sin (53.5% WR) y Darius (54.5% WR) se consolidan como pick must-ban en sus roles. Ahri (54.2% WR) asciende a Tier S con Charm mejorado. Los tiempos de objetivos se acortaron para partidas más dinámicas. El meta actual favorece composiciones de pick con bruisers de top y junglers capaces de snowball temprano. Cambios en items de bruiser (Hidra Titánica, Sed de Sangre) afectan directamente el power level de fighters y tanks.',
     sourceGame: 'WR',
   },
 ];
@@ -1083,7 +1083,7 @@ const INSIGHTS_DATA: Omit<AiInsight, 'id' | 'date'>[] = [
   { champion: 'Katarina', category: 'buff', content: 'Katarina gana velocidad de movimiento al usar dagas, lo que mejora su supervivencia en teamfights. Este cambio la posiciona como pick sólido en mid.', confidence: 0.82 },
   { champion: 'Master Yi', category: 'meta', content: 'El combo Master Yi + Taric sigue siendo uno de los más tóxicos para jugar en contra. La incapacidad del rival de interactuar durante la invulnerabilidad de Taric es frustrante.', confidence: 0.94 },
   { champion: 'Morgana', category: 'counter', content: 'Morgana counters efectivamente a Leona. Su escudo negro (E) anula el enganche de Leona, neutralizando su principal herramienta de iniciación.', confidence: 0.89 },
-  { champion: 'Zed', category: 'nerf', content: 'Zed recibe reducción de daño en sus sombras (W). El daño de las sombras now escala con un 15% menos de AD bonus.', confidence: 0.88 },
+  { champion: 'Zed', category: 'nerf', content: 'Zed recibe reducción de daño en sus sombras (W). El daño de las sombras ahora escala con un 15% menos de AD bonus.', confidence: 0.88 },
   { champion: 'Orianna', category: 'tier-change', content: 'Orianna se mantiene en Tier A pero podría ascender pronto. Su ultimate en teamfights sigue siendo uno de los mejores engages del juego.', confidence: 0.80 },
   { champion: 'Garen', category: 'buff', content: 'Garen recibe reducción de cooldown en su E, lo que le permite girar más seguido. Esto mejora su clear de jungle en el meta de bruiser jungler.', confidence: 0.83 },
   { champion: 'Vayne', category: 'counter', content: 'Vayne es el counter perfecto para tanks como Ornn y Malphite. Su porcentaje de daño verdadero con W se vuelve más relevante en teamfights largos.', confidence: 0.85 },
