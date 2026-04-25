@@ -1,36 +1,36 @@
 {
-  "lastUpdated": "2026-04-25T04:50:00Z",
-  "source": "juegos-1 BOTARDO OS — TICK ciclo 15 (R2)",
-  "version": 5,
+  "lastUpdated": "2026-04-25T08:32:12Z",
+  "source": "Ralph Loop v2 — MOBA SAGE autonomous pipeline (cycle 16)",
+  "version": 6,
   "sources": [
     {
       "name": "Mobalytics",
       "url": "https://mobalytics.gg/lol/tier-list",
-      "lastScraped": "2026-04-25T04:45:00Z"
+      "lastScraped": "2026-04-25T08:32:12Z"
     },
     {
       "name": "U.GG",
       "url": "https://u.gg/lol/tier-list",
-      "lastScraped": "2026-04-25T04:45:00Z"
+      "lastScraped": "2026-04-25T08:32:12Z"
     },
     {
       "name": "OP.GG",
       "url": "https://op.gg/lol/statistics/champions",
-      "lastScraped": "2026-04-25T04:45:00Z"
+      "lastScraped": "2026-04-25T08:32:12Z"
     },
     {
       "name": "AltChar/GGRecon",
       "url": "https://www.altchar.com/game-news/league-of-legends-patch-26.09-tier-list-best-champions-for-every-role-avZ5n8o9V64M",
-      "lastScraped": "2026-04-25T04:50:00Z"
+      "lastScraped": "2026-04-25T08:32:12Z"
     },
     {
       "name": "UniFuncs",
       "url": "https://unifuncs.com/s/g648iX72",
-      "lastScraped": "2026-04-25T04:50:00Z"
+      "lastScraped": "2026-04-25T08:32:12Z"
     }
   ],
   "lol": {
-    "patch": "26.9 — Season 2 Pandemonium (launch 29 Abr)",
+    "patch": "26.9 — Season 2 Pandemonium (live 29 Abr)",
     "sTier": [
       {
         "name": "Zaahen",
@@ -150,20 +150,19 @@
       }
     ],
     "rising": [
-      "Zaahen (nuevo S-tier Top)",
-      "Karthus + DFT (broken bot lane)",
-      "Nasus Mid 55.5% WR",
-      "Annie Top 54.3%",
-      "Brand + DFT (+2.1pp)",
-      "Warwick (buff 26.9)",
-      "Taliyah (buff 26.9)",
-      "Malzahar + DFT"
+      "Hwei",
+      "Vel'Koz",
+      "Taliyah",
+      "Warwick",
+      "Gragas",
+      "Kayle"
     ],
     "falling": [
-      "Ambessa (nerf 26.9)",
-      "Briar (nerf 26.9, baja ban rate)",
-      "Nocturne (ajuste)",
-      "Sion Mid (54.6% → 54.3%, corrección)"
+      "Briar",
+      "Zoe",
+      "Ambessa",
+      "Mel",
+      "Dr. Mundo"
     ],
     "watch26_9": [
       "Zaahen (nuevo campeón)",
