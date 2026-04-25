@@ -99,3 +99,5 @@
 
 > Git author: bautiarmanijuegos@gmail.com
 > Regla: solo toca public/*.json + data/*.md + DASHBOARD.md. Nunca src/
+- [2026-04-25] Ralph Loop v2 pipeline initialized (SEE→READ→ANALYZE→CODE→PUSH→VERIFY→LOG)
+- [2026-04-25] Meta refresh 26.9: Hwei/Vel'Koz rising, Briar/Zoe falling, Deathfire Touch returns
