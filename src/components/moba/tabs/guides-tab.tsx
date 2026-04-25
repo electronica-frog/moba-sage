@@ -220,7 +220,7 @@ export function GuidesTab() {
               Todo el contenido de guías, tips y runas ahora está en la sección de <strong className="text-[#c8aa6e]">Coaching</strong>. 
               Visita el Entrenador MOBA para mejorar tu juego con mecánicas, visión, composiciones y más.
             </p>
-            <button
+            <motion.button
               onClick={() => {
                 const event = new CustomEvent('moba-sage-switch-tab', { detail: 'coaching' });
                 window.dispatchEvent(event);
