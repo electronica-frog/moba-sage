@@ -1,7 +1,16 @@
 {
   "version": "1.7",
-  "lastUpdated": "2026-04-25T08:32:11Z",
+  "lastUpdated": "2026-04-25T14:48:25Z",
   "entries": [
+    {
+      "id": "ralph-loop-035",
+      "type": "fix",
+      "title": "5 data fixes: WR mismatches Yi/Jinx/Ahri + tier corrections Garen/Nautilus",
+      "description": "(1) CRÍTICO: Jinx aiAnalysis decía 55%+ WR pero field era 52.2% → corregido a 52%+ en texto. (2) CRÍTICO: Ahri aiAnalysis decía 53.2% WR pero field era 51.1% → corregido a 51.1%. (3) Garen S→A-tier: WR 51.3% no justifica S-tier, bajado a A. (4) Nautilus S→A-tier: WR 51.3% no justifica S-tier, bajado a A. (5) Master Yi: aiAnalysis ya tenía 50.8% correcto (fix previo). Ralph Loop v2 cycle #2. Build OK.",
+      "timestamp": "2026-04-25T14:48:25Z",
+      "commit": "50f8157",
+      "category": "fix"
+    },
     {
       "id": "ralph-loop-034",
       "type": "improvement",
@@ -166,15 +175,6 @@
       "timestamp": "2026-04-25T16:30:00Z",
       "commit": "f0ba8c1",
       "category": "improvement"
-    },
-    {
-      "id": "ux-overhaul-002",
-      "type": "feature",
-      "title": "Major UX Overhaul — notif popups, coaching x3, global search, matchup icons",
-      "description": "Notificaciones tappable con popup detail. Coaching +3 secciones (Counter Tips, Keystones, Runas S-Tier). Tier List con matchup icons como U.GG. Global Search Ctrl+K. Profile Match History placeholder. Landing Meta Report banner. External links estilizados. Patch Analysis con proTips + runeChanges. 9 archivos, 817 líneas.",
-      "timestamp": "2026-04-24T16:00:00Z",
-      "commit": "44a2c58",
-      "category": "feature"
     }
   ],
   "highlights": [
