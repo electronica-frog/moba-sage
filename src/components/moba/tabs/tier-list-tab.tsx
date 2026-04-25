@@ -857,7 +857,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                     transition={{ duration: 0.2, delay: idx * 0.02 }}
                     className={isSTier ? 'sm:col-span-1' : ''}
                   >
-                    <div
+                    <motion.div
                       className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 group"
                       style={{
                         border: `2px solid ${cfg.color}40`,
