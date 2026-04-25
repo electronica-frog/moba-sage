@@ -1,7 +1,16 @@
 {
   "version": "1.7",
-  "lastUpdated": "2026-04-25T14:48:25Z",
+  "lastUpdated": "2026-04-25T17:06:57Z",
   "entries": [
+    {
+      "id": "ralph-loop-036",
+      "type": "improvement",
+      "title": "35 traducciones ENG→ES en brokenThings + Wild Rift 7.1c meta refresh",
+      "description": "(1) brokenThings: 35 correcciones — passive→pasiva (18), damage→daño (7), shield→escudo (6), heal→curación (1), formateo Pasiva: (2). Afecta 28+ campeones LoL. (2) aiAnalysis: 'Abusa de tu passive'→'Abusa de tu pasiva' en Master Yi. (3) tierlist-feed v7: WR 7.1c fresh data — Viktor S+ 53.7%, Smolder S+ 53%, Fiora S+ 52%. 10 S-tier WR. weeklyTop LoL actualizado. (4) WR roadmap: 7.2 Julio 9 (Cho'Gath/Hwei/Sylas teased, Ahri ASU). Ralph Loop v2 cycle #3. Build OK.",
+      "timestamp": "2026-04-25T17:06:57Z",
+      "commit": "11dd2de",
+      "category": "improvement"
+    },
     {
       "id": "ralph-loop-035",
       "type": "fix",
@@ -166,15 +175,6 @@
       "timestamp": "2026-04-25T00:35:00Z",
       "commit": "0bc0696",
       "category": "fix"
-    },
-    {
-      "id": "ux-batch2-001",
-      "type": "improvement",
-      "title": "6 mejoras UX — notif 7 días, bottom nav coaching, landing showcase, role WR",
-      "description": "Notificaciones ahora muestran últimos 7 días en vez de solo hoy. Bottom nav actualizada con tab Coaching. Landing page con Champion Showcase Strip animado. Tier List con Promedio WR por Rol. Guías con placeholder 'Próximamente'. Sidebar con atajos de teclado Ctrl+K y Esc.",
-      "timestamp": "2026-04-25T16:30:00Z",
-      "commit": "f0ba8c1",
-      "category": "improvement"
     }
   ],
   "highlights": [
