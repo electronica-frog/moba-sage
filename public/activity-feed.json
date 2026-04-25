@@ -1,7 +1,16 @@
 {
-  "version": "1.6",
-  "lastUpdated": "2026-04-25T13:56:00Z",
+  "version": "1.7",
+  "lastUpdated": "2026-04-25T08:32:11Z",
   "entries": [
+    {
+      "id": "ralph-loop-034",
+      "type": "improvement",
+      "title": "Ralph Loop v2 — Pipeline autónomo inicializado (meta refresh 26.9)",
+      "description": "(1) Meta analysis: Karthus Bot 54.2% WR confirmado #1, Hwei Bot/Mid 53.5% emergente, Vel'Koz Bot 53.5% sleeper OP. (2) Rising: Taliyah (buff 26.9), Warwick (buff 26.9), Gragas (W damage). (3) Falling: Briar (HP growth nerf), Zoe (W/E nerfs), Ambessa (ult slowed). (4) Patch 26.9 changes: Deathfire Touch returns, Phase Rush removed, Statikk Shiv rework on-hit, Doran's Helm new item. Pipeline: SEE → READ → ANALYZE → CODE → PUSH → VERIFY → LOG.",
+      "timestamp": "2026-04-25T08:32:11Z",
+      "commit": "pending",
+      "category": "improvement"
+    },
     {
       "id": "ralph-loop-033",
       "type": "fix",
@@ -166,141 +175,6 @@
       "timestamp": "2026-04-24T16:00:00Z",
       "commit": "44a2c58",
       "category": "feature"
-    },
-    {
-      "id": "ui-overhaul-001",
-      "type": "feature",
-      "title": "UI Overhaul LoL-Style — Beaufort font + Notif Bell + Coaching tab",
-      "description": "Beaufort font en todos los headings/labels. Campanita de notificaciones con dropdown de actividad del día. Nueva tab Coaching (mecánicas, warding, comps pro). Dev tabs marcadas con [DEV]. 15 archivos, 609+ líneas.",
-      "timestamp": "2026-04-24T15:05:00Z",
-      "commit": "02f1922",
-      "category": "feature"
-    },
-    {
-      "id": "patch-analysis-001",
-      "type": "feature",
-      "title": "Patch Analysis + Guide Modals + Merge Ideas/Roadmap + Clickable Combos",
-      "description": "Sección ANÁLISIS DE PARCHE en Cosas Rotas (quién queda roto/caído). Patches feeds con tierBefore/tierAfter + metaShifts. Guías con modal funcional. Combos expandibles inline. Ideas+Roadmap merge en una tab.",
-      "timestamp": "2026-04-24T15:10:00Z",
-      "commit": "52bf4d8",
-      "category": "feature"
-    },
-    {
-      "id": "ui-polish-001",
-      "type": "feature",
-      "title": "7 mejoras de UI — nueva tab Guías, Patches multi-juego, WR bars, trends",
-      "description": "Nueva tab Guías (7 guías, filtros LoL/Valorant, cards responsive). Patches multi-juego (LoL/Valorant/Dota/CS2 con badges de color). WR stat bars animadas en Tier List. Rising/Falling trends (↑↓) desde tierlist-feed.json. A-tier con splash art grande en Cosas Rotas. 11 archivos modificados, 673 líneas agregadas.",
-      "timestamp": "2026-04-24T14:35:00Z",
-      "commit": "ff7857e",
-      "category": "feature"
-    },
-    {
-      "id": "dev-maintenance-001",
-      "type": "maintenance",
-      "title": "DEV_MAINTENANCE: activity feed cleanup + data refresh",
-      "description": "Trimmed activity feed to 15 most recent entries. Added dev cron rotation config. Updated tierlist-feed v2 with enriched data (win rates, categories). +2 new guides (Zeri rework 26.9, Valorant 12.07 meta). Total guides indexed: 7.",
-      "timestamp": "2026-04-24T14:25:00Z",
-      "commit": "N/A",
-      "category": "maintenance"
-    },
-    {
-      "id": "dev-guides-002",
-      "type": "feature",
-      "title": "DEV_GUIDES: +2 guides — Zeri Rework 26.9 + Valorant 12.07 Meta",
-      "description": "Nueva guía Zeri Rework: builds AD/AP diferenciados, runas, matchups. Nueva guía Valorant 12.07: agents meta consolidado (Clove/Sage/Omen S-tier), Bind rotated out, comps ranked+competitive. Total guías: 7.",
-      "timestamp": "2026-04-24T14:20:00Z",
-      "commit": "ef0b416",
-      "category": "feature"
-    },
-    {
-      "id": "dev-tierlist-002",
-      "type": "improvement",
-      "title": "DEV_TIERLIST: v2 — enriched tier data (win rates, categories)",
-      "description": "Tierlist-feed actualizado a v2: win rates por campeón, categorías CS2 (Rifle/Sniper/Pistol), rising/falling trackers para 26.9, meta sources consolidados. Push con email Gmail.",
-      "timestamp": "2026-04-24T14:15:00Z",
-      "commit": "5b7bb48",
-      "category": "improvement"
-    },
-    {
-      "id": "dev-patches-001",
-      "type": "improvement",
-      "title": "DEV_PATCHES: 26.9 PBE update — Gluttonous Greaves, Immortal Path",
-      "description": "Nuevo items PBE: Gluttonous Greaves (immortalización al kill), Immortal Path (DAE con potsiones). Doran's Helm rework. Patch feed actualizado con 6 patches trackeados.",
-      "timestamp": "2026-04-24T13:30:00Z",
-      "commit": "8905608",
-      "category": "improvement"
-    },
-    {
-      "id": "mobas-coach-migration",
-      "type": "feature",
-      "title": "Migración mobas-coach → moba-sage completada",
-      "description": "7 archivos Wild Rift migrados a data/wild-rift/. 2 archivos coaching migrados a data/coaching/. Mu Online y Dota eliminados. mobas-coach vaciado para deletion.",
-      "timestamp": "2026-04-24T12:00:00Z",
-      "commit": "varios",
-      "category": "feature"
-    },
-    {
-      "id": "ralph-loop-022",
-      "type": "fix",
-      "title": "3 Fixes: item IDs + runa icon + 25+ texto inglés→español",
-      "description": "IDs rotos (Convergencia de Zeke, Hydratación Letal), runa TasteOfBlood fix, 25+ traducciones texto.",
-      "timestamp": "2026-04-24T18:26:00Z",
-      "commit": "9b578c8",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-021",
-      "type": "fix",
-      "title": "3 fixes de texto roto en aiAnalysis",
-      "description": "Master Yi, Diana, Yorick — texto inglés/roto corregido a español.",
-      "timestamp": "2026-04-24T17:50:00Z",
-      "commit": "a1fa0a5",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-020",
-      "type": "fix",
-      "title": "10+ correcciones de inglés en texto español",
-      "description": "wait→esperá, enough→suficiente, capacity→capacidad, game-changing→decisivo.",
-      "timestamp": "2026-04-24T17:26:00Z",
-      "commit": "8ae2906",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-016",
-      "type": "fix",
-      "title": "CRÍTICO: activity-feed.json roto + spell keys + rune icon",
-      "description": "Tab Novedades no cargaba — JSON syntax error. 14+ spell keys corregidos. Lethal Tempo icon fix.",
-      "timestamp": "2026-04-24T15:15:00Z",
-      "commit": "693e71a",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-015",
-      "type": "fix",
-      "title": "CRÍTICO: 25 imágenes rotas + DDragon version + timeAgo negativo",
-      "description": "unoptimized=true en 6 componentes de imagen. DDragon fallback 16.8.1. timeAgo clamp.",
-      "timestamp": "2026-04-22T17:40:00Z",
-      "commit": "2fb2dcb",
-      "category": "fix"
-    },
-    {
-      "id": "sidebar-mobile-001",
-      "type": "improvement",
-      "title": "Sidebar drawer mobile — reemplaza BottomNav",
-      "description": "Hamburger menu + drawer desde izquierda. BottomNav eliminada. 10 tabs accesibles.",
-      "timestamp": "2026-04-22T09:43:00Z",
-      "commit": "56f0af5",
-      "category": "improvement"
-    },
-    {
-      "id": "ralph-loop-006",
-      "type": "improvement",
-      "title": "Meta 26.8 refresh — 3 promociones + 1 democión",
-      "description": "Malphite B→S, Nautilus B→S, Diana A→S. Kennen B→A, Brand S→A. 6 fuentes.",
-      "timestamp": "2026-04-22T05:40:00Z",
-      "commit": "a6cfe6a",
-      "category": "improvement"
     }
   ],
   "highlights": [
