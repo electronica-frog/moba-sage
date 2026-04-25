@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { ChampionIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
 import { TierSection, TierSectionSkeleton } from '../tier-section';
-import { TIER_CONFIG } from '../constants';
+import { ROLE_CONFIG, TIER_CONFIG } from '../constants';
 import { ChampionCard } from '../champion-card';
 import { WeeklyWRChart } from '../weekly-wr-chart';
 import type { Champion, GameSelection } from '../types';
@@ -90,7 +90,7 @@ export function TierListTab({
   searchQuery, onSearchChange, roleFilter, onRoleFilterChange,
   favorites, onToggleFavorite, onChampionClick, metaLastUpdated,
 }: TierListTabProps) {
-  const [viewMode, setViewMode] = useState<'list' | 'board'>('list');
+  const [viewMode, setViewMode] = useState<'list' | 'board'>('board');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [feedData, setFeedData] = useState<TierlistFeed | null>(null);
   const [feedLoading, setFeedLoading] = useState(true);
@@ -219,15 +219,78 @@ export function TierListTab({
     : '\u2014';
 
   return (
-    <div className="space-y-4">
-      {/* ===== SNAPSHOT DEL META ===== */}
+    <div className="space-y-5">
+      {/* ===== DATA SOURCES BAR — Bloomberg Terminal Style ===== */}
       {!loading && (
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
+          className="rounded-xl overflow-hidden"
+          style={{ background: 'rgba(200,170,110,0.04)', border: '1px solid rgba(200,170,110,0.15)' }}
         >
-          <p className="lol-label text-[10px] text-[#c8aa6e] mb-2 tracking-wider uppercase">Snapshot del Meta</p>
+          {/* Header row */}
+          <div className="flex items-center justify-between px-4 py-2.5" style={{ borderBottom: '1px solid rgba(200,170,110,0.1)' }}>
+            <div className="flex items-center gap-2">
+              <Database className="w-4 h-4 text-[#c8aa6e]" />
+              <span className="lol-label text-xs font-bold text-[#c8aa6e] uppercase tracking-wider">Fuentes de Datos</span>
+              <span className="text-[9px] text-[#5b5a56]">· {dataSources.length} fuentes activas</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-[#a09b8c]">{versionData?.gamePatch || '26.9'}</span>
+              <span
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold"
+                style={{ background: `${freshnessInfo.color}15`, color: freshnessInfo.color, border: `1px solid ${freshnessInfo.color}30` }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: freshnessInfo.color }} />
+                {freshnessInfo.label}
+              </span>
+            </div>
+          </div>
+          {/* Spreadsheet-style columns */}
+          <div className="overflow-x-auto">
+            <div className="flex min-w-[500px]">
+              {dataSources.map((source, i) => {
+                const diffMs = Date.now() - new Date(source.lastScraped).getTime();
+                const hours = diffMs / 3600000;
+                const srcFreshness = hours < 1 ? { color: '#0fba81', label: 'Fresco' } : hours < 6 ? { color: '#f0c646', label: 'Aceptable' } : { color: '#e84057', label: 'Antiguo' };
+                return (
+                  <a
+                    key={source.name}
+                    href={source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center gap-2 px-4 py-2.5 transition-colors hover:bg-[#c8aa6e]/5"
+                    style={{ borderRight: i < dataSources.length - 1 ? '1px solid rgba(200,170,110,0.08)' : 'none' }}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-[#f0e6d2] truncate">{source.name}</p>
+                      <p className="text-[10px] text-[#5b5a56] font-mono">
+                        {new Date(source.lastScraped).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                    <span
+                      className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-bold"
+                      style={{ background: `${srcFreshness.color}12`, color: srcFreshness.color, border: `1px solid ${srcFreshness.color}25` }}
+                    >
+                      {srcFreshness.label}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ===== SNAPSHOT DEL META ===== */}
+      {!loading && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.05 }}
+        >
+          <p className="lol-label text-xs text-[#c8aa6e] mb-2 tracking-wider uppercase">Snapshot del Meta</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             <div
               className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
@@ -335,49 +398,50 @@ export function TierListTab({
             className="w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
             style={{ background: 'rgba(30,35,40,0.6)', border: '1px solid rgba(120,90,40,0.3)' }}
             title={viewMode === 'list' ? 'Vista Tablero' : 'Vista Lista'}
+            aria-label={viewMode === 'list' ? 'Cambiar a Vista Tablero' : 'Cambiar a Vista Lista'}
           >
             {viewMode === 'list' ? <LayoutGrid className="w-4 h-4 text-[#a09b8c]" /> : <List className="w-4 h-4 text-[#a09b8c]" />}
           </button>
         </div>
 
-        {/* Role filter + Sort options */}
+        {/* Role filter — Bigger buttons */}
         <div className="flex flex-wrap gap-2">
           {ROLES.map(role => (
             <button
               key={role}
               onClick={() => onRoleFilterChange(role)}
               className={`
-                px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200
+                px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
                 ${roleFilter === role
-                  ? 'bg-[#c8aa6e]/15 text-[#c8aa6e] border border-[#c8aa6e]/30 shadow-[0_0_10px_rgba(200,170,110,0.08)]'
-                  : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
+                  ? 'bg-[#c8aa6e]/15 text-[#c8aa6e] border border-[#c8aa6e]/30 shadow-[0_0_12px_rgba(200,170,110,0.1)]'
+                  : 'text-[#a09b8c] hover:text-[#f0e6d2] hover:bg-[#1e2328]/60 border border-[#785a28]/15'
                 }
               `}
               aria-pressed={roleFilter === role}
             >
-              {role === 'Todos' && <Filter className="w-3 h-3 mr-1 inline" />}
+              {role === 'Todos' && <Filter className="w-3.5 h-3.5 mr-1.5 inline" />}
               {role}
             </button>
           ))}
           <button
             onClick={() => onRoleFilterChange(roleFilter === '★' ? 'Todos' : '★')}
             className={`
-              px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200
+              px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
               ${roleFilter === '★'
                 ? 'bg-[#f0c646]/15 text-[#f0c646] border border-[#f0c646]/30'
-                : 'text-[#5b5a56] hover:text-[#f0c646] hover:bg-[#1e2328]/40 border border-transparent'
+                : 'text-[#a09b8c] hover:text-[#f0c646] hover:bg-[#1e2328]/60 border border-[#785a28]/15'
               }
             `}
           >
-            <Star className="w-3 h-3 mr-1 inline" fill={roleFilter === '★' ? '#f0c646' : 'none'} />
+            <Star className="w-3.5 h-3.5 mr-1.5 inline" fill={roleFilter === '★' ? '#f0c646' : 'none'} />
             Favoritos ({favorites.size})
           </button>
         </div>
 
-        {/* Sort Options */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
-            <ArrowUpDown className="w-3 h-3" />
+        {/* Sort Options — Bigger */}
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-1.5 text-xs text-[#785a28] font-semibold">
+            <ArrowUpDown className="w-3.5 h-3.5" />
             <span>Ordenar:</span>
           </div>
           {SORT_OPTIONS.map(opt => (
@@ -385,17 +449,17 @@ export function TierListTab({
               key={opt.id}
               onClick={() => setSortBy(opt.id)}
               className={`
-                px-2.5 py-1 rounded-md text-[10px] font-medium transition-all duration-200 relative
+                px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 relative
                 ${sortBy === opt.id
                   ? 'text-[#c8aa6e] border border-[#c8aa6e]/30'
-                  : 'text-[#5b5a56] hover:text-[#a09b8c] border border-transparent hover:border-[#785a28]/20'
+                  : 'text-[#785a28] hover:text-[#a09b8c] border border-transparent hover:border-[#785a28]/20'
                 }
               `}
             >
               {sortBy === opt.id && (
                 <motion.div
                   layoutId="sort-active-indicator"
-                  className="absolute inset-0 rounded-md"
+                  className="absolute inset-0 rounded-lg"
                   style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.3)' }}
                   transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
@@ -687,128 +751,13 @@ export function TierListTab({
 
       {/* Meta freshness indicator with source attribution */}
       {!loading && (metaLastUpdated || feedLastUpdated) && (
-        <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-[10px] text-[#5b5a56]">
+        <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-xs text-[#785a28]">
           <div className="flex items-center gap-1.5">
-            <RefreshCw className="w-3 h-3" />
+            <RefreshCw className="w-3.5 h-3.5" />
             <span>Datos actualizados: {feedLastUpdated || metaLastUpdated}</span>
             <span className="text-[#0fba81]">●</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Database className="w-3 h-3" />
-            <span>Fuentes: </span>
-            {dataSources.map((s, i) => (
-              <a
-                key={s.name}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-0.5 text-[#a09b8c] hover:text-[#c8aa6e] transition-colors"
-              >
-                {s.name}
-                <ExternalLink className="w-2 h-2" />
-                {i < dataSources.length - 1 && <span className="text-[#785a28]">·</span>}
-              </a>
-            ))}
-          </div>
         </div>
-      )}
-
-      {/* Collapsible Data Sources — Enhanced */}
-      {!loading && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-card rounded-xl overflow-hidden"
-          style={{ border: '1px solid rgba(120,90,40,0.2)' }}
-        >
-          <button
-            onClick={() => setShowSources(!showSources)}
-            className="w-full flex items-center gap-2 p-3 text-left hover:bg-white/[0.02] transition-colors"
-          >
-            <Database className="w-4 h-4 text-[#c8aa6e]" />
-            <span className="lol-label text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider">
-              Fuentes de Datos
-            </span>
-            <span className="text-[9px] text-[#5b5a56]">{dataSources.length} fuentes</span>
-            <span
-              className="ml-auto mr-2 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[8px] font-bold"
-              style={{ background: `${freshnessInfo.color}18`, color: freshnessInfo.color, border: `1px solid ${freshnessInfo.color}30` }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: freshnessInfo.color }} />
-              {freshnessInfo.label}
-            </span>
-            <ChevronDown
-              className={`w-3.5 h-3.5 text-[#5b5a56] transition-transform duration-200 ${showSources ? '' : '-rotate-90'}`}
-            />
-          </button>
-          <AnimatePresence>
-            {showSources && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="px-3 pb-3 space-y-3">
-                  {/* Version Info Panel */}
-                  <div className="rounded-lg p-3" style={{ background: 'rgba(10,203,230,0.04)', border: '1px solid rgba(10,203,230,0.12)' }}>
-                    <p className="lol-label text-[10px] text-[#0acbe6] mb-2 uppercase tracking-wider">Estado de Datos</p>
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-[#a09b8c]">Versi\u00f3n CDN (Data Dragon)</span>
-                        <span className="text-[10px] font-mono text-[#f0e6d2]">{versionData?.cdn || '\u2014'}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-[#a09b8c]">Parche del juego</span>
-                        <span className="text-[10px] font-mono text-[#c8aa6e]">{versionData?.gamePatch || '26.9'}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-[#a09b8c]">Meta actualizada</span>
-                        <span className="text-[10px] text-[#f0e6d2]">{versionData?.metaLastUpdated || '\u2014'}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-[#a09b8c]">Tier list feed</span>
-                        <span className="text-[10px] text-[#f0e6d2]">{feedLastUpdated || '\u2014'}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] text-[#a09b8c]">\u00daltima verificaci\u00f3n</span>
-                        <span className="text-[10px] font-mono" style={{ color: freshnessInfo.color }}>{lastCheckTime}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Source Cards */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                    {dataSources.map((source) => (
-                      <a
-                        key={source.name}
-                        href={source.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-lg p-2.5 transition-all duration-200 hover:scale-[1.01] hover:bg-white/[0.02]"
-                        style={{
-                          background: 'rgba(200,170,110,0.04)',
-                          border: '1px solid rgba(200,170,110,0.1)',
-                        }}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-[11px] font-semibold text-[#f0e6d2]">{source.name}</span>
-                          <ExternalLink className="w-3 h-3 text-[#5b5a56]" />
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-2.5 h-2.5 text-[#5b5a56]" />
-                          <span className="text-[8px] text-[#5b5a56] font-mono">
-                            {new Date(source.lastScraped).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                          </span>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
       )}
 
       {loading ? (
@@ -834,10 +783,10 @@ export function TierListTab({
       )}
 
       {!loading && filteredChampions.length === 0 && (
-        <div className="text-center py-16 text-[#5b5a56]">
+        <div className="text-center py-16 text-[#785a28]">
           <Search className="w-12 h-12 mx-auto mb-3 opacity-20" />
-          <p className="text-lg font-medium">No se encontraron campeones</p>
-          <p className="text-sm mt-1">Intenta con otro filtro o búsqueda</p>
+          <p className="text-lg font-medium text-[#a09b8c]">No se encontraron campeones</p>
+          <p className="text-sm mt-1 text-[#785a28]">Intenta con otro filtro o búsqueda</p>
         </div>
       )}
     </div>
@@ -877,39 +826,157 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
   trendMap?: Record<string, 'rising' | 'falling'>;
 }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {['S', 'A', 'B'].map(tier => {
         const tierChamps = champions.filter(c => c.tier === tier);
         if (tierChamps.length === 0) return null;
         const cfg = TIER_CONFIG[tier];
+        const isSTier = tier === 'S';
         return (
           <div key={tier}>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="lol-title text-sm" style={{ color: cfg.color, textShadow: `0 0 10px ${cfg.color}30` }}>{tier}</span>
-              <span className="text-[10px] text-[#5b5a56]">{cfg.label}</span>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="lol-title text-xl" style={{ color: cfg.color, textShadow: `0 0 12px ${cfg.color}40` }}>{tier}</span>
+              <span className="text-sm text-[#785a28]">{cfg.label}</span>
+              <span className="text-xs text-[#5b5a56]">{tierChamps.length} campeones</span>
               <div className="h-px flex-1" style={{ background: `linear-gradient(90deg, ${cfg.color}30, transparent)` }} />
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-              {tierChamps.map((champ, idx) => (
-                <motion.div
-                  key={champ.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.2, delay: idx * 0.02 }}
-                >
-                  <ChampionCard
-                    champion={champ}
-                    onClick={() => onChampionClick(champ)}
-                    showFavorite={true}
-                    isFavorite={favorites.has(champ.id)}
-                    trend={trendMap?.[champ.name]}
-                    size="sm"
-                    showWeeklyChart={false}
-                  />
-                </motion.div>
-              ))}
+            <div className={isSTier
+              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
+              : 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3'
+            }>
+              {tierChamps.map((champ, idx) => {
+                const roleCfg = ROLE_CONFIG[champ.role];
+                const roleColor = roleCfg?.color || '#5b5a56';
+                return (
+                  <motion.div
+                    key={champ.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.2, delay: idx * 0.02 }}
+                    className={isSTier ? 'sm:col-span-1' : ''}
+                  >
+                    <div
+                      className="relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 group"
+                      style={{
+                        border: `2px solid ${cfg.color}40`,
+                        borderLeft: `4px solid ${roleColor}`,
+                        boxShadow: isSTier
+                          ? `0 4px 24px rgba(0,0,0,0.5), 0 0 20px ${cfg.color}15, inset 0 0 30px rgba(200,170,110,0.03)`
+                          : `0 4px 16px rgba(0,0,0,0.4)`,
+                        background: isSTier
+                          ? `linear-gradient(135deg, rgba(200,170,110,0.06), rgba(10,14,26,0.8))`
+                          : 'rgba(20,25,32,0.8)',
+                      }}
+                      onClick={() => onChampionClick(champ)}
+                      whileHover={{ scale: 1.03, y: -4 }}
+                      whileTap={{ scale: 0.97 }}
+                    >
+                      {/* S-tier gold glow */}
+                      {isSTier && (
+                        <div className="absolute inset-0 pointer-events-none"
+                          style={{ boxShadow: `inset 0 0 40px rgba(200,170,110,0.08)` }} />
+                      )}
+
+                      {/* Champion icon + name */}
+                      <div className="p-3">
+                        <div className="flex items-start gap-2.5 mb-2">
+                          <div className="relative shrink-0">
+                            <ChampionIcon name={champ.name} tier={champ.tier} />
+                            {/* Rank number */}
+                            <div
+                              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black z-10"
+                              style={{ background: cfg.color, color: '#0a0e1a', border: '1.5px solid #0a0e1a', boxShadow: `0 0 6px ${cfg.color}50` }}
+                            >
+                              {idx + 1}
+                            </div>
+                            {/* Trend arrow */}
+                            {trendMap?.[champ.name] && (
+                              <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#0a0e1a] flex items-center justify-center z-10"
+                                style={{ border: `1.5px solid ${trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057'}` }}>
+                                <span className="text-[8px] font-black" style={{ color: trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057' }}>
+                                  {trendMap[champ.name] === 'rising' ? '↑' : '↓'}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0 pt-0.5">
+                            <h3 className="text-lg font-bold lol-title text-[#f0e6d2] leading-tight truncate"
+                              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
+                              {champ.name}
+                            </h3>
+                            <RoleBadge role={champ.role} />
+                          </div>
+                          {/* Favorite */}
+                          <button
+                            onClick={e => { e.stopPropagation(); onToggleFavorite(champ.id); }}
+                            className="shrink-0 mt-0.5 cursor-pointer"
+                          >
+                            <Star className="w-4 h-4 transition-colors"
+                              style={{ color: favorites.has(champ.id) ? '#f0c646' : '#5b5a56' }}
+                              fill={favorites.has(champ.id) ? '#f0c646' : 'none'} />
+                          </button>
+                        </div>
+
+                        {/* Stats bars */}
+                        <div className="space-y-1.5">
+                          {/* Win Rate */}
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-[#785a28] w-8 shrink-0">WR</span>
+                            <div className="flex-1 h-3 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.12)' }}>
+                              <motion.div
+                                className="h-full rounded-full"
+                                style={{ background: `linear-gradient(90deg, ${wrColor(champ.winRate)}60, ${wrColor(champ.winRate)})` }}
+                                initial={{ width: 0 }}
+                                animate={{ width: `${Math.min((champ.winRate / 58) * 100, 100)}%` }}
+                                transition={{ duration: 0.8, ease: 'easeOut' }}
+                              />
+                            </div>
+                            <span className="text-sm font-bold font-mono w-12 text-right" style={{ color: wrColor(champ.winRate) }}>
+                              {champ.winRate}%
+                            </span>
+                          </div>
+                          {/* Pick Rate */}
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-[#785a28] w-8 shrink-0">Pick</span>
+                            <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.08)' }}>
+                              <motion.div
+                                className="h-full rounded-full"
+                                style={{ background: 'linear-gradient(90deg, rgba(91,138,245,0.3), #5b8af5)' }}
+                                initial={{ width: 0 }}
+                                animate={{ width: `${Math.min((champ.pickRate / 30) * 100, 100)}%` }}
+                                transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
+                              />
+                            </div>
+                            <span className="text-sm font-bold font-mono w-12 text-right text-[#a09b8c]">
+                              {champ.pickRate}%
+                            </span>
+                          </div>
+                          {/* Ban Rate */}
+                          {champ.banRate > 0 && (
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-[#785a28] w-8 shrink-0">Ban</span>
+                              <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.08)' }}>
+                                <motion.div
+                                  className="h-full rounded-full"
+                                  style={{ background: `linear-gradient(90deg, rgba(232,64,87,0.3), #e84057)` }}
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${Math.min((champ.banRate / 40) * 100, 100)}%` }}
+                                  transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+                                />
+                              </div>
+                              <span className="text-sm font-bold font-mono w-12 text-right" style={{ color: champ.banRate > 5 ? '#e84057' : '#a09b8c' }}>
+                                {champ.banRate}%
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         );

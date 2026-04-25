@@ -34,7 +34,6 @@ import { ProfileTab } from '@/components/moba/tabs/profile-tab';
 import { ActivityTab } from '@/components/moba/tabs/activity-tab';
 import { GuidesTab } from '@/components/moba/tabs/guides-tab';
 import { CoachingTab } from '@/components/moba/tabs/coaching-tab';
-import { ComparisonTab } from '@/components/moba/tabs/comparison-tab';
 import { ActivityPopup } from '@/components/moba/activity-popup';
 import { FloatingNotes } from '@/components/moba/floating-notes';
 
@@ -66,7 +65,6 @@ function TabContent({
     switch (activeTab) {
       case 'tierlist': return <TierListTab champions={champions} loading={loading} selectedGame={selectedGame} searchQuery={searchQuery} onSearchChange={onSearchChange} roleFilter={roleFilter} onRoleFilterChange={onRoleFilterChange} favorites={favorites} onToggleFavorite={onToggleFavorite} onChampionClick={onChampionClick} metaLastUpdated={liveVersions.metaLastUpdated} />;
       case 'patches': return <PatchesTab patches={patches} loading={loading} selectedGame={selectedGame} />;
-      case 'comparison': return <ComparisonTab champions={champions} loading={loading} selectedGame={selectedGame} onChampionClick={onChampionClick} />;
       case 'broken': return <BrokenStuffTab champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />;
       case 'combos': return <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />;
       case 'competitive': return <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;

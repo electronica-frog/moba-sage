@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ScrollText, Clock, Brain, ExternalLink, Filter, Gamepad2, Swords, Crosshair, Shield, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { ScrollText, Clock, Brain, ExternalLink, Filter, Gamepad2, Swords, Crosshair, Shield, TrendingUp, TrendingDown, Minus, ArrowUp, ArrowDown, Zap, Target, Compass } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TinyChampionIcon } from '../champion-icon';
@@ -241,13 +241,40 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
   const selectedPatchDetail = timelinePatches[selectedTimelinePatch];
   const selectedPatchHighlights = selectedPatchDetail ? getLoLChampionHighlights(selectedPatchDetail) : [];
 
+  // Meta Direction — derived from highlights
+  const metaDirection = useMemo(() => {
+    if (!selectedPatchHighlights || selectedPatchHighlights.length === 0) return null;
+    const buffs = selectedPatchHighlights.filter(h => h.type === 'buff').map(h => h.name);
+    const nerfs = selectedPatchHighlights.filter(h => h.type === 'nerf').map(h => h.name);
+    if (buffs.length === 0 && nerfs.length === 0) return null;
+    
+    // Simple meta direction analysis
+    const directions: string[] = [];
+    if (buffs.length > nerfs.length) {
+      directions.push('Meta diversificándose — más campeones viables');
+    }
+    if (nerfs.length >= 2) {
+      directions.push('Nerfs agresivos podrían cambiar el meta fuertemente');
+    }
+    if (selectedPatchHighlights.some(h => h.name === 'Jinx' || h.name === 'Vayne' || h.name === 'Kog\'Maw')) {
+      directions.push('Hyper carries podrían volverse dominantes');
+    }
+    if (selectedPatchHighlights.some(h => h.name === 'Darius' || h.name === 'Fiora' || h.name === 'K\'Sante')) {
+      directions.push('Bruisers top lane en el spotlight');
+    }
+    if (directions.length === 0) {
+      directions.push('Ajustes menores — meta estable con ligeros cambios');
+    }
+    return directions;
+  }, [selectedPatchHighlights]);
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div className="flex items-center gap-3">
-        <ScrollText className="w-5 h-5 text-[#c8aa6e]" />
+        <ScrollText className="w-6 h-6 text-[#c8aa6e]" />
         <div>
-          <h2 className="lol-title text-lg text-[#f0e6d2]">Parches</h2>
-          <p className="text-xs text-[#5b5a56]">Últimos parches de todos los juegos</p>
+          <h2 className="lol-title text-xl text-[#f0e6d2]">Parches</h2>
+          <p className="text-sm text-[#785a28]">Últimos parches y análisis de cambios</p>
         </div>
       </div>
 
@@ -362,12 +389,12 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                 {selectedPatchHighlights.length > 0 && (
                   <div className="mt-4">
                     <div className="flex items-center gap-2 mb-2.5">
-                      <TrendingUp className="w-3.5 h-3.5 text-[#c8aa6e]" />
-                      <h5 className="lol-label text-[10px] font-semibold text-[#c8aa6e] uppercase tracking-wider">
+                      <TrendingUp className="w-4 h-4 text-[#c8aa6e]" />
+                      <h5 className="lol-label text-sm font-semibold text-[#c8aa6e] uppercase tracking-wider">
                         Destacados del Parche
                       </h5>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {selectedPatchHighlights.map((change) => {
                         const cfg = getChangeTypeConfig(change.type);
                         const Icon = cfg.icon;
@@ -375,27 +402,101 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                           <motion.div
                             key={change.name}
                             whileHover={{ scale: 1.03, y: -2 }}
-                            className="rounded-lg p-2.5 flex items-center gap-2 cursor-default"
+                            className="rounded-xl p-3 flex items-center gap-3 cursor-default"
                             style={{
-                              background: 'rgba(10,14,26,0.6)',
-                              border: '1px solid rgba(200,170,110,0.2)',
+                              background: 'rgba(10,14,26,0.7)',
+                              border: `1.5px solid ${cfg.border}`,
                               backdropFilter: 'blur(8px)',
                             }}
                           >
                             <TinyChampionIcon name={change.name} />
                             <div className="flex-1 min-w-0">
-                              <p className="text-[10px] font-semibold text-[#f0e6d2] truncate">{change.name}</p>
+                              <p className="text-sm font-bold text-[#f0e6d2] truncate">{change.name}</p>
                               <span
-                                className="inline-flex items-center gap-0.5 text-[8px] font-bold px-1.5 py-0.5 rounded mt-0.5"
+                                className="inline-flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded mt-1"
                                 style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}
                               >
-                                <Icon className="w-2 h-2" />
+                                <Icon className="w-3 h-3" />
                                 {cfg.label}
                               </span>
                             </div>
                           </motion.div>
                         );
                       })}
+                    </div>
+
+                    {/* Top Winners / Losers summary */}
+                    <div className="grid grid-cols-2 gap-3 mt-4">
+                      {(() => {
+                        const winners = selectedPatchHighlights.filter(h => h.type === 'buff');
+                        const losers = selectedPatchHighlights.filter(h => h.type === 'nerf');
+                        return (
+                          <>
+                            {winners.length > 0 && (
+                              <div className="rounded-xl p-3" style={{ background: 'rgba(15,186,129,0.05)', border: '1px solid rgba(15,186,129,0.2)' }}>
+                                <div className="flex items-center gap-2 mb-2">
+                                  <ArrowUp className="w-4 h-4 text-[#0fba81]" />
+                                  <span className="text-sm font-bold text-[#0fba81]">Top Ganadores</span>
+                                </div>
+                                <div className="space-y-1.5">
+                                  {winners.map((w, i) => (
+                                    <div key={i} className="flex items-center gap-2">
+                                      <span className="text-xs font-bold text-[#0fba81] w-4">#{i+1}</span>
+                                      <TinyChampionIcon name={w.name} />
+                                      <span className="text-sm font-semibold text-[#f0e6d2]">{w.name}</span>
+                                      <span className="text-[9px] text-[#785a28] ml-auto">{w.description}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {losers.length > 0 && (
+                              <div className="rounded-xl p-3" style={{ background: 'rgba(232,64,87,0.05)', border: '1px solid rgba(232,64,87,0.2)' }}>
+                                <div className="flex items-center gap-2 mb-2">
+                                  <ArrowDown className="w-4 h-4 text-[#e84057]" />
+                                  <span className="text-sm font-bold text-[#e84057]">Top Perdedores</span>
+                                </div>
+                                <div className="space-y-1.5">
+                                  {losers.map((l, i) => (
+                                    <div key={i} className="flex items-center gap-2">
+                                      <span className="text-xs font-bold text-[#e84057] w-4">#{i+1}</span>
+                                      <TinyChampionIcon name={l.name} />
+                                      <span className="text-sm font-semibold text-[#f0e6d2]">{l.name}</span>
+                                      <span className="text-[9px] text-[#785a28] ml-auto">{l.description}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                )}
+
+                {/* Meta Direction */}
+                {metaDirection && metaDirection.length > 0 && (
+                  <div className="mt-4 rounded-xl p-4" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.15)' }}>
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <Compass className="w-4 h-4 text-[#f0c646]" />
+                      <h5 className="lol-label text-sm font-semibold text-[#f0c646] uppercase tracking-wider">
+                        Dirección del Meta
+                      </h5>
+                    </div>
+                    <div className="space-y-2">
+                      {metaDirection.map((dir, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -8 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          className="flex items-start gap-2"
+                        >
+                          <Zap className="w-3.5 h-3.5 text-[#f0c646] shrink-0 mt-0.5" />
+                          <span className="text-sm text-[#a09b8c] leading-relaxed">{dir}</span>
+                        </motion.div>
+                      ))}
                     </div>
                   </div>
                 )}

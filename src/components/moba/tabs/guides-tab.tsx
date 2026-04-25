@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Filter, ExternalLink, Tag, ChevronRight, Swords, X, Clock, FileText, Plus } from 'lucide-react';
+import { BookOpen, Filter, ExternalLink, Tag, ChevronRight, Swords, X, Clock, FileText, Plus, GraduationCap, ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChampionIcon } from '../champion-icon';
@@ -199,6 +199,48 @@ export function GuidesTab() {
 
   return (
     <div className="space-y-4">
+      {/* Redirect banner — Guides merged into Coaching */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="rounded-xl p-5"
+        style={{
+          background: 'linear-gradient(135deg, rgba(200,170,110,0.08), rgba(200,170,110,0.03))',
+          border: '1px solid rgba(200,170,110,0.25)',
+        }}
+      >
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+            style={{ background: 'rgba(200,170,110,0.12)', border: '1px solid rgba(200,170,110,0.3)' }}>
+            <GraduationCap className="w-6 h-6 text-[#c8aa6e]" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h2 className="lol-title text-lg text-[#f0e6d2] mb-1">Guías se mudaron a Coaching</h2>
+            <p className="text-sm text-[#a09b8c] leading-relaxed mb-3">
+              Todo el contenido de guías, tips y runas ahora está en la sección de <strong className="text-[#c8aa6e]">Coaching</strong>. 
+              Visita el Entrenador MOBA para mejorar tu juego con mecánicas, visión, composiciones y más.
+            </p>
+            <button
+              onClick={() => {
+                const event = new CustomEvent('moba-sage-switch-tab', { detail: 'coaching' });
+                window.dispatchEvent(event);
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer"
+              style={{
+                background: 'linear-gradient(135deg, #c8aa6e, #785a28)',
+                color: '#0a0e1a',
+                boxShadow: '0 0 20px rgba(200,170,110,0.2)',
+              }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Ir a Coaching
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Header */}
       <div className="flex items-center gap-3">
         <BookOpen className="w-5 h-5 text-[#c8aa6e]" />
