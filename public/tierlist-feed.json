@@ -1,32 +1,32 @@
 {
-  "lastUpdated": "2026-04-25T08:32:12Z",
-  "source": "Ralph Loop v2 — MOBA SAGE autonomous pipeline (cycle 16)",
-  "version": 6,
+  "lastUpdated": "2026-04-25T17:06:45Z",
+  "source": "Ralph Loop v2 — MOBA SAGE cycle #3 (WR meta refresh)",
+  "version": 7,
   "sources": [
     {
       "name": "Mobalytics",
       "url": "https://mobalytics.gg/lol/tier-list",
-      "lastScraped": "2026-04-25T08:32:12Z"
+      "lastScraped": "2026-04-25T17:06:45Z"
     },
     {
       "name": "U.GG",
       "url": "https://u.gg/lol/tier-list",
-      "lastScraped": "2026-04-25T08:32:12Z"
+      "lastScraped": "2026-04-25T17:06:45Z"
     },
     {
       "name": "OP.GG",
       "url": "https://op.gg/lol/statistics/champions",
-      "lastScraped": "2026-04-25T08:32:12Z"
+      "lastScraped": "2026-04-25T17:06:45Z"
     },
     {
       "name": "AltChar/GGRecon",
       "url": "https://www.altchar.com/game-news/league-of-legends-patch-26.09-tier-list-best-champions-for-every-role-avZ5n8o9V64M",
-      "lastScraped": "2026-04-25T08:32:12Z"
+      "lastScraped": "2026-04-25T17:06:45Z"
     },
     {
       "name": "UniFuncs",
       "url": "https://unifuncs.com/s/g648iX72",
-      "lastScraped": "2026-04-25T08:32:12Z"
+      "lastScraped": "2026-04-25T17:06:45Z"
     }
   ],
   "lol": {
@@ -150,19 +150,18 @@
       }
     ],
     "rising": [
-      "Hwei",
-      "Vel'Koz",
-      "Taliyah",
-      "Warwick",
-      "Gragas",
-      "Kayle"
+      "Viktor",
+      "Smolder",
+      "Fiora",
+      "Vex",
+      "Camille",
+      "Nami"
     ],
     "falling": [
+      "Kha'Zix (base dmg nerf)",
+      "Liandry's users",
       "Briar",
-      "Zoe",
-      "Ambessa",
-      "Mel",
-      "Dr. Mundo"
+      "Ambessa"
     ],
     "watch26_9": [
       "Zaahen (nuevo campeón)",
@@ -176,65 +175,117 @@
     ],
     "weeklyTop": [
       {
-        "name": "Nasus",
-        "role": "Mid",
-        "currentWR": 55.5,
-        "change": 3.2
-      },
-      {
         "name": "Karthus",
         "role": "Bot",
-        "currentWR": 55.1,
-        "change": 2.8
+        "currentWR": 54.2,
+        "change": 0.3
       },
       {
-        "name": "Annie",
+        "name": "Zaahen",
         "role": "Top",
-        "currentWR": 54.3,
-        "change": 2.1
+        "currentWR": 53.8,
+        "change": 0.5
       },
       {
-        "name": "Brand",
+        "name": "Hwei",
         "role": "Bot",
-        "currentWR": 53.4,
-        "change": 2.1
-      },
-      {
-        "name": "Warwick",
-        "role": "Jungle",
-        "currentWR": 52.9,
-        "change": 1.8
-      },
-      {
-        "name": "Taliyah",
-        "role": "Mid",
-        "currentWR": 52.7,
-        "change": 1.5
-      },
-      {
-        "name": "Viego",
-        "role": "Jungle",
-        "currentWR": 52.6,
+        "currentWR": 53.5,
         "change": 1.2
       },
       {
-        "name": "Ambessa",
+        "name": "Nasus",
+        "role": "Mid",
+        "currentWR": 55.5,
+        "change": -0.2
+      },
+      {
+        "name": "Garen",
         "role": "Top",
-        "currentWR": 49.8,
-        "change": -2.3
-      },
-      {
-        "name": "Briar",
-        "role": "Jungle",
-        "currentWR": 53.3,
-        "change": -0.8
-      },
-      {
-        "name": "Nocturne",
-        "role": "Jungle",
-        "currentWR": 50.5,
-        "change": -1.1
+        "currentWR": 54.7,
+        "change": 0.1
       }
     ]
+  },
+  "wildrift": {
+    "patch": "7.1c (7.2: Julio 9, 2026)",
+    "rising": [
+      "Viktor",
+      "Smolder",
+      "Fiora",
+      "Vex"
+    ],
+    "falling": [
+      "Kha'Zix (nerf)",
+      "Liandry users"
+    ],
+    "sTier": [
+      {
+        "name": "Viktor",
+        "role": "Mid",
+        "winrate": "53.7%",
+        "reason": "Best scaling mage, zone control, AoE"
+      },
+      {
+        "name": "Smolder",
+        "role": "ADC",
+        "winrate": "53.0%",
+        "reason": "Sole S+ ADC, infinite scaling"
+      },
+      {
+        "name": "Fiora",
+        "role": "Baron",
+        "winrate": "52.0%",
+        "reason": "Dominant split-pusher"
+      },
+      {
+        "name": "Veigar",
+        "role": "Mid",
+        "winrate": "52.5%",
+        "reason": "Infinite scaling, cage CC"
+      },
+      {
+        "name": "Teemo",
+        "role": "Baron/Mid",
+        "winrate": "53.0%",
+        "reason": "19% ban rate, massive pressure"
+      },
+      {
+        "name": "Twitch",
+        "role": "ADC",
+        "winrate": "52.0%",
+        "reason": "AS buff synergy, ambushes"
+      },
+      {
+        "name": "Vex",
+        "role": "Mid",
+        "winrate": "52.0%",
+        "reason": "Anti-dive mage queen"
+      },
+      {
+        "name": "Camille",
+        "role": "Baron",
+        "winrate": "51.0%",
+        "reason": "Divine Sunderer carry"
+      },
+      {
+        "name": "Lee Sin",
+        "role": "Jungle",
+        "winrate": "50.5%",
+        "reason": "Best early-game jungler"
+      },
+      {
+        "name": "Nami",
+        "role": "Support",
+        "winrate": "52.0%",
+        "reason": "Top enchanter, Smolder synergy"
+      }
+    ],
+    "watch72": [
+      "Cho'Gath",
+      "Hwei",
+      "Sylas",
+      "Ahri ASU"
+    ],
+    "notes": "Patch 7.2 confirmed July 9. K'Sante + Skarner released 7.1. Liandry nerfed 7.1c."
   }
 }
