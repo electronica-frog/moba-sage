@@ -20,6 +20,8 @@ interface FeedPatch {
   digest?: string;
   url?: string;
   changes?: Record<string, string[]>;
+  highlights?: string[];
+  sourceGame?: string;
 }
 
 interface PatchesFeed {
@@ -199,6 +201,8 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
           date: fp.date,
           sourceGame: normalizedGame,
           feedStatus: fp.status,
+          highlights: fp.highlights,
+          changes: fp.changes,
         });
       } else {
         // Update status if feed has one
@@ -647,6 +651,64 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                             </span>
                           </div>
                         </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Highlights from feed data */}
+              {(patch as any).highlights && (patch as any).highlights.length > 0 && (
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <Target className="w-3.5 h-3.5 text-[#f0c646]" />
+                    <h4 className="lol-label text-xs font-semibold text-[#f0c646]">Highlights del Meta</h4>
+                  </div>
+                  <div className="space-y-1.5">
+                    {(patch as any).highlights.map((h: string, i: number) => (
+                      <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.1)' }}>
+                        <span className="text-[10px] font-bold text-[#f0c646] shrink-0 mt-0.5">{i + 1}</span>
+                        <span className="text-xs text-[#a09b8c] leading-relaxed">{h}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Detailed changes from feed data */}
+              {(patch as any).changes && Object.keys((patch as any).changes).length > 0 && (
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <Zap className="w-3.5 h-3.5 text-[#c8aa6e]" />
+                    <h4 className="lol-label text-xs font-semibold text-[#c8aa6e]">Cambios Detallados</h4>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {Object.entries((patch as any).changes).map(([category, items]: [string, string[]]) => {
+                      const catColors: Record<string, string> = {
+                        buffs: '#0fba81', nerfs: '#e84057', adjustments: '#f0c646',
+                        newItems: '#0acbe6', reworkedItems: '#9d48e0', removedItems: '#5b5a56',
+                        newRunes: '#0acbe6', removedRunes: '#5b5a56', newChampions: '#c8aa6e',
+                        meta: '#f0c646',
+                      };
+                      const catLabels: Record<string, string> = {
+                        buffs: 'Buffs', nerfs: 'Nerfs', adjustments: 'Ajustes',
+                        newItems: 'Items Nuevos', reworkedItems: 'Items Rework', removedItems: 'Items Eliminados',
+                        newRunes: 'Runas Nuevas', removedRunes: 'Runas Eliminadas', newChampions: 'Campeón Nuevo',
+                        meta: 'Meta',
+                      };
+                      const color = catColors[category] || '#a09b8c';
+                      const label = catLabels[category] || category;
+                      return (
+                        <div key={category} className="rounded-lg p-2.5" style={{ background: `${color}08`, border: `1px solid ${color}20` }}>
+                          <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color }}>{label}</span>
+                          <div className="flex flex-wrap gap-1 mt-1.5">
+                            {items.map((item: string) => (
+                              <span key={item} className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: `${color}12`, color, border: `1px solid ${color}25` }}>
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
