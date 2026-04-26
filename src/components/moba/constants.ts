@@ -69,9 +69,7 @@ export const GAME_TAB_ITEMS = [
   { id: 'patches', label: 'Parches', icon: ScrollText },
   { id: 'broken', label: 'Cosas Rotas', icon: AlertTriangle },
   { id: 'combos', label: 'Combos', icon: Flame },
-  { id: 'guides', label: 'Guías', icon: BookOpen },
   { id: 'coaching', label: 'Coaching', icon: GraduationCap },
-  { id: 'competitive', label: 'Competitivo', icon: Crown },
   { id: 'profile', label: 'Perfil', icon: User },
 ];
 
