@@ -29,10 +29,8 @@ import { BrokenStuffTab } from '@/components/moba/tabs/broken-stuff-tab';
 import { TasksTab } from '@/components/moba/tabs/tasks-tab';
 import { IdeasTab } from '@/components/moba/tabs/ideas-tab';
 import { CombosTab } from '@/components/moba/tabs/combos-tab';
-import { CompetitiveTab } from '@/components/moba/tabs/competitive-tab';
 import { ProfileTab } from '@/components/moba/tabs/profile-tab';
 import { ActivityTab } from '@/components/moba/tabs/activity-tab';
-import { GuidesTab } from '@/components/moba/tabs/guides-tab';
 import { CoachingTab } from '@/components/moba/tabs/coaching-tab';
 import { ActivityPopup } from '@/components/moba/activity-popup';
 import { FloatingNotes } from '@/components/moba/floating-notes';
@@ -63,13 +61,11 @@ function TabContent({
 }) {
   const renderTab = () => {
     switch (activeTab) {
-      case 'tierlist': return <TierListTab champions={champions} loading={loading} selectedGame={selectedGame} searchQuery={searchQuery} onSearchChange={onSearchChange} roleFilter={roleFilter} onRoleFilterChange={onRoleFilterChange} favorites={favorites} onToggleFavorite={onToggleFavorite} onChampionClick={onChampionClick} metaLastUpdated={liveVersions.metaLastUpdated} />;
+      case 'tierlist': return <TierListTab champions={champions} loading={loading} selectedGame={selectedGame} searchQuery={searchQuery} onSearchChange={onSearchChange} roleFilter={roleFilter} onRoleFilterChange={onRoleFilterChange} favorites={favorites} onToggleFavorite={onToggleFavorite} onChampionClick={onChampionClick} metaLastUpdated={liveVersions.metaLastUpdated} proPicks={proPicks} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;
       case 'patches': return <PatchesTab patches={patches} loading={loading} selectedGame={selectedGame} />;
       case 'broken': return <BrokenStuffTab champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />;
       case 'combos': return <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />;
-      case 'competitive': return <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;
-      case 'guides': return <GuidesTab />;
-      case 'coaching': return <CoachingTab selectedGame={selectedGame || ''} />;
+                  case 'coaching': return <CoachingTab selectedGame={selectedGame || ''} />;
       case 'profile': return <ProfileTab summonerName={summonerName} onSummonerNameChange={onSummonerNameChange} summonerRegion={summonerRegion} onSummonerRegionChange={onSummonerRegionChange} summonerData={summonerData} summonerLoading={summonerLoading} summonerError={summonerError} onSearchSummoner={onSearchSummoner} />;
       case 'novedades': return <ActivityTab />;
       case 'ideas': return <IdeasTab />;
