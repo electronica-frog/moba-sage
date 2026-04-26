@@ -1,266 +1,144 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GraduationCap, Target, Eye, Swords, Shield, ChevronDown, ChevronUp, Zap, Gem, BookOpen, FileText, Clock, Tag, ChevronRight, X } from 'lucide-react';
+import { GraduationCap, Target, Eye, Swords, Shield, ChevronDown, ChevronUp, Zap, AlertOctagon, Map, RotateCcw, Skull, TrendingUp, Crosshair } from 'lucide-react';
 
+// ============ DATA TYPES ============
 interface TipCard {
   title: string;
   description: string;
   icon: React.ReactNode;
 }
 
-interface CompEntry {
-  name: string;
-  champions: string[];
-  playstyle: string;
-  description: string;
-}
-
-interface CounterTip {
-  champion: string;
-  tip: string;
-}
-
-interface KeystoneEntry {
-  name: string;
-  when: string;
-}
-
-interface RoleKeystones {
-  role: string;
-  keystones: KeystoneEntry[];
-}
-
-interface ChampionRunes {
-  champion: string;
-  keystone: string;
-  primaryTree: string;
-  primaryRunes: string[];
-  secondaryTree: string;
-  secondaryRunes: string[];
-  shards: string;
-}
-
-// ---- Local types for guides feed ----
-interface GuideEntry {
+interface CategorySection {
   id: string;
-  champion: string;
-  role: string;
-  patch: string;
+  label: string;
+  icon: React.ReactNode;
+  color: string;
+  tips: TipCard[];
+}
+
+// ============ MECÁNICAS POR CATEGORÍAS ============
+const mecanicasCategories: CategorySection[] = [
+  {
+    id: 'fase-de-linea',
+    label: 'Fase de Linea',
+    icon: <Swords className="w-4 h-4" />,
+    color: '#e84057',
+    tips: [
+      { title: 'Último Golpe (Last Hit)', description: 'Practica el último golpe a minions en Practice Tool. El oro de last hits es tu fuente principal de income. Apunta a 7+ CS por minuto. En lane fase, prioriza CS sobre trades si tu campeón no tiene ventaja.', icon: <Target className="w-4 h-4 text-[#c8aa6e]" /> },
+      { title: 'Manejo de Oleadas', description: 'Slow Push: deja 2-3 caster minions vivos para crear una ola grande. Fast Push: empuja rápido con habilidades para recallar o roam. Freeze: mantén la ola cerca de tu torre para negar CS al rival y ser vulnerable a ganks.', icon: <Shield className="w-4 h-4 text-[#0acbe6]" /> },
+      { title: 'Postura de Trading', description: 'Cuando el rival last hittea un minion, es tu ventana para hacer daño (auto + habilidad + retroceder). No trades cuando tu ola está empujando — te vas a recibir daño de minions. Posiciónate entre minions aliados para protección.', icon: <Swords className="w-4 h-4 text-[#e84057]" /> },
+      { title: 'Bloqueo de Minions', description: 'Usa tu cuerpo para bloquear minions enemigos y que la ola empuje hacia tu torre. Esto te permite freeze cerca de torre y negar al rival. Cuidado: algunos campeones (Darius, Nasus) benefician mucho de esto.', icon: <Target className="w-4 h-4 text-[#0fba81]" /> },
+    ],
+  },
+  {
+    id: 'teamfight',
+    label: 'Teamfight',
+    icon: <Zap className="w-4 h-4" />,
+    color: '#f0c646',
+    tips: [
+      { title: 'Picos de Poder', description: 'Conoce tus power spikes: niveles (2, 3, 6, 11, 16) y completar items clave. Si vas por debajo, busca una power spike para intentar un play. Si vas por arriba, presiona tu ventaja ANTES de que el rival alcance su spike.', icon: <Zap className="w-4 h-4 text-[#c8aa6e]" /> },
+      { title: 'Posicionamiento en Pelea', description: 'Los carries (ADC, Mage) deben estar SIEMPRE detrás del frontline. Esperá a que se gaste el CC antes de entrar. En pelea de equipos, el posicionamiento vale más que la mecánica individual.', icon: <Crosshair className="w-4 h-4 text-[#f0c646]" /> },
+      { title: 'Focus en Objetivos', description: 'Después de ganar una teamfight, NO vayas a base enemiga sin objetivo. Toma Dragon, Baron, torres o inhibidor. Muchas partidas se pierden por "irse a buscar kills" después de ganar una pelea.', icon: <Target className="w-4 h-4 text-[#0fba81]" /> },
+    ],
+  },
+  {
+    id: 'macro-juego',
+    label: 'Macro Juego',
+    icon: <Map className="w-4 h-4" />,
+    color: '#0acbe6',
+    tips: [
+      { title: 'Conciencia del Mapa', description: 'Mira el minimap cada 3-5 segundos. Si tu jungler no está en mapa visible, asume que te van a gankear. Si el rival mid falta, avisa a tus lanes. El minimap te da información gratuita — úsala.', icon: <Eye className="w-4 h-4 text-[#f0c646]" /> },
+      { title: 'Control de Visión', description: 'Comprá Control Wards cada recall. No pongas wards aleatoriamente — pensá dónde necesitás ver. Antes de objetivar (Dragon/Baron), asegurar visión 30-45 segundos antes. La visión gana partidas.', icon: <Eye className="w-4 h-4 text-[#0acbe6]" /> },
+      { title: 'Split Push', description: 'Si tu campeón es bueno 1v1 (Fiora, Yorick, Trundle), split push para crear presión. Tu team debe evitar pelear 4v5 mientras tanto. Comunica cuando te ganken para que tu team tome objetivos en el otro lado.', icon: <Map className="w-4 h-4 text-[#c8aa6e]" /> },
+    ],
+  },
+  {
+    id: 'mentalidad',
+    label: 'Mentalidad',
+    icon: <TrendingUp className="w-4 h-4" />,
+    color: '#0fba81',
+    tips: [
+      { title: 'Gestión de Tilt', description: 'Si perdiste 2 partidas seguidas, tomá un break de 15 minutos. El tilt te hace tomar malas decisiones: overextenderte, forzar plays, flamear. Tu mentalidad es tan importante como tu mecánica.', icon: <RotateCcw className="w-4 h-4 text-[#0fba81]" /> },
+      { title: 'Análisis de Muertes', description: 'Después de morir, preguntate: "¿Podría haber evitado esto?" Si la respuesta es sí, fue un error tuyo. Si no (full health 1-shot por un campero), es parte del juego. Enfocate en mejorar lo que podés controlar.', icon: <Skull className="w-4 h-4 text-[#e84057]" /> },
+    ],
+  },
+];
+
+// ============ WARDING POR ROL ============
+const wardingTips: TipCard[] = [
+  { title: 'Top Lane', description: 'Ward de tríbush (bush superior) para ver ganks del jungler. Controla el río con tu support y jungler. En mid game, wardia la jungle rival para split push seguro. Pink ward en tríbush es staple.', icon: <Eye className="w-4 h-4 text-[#c8aa6e]" /> },
+  { title: 'Jungle', description: 'Wardia los buffs rivales para trackear al jungler. Deep wards en su jungle te dan timers de spawn. Vision de río para objetivar Dragon/Baron. Siempre carries control wards.', icon: <Eye className="w-4 h-4 text-[#0acbe6]" /> },
+  { title: 'Mid Lane', description: 'Ward de río (ambos lados) y parte de jungle. Cuando tu warden se cae, reemplazalo inmediatamente. Pink ward en una de las brush del río es esencial para mid game teamfights.', icon: <Eye className="w-4 h-4 text-[#e84057]" /> },
+  { title: 'ADC', description: 'Tu support debería wardar, pero si vas solo: ward de tríbush y el lane bush. En teamfights, mantén vision del flank. En late game, wardia antes de cada objetivo con tu team.', icon: <Eye className="w-4 h-4 text-[#0fba81]" /> },
+  { title: 'Support', description: 'Eres el principal warder del equipo. Control ward en río early, oracle lens en mid/late. Wardia jungle rival para enable plays de tu jungler. En late game, prioriza vision de Baron y bases rivales.', icon: <Eye className="w-4 h-4 text-[#f0c646]" /> },
+];
+
+// ============ ERRORES A EVITAR ============
+interface ErrorEntry {
   title: string;
-  summary: string;
-  tags: string[];
-  keyPoints: string[];
-  fileName: string;
-  game?: string;
+  description: string;
+  severity: 'critical' | 'common' | 'subtle';
 }
 
-interface GuidesFeed {
-  lastUpdated: string;
-  source: string;
-  totalGuides: number;
-  guides: GuideEntry[];
-}
+const erroresData: ErrorEntry[] = [
+  { title: 'Chasear kills por el mapa', description: 'Si un enemigo está con 5% HP y se retira a base, NO lo persigas. Es una trampa. Vas a perder tiempo de farm, objetivar, y probablemente te ganken. La kill no vale tanto como creés.', severity: 'critical' },
+  { title: 'No comprar Control Wards', description: 'Cada recall deberías comprar al menos 1 Control Ward (hasta el límite de 3 en el mapa). La visión es el recurso más subestimado del juego. Un ward bien colocado puede prevenir una muerte o enable una kill.', severity: 'common' },
+  { title: 'Ignorar el minimap', description: 'Mirar el minimap cada 3-5 segundos es hábito #1 de los jugadores que suben de rank. Si el rival mid no está en tu mapa, no empujes tu ola. Si ves al jungler rival bot, podés empujar top libremente.', severity: 'critical' },
+  { title: 'Forzar teamfights sin ventaja', description: 'No inicies peleas si estás detrás en niveles, oro o items. Esperá a que tu equipo alcance sus power spikes. Forzar pelea en desventaja es la forma más rápida de perder una partida que podías ganar.', severity: 'critical' },
+  { title: 'No adaptar tu build', description: 'Si el rival ADC tiene 3 kills a los 10 minutos, comprá Armadura. Si su mid lane AP te está oneshoteando, comprá MR. Seguir el mismo build siempre es un error. Adapta tu build al partido.', severity: 'common' },
+  { title: 'Flamear a tu equipo', description: 'El flame no mejora nada. Solo baja la moral del equipo y hace que tus compañeros jueguen peor. Usa señales y pings constructivos. Si alguien está jugando mal, ayudalo en lugar de insultarlo.', severity: 'subtle' },
+  { title: 'Recall sin cobertura', description: 'Antes de recallar, preguntate: ¿está mi jungler cerca? ¿El rival mid puede roamear? ¿Tengo wards que me avisen si viene alguien? Recalear en mala posición puede costar un dragón o una torre.', severity: 'common' },
+  { title: 'No resetear oleadas', description: 'Después de matar al rival o forzarlo a recall, pushea la ola hasta la torre para que se resetee. Si no lo hacés, el rival pierde menos CS y puede freezearte cerca de su torre, negándote oro y experiencia.', severity: 'subtle' },
+  { title: 'Usar flash innecesariamente', description: 'Flash tiene 5 minutos de cooldown. No lo uses para asegurar una kill que ya está garantizada. Guardalo para escapes criticos o para iniciar teamfights. Un flash malgastado es una desventaja enorme.', severity: 'common' },
+  { title: 'Ignorar el tiempo de objetivos', description: 'Dragon spawnea a los 5:00, Baron a los 20:00, Herald a los 14:00. Saber los timers te permite prepararte con antelación. Muchos equipos pierden objetivos porque no estaban preparados cuando spawnearon.', severity: 'critical' },
+];
 
+const severityConfig = {
+  critical: { color: '#e84057', bg: 'rgba(232,64,87,0.08)', border: 'rgba(232,64,87,0.25)', label: 'Crítico', icon: <AlertOctagon className="w-3.5 h-3.5" /> },
+  common: { color: '#f0c646', bg: 'rgba(240,198,70,0.08)', border: 'rgba(240,198,70,0.25)', label: 'Común', icon: <AlertOctagon className="w-3.5 h-3.5" /> },
+  subtle: { color: '#5b8af5', bg: 'rgba(91,138,245,0.08)', border: 'rgba(91,138,245,0.25)', label: 'Sutil', icon: <AlertOctagon className="w-3.5 h-3.5" /> },
+};
+
+// ============ COMPONENT ============
 export function CoachingTab({ selectedGame }: { selectedGame: string }) {
-  const [openSection, setOpenSection] = useState<string | null>('guias');
-  const [guides, setGuides] = useState<GuideEntry[]>([]);
-  const [guidesLoading, setGuidesLoading] = useState(true);
-  const [selectedGuide, setSelectedGuide] = useState<GuideEntry | null>(null);
+  const [openCategory, setOpenCategory] = useState<string | null>('fase-de-linea');
+  const [openSection, setOpenSection] = useState<string | null>(null);
 
-  // Fetch guides on mount
-  useEffect(() => {
-    async function fetchGuides() {
-      try {
-        const res = await fetch('/guides-feed.json');
-        if (res.ok) {
-          const data: GuidesFeed = await res.json();
-          setGuides((data.guides || []).filter(g => g.game !== 'valorant'));
-        }
-      } catch (err) {
-        console.error('Error loading guides:', err);
-      } finally {
-        setGuidesLoading(false);
-      }
-    }
-    fetchGuides();
-  }, []);
-
-  const toggleSection = (s: string) => setOpenSection(prev => prev === s ? null : s);
-
-  const mecanicas: TipCard[] = [
-    { title: 'Último Golpe', description: 'Practica el último golpe a minions en Practice Tool. El oro de last hits es tu fuente principal de income. Apunta a 7+ CS por minuto. En lane fase, prioriza CS sobre trades si tu campeón no tiene ventaja.', icon: <Target className="w-4 h-4 text-[#c8aa6e]" /> },
-    { title: 'Manejo de Oleadas', description: 'Slow Push: deja 2-3 caster minions vivos para crear una ola grande. Fast Push: empuja rápido con habilidades para recallar o roam. Freeze: mantén la ola cerca de tu torre para negar CS al rival y ser vulnerable a ganks.', icon: <Shield className="w-4 h-4 text-[#0acbe6]" /> },
-    { title: 'Postura de Trading', description: 'Cuando el rival last hittea un minion, es tu ventana para hacer daño (auto + habilidad + retroceder). No trades cuando tu ola está empujando — te vas a recibir daño de minions. Posiciónate entre minions aliados para protección.', icon: <Swords className="w-4 h-4 text-[#e84057]" /> },
-    { title: 'Bloqueo de Minions', description: 'Usa tu cuerpo para bloquear minions enemigos y que la ola empuje hacia tu torre. Esto te permite freeze cerca de torre y negar al rival. Cuidado: algunos campeones (Darius, Nasus) benefician mucho de esto.', icon: <Target className="w-4 h-4 text-[#0fba81]" /> },
-    { title: 'Conciencia del Mapa', description: 'Mira el minimap cada 3-5 segundos. Si tu jungler no está en mapa visible, asume que te van a gankear. Si el rival mid falta, avisa a tus lanes. El minimap te da información gratuita — úsala.', icon: <Eye className="w-4 h-4 text-[#f0c646]" /> },
-    { title: 'Picos de Poder', description: 'Conoce tus power spikes: niveles (2, 3, 6, 11, 16) y completar items clave. Si vas por debajo, busca una power spike para intentar un play. Si vas por arriba, presiona tu ventaja ANTES de que el rival alcance su spike.', icon: <Swords className="w-4 h-4 text-[#c8aa6e]" /> },
-  ];
-
-  const warding: TipCard[] = [
-    { title: 'Top Lane', description: 'Ward de tríbush (bush superior) para ver ganks del jungler. Controla el río con tu support y jungler. En mid game, wardia la jungle rival para split push seguro. Pink ward en tríbush es staple.', icon: <Eye className="w-4 h-4 text-[#c8aa6e]" /> },
-    { title: 'Jungle', description: 'Wardia los buffs rivales para trackear al jungler. Deep wards en su jungle te dan timers de spawn. Vision de río para objetivar Dragon/Baron. Siempre carries control wards.', icon: <Eye className="w-4 h-4 text-[#0acbe6]" /> },
-    { title: 'Mid Lane', description: 'Ward de río ( ambos lados) y parte de jungle. Cuando tu warden se cae, reemplazalo inmediatamente. Pink ward en una de las brush del río es esencial para mid game teamfights.', icon: <Eye className="w-4 h-4 text-[#e84057]" /> },
-    { title: 'ADC', description: 'Tu support debería wardar, pero si vas solo: ward de tríbush y el lane bush. En teamfights, mantén vision del flank. En late game, wardia antes de cada objetivo con tu team.', icon: <Eye className="w-4 h-4 text-[#0fba81]" /> },
-    { title: 'Support', description: 'Eres el principal warder del equipo. Control ward en río early, oracle lens en mid/late. Wardia jungle rival para enable plays de tu jungler. En late game, prioriza vision de Baron y bases rivales.', icon: <Eye className="w-4 h-4 text-[#f0c646]" /> },
-  ];
-
-  const comps: CompEntry[] = [
-    { name: 'Engage y Teamfight', champions: ['Malphite', 'Jarvan IV', 'Orianna', 'Jinx', 'Thresh'], playstyle: 'Engage brutal + follow-up', description: 'Malphite R + Jarvan EQ + Orianna R = team wipe. Jinx limpiando. Thresh protege y engancha stragglers. Comp muy fuerte en el meta 26.8-26.9 por la cantidad de AP bruisers.' },
-    { name: 'Poke & Siege', champions: ['Jayce', 'Zoe', 'Varus', 'Lulu', 'Karma'], playstyle: 'Dolor a distancia + disengage', description: 'Jayce y Zoe pokean desde fuera de rango. Varus R + Lulu R = pelea forzada a tu favor. Karma shield + speedboost para kiting. Excelente en objective setups.' },
-    { name: 'Split Push', champions: ['Fiora', 'Nidalee', 'Trundle', 'Sivir', 'Shen'], playstyle: 'Presión lateral + respuesta global', description: 'Fiora/Trundle splitanean. Shen R + Sivir R para responder a 4v4. Nidalee controla jungle y objetivos. Funciona con comunicación de team.' },
-    { name: 'Pick Comp', champions: ['Blitzcrank', 'Elise', 'LeBlanc', 'Ezreal', 'Nautilus'], playstyle: 'Catchear y eliminar', description: 'Blitz/Nautilus hook + Elise/LB burst = muerte instantánea. Ezreal limpia desde lejos. Excelente en ranked donde un catch = Baron/Nexus.' },
-    { name: 'Proteger al ADC', champions: ['Ornn', 'Lee Sin', 'Orianna', 'Jinx', 'Yuumi'], playstyle: 'Peel intenso + hiper carry', description: 'Todo el team protege a Jinx. Ornn items para todo el team. Yuumi unbound a Jinx = inmortal en late game. Lee Sin kick para peel.' },
-  ];
-
-  // Section 4: Counter Tips
-  const counterTips: CounterTip[] = [
-    { champion: 'Darius', tip: 'Play extenders (Gnar, Vayne, Quinn). No hagas trades al nivel 1-2. Pokea cuando use Q (Decimate). Mantené distancia y usá gap closers solo cuando no tenga E.' },
-    { champion: "K'Sante", tip: 'Sustain a través de su all-in con Grasp trades. Items: Black Cleaver + Riftmaker. No te dejes pillar contra la pared. Esperá que gaste sus abilities antes de tradear.' },
-    { champion: 'Jinx', tip: 'Engage antes de que tenga 3 items. Snowball early. No la dejes farmear libre. Cuando use su Zap (W), es tu ventana para entrar. Focus antes de que tenga rockets.' },
-    { champion: 'Thresh', tip: 'Esquiva los hooks, bateau la linterna (W). Engage al support cuando use Flay (E). Priorizá matarlo antes del ADC. Oracle lens para detectar sus trampas.' },
-    { champion: 'Hwei', tip: 'Interruptí su combo de 3 spells. Gap close cuando gaste cooldowns. Es súper vulnerable sin habilidades. Comprá MR y acercate cuando tire la zona de E.' },
-    { champion: 'Taliyah', tip: 'Wardia jungle entries. Engage cuando use E en combo. Cleanse si tenés. Su roca sigue un patrón — aprendé a esquivarla. Post-6 roamea mucho, tené cuidado.' },
-    { champion: 'Warwick', tip: 'Comprá Quicksilver Sash para su R. No te pelees a bajo HP (su Q y R healing es enorme). Wardia su jungle para trackearlo. Es débil al burst antes de stackear.' },
-    { champion: 'Lee Sin', tip: 'Esquivá su Q (Tempest). Incentivá misses de Dragon Rage (R). Es débil en late game — procrastiná el juego. Si falla la Q, castigá sin piedad.' },
-    { champion: 'Master Yi', tip: 'Comprá CC (Randuin, Thornmail, Warden\'s Mail). Focus en early game. Alpha Strike (Q) lo hace invulnerable — no waste CC mientras la use. Heridas Mortales es clave.' },
-    { champion: 'Yasuo', tip: 'Sin tornado (Q3) = sin kill. Dodge el Q3. Comprá Heridas Mortales. Es débil contra hard CC. Engage cuando esté sin stacks de Q. No trades cerca de minions.' },
-  ];
-
-  // Section 5: Keystones por Rol
-  const roleKeystones: RoleKeystones[] = [
-    {
-      role: 'Top',
-      keystones: [
-        { name: 'Agarre del No Muerto', when: 'Bruisers que tradean constantemente (Darius, K\'Sante, Ornn). Maximiza daño en short trades y da sustain.' },
-        { name: 'Pies Veloces', when: 'Poke lanes o campeones que necesitan sustain (Vayne, Quinn, Teemo). Permite tradear y retirarse.' },
-        { name: 'Conquistador', when: 'Fighters que se quedan en peleas largas (Fiora, Riven, Yasuo). Stacks con cada habilidad/auto.' },
-      ],
-    },
-    {
-      role: 'Jungle',
-      keystones: [
-        { name: 'Cosecha Oscura', when: 'Junglers burst-oriented que hacen snowball (Kayn, Evelynn, Shaco). Se resetea con kills y es brutal en early.' },
-        { name: 'Tempo Letal', when: 'Junglers farm-heavy o auto-attackers (Master Yi, Jax, Shyvana). Mejora DPS significativamente en clears y fights.' },
-        { name: 'Conmoción', when: 'Tank junglers con CC (Nautilus, Malphite, Sejuani). Da resistencias después de enganchar — perfecto para ganks.' },
-      ],
-    },
-    {
-      role: 'Mid',
-      keystones: [
-        { name: 'Electrocutar', when: 'Assassins que burstean rápido (Zed, Katarina, Talon). 3 hits → daño burst. Ideal para one-shot combo.' },
-        { name: 'Invocar Aery', when: 'Control mages con poke frecuente (Orianna, Syndra, Lissandra). Procs con cada habilidad en el rival.' },
-        { name: 'Impulso de Fase', when: 'Mages con movilidad o que necesitan escapar (Corki, Ryze, Taliyah). 3 hits → MS burst para engage/disengage.' },
-      ],
-    },
-    {
-      role: 'ADC',
-      keystones: [
-        { name: 'Tempo Letal', when: 'Hyper carries (Jinx, Kog\'Maw, Vayne). Stack attack speed con cada auto — devastador en teamfights.' },
-        { name: 'Pies Veloces', when: 'ADCs que necesitan seguridad en lane (Sivir, Ezreal, Ashe). Sustain y MS para kiting y escapar ganks.' },
-        { name: 'Conquistador', when: 'Bruiser ADCs (Lucian, Varus, Samira). Stacks en peleas sostenidas — fuerte en el meta de bruiser items.' },
-      ],
-    },
-    {
-      role: 'Support',
-      keystones: [
-        { name: 'Invocar Aery', when: 'Poke supports (Lulu, Karma, Senna). Daño y shield con cada habilidad. Ideal para harass en lane.' },
-        { name: 'Guardián', when: 'Peel/protect supports (Thresh, Braum, Yuumi). Procs al proteger al ADC. Da resistencias y shield.' },
-        { name: 'Aumento Glacial', when: 'Engage supports (Nautilus, Leona, Morgana). Slow items + CC base = catches garantizados. Perfecto para lockdown.' },
-      ],
-    },
-  ];
-
-  // Section 6: Runas por Campeon S-Tier
-  const championRunes: ChampionRunes[] = [
-    {
-      champion: "K'Sante",
-      keystone: 'Agarre del No Muerto',
-      primaryTree: 'Valor (Resolve)',
-      primaryRunes: ['Demolir', 'Blindaje Óseo', 'Inquebrantable'],
-      secondaryTree: 'Inspiración',
-      secondaryRunes: ['Calzado Mágico', 'Segunda Vida'],
-      shards: 'Velocidad + HP + Resistencia',
-    },
-    {
-      champion: 'Hwei',
-      keystone: 'Electrocutar',
-      primaryTree: 'Dominación (Domination)',
-      primaryRunes: ['Golpe Bajo', 'Colección de Ojos', 'Cazador Definitivo'],
-      secondaryTree: 'Brujería (Sorcery)',
-      secondaryRunes: ['Banda de Maná', 'Trascendencia'],
-      shards: 'CDR + MR + HP',
-    },
-    {
-      champion: 'Jinx',
-      keystone: 'Tempo Letal',
-      primaryTree: 'Precisión (Precision)',
-      primaryRunes: ['Presencia de Campeón', 'Leyenda: Linaje', 'Golpe de Gracia'],
-      secondaryTree: 'Dominación',
-      secondaryRunes: ['Sabor a Sangre', 'Cazador de Tesoros'],
-      shards: 'AS + AD + Resistencia',
-    },
-    {
-      champion: 'Thresh',
-      keystone: 'Guardián',
-      primaryTree: 'Valor (Resolve)',
-      primaryRunes: ['Fuente de Vida', 'Blindaje Óseo', 'Inquebrantable'],
-      secondaryTree: 'Inspiración',
-      secondaryRunes: ['Calzado Mágico', 'Destellomática Hextech'],
-      shards: 'Velocidad + Armadura + HP',
-    },
-    {
-      champion: 'Taliyah',
-      keystone: 'Impulso de Fase',
-      primaryTree: 'Brujería (Sorcery)',
-      primaryRunes: ['Banda de Maná', 'Trascendencia', 'Quemadura'],
-      secondaryTree: 'Precisión',
-      secondaryRunes: ['Presencia de Campeón', 'Celeridad'],
-      shards: 'AP + MR + HP',
-    },
-    {
-      champion: 'Warwick',
-      keystone: 'Cosecha Oscura',
-      primaryTree: 'Dominación (Domination)',
-      primaryRunes: ['Golpe Bajo', 'Colección de Ojos', 'Cazador Despiadado'],
-      secondaryTree: 'Precisión',
-      secondaryRunes: ['Triunfo', 'Leyenda: Diligencia'],
-      shards: 'AS + MR + HP',
-    },
-  ];
+  const toggleCategory = (id: string) => setOpenCategory(prev => prev === id ? null : id);
+  const toggleSection = (id: string) => setOpenSection(prev => prev === id ? null : id);
 
   if (selectedGame === 'wildrift') {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
         <GraduationCap className="w-16 h-16 text-[#785a28] mb-4 opacity-30" />
         <h2 className="text-lg font-bold text-[#f0e6d2] mb-2">Coaching para Wild Rift</h2>
-        <p className="text-sm text-[#5b5a56] max-w-md">Próximamente: guías de mecánicas, warding y macro adaptadas a Wild Rift.</p>
+        <p className="text-sm text-[#5b5a56] max-w-md">Proximamente: guías de mecánicas, warding y macro adaptadas a Wild Rift.</p>
       </div>
     );
   }
 
-  const sections = [
-    { id: 'guias', label: 'Guías & Análisis', icon: <BookOpen className="w-4 h-4" />, content: 'guias' as const },
-    { id: 'mecanicas', label: 'Mecánicas Fundamentales', icon: <Swords className="w-4 h-4" />, content: 'mecanicas' as const },
-    { id: 'warding', label: 'Warding y Visión', icon: <Eye className="w-4 h-4" />, content: 'warding' as const },
-    { id: 'comps', label: 'Composiciones Pro', icon: <Target className="w-4 h-4" />, content: 'comps' as const },
-    { id: 'counters', label: 'Counter Tips', icon: <Target className="w-4 h-4" />, content: 'counters' as const },
-    { id: 'keystones', label: 'Keystones por Rol', icon: <Zap className="w-4 h-4" />, content: 'keystones' as const },
-    { id: 'runas', label: 'Runas por Campeón S-Tier', icon: <Gem className="w-4 h-4" />, content: 'runas' as const },
+  const topSections = [
+    { id: 'mecanicas', label: 'Mecánicas Fundamentales', icon: <Swords className="w-4 h-4" /> },
+    { id: 'warding', label: 'Warding por Rol', icon: <Eye className="w-4 h-4" /> },
+    { id: 'errores', label: 'Errores a Evitar', icon: <AlertOctagon className="w-4 h-4" /> },
   ];
 
   return (
     <div className="space-y-4">
+      {/* Header */}
       <div className="flex items-center gap-3">
         <GraduationCap className="w-5 h-5 text-[#c8aa6e]" />
         <div>
           <h2 className="text-lg font-bold text-[#f0e6d2] lol-title">Entrenador MOBA</h2>
-          <p className="text-xs text-[#5b5a56]">Mecánicas, visión, composiciones y más para mejorar tu juego</p>
+          <p className="text-xs text-[#5b5a56]">Mecánicas, visión, errores comunes y más para mejorar tu juego</p>
         </div>
       </div>
 
-      {sections.map(section => {
+      {/* Top-level sections */}
+      {topSections.map(section => {
         const isOpen = openSection === section.id;
         const btnStyle = {
           background: isOpen ? 'rgba(200,170,110,0.08)' : 'rgba(30,35,40,0.5)',
@@ -278,314 +156,129 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
               <span className="text-sm font-semibold text-[#f0e6d2] flex-1 text-left">{section.label}</span>
               {isOpen ? <ChevronUp className="w-4 h-4 text-[#c8aa6e]" /> : <ChevronDown className="w-4 h-4 text-[#5b5a56]" />}
             </button>
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                transition={{ duration: 0.3 }}
-                className="mt-2 space-y-2"
-              >
-                {section.content === 'guias' && (
-                  guidesLoading ? (
-                    <div className="space-y-3">
-                      {[1,2,3].map(i => (
-                        <div key={i} className="p-4 rounded-xl animate-pulse" style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}>
-                          <div className="h-4 w-48 bg-[#1e2328] rounded mb-2" />
-                          <div className="h-3 w-full bg-[#1e2328] rounded mb-1" />
-                          <div className="h-3 w-3/4 bg-[#1e2328] rounded" />
-                        </div>
-                      ))}
-                    </div>
-                  ) : guides.length === 0 ? (
-                    <div className="p-6 rounded-xl text-center" style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}>
-                      <BookOpen className="w-8 h-8 mx-auto mb-2 text-[#785a28] opacity-40" />
-                      <p className="text-sm text-[#a09b8c]">No hay guías disponibles aún</p>
-                    </div>
-                  ) : (
-                    guides.map((guide, idx) => (
-                      <motion.div
-                        key={guide.id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.04 }}
-                        className="p-4 rounded-xl cursor-pointer group hover:border-[#c8aa6e]/20 transition-all"
-                        style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
-                        onClick={() => setSelectedGuide(guide)}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-sm font-semibold text-[#f0e6d2] group-hover:text-[#c8aa6e] transition-colors">{guide.title}</h3>
-                          <span className="text-[10px] font-mono text-[#a09b8c]">v{guide.patch}</span>
-                        </div>
-                        <p className="text-xs text-[#a09b8c] leading-relaxed mb-2 line-clamp-2">{guide.summary}</p>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1.5 flex-wrap">
-                            {guide.role && <span className="text-[9px] px-2 py-0.5 rounded text-[#0acbe6]" style={{ background: 'rgba(10,203,230,0.08)', border: '1px solid rgba(10,203,230,0.15)' }}>{guide.role}</span>}
-                            {guide.tags.slice(0, 3).map(tag => (
-                              <span key={tag} className="text-[9px] px-1.5 py-0.5 rounded text-[#5b5a56] bg-[#1e2328]/60">{tag}</span>
-                            ))}
+
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="mt-2 space-y-2"
+                >
+                  {/* MECÁNICAS CON SUB-CATEGORÍAS */}
+                  {section.id === 'mecanicas' && (
+                    <>
+                      {mecanicasCategories.map(cat => {
+                        const isCatOpen = openCategory === cat.id;
+                        return (
+                          <div key={cat.id}>
+                            <button
+                              onClick={() => toggleCategory(cat.id)}
+                              className="w-full flex items-center gap-2 p-2.5 rounded-lg transition-all cursor-pointer"
+                              style={{
+                                background: isCatOpen ? `${cat.color}10` : 'rgba(20,25,32,0.5)',
+                                border: `1px solid ${isCatOpen ? `${cat.color}30` : 'rgba(120,90,40,0.1)'}`,
+                              }}
+                            >
+                              <div style={{ color: isCatOpen ? cat.color : '#a09b8c' }}>{cat.icon}</div>
+                              <span className="text-xs font-semibold text-[#f0e6d2] flex-1 text-left">{cat.label}</span>
+                              <span className="text-[10px] text-[#5b5a56]">{cat.tips.length} tips</span>
+                              {isCatOpen ? <ChevronUp className="w-3 h-3" style={{ color: cat.color }} /> : <ChevronDown className="w-3 h-3 text-[#5b5a56]" />}
+                            </button>
+
+                            <AnimatePresence>
+                              {isCatOpen && (
+                                <motion.div
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: 'auto' }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  transition={{ duration: 0.25 }}
+                                  className="mt-1.5 ml-1 space-y-1.5"
+                                  style={{ borderLeft: `2px solid ${cat.color}20` }}
+                                >
+                                  {cat.tips.map((tip, i) => (
+                                    <motion.div
+                                      key={i}
+                                      initial={{ opacity: 0, x: -8 }}
+                                      animate={{ opacity: 1, x: 0 }}
+                                      transition={{ delay: i * 0.04 }}
+                                      className="p-3 rounded-lg"
+                                      style={{ background: 'rgba(20,25,32,0.5)', border: '1px solid rgba(120,90,40,0.08)' }}
+                                    >
+                                      <div className="flex items-center gap-2 mb-1.5">
+                                        {tip.icon}
+                                        <h4 className="text-xs font-semibold text-[#f0e6d2]">{tip.title}</h4>
+                                      </div>
+                                      <p className="text-[11px] text-[#a09b8c] leading-relaxed">{tip.description}</p>
+                                    </motion.div>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </div>
-                          <ChevronRight className="w-3 h-3 text-[#785a28] group-hover:text-[#c8aa6e] transition-colors" />
-                        </div>
-                      </motion.div>
-                    ))
-                  )
-                )}
-                {section.content === 'mecanicas' && mecanicas.map((tip, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="p-4 rounded-xl"
-                    style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
-                  >
-                    <div className="flex items-center gap-2 mb-2">{tip.icon}<h3 className="text-sm font-semibold text-[#f0e6d2]">{tip.title}</h3></div>
-                    <p className="text-xs text-[#a09b8c] leading-relaxed">{tip.description}</p>
-                  </motion.div>
-                ))}
-                {section.content === 'warding' && warding.map((tip, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="p-4 rounded-xl"
-                    style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
-                  >
-                    <div className="flex items-center gap-2 mb-2">{tip.icon}<h3 className="text-sm font-semibold text-[#f0e6d2]">{tip.title}</h3></div>
-                    <p className="text-xs text-[#a09b8c] leading-relaxed">{tip.description}</p>
-                  </motion.div>
-                ))}
-                {section.content === 'comps' && comps.map((comp, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="p-4 rounded-xl"
-                    style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-semibold text-[#f0e6d2]">{comp.name}</h3>
-                      <span className="text-[10px] px-2 py-0.5 rounded" style={{ background: 'rgba(200,170,110,0.1)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.2)' }}>{comp.playstyle}</span>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 mb-2">
-                      {comp.champions.map(c => (
-                        <span key={c} className="text-[10px] px-2 py-0.5 rounded" style={{ background: 'rgba(10,203,230,0.08)', color: '#0acbe6', border: '1px solid rgba(10,203,230,0.15)' }}>{c}</span>
-                      ))}
-                    </div>
-                    <p className="text-xs text-[#a09b8c] leading-relaxed">{comp.description}</p>
-                  </motion.div>
-                ))}
-                {section.content === 'counters' && counterTips.map((ct, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.04 }}
-                    className="p-4 rounded-xl"
-                    style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <Target className="w-4 h-4 text-[#e84057]" />
-                      <h3 className="text-sm font-semibold text-[#f0e6d2]">Contra {ct.champion}</h3>
-                    </div>
-                    <p className="text-xs text-[#a09b8c] leading-relaxed">{ct.tip}</p>
-                  </motion.div>
-                ))}
-                {section.content === 'keystones' && roleKeystones.map((role, i) => (
-                  <motion.div
-                    key={role.role}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="p-4 rounded-xl"
-                    style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
-                  >
-                    <div className="flex items-center gap-2 mb-3">
-                      <Zap className="w-4 h-4 text-[#f0c646]" />
-                      <h3 className="text-sm font-semibold text-[#f0e6d2]">{role.role}</h3>
-                    </div>
-                    <div className="space-y-2.5">
-                      {role.keystones.map((ks, j) => (
-                        <div key={j} className="pl-2" style={{ borderLeft: '2px solid rgba(240,198,70,0.3)' }}>
-                          <p className="text-xs font-semibold text-[#f0c646]">{ks.name}</p>
-                          <p className="text-[11px] text-[#a09b8c] leading-relaxed mt-0.5">{ks.when}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-                {section.content === 'runas' && championRunes.map((cr, i) => (
-                  <motion.div
-                    key={cr.champion}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="p-4 rounded-xl"
-                    style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
-                  >
-                    <div className="flex items-center gap-2 mb-3">
-                      <Gem className="w-4 h-4 text-[#0acbe6]" />
-                      <h3 className="text-sm font-semibold text-[#f0e6d2]">{cr.champion}</h3>
-                      <span className="text-[10px] px-2 py-0.5 rounded ml-auto" style={{ background: 'rgba(200,170,110,0.1)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.2)' }}>S-Tier</span>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] px-2 py-0.5 rounded font-bold" style={{ background: 'rgba(10,203,230,0.15)', color: '#0acbe6', border: '1px solid rgba(10,203,230,0.25)' }}>Keystone</span>
-                        <span className="text-xs text-[#f0e6d2] font-semibold">{cr.keystone}</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-[10px] px-2 py-0.5 rounded shrink-0" style={{ background: 'rgba(200,170,110,0.1)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.2)' }}>Principal</span>
-                        <div>
-                          <p className="text-[11px] text-[#a09b8c]">{cr.primaryTree}</p>
-                          <div className="flex flex-wrap gap-1 mt-0.5">
-                            {cr.primaryRunes.map((r, j) => (
-                              <span key={j} className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(200,170,110,0.06)', color: '#a09b8c', border: '1px solid rgba(120,90,40,0.1)' }}>{r}</span>
-                            ))}
+                        );
+                      })}
+                    </>
+                  )}
+
+                  {/* WARDING */}
+                  {section.id === 'warding' && wardingTips.map((tip, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="p-4 rounded-xl"
+                      style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">{tip.icon}<h3 className="text-sm font-semibold text-[#f0e6d2]">{tip.title}</h3></div>
+                      <p className="text-xs text-[#a09b8c] leading-relaxed">{tip.description}</p>
+                    </motion.div>
+                  ))}
+
+                  {/* ERRORES A EVITAR */}
+                  {section.id === 'errores' && (
+                    <>
+                      {/* Severity legend */}
+                      <div className="flex items-center gap-3 px-1 mb-2">
+                        {Object.entries(severityConfig).map(([key, cfg]) => (
+                          <div key={key} className="flex items-center gap-1.5">
+                            <div className="w-2 h-2 rounded-full" style={{ background: cfg.color }} />
+                            <span className="text-[10px] text-[#5b5a56]">{cfg.label}</span>
                           </div>
-                        </div>
+                        ))}
                       </div>
-                      <div className="flex items-start gap-2">
-                        <span className="text-[10px] px-2 py-0.5 rounded shrink-0" style={{ background: 'rgba(15,186,129,0.1)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.2)' }}>Secundaria</span>
-                        <div>
-                          <p className="text-[11px] text-[#a09b8c]">{cr.secondaryTree}</p>
-                          <div className="flex flex-wrap gap-1 mt-0.5">
-                            {cr.secondaryRunes.map((r, j) => (
-                              <span key={j} className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(15,186,129,0.06)', color: '#a09b8c', border: '1px solid rgba(15,186,129,0.1)' }}>{r}</span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] px-2 py-0.5 rounded" style={{ background: 'rgba(232,64,87,0.1)', color: '#e84057', border: '1px solid rgba(232,64,87,0.2)' }}>Fragmentos</span>
-                        <span className="text-[11px] text-[#a09b8c]">{cr.shards}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
+                      {erroresData.map((err, i) => {
+                        const sev = severityConfig[err.severity];
+                        return (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.04 }}
+                            className="p-3.5 rounded-xl"
+                            style={{ background: sev.bg, border: `1px solid ${sev.border}` }}
+                          >
+                            <div className="flex items-center gap-2 mb-1.5">
+                              <div style={{ color: sev.color }}>{sev.icon}</div>
+                              <h4 className="text-xs font-semibold text-[#f0e6d2] flex-1">{err.title}</h4>
+                              <span className="text-[9px] px-1.5 py-0.5 rounded font-semibold" style={{ background: `${sev.color}15`, color: sev.color, border: `1px solid ${sev.color}30` }}>
+                                {sev.label}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-[#a09b8c] leading-relaxed">{err.description}</p>
+                          </motion.div>
+                        );
+                      })}
+                    </>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}
-      {/* Guide Detail Modal */}
-      <AnimatePresence>
-        {selectedGuide && (
-          <GuideModal guide={selectedGuide} onClose={() => setSelectedGuide(null)} />
-        )}
-      </AnimatePresence>
     </div>
-  );
-}
-
-// ---- Guide Detail Modal ----
-function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-2xl scrollbar-none"
-        style={{
-          background: 'linear-gradient(180deg, #1e2328 0%, #0a0e1a 100%)',
-          border: '1px solid rgba(200,170,110,0.25)',
-          boxShadow: '0 0 60px rgba(200,170,110,0.1), 0 25px 50px rgba(0,0,0,0.5)',
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
-          style={{ background: 'linear-gradient(90deg, transparent, #c8aa6e, transparent)' }} />
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 hover:bg-[#1e2328] text-[#5b5a56] hover:text-[#f0e6d2]"
-          aria-label="Cerrar"
-        >
-          <X className="w-4 h-4" />
-        </button>
-        <div className="p-6 pb-4">
-          <div className="flex items-start gap-3 mb-4">
-            <div className="shrink-0">
-              {guide.champion !== 'General' ? (
-                <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold"
-                  style={{ border: '2.5px solid rgba(200,170,110,0.4)', background: 'rgba(200,170,110,0.1)', color: '#c8aa6e' }}>
-                  {guide.champion[0]}
-                </div>
-              ) : (
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center"
-                  style={{ border: '2.5px solid rgba(200,170,110,0.4)', background: 'rgba(200,170,110,0.1)' }}>
-                  <BookOpen className="w-6 h-6" style={{ color: '#c8aa6e' }} />
-                </div>
-              )}
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="lol-title text-lg text-[#f0e6d2] leading-tight mb-2">{guide.title}</h2>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
-                  style={{ backgroundColor: 'rgba(200,170,110,0.1)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>LoL</span>
-                <span className="text-[10px] font-mono text-[#a09b8c] flex items-center gap-1">
-                  <Clock className="w-3 h-3" /> v{guide.patch}
-                </span>
-                {guide.role && <span className="text-[10px] text-[#5b5a56]">· {guide.role}</span>}
-              </div>
-            </div>
-          </div>
-          <p className="text-sm text-[#a09b8c] leading-relaxed">{guide.summary}</p>
-        </div>
-        <div className="mx-6 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(120,90,40,0.3), transparent)' }} />
-        <div className="p-6">
-          <h3 className="lol-label text-xs font-semibold text-[#c8aa6e] mb-3 flex items-center gap-2">
-            <FileText className="w-3.5 h-3.5" />
-            Puntos Clave
-          </h3>
-          <div className="space-y-2.5">
-            {guide.keyPoints.map((point, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="flex items-start gap-2.5"
-              >
-                <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
-                  style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.2)' }}>
-                  <span className="text-[9px] font-bold text-[#c8aa6e]">{i + 1}</span>
-                </div>
-                <span className="text-xs text-[#a09b8c] leading-relaxed">{point}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        {guide.tags && guide.tags.length > 0 && (
-          <div className="px-6 pb-4">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <Tag className="w-3 h-3 text-[#785a28]" />
-              {guide.tags.map(tag => (
-                <span key={tag} className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-medium text-[#a09b8c] bg-[#1e2328]/60 border border-[#785a28]/15">{tag}</span>
-              ))}
-            </div>
-          </div>
-        )}
-        <div className="mx-6 mb-6 p-4 rounded-xl text-center"
-          style={{ background: 'rgba(200,170,110,0.04)', border: '1px solid rgba(200,170,110,0.1)' }}>
-          <div className="w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center"
-            style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.15)' }}>
-            <Clock className="w-5 h-5 text-[#c8aa6e]" />
-          </div>
-          <p className="text-xs font-semibold text-[#f0e6d2] mb-1">Contenido en desarrollo</p>
-          <p className="text-[10px] text-[#5b5a56]">La guía completa con builds, runas y estrategias estará disponible próximamente.</p>
-        </div>
-      </motion.div>
-    </motion.div>
   );
 }
