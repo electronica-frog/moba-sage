@@ -276,11 +276,93 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
     <div className="space-y-5">
       <div className="flex items-center gap-3">
         <ScrollText className="w-6 h-6 text-[#c8aa6e]" />
-        <div>
-          <h2 className="lol-title text-xl text-[#f0e6d2]">Parches</h2>
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <h2 className="lol-title text-xl text-[#f0e6d2]">Parches</h2>
+            <span
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider"
+              style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.4)' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] animate-pulse" />
+              Versión Actual
+            </span>
+          </div>
           <p className="text-sm text-[#785a28]">Últimos parches y análisis de cambios</p>
         </div>
       </div>
+
+      {/* ===== META IMPACT — Latest Patch Overview ===== */}
+      {!loading && !feedLoading && mergedPatches.length > 0 && (() => {
+        const latestPatch = [...mergedPatches].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+        const highlights = getLoLChampionHighlights(latestPatch);
+        const buffs = highlights.filter(h => h.type === 'buff').length;
+        const nerfs = highlights.filter(h => h.type === 'nerf').length;
+        const adjusts = highlights.filter(h => h.type === 'adjust').length;
+        const gameStyle = getGameStyle(latestPatch.sourceGame);
+        const changes = latestPatch.changes || {};
+        const newItemCount = (changes.newItems || []).length;
+
+        return (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card rounded-xl overflow-hidden"
+            style={{ border: '1px solid rgba(200,170,110,0.25)' }}
+          >
+            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #c8aa6e, transparent)' }} />
+            <div className="p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="w-4 h-4 text-[#c8aa6e]" />
+                <span className="lol-label text-xs font-bold text-[#c8aa6e] uppercase tracking-wider">Meta Impact</span>
+                <span className="ml-auto text-[10px] font-mono text-[#a09b8c]">{latestPatch.version}</span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(15,186,129,0.06)', border: '1px solid rgba(15,186,129,0.15)' }}>
+                  <ArrowUp className="w-4 h-4 mx-auto mb-1 text-[#0fba81]" />
+                  <span className="text-lg font-bold font-mono text-[#0fba81]">{buffs}</span>
+                  <p className="text-[10px] text-[#5b5a56]">Buffeados</p>
+                </div>
+                <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(232,64,87,0.06)', border: '1px solid rgba(232,64,87,0.15)' }}>
+                  <ArrowDown className="w-4 h-4 mx-auto mb-1 text-[#e84057]" />
+                  <span className="text-lg font-bold font-mono text-[#e84057]">{nerfs}</span>
+                  <p className="text-[10px] text-[#5b5a56]">Nerfeados</p>
+                </div>
+                <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(240,198,70,0.06)', border: '1px solid rgba(240,198,70,0.15)' }}>
+                  <Minus className="w-4 h-4 mx-auto mb-1 text-[#f0c646]" />
+                  <span className="text-lg font-bold font-mono text-[#f0c646]">{adjusts}</span>
+                  <p className="text-[10px] text-[#5b5a56]">Ajustados</p>
+                </div>
+                <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}>
+                  <Gamepad2 className="w-4 h-4 mx-auto mb-1 text-[#0acbe6]" />
+                  <span className="text-lg font-bold font-mono text-[#0acbe6]">{newItemCount}</span>
+                  <p className="text-[10px] text-[#5b5a56]">Items Nuevos</p>
+                </div>
+              </div>
+              {/* Most significant change highlight */}
+              {highlights.length > 0 && (
+                <div className="mt-3 px-3 py-2 rounded-lg" style={{ background: 'rgba(200,170,110,0.04)', border: '1px solid rgba(200,170,110,0.12)' }}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold text-[#c8aa6e] uppercase">Cambio más significativo:</span>
+                    <div className="flex items-center gap-1.5">
+                      <TinyChampionIcon name={highlights[0].name} />
+                      <span className="text-xs font-bold text-[#f0e6d2]">{highlights[0].name}</span>
+                      <span
+                        className="text-[9px] font-bold px-1.5 py-0.5 rounded"
+                        style={{
+                          backgroundColor: highlights[0].type === 'buff' ? 'rgba(15,186,129,0.15)' : highlights[0].type === 'nerf' ? 'rgba(232,64,87,0.15)' : 'rgba(240,198,70,0.15)',
+                          color: highlights[0].type === 'buff' ? '#0fba81' : highlights[0].type === 'nerf' ? '#e84057' : '#f0c646',
+                        }}
+                      >
+                        {highlights[0].type === 'buff' ? '↑ BUFF' : highlights[0].type === 'nerf' ? '↓ NERF' : '→ AJUSTE'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        );
+      })()}
 
       {/* ===== Patch Timeline ===== */}
       <div className="glass-card rounded-xl p-5" style={{ border: '1px solid rgba(200,170,110,0.2)' }}>
