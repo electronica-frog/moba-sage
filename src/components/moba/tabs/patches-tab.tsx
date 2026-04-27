@@ -488,16 +488,18 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                           <motion.div
                             key={change.name}
                             whileHover={{ scale: 1.03, y: -2 }}
-                            className="rounded-xl p-3 flex items-center gap-3 cursor-default"
+                            className="rounded-xl p-3 flex items-center gap-3 cursor-default overflow-hidden relative"
                             style={{
                               background: 'rgba(10,14,26,0.7)',
-                              border: `1.5px solid ${cfg.border}`,
+                              border: `1px solid ${cfg.border}40`,
+                              borderLeft: `3px solid ${cfg.color}`,
                               backdropFilter: 'blur(8px)',
                             }}
                           >
                             <TinyChampionIcon name={change.name} />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-bold text-[#f0e6d2] truncate">{change.name}</p>
+                              <p className="text-[10px] mt-0.5" style={{ color: cfg.color }}>{change.description}</p>
                               <span
                                 className="inline-flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded mt-1"
                                 style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}
@@ -530,7 +532,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                                       <span className="text-xs font-bold text-[#0fba81] w-4">#{i+1}</span>
                                       <TinyChampionIcon name={w.name} />
                                       <span className="text-sm font-semibold text-[#f0e6d2]">{w.name}</span>
-                                      <span className="text-[9px] text-[#785a28] ml-auto">{w.description}</span>
+                                      <span className="text-[9px] ml-auto font-semibold" style={{ color: '#0fba81' }}>{w.description}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -548,7 +550,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                                       <span className="text-xs font-bold text-[#e84057] w-4">#{i+1}</span>
                                       <TinyChampionIcon name={l.name} />
                                       <span className="text-sm font-semibold text-[#f0e6d2]">{l.name}</span>
-                                      <span className="text-[9px] text-[#785a28] ml-auto">{l.description}</span>
+                                      <span className="text-[9px] ml-auto font-semibold" style={{ color: '#e84057' }}>{l.description}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -781,7 +783,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                       const color = catColors[category] || '#a09b8c';
                       const label = catLabels[category] || category;
                       return (
-                        <div key={category} className="rounded-lg p-2.5" style={{ background: `${color}08`, border: `1px solid ${color}20` }}>
+                        <div key={category} className="rounded-lg p-2.5" style={{ background: `${color}08`, border: `1px solid ${color}20`, borderLeft: `3px solid ${color}` }}>
                           <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color }}>{label}</span>
                           <div className="flex flex-wrap gap-1 mt-1.5">
                             {items.map((item: string) => (
