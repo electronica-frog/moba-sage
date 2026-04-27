@@ -2,7 +2,7 @@
 // MOBA SAGE — Helper Functions
 // ============================================================
 
-let _ddVersion = '16.8.1'; // Auto-synced with Data Dragon API
+let _ddVersion = '16.8.1'; // Auto-synced with Data Dragon API — v1.9.1 stable
 export function updateDdVersion(v: string) { _ddVersion = v; }
 export function getDdVersion() { return _ddVersion; }
 
