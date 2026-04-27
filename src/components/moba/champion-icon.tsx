@@ -15,8 +15,8 @@ export const ChampionIcon = memo(function ChampionIcon({ name, tier }: { name: s
     <div
       className="w-11 h-11 rounded-full overflow-hidden shrink-0 relative"
       style={{
-        border: \`2.5px solid \${cfg.color}70\`,
-        boxShadow: \`0 0 12px \${cfg.color}25, inset 0 0 6px \${cfg.color}10\`,
+        border: `2.5px solid ${cfg.color}70`,
+        boxShadow: `0 0 12px ${cfg.color}25, inset 0 0 6px ${cfg.color}10`,
       }}
     >
       {!imgError ? (
@@ -33,7 +33,7 @@ export const ChampionIcon = memo(function ChampionIcon({ name, tier }: { name: s
       ) : (
         <div
           className="w-full h-full flex items-center justify-center text-sm font-bold"
-          style={{ backgroundColor: \`\${cfg.color}20\`, color: cfg.color }}
+          style={{ backgroundColor: `${cfg.color}20`, color: cfg.color }}
         >
           {name[0]}
         </div>
