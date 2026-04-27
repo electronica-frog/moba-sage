@@ -984,11 +984,14 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                       <Users className="w-3.5 h-3.5 text-[#0acbe6]" />
                       <h4 className="text-[10px] font-semibold text-[#0acbe6] uppercase tracking-wider">Sinergia</h4>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {synNames.slice(0, 3).map((name) => (
-                        <div key={name} className="flex flex-col items-center gap-1">
-                          <TinyChampionIcon name={name} />
-                          <span className="text-[8px] text-[#a09b8c] leading-none truncate max-w-[40px] text-center">{name}</span>
+                        <div key={name} className="flex items-center gap-2 px-2 py-1 rounded-lg" style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.12)' }}>
+                          <ChampionIcon name={name} tier={champion.tier} />
+                          <div className="flex flex-col">
+                            <span className="text-[11px] font-semibold text-[#f0e6d2] leading-tight">{name}</span>
+                            <span className="text-[8px] text-[#0acbe6]">Sinergia</span>
+                          </div>
                         </div>
                       ))}
                     </div>
