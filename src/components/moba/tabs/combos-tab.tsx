@@ -337,6 +337,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
           <Users className="w-5 h-5 text-[#c8aa6e]" />
           <div>
             <h2 className="lol-title text-lg text-[#f0e6d2]">Composiciones Pro</h2>
+            <span className="text-[9px] px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{proComps.length} comps</span>
             <p className="text-xs text-[#5b5a56]">Team comps más fuertes del meta actual</p>
           </div>
         </div>
@@ -347,16 +348,22 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.05 }}
-              className="p-4 rounded-xl"
-              style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.12)' }}
+              className="p-4 rounded-xl relative overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, rgba(200,170,110,0.06), rgba(30,35,40,0.5))', border: '1px solid rgba(200,170,110,0.2)' }}
             >
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, #c8aa6e, #c8aa6e40)' }} />
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-semibold text-[#f0e6d2]">{comp.name}</h3>
-                <span className="text-[10px] px-2 py-0.5 rounded" style={{ background: 'rgba(200,170,110,0.1)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.2)' }}>{comp.playstyle}</span>
+                <h3 className="text-sm font-bold text-[#f0e6d2]">{comp.name}</h3>
+                <span className="text-[9px] px-2 py-0.5 rounded-md font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{comp.playstyle}</span>
               </div>
-              <div className="flex flex-wrap gap-1.5 mb-2">
+              <div className="flex items-center gap-2 mb-3">
                 {comp.champions.map(c => (
-                  <span key={c} className="text-[10px] px-2 py-0.5 rounded" style={{ background: 'rgba(10,203,230,0.08)', color: '#0acbe6', border: '1px solid rgba(10,203,230,0.15)' }}>{c}</span>
+                  <div key={c} className="flex items-center gap-1.5 px-1.5 py-1 rounded-lg" style={{ background: 'rgba(200,170,110,0.06)', border: '1px solid rgba(200,170,110,0.15)' }}>
+                    <div className="w-7 h-7 rounded-full overflow-hidden shrink-0" style={{ border: '1.5px solid rgba(200,170,110,0.4)', boxShadow: '0 0 6px rgba(200,170,110,0.15)' }}>
+                      <TinyChampionIcon name={c} />
+                    </div>
+                    <span className="text-[10px] font-semibold text-[#f0e6d2]">{c}</span>
+                  </div>
                 ))}
               </div>
               <p className="text-xs text-[#a09b8c] leading-relaxed">{comp.description}</p>
