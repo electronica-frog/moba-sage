@@ -12,9 +12,12 @@ import {
 export const TIERS = ['S', 'A', 'B'] as const;
 
 export const TIER_CONFIG: Record<string, { color: string; label: string }> = {
+  'S+': { color: '#f0c646', label: 'Dios Supremo' },
   S: { color: '#c8aa6e', label: 'Dioses del Meta' },
+  'A+': { color: '#0acbe6', label: 'Casi Dioses' },
   A: { color: '#0acbe6', label: 'Fuertes' },
   B: { color: '#0fba81', label: 'Jugables' },
+  C: { color: '#5b5a56', label: 'Difíciles' },
 };
 
 export const ROLE_CONFIG: Record<string, { color: string; label: string; icon: typeof Sword }> = {
