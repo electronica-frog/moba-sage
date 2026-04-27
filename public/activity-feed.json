@@ -1,7 +1,34 @@
 {
-  "version": "1.8",
+  "version": "1.9",
   "lastUpdated": "2026-04-27T04:55:00Z",
   "entries": [
+    {
+      "id": "e26",
+      "type": "improvement",
+      "title": "Estrategias Contra en modal de campeón",
+      "description": "Tips dinámicos basados en WR/ban/pick rate + consejos por rol al abrir cualquier campeón",
+      "timestamp": "2026-04-27T05:53:24.857173+00:00",
+      "category": "feature",
+      "commit": "74af60d5"
+    },
+    {
+      "id": "e27",
+      "type": "improvement",
+      "title": "Datos enriquecidos: 12 weekly movers + 10 patch transitions",
+      "description": "Tierlist feed v8 + patch-analysis con tier transitions y item impact detallados",
+      "timestamp": "2026-04-27T05:53:24.857173+00:00",
+      "category": "data",
+      "commit": "f1a4f310"
+    },
+    {
+      "id": "e28",
+      "type": "feature",
+      "title": "Auto-dismiss Novedades popup (8 segundos)",
+      "description": "El popup ya no bloquea la experiencia de usuario — se cierra automáticamente",
+      "timestamp": "2026-04-27T05:53:24.857173+00:00",
+      "category": "ux",
+      "commit": "a7c0987b"
+    },
     {
       "id": "e23",
       "type": "improvement",
@@ -206,11 +233,13 @@
     }
   ],
   "highlights": [
-    "10+ improvements total",
-    "Font errors eliminated",
+    "12 weekly movers tracked",
+    "Estrategias Contra en modal",
     "Coaching: 25+ tips",
-    "Tier List: wider cards + WR default",
-    "Rotas tab crash fixed",
-    "All tabs verified working"
+    "Auto-dismiss popup (8s)",
+    "Font errors eliminated",
+    "Richer patch data",
+    "Tier transitions tracked",
+    "All 6 tabs verified working"
   ]
 }
