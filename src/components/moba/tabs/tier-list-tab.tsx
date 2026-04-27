@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, ExternalLink, Database, ChevronDown, ArrowUpDown, Crown } from 'lucide-react';
+import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { ChampionIcon, SplashArtIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
@@ -11,7 +12,7 @@ import { ROLE_CONFIG, TIER_CONFIG, TOURNAMENT_REGIONS } from '../constants';
 import { TinyChampionIcon } from '../champion-icon';
 import { ChampionCard } from '../champion-card';
 import { ItemIcon } from '../item-icon';
-import { parseBuildItems } from '../helpers';
+import { parseBuildItems, getChampionImageUrl } from '../helpers';
 import { WeeklyWRChart } from '../weekly-wr-chart';
 import type { Champion, GameSelection, ProPick } from '../types';
 
@@ -473,77 +474,150 @@ export function TierListTab({
         </div>
       </div>
 
-      {/* Rising & Falling Sections from tierlist-feed.json */}
+      {/* Rising & Falling Sections — Champion Portrait Cards */}
       {!feedLoading && (risingChampions.length > 0 || fallingChampions.length > 0) && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-3"
+          className="space-y-4"
         >
-          {/* Legend */}
-          <div className="flex items-center gap-4 px-1">
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
-              <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Win Rate sube
-            </span>
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
-              <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Win Rate baja
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {risingChampions.length > 0 && (
-              <div className="rounded-xl p-3" style={{ background: 'rgba(15,186,129,0.05)', border: '1.5px solid rgba(15,186,129,0.2)' }}>
-                <div className="flex items-center gap-2 mb-3">
-                  <ArrowUpCircle className="w-5 h-5 text-[#0fba81]" style={{ filter: 'drop-shadow(0 0 6px rgba(15,186,129,0.4))' }} />
-                  <span className="lol-title text-sm text-[#0fba81]">En Ascenso</span>
-                  <span className="ml-auto px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81' }}>{risingChampions.length}</span>
+          {/* EN ASCENSO */}
+          {risingChampions.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3 px-1">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #0fba81, #0fba8180)', boxShadow: '0 0 12px rgba(15,186,129,0.3)' }}>
+                  <ArrowUpCircle className="w-4 h-4 text-white" />
                 </div>
-                <div className="space-y-2">
-                  {risingChampions.map((entry, i) => {
-                    const name = extractChampName(entry);
-                    const reason = entry.match(/\((.+)\)/)?.[1] || '';
-                    return (
-                      <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg" style={{ background: 'rgba(15,186,129,0.06)', border: '1px solid rgba(15,186,129,0.1)' }}>
-                        <span className="flex items-center justify-center w-5 h-5 rounded text-[10px] font-black" style={{ background: 'rgba(15,186,129,0.2)', color: '#0fba81' }}>▲</span>
-                        <span className="text-[11px] font-semibold text-[#f0e6d2]">{name}</span>
-                        <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(15,186,129,0.1)' }}>
-                          <div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, rgba(15,186,129,0.3), #0fba81)', width: `${Math.max(60, 100 - i * 8)}%`, boxShadow: '0 0 6px rgba(15,186,129,0.3)' }} />
-                        </div>
-                        {reason && <span className="text-[8px] text-[#5b5a56] shrink-0">{reason}</span>}
-                      </div>
-                    );
-                  })}
-                </div>
+                <span className="lol-title text-sm text-[#0fba81]">En Ascenso</span>
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.2)' }}>{risingChampions.length} campeones</span>
               </div>
-            )}
-            {fallingChampions.length > 0 && (
-              <div className="rounded-xl p-3" style={{ background: 'rgba(232,64,87,0.05)', border: '1.5px solid rgba(232,64,87,0.2)' }}>
-                <div className="flex items-center gap-2 mb-3">
-                  <ArrowDownCircle className="w-5 h-5 text-[#e84057]" style={{ filter: 'drop-shadow(0 0 6px rgba(232,64,87,0.4))' }} />
-                  <span className="lol-title text-sm text-[#e84057]">En Caída</span>
-                  <span className="ml-auto px-1.5 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057' }}>{fallingChampions.length}</span>
-                </div>
-                <div className="space-y-2">
-                  {fallingChampions.map((entry, i) => {
-                    const name = extractChampName(entry);
-                    const reason = entry.match(/\((.+)\)/)?.[1] || '';
-                    return (
-                      <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg" style={{ background: 'rgba(232,64,87,0.06)', border: '1px solid rgba(232,64,87,0.1)' }}>
-                        <span className="flex items-center justify-center w-5 h-5 rounded text-[10px] font-black" style={{ background: 'rgba(232,64,87,0.2)', color: '#e84057' }}>▼</span>
-                        <span className="text-[11px] font-semibold text-[#f0e6d2]">{name}</span>
-                        <div className="flex-1 h-1.5 rounded-full overflow-hidden flex justify-end" style={{ background: 'rgba(232,64,87,0.1)' }}>
-                          <div className="h-full rounded-full" style={{ background: 'linear-gradient(270deg, rgba(232,64,87,0.3), #e84057)', width: `${Math.max(60, 100 - i * 8)}%`, boxShadow: '0 0 6px rgba(232,64,87,0.3)' }} />
+              <div className="flex flex-wrap gap-2">
+                {risingChampions.map((entry, i) => {
+                  const name = extractChampName(entry);
+                  const reason = entry.match(/\((.+)\)/)?.[1] || '';
+                  const champData = gameChampions.find(c => c.name === name);
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.06 }}
+                      className="group relative flex items-center gap-2.5 px-2.5 py-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.03]"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(15,186,129,0.08), rgba(15,186,129,0.02))',
+                        border: '1.5px solid rgba(15,186,129,0.15)',
+                        minWidth: '130px',
+                      }}
+                      onClick={() => { const c = gameChampions.find(ch => ch.name === name); if (c) onChampionClick(c); }}
+                    >
+                      {/* Champion portrait */}
+                      <div
+                        className="w-10 h-10 rounded-full overflow-hidden shrink-0 relative"
+                        style={{
+                          border: '2.5px solid #0fba81',
+                          boxShadow: '0 0 10px rgba(15,186,129,0.35), inset 0 0 4px rgba(15,186,129,0.15)',
+                        }}
+                      >
+                        <Image
+                          src={getChampionImageUrl(name)}
+                          alt={name}
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          unoptimized
+                        />
+                        {/* Trend badge */}
+                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black" style={{ background: '#0fba81', color: '#fff', boxShadow: '0 0 6px rgba(15,186,129,0.5)' }}>
+                          ↑
                         </div>
-                        {reason && <span className="text-[8px] text-[#5b5a56] shrink-0">{reason}</span>}
                       </div>
-                    );
-                  })}
-                </div>
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-bold text-[#f0e6d2] truncate leading-tight">{name}</p>
+                        {champData && (
+                          <p className="text-[9px] text-[#0fba81] font-semibold">{champData.role} · {champData.winRate}% WR</p>
+                        )}
+                        {reason && (
+                          <p className="text-[8px] text-[#a09b8c] mt-0.5 truncate leading-tight">{reason}</p>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {/* EN CAÍDA */}
+          {fallingChampions.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-3 px-1">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #e84057, #e8405780)', boxShadow: '0 0 12px rgba(232,64,87,0.3)' }}>
+                  <ArrowDownCircle className="w-4 h-4 text-white" />
+                </div>
+                <span className="lol-title text-sm text-[#e84057]">En Caída</span>
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.2)' }}>{fallingChampions.length} campeones</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {fallingChampions.map((entry, i) => {
+                  const name = extractChampName(entry);
+                  const reason = entry.match(/\((.+)\)/)?.[1] || '';
+                  const champData = gameChampions.find(c => c.name === name);
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.06 }}
+                      className="group relative flex items-center gap-2.5 px-2.5 py-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.03]"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(232,64,87,0.08), rgba(232,64,87,0.02))',
+                        border: '1.5px solid rgba(232,64,87,0.15)',
+                        minWidth: '130px',
+                      }}
+                      onClick={() => { const c = gameChampions.find(ch => ch.name === name); if (c) onChampionClick(c); }}
+                    >
+                      {/* Champion portrait */}
+                      <div
+                        className="w-10 h-10 rounded-full overflow-hidden shrink-0 relative"
+                        style={{
+                          border: '2.5px solid #e84057',
+                          boxShadow: '0 0 10px rgba(232,64,87,0.35), inset 0 0 4px rgba(232,64,87,0.15)',
+                        }}
+                      >
+                        <Image
+                          src={getChampionImageUrl(name)}
+                          alt={name}
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          unoptimized
+                        />
+                        {/* Trend badge */}
+                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black" style={{ background: '#e84057', color: '#fff', boxShadow: '0 0 6px rgba(232,64,87,0.5)' }}>
+                          ↓
+                        </div>
+                      </div>
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-bold text-[#f0e6d2] truncate leading-tight">{name}</p>
+                        {champData && (
+                          <p className="text-[9px] text-[#e84057] font-semibold">{champData.role} · {champData.winRate}% WR</p>
+                        )}
+                        {reason && (
+                          <p className="text-[8px] text-[#a09b8c] mt-0.5 truncate leading-tight">{reason}</p>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </motion.div>
       )}
-
       {/* Weekly Top Movers — Bar chart section */}
       {!loading && weeklyTop.length > 0 && !searchQuery && roleFilter === 'Todos' && (
         <motion.div
