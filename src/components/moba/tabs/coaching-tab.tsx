@@ -96,6 +96,69 @@ const erroresData: ErrorEntry[] = [
   { title: 'Ignorar el tiempo de objetivos', description: 'Dragon spawnea a los 5:00, Baron a los 20:00, Herald a los 14:00. Saber los timers te permite prepararte con antelación. Muchos equipos pierden objetivos porque no estaban preparados cuando spawnearon.', severity: 'critical' },
 ];
 
+
+// ============ TIPS POR ROL ============
+interface RoleTipSection {
+  role: string;
+  icon: React.ReactNode;
+  color: string;
+  tips: TipCard[];
+}
+
+const roleTipsData: RoleTipSection[] = [
+  {
+    role: 'Top Lane',
+    icon: <Shield className="w-4 h-4" />,
+    color: '#c8aa6e',
+    tips: [
+      { title: 'Teleport Timing', description: 'No uses TP para volver a lane temprano — guardalo para plays con tu equipo. El mejor uso de TP es para: join a una dragon fight, flankear en mid/late game, o counter-split push. Si gastas tu TP para volver a lane, perdes tu herramienta mas importante de macro.', icon: <Target className="w-4 h-4 text-[#c8aa6e]" /> },
+      { title: 'Island Management', description: 'Top lane es una isla — necesitas aprender a jugar solo. Si tu jungler no ganka, no te quejes. Enfocate en CS y xp. Si el rival te gana, juega pasivo y espera a que tu equipo haga plays. El top laner que mejor maneja la paciencia suele ganar mas partidas que el que intenta forzar.', icon: <Shield className="w-4 h-4 text-[#0acbe6]" /> },
+      { title: 'Side Lane Pressure', description: 'En mid/late game, tu trabajo es presionar side lanes. Esto forza al rival a enviarte alguien, creando numerosos en el otro lado del mapa. Comunica cuando te ganken para que tu equipo tome objetivos. Un split pusher efectivo gana mas juegos que un teamfighter promedio.', icon: <Map className="w-4 h-4 text-[#0fba81]" /> },
+    ],
+  },
+  {
+    role: 'Jungle',
+    icon: <Swords className="w-4 h-4" />,
+    color: '#0fba81',
+    tips: [
+      { title: 'Pathing Inteligente', description: 'No hagas el mismo pathing cada partida. Si tu top lane esta perdiendo, ganka mid/bot. Si el rival jungler empezo bot, contesta top. Lee el minimap para decidir donde ir. Un buen jungler adapta su ruta al estado de las 3 lanes, no sigue un script fijo.', icon: <Map className="w-4 h-4 text-[#0fba81]" /> },
+      { title: 'Smite Control', description: 'Track the enemy jungler timers. Dragon: 6 min respawn, Herald: 5 min, Baron: 6 min. Llega 30 seg antes de que spawnee. Ten smite SIEMPRE up para objetivar. Un smite steal puede ganar o perder la partida. Practica el timing en Practice Tool.', icon: <Crosshair className="w-4 h-4 text-[#f0c646]" /> },
+      { title: 'Gank Setup', description: 'Antes de gankear, pregunta: esta la ola empujando hacia tu torre? Tiene el rival flash? Tiene escape? Si la ola esta empujando hacia su torre, es mala idea gankear. Busca lanes donde tu aliado tiene control de la ola. Communication con pings es clave.', icon: <Target className="w-4 h-4 text-[#e84057]" /> },
+    ],
+  },
+  {
+    role: 'Mid Lane',
+    icon: <Zap className="w-4 h-4" />,
+    color: '#5b8af5',
+    tips: [
+      { title: 'Roaming Windows', description: 'Despues de pushear tu ola a la torre rival, tienes 15-20 segundos para roam. Roama bot para dragon setup o top para herald. Si no puedes roam, farmia jungle camps cercanos. El mid laner que mas impacto tiene en las side lanes gana partidas.', icon: <Map className="w-4 h-4 text-[#5b8af5]" /> },
+      { title: 'Wave Management Avanzado', description: 'Si vas ganando, freeze cerca de tu torre para negar al rival xp y oro. Si vas perdiendo, slow push para crear una ola grande y buscar roam. Reset la ola antes de recall para no perder CS. El control de oleadas en mid es mas impactante que en cualquier otra lane.', icon: <Shield className="w-4 h-4 text-[#c8aa6e]" /> },
+      { title: 'Burst vs DPS Positioning', description: 'Si sos burst mage (LeBlanc, Syndra, Ahri), posicionate para oneshot carries. Si sos DPS (Orianna, Azir, Viktor), quedate detras del frontline y output constante. Conoce tu rol en teamfight — no todos los mid laners juegan igual.', icon: <Crosshair className="w-4 h-4 text-[#f0c646]" /> },
+    ],
+  },
+  {
+    role: 'ADC',
+    icon: <Crosshair className="w-4 h-4" />,
+    color: '#e84057',
+    tips: [
+      { title: 'Kiting is Everything', description: 'El ADC que mejor kitea gana teamfights. Practica attack-move (A-click) en Practice Tool. Nunca te quedes quieto en una pelea — move between autos. Si usas Right Click, practica moverte entre cada auto-attack. El posicionamiento vale mas que tu build.', icon: <Crosshair className="w-4 h-4 text-[#e84057]" /> },
+      { title: 'Farm is Non-Negotiable', description: 'Apunta a 10+ CS/min en lane phase. Si llegas a 20 min con 180+ CS, estas en buen camino. El ADC sin items es inutil — cada CS cuenta. En late game, side wave + jungle = mas income. No skips CS para ir a una teamfight que no vas a ganar.', icon: <Target className="w-4 h-4 text-[#c8aa6e]" /> },
+      { title: 'Peeling vs Carrying', description: 'Si tu equipo tiene peel (Nautilus, Lulu, Yuumi), podes carry more aggressively. Si no hay peel, jugá mas seguro y usá tus defensivos (GA, QSS, Stopwarch). Adapta tu playstyle a tu team comp, no siempre podes ser el heroe.', icon: <Shield className="w-4 h-4 text-[#0acbe6]" /> },
+    ],
+  },
+  {
+    role: 'Support',
+    icon: <Eye className="w-4 h-4" />,
+    color: '#0acbe6',
+    tips: [
+      { title: 'Engage vs Peel', description: 'Si tu ADC es Jinx/Kog/Vayne con 3 items, tu trabajo es PEEL, no engage. Si tu ADC es early game (Draven, Lucian), busca engage para snowball. Adapta tu playstyle al poder del ADC y al state de la partida. Un support que no adapta pierde.', icon: <Swords className="w-4 h-4 text-[#0acbe6]" /> },
+      { title: 'Vision Economy', description: 'Oracle Lens en mid game (cuando el soporte rival tiene vision). Pink wards en objectives clave. NO pongas wards en la misma bush que tu ADC — cubri diferentes angulos. La vision es tu recurso mas valioso, usala inteligentemente.', icon: <Eye className="w-4 h-4 text-[#f0c646]" /> },
+      { title: 'Roaming Support', description: 'Despues de pushear bot, roam con tu jungler o mid. Ward enemy jungle, help contest scuttle, or set up ganks. En late game, STAY with your team — no split push. El support que roams bien en early game gana la partida antes de que empiece.', icon: <Map className="w-4 h-4 text-[#0fba81]" /> },
+    ],
+  },
+];
+
+
 const severityConfig = {
   critical: { color: '#e84057', bg: 'rgba(232,64,87,0.08)', border: 'rgba(232,64,87,0.25)', label: 'Crítico', icon: <AlertOctagon className="w-3.5 h-3.5" /> },
   common: { color: '#f0c646', bg: 'rgba(240,198,70,0.08)', border: 'rgba(240,198,70,0.25)', label: 'Común', icon: <AlertOctagon className="w-3.5 h-3.5" /> },
@@ -123,6 +186,7 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
   const topSections = [
     { id: 'mecanicas', label: 'Mecánicas Fundamentales', icon: <Swords className="w-4 h-4" />, count: 10, color: '#e84057' },
     { id: 'warding', label: 'Warding por Rol', icon: <Eye className="w-4 h-4" />, count: 5, color: '#0acbe6' },
+    { id: 'roleTips', label: 'Tips por Rol', icon: <Target className="w-4 h-4" />, count: 15, color: '#c8aa6e' },
     { id: 'errores', label: 'Errores a Evitar', icon: <AlertOctagon className="w-4 h-4" />, count: 10, color: '#f0c646' },
   ];
 
@@ -252,6 +316,54 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                     </motion.div>
                     );
                   })}
+
+                  {/* TIPS POR ROL */}
+                  {section.id === 'roleTips' && roleTipsData.map((roleSection, ri) => (
+                    <div key={roleSection.role}>
+                      <button
+                        onClick={() => toggleCategory(`role-${roleSection.role}`)}
+                        className="w-full flex items-center gap-2 p-2.5 rounded-lg transition-all cursor-pointer"
+                        style={{
+                          background: openCategory === `role-${roleSection.role}` ? `${roleSection.color}10` : 'rgba(20,25,32,0.5)',
+                          border: `1px solid ${openCategory === `role-${roleSection.role}` ? `${roleSection.color}30` : 'rgba(120,90,40,0.1)'}`,
+                        }}
+                      >
+                        <div style={{ color: openCategory === `role-${roleSection.role}` ? roleSection.color : '#a09b8c' }}>{roleSection.icon}</div>
+                        <span className="text-xs font-semibold text-[#f0e6d2] flex-1 text-left">{roleSection.role}</span>
+                        <span className="text-[10px] text-[#5b5a56]">{roleSection.tips.length} tips</span>
+                        {openCategory === `role-${roleSection.role}` ? <ChevronUp className="w-3 h-3" style={{ color: roleSection.color }} /> : <ChevronDown className="w-3 h-3 text-[#5b5a56]" />}
+                      </button>
+                      <AnimatePresence>
+                        {openCategory === `role-${roleSection.role}` && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="mt-1.5 ml-1 space-y-1.5"
+                            style={{ borderLeft: `2px solid ${roleSection.color}20` }}
+                          >
+                            {roleSection.tips.map((tip, i) => (
+                              <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.04 }}
+                                className="p-3 rounded-lg"
+                                style={{ background: `${roleSection.color}04`, border: '1px solid ' + `${roleSection.color}15`, borderLeft: `2px solid ${roleSection.color}` }}
+                              >
+                                <div className="flex items-center gap-2 mb-1.5">
+                                  {tip.icon}
+                                  <h4 className="text-xs font-semibold text-[#f0e6d2]">{tip.title}</h4>
+                                </div>
+                                <p className="text-[11px] text-[#a09b8c] leading-relaxed">{tip.description}</p>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ))}
 
                   {/* ERRORES A EVITAR */}
                   {section.id === 'errores' && (
