@@ -4,12 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, ExternalLink, Database, ChevronDown, ArrowUpDown, Crown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { ChampionIcon } from '../champion-icon';
+import { ChampionIcon, SplashArtIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
 import { TierSection, TierSectionSkeleton } from '../tier-section';
 import { ROLE_CONFIG, TIER_CONFIG, TOURNAMENT_REGIONS } from '../constants';
 import { TinyChampionIcon } from '../champion-icon';
 import { ChampionCard } from '../champion-card';
+import { ItemIcon } from '../item-icon';
+import { parseBuildItems } from '../helpers';
 import { WeeklyWRChart } from '../weekly-wr-chart';
 import type { Champion, GameSelection, ProPick } from '../types';
 
@@ -252,38 +254,34 @@ export function TierListTab({
               </span>
             </div>
           </div>
-          {/* Spreadsheet-style columns */}
-          <div className="overflow-x-auto">
-            <div className="flex min-w-[500px]">
-              {dataSources.map((source, i) => {
-                const diffMs = Date.now() - new Date(source.lastScraped).getTime();
-                const hours = diffMs / 3600000;
-                const srcFreshness = hours < 1 ? { color: '#0fba81', label: 'Fresco' } : hours < 6 ? { color: '#f0c646', label: 'Aceptable' } : { color: '#e84057', label: 'Antiguo' };
-                return (
-                  <a
-                    key={source.name}
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center gap-2 px-4 py-2.5 transition-colors hover:bg-[#c8aa6e]/5"
-                    style={{ borderRight: i < dataSources.length - 1 ? '1px solid rgba(200,170,110,0.08)' : 'none' }}
+          {/* Row-style source list */}
+          <div>
+            {dataSources.map((source, i) => {
+              const diffMs = Date.now() - new Date(source.lastScraped).getTime();
+              const hours = diffMs / 3600000;
+              const srcFreshness = hours < 1 ? { color: '#0fba81', label: 'Fresco' } : hours < 6 ? { color: '#f0c646', label: 'Aceptable' } : { color: '#e84057', label: 'Antiguo' };
+              return (
+                <a
+                  key={source.name}
+                  href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 px-4 py-2 transition-colors hover:bg-[#c8aa6e]/5"
+                  style={{ borderBottom: i < dataSources.length - 1 ? '1px solid rgba(200,170,110,0.08)' : 'none' }}
+                >
+                  <span className="flex-1 text-sm font-semibold text-[#f0e6d2] truncate">{source.name}</span>
+                  <span className="text-[10px] text-[#5b5a56] font-mono shrink-0">
+                    {new Date(source.lastScraped).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  <span
+                    className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-bold"
+                    style={{ background: `${srcFreshness.color}12`, color: srcFreshness.color, border: `1px solid ${srcFreshness.color}25` }}
                   >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-[#f0e6d2] truncate">{source.name}</p>
-                      <p className="text-[10px] text-[#5b5a56] font-mono">
-                        {new Date(source.lastScraped).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                      </p>
-                    </div>
-                    <span
-                      className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-bold"
-                      style={{ background: `${srcFreshness.color}12`, color: srcFreshness.color, border: `1px solid ${srcFreshness.color}25` }}
-                    >
-                      {srcFreshness.label}
-                    </span>
-                  </a>
-                );
-              })}
-            </div>
+                    {srcFreshness.label}
+                  </span>
+                </a>
+              );
+            })}
           </div>
         </motion.div>
       )}
@@ -1001,44 +999,47 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                         </div>
                       )}
 
-                      {/* Champion icon + name */}
+                      {/* Splash art + name + build items */}
                       <div className="p-3">
-                        <div className="flex items-start gap-2.5 mb-2">
-                          <div className="relative shrink-0">
-                            <ChampionIcon name={champ.name} tier={champ.tier} />
-                            {/* Rank number */}
+                        <div className="flex items-start gap-3 mb-2">
+                          <div className="relative shrink-0 w-16 h-16 rounded-xl overflow-hidden"
+                            style={{ border: `2px solid ${cfg.color}60`, boxShadow: `0 0 12px ${cfg.color}20` }}>
+                            <SplashArtIcon name={champ.name} />
+                            {/* Rank number badge on splash */}
                             <div
-                              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black z-10"
-                              style={{ background: cfg.color, color: '#0a0e1a', border: '1.5px solid #0a0e1a', boxShadow: `0 0 6px ${cfg.color}50` }}
+                              className="absolute bottom-0.5 right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black z-10"
+                              style={{ background: cfg.color, color: '#0a0e1a', border: '1px solid #0a0e1a' }}
                             >
                               {idx + 1}
                             </div>
                             {/* Trend arrow */}
                             {trendMap?.[champ.name] && (
-                              <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#0a0e1a] flex items-center justify-center z-10"
+                              <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#0a0e1a] flex items-center justify-center z-10"
                                 style={{ border: `1.5px solid ${trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057'}` }}>
-                                <span className="text-[8px] font-black" style={{ color: trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057' }}>
+                                <span className="text-[7px] font-black" style={{ color: trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057' }}>
                                   {trendMap[champ.name] === 'rising' ? '↑' : '↓'}
                                 </span>
                               </div>
                             )}
                           </div>
-                          <div className="flex-1 min-w-0 pt-0.5">
-                            <h3 className="text-lg font-bold lol-title text-[#f0e6d2] leading-tight truncate"
-                              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
-                              {champ.name}
-                            </h3>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-0.5">
+                              <h3 className="text-base font-bold lol-title text-[#f0e6d2] leading-tight truncate"
+                                style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
+                                {champ.name}
+                              </h3>
+                              {/* Favorite */}
+                              <button
+                                onClick={e => { e.stopPropagation(); onToggleFavorite(champ.id); }}
+                                className="shrink-0 cursor-pointer"
+                              >
+                                <Star className="w-3.5 h-3.5 transition-colors"
+                                  style={{ color: favorites.has(champ.id) ? '#f0c646' : '#5b5a56' }}
+                                  fill={favorites.has(champ.id) ? '#f0c646' : 'none'} />
+                              </button>
+                            </div>
                             <RoleBadge role={champ.role} />
                           </div>
-                          {/* Favorite */}
-                          <button
-                            onClick={e => { e.stopPropagation(); onToggleFavorite(champ.id); }}
-                            className="shrink-0 mt-0.5 cursor-pointer"
-                          >
-                            <Star className="w-4 h-4 transition-colors"
-                              style={{ color: favorites.has(champ.id) ? '#f0c646' : '#5b5a56' }}
-                              fill={favorites.has(champ.id) ? '#f0c646' : 'none'} />
-                          </button>
                         </div>
 
                         {/* Stats bars */}
@@ -1094,6 +1095,21 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                             </div>
                           )}
                         </div>
+
+                        {/* Build items row */}
+                        {(() => {
+                          const buildItems = champ.builds?.[0]?.items ? parseBuildItems(champ.builds[0].items) : [];
+                          if (buildItems.length === 0) return null;
+                          return (
+                            <div className="flex items-center gap-1 mt-2 pt-2" style={{ borderTop: '1px solid rgba(120,90,40,0.1)' }}>
+                              {buildItems.slice(0, 6).map((item, i) => (
+                                <div key={i} className="w-7 h-7">
+                                  <ItemIcon name={item} />
+                                </div>
+                              ))}
+                            </div>
+                          );
+                        })()}
                       </div>
                   </motion.div>
                 </motion.div>
