@@ -158,7 +158,7 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 w-full max-w-2xl relative z-10">
         <motion.button
           onClick={() => onSelectGame('lol')}
-          className="group relative overflow-hidden rounded-2xl p-8 sm:p-10 text-left cursor-pointer transition-all duration-500"
+          className="group relative overflow-hidden rounded-2xl p-6 sm:p-8 lg:p-10 text-left cursor-pointer transition-all duration-500"
           style={{
             background: 'linear-gradient(135deg, rgba(200,170,110,0.08), rgba(200,170,110,0.02))',
             border: '1px solid rgba(200,170,110,0.2)',
@@ -213,7 +213,7 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
 
         <motion.button
           onClick={() => onSelectGame('wildrift')}
-          className="group relative overflow-hidden rounded-2xl p-8 sm:p-10 text-left cursor-pointer transition-all duration-500"
+          className="group relative overflow-hidden rounded-2xl p-6 sm:p-8 lg:p-10 text-left cursor-pointer transition-all duration-500"
           style={{
             background: 'linear-gradient(135deg, rgba(10,203,230,0.08), rgba(10,203,230,0.02))',
             border: '1px solid rgba(10,203,230,0.2)',
@@ -302,7 +302,7 @@ export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: Gam
       </motion.div>
 
       <motion.div className="mt-12 max-w-2xl w-full relative z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <div className="glass-card rounded-xl p-4 text-center">
             <Database className="w-6 h-6 text-[#c8aa6e] mx-auto mb-2" />
             <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Fuentes de Datos</h4>
