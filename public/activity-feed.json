@@ -1,7 +1,61 @@
 {
   "version": "1.7",
-  "lastUpdated": "2026-04-25T18:17:52Z",
+  "lastUpdated": "2026-04-27T04:55:00Z",
   "entries": [
+    {
+      "id": "fix-rotas-crash",
+      "type": "fix",
+      "title": "CRITICAL: Rotas tab crash fixed — TIER_CONFIG null-safety",
+      "description": "Added A+/S+/C tiers to TIER_CONFIG + null-check fallback in ChampionIcon. Tab was crashing with 'Cannot read properties of undefined (color)'",
+      "timestamp": "2026-04-27T03:30:00Z",
+      "commit": "8edf734",
+      "category": "bug"
+    },
+    {
+      "id": "patch-269-sync",
+      "type": "improvement",
+      "title": "patch-analysis.json synced to 26.9 — removed orphan champs",
+      "description": "Updated from 26.8 to 26.9, removed Hwei/Warwick (not in tier list), aligned with actual meta data",
+      "timestamp": "2026-04-27T03:35:00Z",
+      "commit": "685a389",
+      "category": "data"
+    },
+    {
+      "id": "combos-portraits",
+      "type": "feature",
+      "title": "Champion portraits in Combos + Pro Comps",
+      "description": "Combos now use ChampionIcon with tier glow instead of broken SplashArtIcon. Pro Comps also upgraded.",
+      "timestamp": "2026-04-27T03:40:00Z",
+      "commit": "79f9597",
+      "category": "ui"
+    },
+    {
+      "id": "meta-overview-merge",
+      "type": "improvement",
+      "title": "Tier List: Meta Overview consolidado — menos scroll",
+      "description": "Merged redundant Snapshot + Meta Overview sections into single glass card with 6 stats in 3x2 grid",
+      "timestamp": "2026-04-27T04:45:00Z",
+      "commit": "eaa1dec",
+      "category": "ux"
+    },
+    {
+      "id": "patches-history",
+      "type": "feature",
+      "title": "Parches: +2 parches históricos (26.7 + 26.6)",
+      "description": "Timeline de Parches ahora tiene 4 LoL patches + 1 WR patch. Más contexto histórico para el meta.",
+      "timestamp": "2026-04-27T04:48:00Z",
+      "commit": "3c7a1bb",
+      "category": "content"
+    },
+    {
+      "id": "modal-counters-upgrade",
+      "type": "improvement",
+      "title": "Champion Modal: counters/synergies con portraits grandes",
+      "description": "Counter y Synergy sections ahora muestran ChampionIcon (44px) con nombres legibles en vez de TinyChampionIcon (8px)",
+      "timestamp": "2026-04-27T04:55:00Z",
+      "commit": "latest",
+      "category": "ui"
+    },
     {
       "id": "ralph-loop-037",
       "type": "feature",
@@ -124,66 +178,13 @@
       "description": "Cards de cambios por campeón mostrando tier anterior → actual, tipo de cambio (buff/nerf/rework), barra de impacto animada",
       "date": "2026-04-24T20:35:54Z",
       "commit": "ce8d9d7"
-    },
-    {
-      "id": 103,
-      "type": "feature",
-      "title": "Tier List Sorting — Ordenar por WR, Pick, Ban o Nombre",
-      "description": "Botones de ordenamiento con indicador animado, aplicado a list y board view",
-      "date": "2026-04-24T20:35:54Z",
-      "commit": "c09baa1"
-    },
-    {
-      "id": 104,
-      "type": "fix",
-      "title": "Fix crítico: champion-modal useState + patches-tab useMemo + meta-builds corruptos",
-      "description": "3 bugs críticos corregidos: syntax errors en useState, dependency array roto, datos de builds regenerados",
-      "date": "2026-04-24T20:35:54Z",
-      "commit": "be721d7"
-    },
-    {
-      "id": 105,
-      "type": "improvement",
-      "title": "Patch 26.9 — Versión actualizada + meta-builds para 11 campeones",
-      "description": "Version API actualizada a 26.9, meta-builds regenerados con datos limpios (Karthus, Sion, Garen, Brand, Malzahar, Thresh, Jinx, Lee Sin, Gragas, Teemo, K'Sante)",
-      "date": "2026-04-24T20:35:54Z",
-      "commit": "8fb475d"
-    },
-    {
-      "id": "champion-cards-001",
-      "type": "feature",
-      "title": "Champion Cards estilo LoL + Weekly WR Charts + Fuentes de Datos",
-      "description": "Nuevas ChampionCard con splash art fondo estilo tarjeta LoL (tamaño sm para Tier List, lg para Cosas Rotas). Gráfico de barras semanales de WR en modal (7 días con animación). Panel de Fuentes de Datos (U.GG/OP.GG/Mobalytics/Blitz/Buildzcrank/PropelRC) con timestamps de actualización. S-Tier ahora usa tarjetas con splash art + build items inline. Board View completamente rediseñado con tarjetas visuales.",
-      "timestamp": "2026-04-25T16:40:00Z",
-      "commit": "7dbd1d8",
-      "category": "feature"
-    },
-    {
-      "id": "ralph-loop-025",
-      "type": "fix",
-      "title": "3 fixes: runa Debilidad + títulos campeones + Ornn Q/R + coaching",
-      "description": "(1) Runa 'Frailidad'→'Debilidad' — nombre inexistente en LoL español, corregido en 19 instancias (data.ts + helpers.ts). Iconos de runa ahora se muestran correctamente para 10+ campeones. (2) Títulos de campeones corregidos: Brand 'el Llamas Vengativo'→'el Llamado Vengativo', Ornn 'el Fuego del Monte'→'el Dios del Forja'. Habilidades Ornn Q/R intercambiadas corregidas (Q=Volcanic Rite, R=Call of the Forge God). (3) Coaching tab: 'Grevious Wounds'→'Heridas Mortales' (2 instancias), 'Campeon'→'Campeón' (tilde). Build OK.",
-      "timestamp": "2026-04-25T04:37:00Z",
-      "commit": "2467b91",
-      "category": "fix"
-    },
-    {
-      "id": "ralph-loop-025b",
-      "type": "fix",
-      "title": "3 fixes: coaching EN→ES + AVG→PROM + Notas Oficiales es-es",
-      "description": "(1) Coaching tab: 6 títulos EN→ES (Last Hitting→Último Golpe, Wave Management→Manejo de Oleadas, Trading Stance→Postura de Trading, Creep Block→Bloqueo de Minions, Map Awareness→Conciencia del Mapa, Powerspikes→Picos de Poder) + MOBA Coach→Entrenador MOBA. (2) Tier List AVG→PROM. (3) Notas Oficiales link en-us→es-es (LoL + WR). Build OK.",
-      "timestamp": "2026-04-25T00:41:00Z",
-      "commit": "5562823",
-      "category": "fix"
     }
   ],
   "highlights": [
-    "Champion Comparison Tool — comparar 2 campeones side a side",
-    "12 pestañas con 11 tabs de juego + 3 DEV tabs",
-    "Runas reales con iconos Data Dragon",
-    "Tier List con sorting, WR bars verdes/rojos, weekly movers",
-    "Patch 26.9 tracking + análisis por campeón",
-    "Coaching IA con counters, keystones y runas por rol",
-    "LoL card-style modal con splash art gallery"
+    "6 improvements deployed today",
+    "Rotas tab crash fixed",
+    "Meta data synced to patch 26.9",
+    "Counter/Synergy visual upgrade",
+    "Parches timeline enriched"
   ]
 }
