@@ -346,7 +346,7 @@ export function TierListTab({
         </div>
 
         {/* Role filter — Bigger buttons */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {ROLES.map(role => (
             <button
               key={role}
@@ -428,7 +428,7 @@ export function TierListTab({
                 <span className="lol-title text-sm text-[#0fba81]">En Ascenso</span>
                 <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.2)' }}>{risingChampions.length} campeones</span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {risingChampions.map((entry, i) => {
                   const name = extractChampName(entry);
                   const reason = entry.match(/\((.+)\)/)?.[1] || '';
@@ -496,7 +496,7 @@ export function TierListTab({
                 <span className="lol-title text-sm text-[#e84057]">En Caída</span>
                 <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.2)' }}>{fallingChampions.length} campeones</span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {fallingChampions.map((entry, i) => {
                   const name = extractChampName(entry);
                   const reason = entry.match(/\((.+)\)/)?.[1] || '';
@@ -857,12 +857,18 @@ export function TierListTab({
           </div>
           <div className="overflow-x-auto">
             <div className="glass-card rounded-xl overflow-hidden">
-              <div className="grid grid-cols-[3rem_1fr_3.5rem_3.5rem_3.5rem_3.5rem] gap-2 px-3 py-2 lol-label text-[8px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+              <div className="hidden sm:grid grid-cols-[3rem_1fr_3.5rem_3.5rem_3.5rem_3.5rem] gap-2 px-3 py-2 lol-label text-[8px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
                 <div />
                 <div>Campeón</div>
                 <div>Rol</div>
                 <div className="text-right">Pick%</div>
                 <div className="text-right">Ban%</div>
+                <div className="text-right">WR%</div>
+              </div>
+              {/* Mobile compact header */}
+              <div className="sm:hidden grid grid-cols-[3rem_1fr_3rem] gap-1 px-3 py-2 lol-label text-[8px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+                <div />
+                <div>Campeón</div>
                 <div className="text-right">WR%</div>
               </div>
               <div className="divide-y divide-[#785a28]/10">
@@ -874,9 +880,9 @@ export function TierListTab({
                     initial={{ opacity: 0, x: -5 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.02 }}
-                    className="flex items-center gap-2.5 px-3 py-2.5 hover:bg-[#1e2328]/40 transition-colors"
+                    className="flex items-center gap-2 sm:gap-2.5 px-3 py-2.5 hover:bg-[#1e2328]/40 transition-colors"
                   >
-                    <div className="relative">
+                    <div className="relative shrink-0">
                       <ChampionIcon name={pick.champion} tier="A" />
                       {isRotoPro && (
                         <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black z-10"
@@ -885,10 +891,13 @@ export function TierListTab({
                         </div>
                       )}
                     </div>
-                    <span className="text-sm font-semibold text-[#f0e6d2] flex-1 truncate">{pick.champion}</span>
-                    <div className="w-14 shrink-0"><RoleBadge role={pick.role} /></div>
-                    <span className="text-[11px] font-mono font-semibold text-[#0acbe6] w-12 text-right">{pick.pickRate}%</span>
-                    <span className="text-[11px] font-mono font-semibold w-12 text-right" style={{ color: pick.banRate > 10 ? '#e84057' : '#a09b8c' }}>{pick.banRate}%</span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs sm:text-sm font-semibold text-[#f0e6d2] truncate block">{pick.champion}</span>
+                      <span className="sm:hidden text-[9px] text-[#5b5a56]">{pick.role} · P:{pick.pickRate}% B:{pick.banRate}%</span>
+                    </div>
+                    <div className="w-14 shrink-0 hidden sm:block"><RoleBadge role={pick.role} /></div>
+                    <span className="text-[11px] font-mono font-semibold text-[#0acbe6] w-12 text-right hidden sm:block">{pick.pickRate}%</span>
+                    <span className="text-[11px] font-mono font-semibold w-12 text-right hidden sm:block" style={{ color: pick.banRate > 10 ? '#e84057' : '#a09b8c' }}>{pick.banRate}%</span>
                     <span className="text-[11px] font-mono font-semibold w-12 text-right" style={{ color: pick.winRate >= 54 ? '#0fba81' : pick.winRate >= 50 ? '#a09b8c' : '#e84057' }}>{pick.winRate}%</span>
                   </motion.div>
                   );
@@ -958,7 +967,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
             </div>
             {/* S-TIER: Hero cards with splash art background + champion portrait */}
             {isSTier ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                 {tierChamps.map((champ, idx) => {
                   const roleCfg = ROLE_CONFIG[champ.role];
                   const roleColor = roleCfg?.color || '#5b5a56';
@@ -1143,7 +1152,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
               </div>
             ) : (
               /* A and B tiers - Cards with circular champion portraits */
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5 sm:gap-3">
                 {tierChamps.map((champ, idx) => {
                   const roleCfg = ROLE_CONFIG[champ.role];
                   const roleColor = roleCfg?.color || '#5b5a56';
