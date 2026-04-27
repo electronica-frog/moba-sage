@@ -463,7 +463,7 @@ export default function Home() {
 
       {/* Content — offset for sidebar on desktop, bottom nav on mobile */}
       <main className={`flex-1 w-full px-4 py-6 transition-all duration-300 ${selectedGame ? 'lg:ml-[220px] pb-24 lg:pb-6' : ''}`}>
-        <div className={selectedGame ? 'max-w-5xl mx-auto' : ''}>
+        <div className={selectedGame ? 'max-w-6xl mx-auto' : ''}>
           <AnimatePresence mode="popLayout">
             {!selectedGame ? (
               <GameSelectorLanding onSelectGame={handleSelectGame} key="selector" />
