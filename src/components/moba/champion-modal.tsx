@@ -555,7 +555,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -567,7 +567,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.92, opacity: 0, y: 20 }}
         transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-        className="w-full max-w-[480px] max-h-[92vh] overflow-hidden rounded-2xl flex flex-col"
+        className="w-full max-w-[480px] sm:max-w-[520px] max-h-[92vh] overflow-hidden rounded-2xl flex flex-col"
         style={{
           background: 'linear-gradient(180deg, rgba(20,24,30,0.99), rgba(10,14,26,0.99))',
           border: `2px solid ${cfg.color}50`,
@@ -891,7 +891,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                 </div>
               </div>
               <p className="text-[10px] text-[#785a28] mb-3">Links a builds siempre actualizados:</p>
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="grid grid-cols-2 gap-2">
                 <a href={extUrls.ugg} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all hover:scale-105 hover:shadow-lg" style={{ background: 'rgba(0,203,230,0.12)', border: '1.5px solid rgba(0,203,230,0.35)', color: '#0acbe6', boxShadow: '0 0 12px rgba(0,203,230,0.08)' }}>
                   <div className="w-5 h-5 rounded flex items-center justify-center text-[9px] font-black" style={{ background: 'rgba(0,203,230,0.2)', border: '1px solid rgba(0,203,230,0.3)' }}>UG</div>
                   U.GG
