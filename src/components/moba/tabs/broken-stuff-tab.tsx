@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
-import { SplashArtIcon, TinyChampionIcon, ChampionIcon } from '../champion-icon';
+import { SplashArtIcon, ChampionIcon } from '../champion-icon';
 import { RoleBadge, CategoryBadge } from '../badges';
 import { ItemIcon } from '../item-icon';
 import { ChampionCard } from '../champion-card';
@@ -115,12 +115,7 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
         }}
       >
         {/* Champion icon */}
-        <div
-          className="w-9 h-9 rounded-lg overflow-hidden shrink-0"
-          style={{ border: `1.5px solid ${dir.color}50` }}
-        >
-          <TinyChampionIcon name={change.name} />
-        </div>
+        <ChampionIcon name={change.name} tier={change.tierAfter || change.tierBefore || 'A'} />
 
         {/* Name + Type Badge */}
         <div className="flex-1 min-w-0">
@@ -291,9 +286,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                 className="flex items-start gap-2.5 p-2 rounded-lg"
                 style={{ background: 'rgba(15,186,129,0.04)', borderLeft: '2px solid #0fba81' }}
               >
-                <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0" style={{ border: '2px solid #0fba81', boxShadow: '0 0 8px rgba(15,186,129,0.2)' }}>
-                  <TinyChampionIcon name={champ.name} />
-                </div>
+                <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
@@ -326,9 +319,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                 className="flex items-start gap-2.5 p-2 rounded-lg"
                 style={{ background: 'rgba(232,64,87,0.04)', borderLeft: '2px solid #e84057' }}
               >
-                <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0" style={{ border: '2px solid #e84057', boxShadow: '0 0 8px rgba(232,64,87,0.2)' }}>
-                  <TinyChampionIcon name={champ.name} />
-                </div>
+                <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
@@ -628,9 +619,7 @@ export function BrokenStuffTab({
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
             {bTierChamps.map(champ => (
               <motion.div key={champ.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-1.5 p-2 rounded-lg" style={{ background: 'rgba(15,186,129,0.03)', border: '1px solid rgba(15,186,129,0.1)' }}>
-                <div className="w-7 h-7 rounded-full overflow-hidden shrink-0" style={{ border: '1.5px solid #0fba8150' }}>
-                  <TinyChampionIcon name={champ.name} />
-                </div>
+                <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] font-medium text-[#f0e6d2] truncate">{champ.name}</p>
                   <p className="text-[9px] text-[#5b5a56] font-mono">{champ.winRate}%</p>
