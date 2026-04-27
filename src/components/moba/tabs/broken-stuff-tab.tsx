@@ -275,8 +275,11 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         {/* Broken Champions */}
         <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(15,186,129,0.15)' }}>
           <div className="flex items-center gap-2 mb-3">
-            <ArrowUpCircle className="w-4 h-4 text-[#0fba81]" />
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(15,186,129,0.12)', border: '1px solid rgba(15,186,129,0.3)' }}>
+              <ArrowUpCircle className="w-4 h-4 text-[#0fba81]" />
+            </div>
             <span className="lol-label text-xs font-semibold text-[#0fba81]">¿Quién Queda Roto?</span>
+            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{analysis.brokenChampions.length}</span>
           </div>
           <div className="space-y-2.5">
             {analysis.brokenChampions.map((champ, i) => (
@@ -288,7 +291,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                 className="flex items-start gap-2.5 p-2 rounded-lg"
                 style={{ background: 'rgba(15,186,129,0.04)', borderLeft: '2px solid #0fba81' }}
               >
-                <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0" style={{ border: '1.5px solid #0fba8180' }}>
+                <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0" style={{ border: '2px solid #0fba81', boxShadow: '0 0 8px rgba(15,186,129,0.2)' }}>
                   <TinyChampionIcon name={champ.name} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -307,8 +310,11 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         {/* Fallen Champions */}
         <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(232,64,87,0.15)' }}>
           <div className="flex items-center gap-2 mb-3">
-            <ArrowDownCircle className="w-4 h-4 text-[#e84057]" />
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(232,64,87,0.12)', border: '1px solid rgba(232,64,87,0.3)' }}>
+              <ArrowDownCircle className="w-4 h-4 text-[#e84057]" />
+            </div>
             <span className="lol-label text-xs font-semibold text-[#e84057]">¿Quién Cayó?</span>
+            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{analysis.fallenChampions.length}</span>
           </div>
           <div className="space-y-2.5">
             {analysis.fallenChampions.map((champ, i) => (
@@ -320,7 +326,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                 className="flex items-start gap-2.5 p-2 rounded-lg"
                 style={{ background: 'rgba(232,64,87,0.04)', borderLeft: '2px solid #e84057' }}
               >
-                <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0" style={{ border: '1.5px solid #e8405780' }}>
+                <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0" style={{ border: '2px solid #e84057', boxShadow: '0 0 8px rgba(232,64,87,0.2)' }}>
                   <TinyChampionIcon name={champ.name} />
                 </div>
                 <div className="flex-1 min-w-0">
