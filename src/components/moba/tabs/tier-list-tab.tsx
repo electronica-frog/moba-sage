@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, ExternalLink, Database, ChevronDown, ArrowUpDown, Crown } from 'lucide-react';
+import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, ExternalLink, Database, ChevronDown, ArrowUpDown, Crown, Trophy } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { ChampionIcon, SplashArtIcon } from '../champion-icon';
@@ -283,69 +283,6 @@ export function TierListTab({
                 </a>
               );
             })}
-          </div>
-        </motion.div>
-      )}
-
-      {/* ===== SNAPSHOT DEL META ===== */}
-      {!loading && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.05 }}
-        >
-          <p className="lol-label text-xs text-[#c8aa6e] mb-2 tracking-wider uppercase">Snapshot del Meta</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            <div
-              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
-              style={{ background: 'rgba(200,170,110,0.06)', border: '1px solid rgba(200,170,110,0.15)' }}
-            >
-              <div className="flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-[#c8aa6e] opacity-60" />
-                <span className="lol-label text-[10px] text-[#5b5a56]">Total campeones</span>
-              </div>
-              <span className="text-base font-bold font-mono text-[#c8aa6e]">{gameChampions.length}</span>
-              <span className="text-[10px] text-[#a09b8c]">en el sistema</span>
-            </div>
-            <div
-              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
-              style={{ background: 'rgba(200,170,110,0.08)', border: '1px solid rgba(200,170,110,0.25)' }}
-            >
-              <div className="flex items-center gap-1.5">
-                <TrendingUp className="w-3.5 h-3.5 text-[#c8aa6e] opacity-60" />
-                <span className="lol-label text-[10px] text-[#5b5a56]">Tier S</span>
-              </div>
-              <span className="text-base font-bold font-mono text-[#c8aa6e]">{sTiers.length}</span>
-              <span className="text-[10px] text-[#a09b8c]">Dioses del meta</span>
-            </div>
-            <div
-              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
-              style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}
-            >
-              <div className="flex items-center gap-1.5">
-                <BarChart3 className="w-3.5 h-3.5 text-[#0acbe6] opacity-60" />
-                <span className="lol-label text-[10px] text-[#5b5a56]">WR Promedio</span>
-              </div>
-              <span className="text-base font-bold font-mono text-[#0acbe6]">
-                {gameChampions.length > 0
-                  ? (gameChampions.reduce((s, c) => s + c.winRate, 0) / gameChampions.length).toFixed(1) + '%'
-                  : '\u2014'}
-              </span>
-              <span className="text-[10px] text-[#a09b8c]">todos los campeones</span>
-            </div>
-            <div
-              className="rounded-lg px-3 py-2.5 flex flex-col gap-0.5"
-              style={{ background: 'rgba(15,186,129,0.06)', border: '1px solid rgba(15,186,129,0.15)' }}
-            >
-              <div className="flex items-center gap-1.5">
-                <TrendingUp className="w-3.5 h-3.5 text-[#0fba81] opacity-60" />
-                <span className="lol-label text-[10px] text-[#5b5a56]">Mayor WR</span>
-              </div>
-              <span className="text-base font-bold font-mono text-[#0fba81]">
-                {topWR[0]?.winRate ? `${topWR[0].winRate}%` : '\u2014'}
-              </span>
-              <span className="text-[10px] text-[#a09b8c]">{topWR[0]?.name ?? ''}</span>
-            </div>
           </div>
         </motion.div>
       )}
@@ -752,41 +689,65 @@ export function TierListTab({
         </motion.div>
       )}
 
-      {/* Meta Overview Summary */}
+      {/* Meta Overview — Stats consolidados */}
       {!loading && !searchQuery && roleFilter === 'Todos' && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-2"
+          className="glass-card rounded-xl p-4"
+          style={{ border: '1px solid rgba(200,170,110,0.15)' }}
         >
-          <StatCard
-            label="Tier S"
-            value={`${sTiers.length} campeones`}
-            sub="Dioses del meta"
-            color="#c8aa6e"
-            icon={<BarChart3 className="w-4 h-4" />}
-          />
-          <StatCard
-            label="Mejor Win Rate"
-            value={topWR[0]?.winRate ? `${topWR[0].winRate}%` : '—'}
-            sub={topWR[0]?.name ?? ''}
-            color={wrColor(topWR[0]?.winRate ?? 0)}
-            icon={<TrendingUp className="w-4 h-4" />}
-          />
-          <StatCard
-            label="Más Baneado"
-            value={topBan[0]?.banRate ? `${topBan[0].banRate}%` : '—'}
-            sub={topBan[0]?.name ?? ''}
-            color="#e84057"
-            icon={<BarChart3 className="w-4 h-4" />}
-          />
-          <StatCard
-            label="Más Pickeados"
-            value={topPick[0]?.pickRate ? `${topPick[0].pickRate}%` : '—'}
-            sub={topPick[0]?.name ?? ''}
-            color="#5b8af5"
-            icon={<BarChart3 className="w-4 h-4" />}
-          />
+          <div className="flex items-center gap-2 mb-3">
+            <BarChart3 className="w-4 h-4 text-[#c8aa6e]" />
+            <span className="lol-label text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider">Meta Overview</span>
+            <span className="ml-auto text-[9px] text-[#5b5a56]">{gameChampions.length} campeones</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+            <StatCard
+              label="Total Campeones"
+              value={`${gameChampions.length}`}
+              sub="en el sistema"
+              color="#c8aa6e"
+              icon={<Database className="w-4 h-4" />}
+            />
+            <StatCard
+              label="Tier S"
+              value={`${sTiers.length} campeones`}
+              sub="Dioses del meta"
+              color="#c8aa6e"
+              icon={<Trophy className="w-4 h-4" />}
+            />
+            <StatCard
+              label="WR Promedio"
+              value={gameChampions.length > 0
+                ? (gameChampions.reduce((s, c) => s + c.winRate, 0) / gameChampions.length).toFixed(1) + '%'
+                : '—'}
+              sub="todos los campeones"
+              color="#0acbe6"
+              icon={<BarChart3 className="w-4 h-4" />}
+            />
+            <StatCard
+              label="Mejor Win Rate"
+              value={topWR[0]?.winRate ? `${topWR[0].winRate}%` : '—'}
+              sub={topWR[0]?.name ?? ''}
+              color={wrColor(topWR[0]?.winRate ?? 0)}
+              icon={<TrendingUp className="w-4 h-4" />}
+            />
+            <StatCard
+              label="Más Baneado"
+              value={topBan[0]?.banRate ? `${topBan[0].banRate}%` : '—'}
+              sub={topBan[0]?.name ?? ''}
+              color="#e84057"
+              icon={<BarChart3 className="w-4 h-4" />}
+            />
+            <StatCard
+              label="Más Pickeados"
+              value={topPick[0]?.pickRate ? `${topPick[0].pickRate}%` : '—'}
+              sub={topPick[0]?.name ?? ''}
+              color="#5b8af5"
+              icon={<BarChart3 className="w-4 h-4" />}
+            />
+          </div>
         </motion.div>
       )}
 
