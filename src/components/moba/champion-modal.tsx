@@ -771,33 +771,34 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-4 h-4 text-[#0acbe6]" />
                 <span className="text-[10px] font-semibold text-[#0acbe6] uppercase tracking-wider">Habilidades</span>
-                <span className="text-[9px] text-[#5b5a56] ml-auto">Hover para info</span>
               </div>
-              <AbilityBarWithTooltips championName={champion.name} hoveredAbility={hoveredAbility} onHoverAbility={setHoveredAbility} />
-              <AnimatePresence>
-                {hoveredAbility && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -4, height: 0 }}
-                    animate={{ opacity: 1, y: 0, height: 'auto' }}
-                    exit={{ opacity: 0, y: -4, height: 0 }}
-                    transition={{ duration: 0.15 }}
-                    className="mt-3 rounded-lg p-3 overflow-hidden"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(30,35,40,0.95), rgba(10,14,26,0.95))',
-                      border: '1px solid rgba(10,203,230,0.2)',
-                      backdropFilter: 'blur(12px)',
-                    }}
-                  >
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-sm font-black" style={{ color: hoveredAbility === 'Q' ? '#0acbe6' : hoveredAbility === 'W' ? '#0fba81' : hoveredAbility === 'E' ? '#f0c646' : '#e84057' }}>{hoveredAbility}</span>
-                      <span className="text-xs font-semibold text-[#f0e6d2]">{getAbilityName(champion.name, hoveredAbility)}</span>
-                    </div>
-                    <p className="text-[10px] text-[#a09b8c] leading-relaxed">
-                      {getAbilityDescription(champion, hoveredAbility)}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {(['Q', 'W', 'E', 'R'] as const).map(skill => {
+                  const skillColor = skill === 'Q' ? '#0acbe6' : skill === 'W' ? '#0fba81' : skill === 'E' ? '#f0c646' : '#e84057';
+                  return (
+                    <motion.div
+                      key={skill}
+                      className="flex gap-3 p-3 rounded-lg transition-colors"
+                      style={{
+                        background: 'rgba(20,25,32,0.6)',
+                        borderLeft: `3px solid ${skillColor}`,
+                      }}
+                      whileHover={{ background: 'rgba(30,35,40,0.8)' }}
+                    >
+                      <SkillIcon championName={champion.name} skill={skill} size={48} />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-sm font-black" style={{ color: skillColor }}>{skill}</span>
+                          <span className="text-xs font-semibold text-[#f0e6d2]">{getAbilityName(champion.name, skill)}</span>
+                        </div>
+                        <p className="text-xs text-[#a09b8c] leading-relaxed">
+                          {getAbilityDescription(champion, skill)}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Weekly WR History */}
