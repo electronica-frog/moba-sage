@@ -5,16 +5,18 @@ import Image from 'next/image';
 import { TIER_CONFIG } from './constants';
 import { getChampionImageUrl } from './helpers';
 
+const DEFAULT_TIER = { color: '#5b5a56', label: '?' };
+
 export const ChampionIcon = memo(function ChampionIcon({ name, tier }: { name: string; tier: string }) {
-  const cfg = TIER_CONFIG[tier];
+  const cfg = TIER_CONFIG[tier] || DEFAULT_TIER;
   const [imgError, setImgError] = useState(false);
 
   return (
     <div
       className="w-11 h-11 rounded-full overflow-hidden shrink-0 relative"
       style={{
-        border: `2.5px solid ${cfg.color}70`,
-        boxShadow: `0 0 12px ${cfg.color}25, inset 0 0 6px ${cfg.color}10`,
+        border: \`2.5px solid \${cfg.color}70\`,
+        boxShadow: \`0 0 12px \${cfg.color}25, inset 0 0 6px \${cfg.color}10\`,
       }}
     >
       {!imgError ? (
@@ -31,7 +33,7 @@ export const ChampionIcon = memo(function ChampionIcon({ name, tier }: { name: s
       ) : (
         <div
           className="w-full h-full flex items-center justify-center text-sm font-bold"
-          style={{ backgroundColor: `${cfg.color}20`, color: cfg.color }}
+          style={{ backgroundColor: \`\${cfg.color}20\`, color: cfg.color }}
         >
           {name[0]}
         </div>
