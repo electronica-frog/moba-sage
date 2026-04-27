@@ -26,7 +26,7 @@ export function BottomNav({ activeTab, onTabChange, onOpenSidebar }: { activeTab
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={`
-                flex flex-col items-center gap-0.5 px-2 py-2 rounded-lg transition-all duration-200 min-w-[52px]
+                flex flex-col items-center gap-0 px-1.5 py-1.5 sm:px-2 sm:py-2 rounded-lg transition-all duration-200 min-w-[42px] sm:min-w-[52px]
                 ${isActive
                   ? 'text-[#c8aa6e]'
                   : 'text-[#5b5a56] active:text-[#a09b8c]'
@@ -34,7 +34,7 @@ export function BottomNav({ activeTab, onTabChange, onOpenSidebar }: { activeTab
               `}
             >
               <div className="relative">
-                <Icon className="w-[18px] h-[18px]" />
+                <Icon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
                 {isActive && (
                   <motion.div
                     layoutId="bottom-active-dot"
@@ -52,13 +52,13 @@ export function BottomNav({ activeTab, onTabChange, onOpenSidebar }: { activeTab
         <button
           onClick={onOpenSidebar}
           className="
-            flex flex-col items-center gap-0.5 px-2 py-2 rounded-lg transition-all duration-200 min-w-[52px]
+            flex flex-col items-center gap-0 px-1.5 py-1.5 sm:px-2 sm:py-2 rounded-lg transition-all duration-200 min-w-[42px] sm:min-w-[52px]
             text-[#5b5a56] active:text-[#a09b8c]
           "
           aria-label="Abrir menú lateral"
         >
-          <MoreHorizontal className="w-[18px] h-[18px]" />
-          <span className="text-[9px] font-medium">Más</span>
+          <MoreHorizontal className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+          <span className="text-[8px] sm:text-[9px] font-medium">Más</span>
         </button>
       </div>
     </nav>
