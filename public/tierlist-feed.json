@@ -1,32 +1,32 @@
 {
-  "lastUpdated": "2026-04-27T03:03:06Z",
+  "lastUpdated": "2026-04-27T05:53:06.724606+00:00",
   "source": "Ralph Loop v2 — MOBA SAGE cycle #3 (WR meta refresh)",
-  "version": 7,
+  "version": 8,
   "sources": [
     {
       "name": "Mobalytics",
       "url": "https://mobalytics.gg/lol/tier-list",
-      "lastScraped": "2026-04-25T17:06:45Z"
+      "lastScraped": "2026-04-27T05:53:06.724626+00:00"
     },
     {
       "name": "U.GG",
       "url": "https://u.gg/lol/tier-list",
-      "lastScraped": "2026-04-25T17:06:45Z"
+      "lastScraped": "2026-04-27T05:53:06.724628+00:00"
     },
     {
       "name": "OP.GG",
       "url": "https://op.gg/lol/statistics/champions",
-      "lastScraped": "2026-04-25T17:06:45Z"
+      "lastScraped": "2026-04-27T05:53:06.724630+00:00"
     },
     {
       "name": "AltChar/GGRecon",
       "url": "https://www.altchar.com/game-news/league-of-legends-patch-26.09-tier-list-best-champions-for-every-role-avZ5n8o9V64M",
-      "lastScraped": "2026-04-25T17:06:45Z"
+      "lastScraped": "2026-04-27T05:53:06.724631+00:00"
     },
     {
       "name": "UniFuncs",
       "url": "https://unifuncs.com/s/g648iX72",
-      "lastScraped": "2026-04-25T17:06:45Z"
+      "lastScraped": "2026-04-27T05:53:06.724642+00:00"
     }
   ],
   "lol": {
@@ -150,59 +150,107 @@
       }
     ],
     "rising": [
-      "Viktor",
-      "Smolder",
-      "Fiora",
-      "Vex",
-      "Camille",
-      "Nami"
+      "Viktor (buff 26.9 — Q damage up)",
+      "Smolder (meta shift — hypercarry favored)",
+      "Fiora (duelista top — Conqueror buffs)",
+      "Vex (anti-mage meta — rise en mid)",
+      "Camille (stabilize buff — 49.9% → subiendo)",
+      "Nami (enchanter renaissance — peel meta)",
+      "Nasus (split push meta — ghost buff)",
+      "Zeri (ADC buffs en 26.9 — crit items)"
     ],
     "falling": [
       "Kha'Zix (base dmg nerf)",
-      "Briar",
-      "Ambessa",
-      "Mordekaiser (item nerfs)"
+      "Briar (sustain nerf en R)",
+      "Ambessa (burst + survivability nerf)",
+      "Mordekaiser (item nerfs)",
+      "Pyke (assassin item nerfs)",
+      "Yasuo (crit item adjustments)"
     ],
     "watch26_9": [
-      "Zaahen (nuevo campeón)",
-      "DFT (Deathfire Touch) — beneficiaries: Karthus, Brand, Malz, Teemo",
-      "Stormraider Surge — return Season 2",
-      "Statikk Shiv rework (crit 140%)",
-      "Gluttonous Greaves (950g, 45 MS, 4% omni)",
-      "Zeri rework",
-      "Hard reset Master+ 26.9",
-      "Role Quests nuevo mecanico"
+      "Zeri",
+      "Nasus",
+      "Nami",
+      "Vex",
+      "Camille",
+      "Corki",
+      "Rumble",
+      "Zac",
+      "Trundle",
+      "Shen"
     ],
     "weeklyTop": [
       {
-        "name": "Karthus",
-        "role": "Bot",
+        "name": "Master Yi",
+        "role": "Jungle",
+        "currentWR": 56.8,
+        "change": 2.3
+      },
+      {
+        "name": "Jinx",
+        "role": "ADC",
+        "currentWR": 55.1,
+        "change": 1.8
+      },
+      {
+        "name": "Darius",
+        "role": "Top",
+        "currentWR": 54.5,
+        "change": 1.5
+      },
+      {
+        "name": "Ahri",
+        "role": "Mid",
         "currentWR": 54.2,
-        "change": 0.3
+        "change": 1.2
       },
       {
         "name": "Zaahen",
         "role": "Top",
         "currentWR": 53.8,
-        "change": 0.5
+        "change": 3.1
       },
       {
-        "name": "Hwei",
-        "role": "Bot",
-        "currentWR": 53.5,
-        "change": 1.2
-      },
-      {
-        "name": "Nasus",
+        "name": "Viktor",
         "role": "Mid",
-        "currentWR": 55.5,
-        "change": -0.2
+        "currentWR": 53.1,
+        "change": 2.5
       },
       {
-        "name": "Garen",
+        "name": "Fiora",
         "role": "Top",
-        "currentWR": 54.7,
-        "change": 0.1
+        "currentWR": 52.9,
+        "change": 1.9
+      },
+      {
+        "name": "Nami",
+        "role": "Support",
+        "currentWR": 53.3,
+        "change": 2.1
+      },
+      {
+        "name": "Smolder",
+        "role": "ADC",
+        "currentWR": 53.5,
+        "change": 1.7
+      },
+      {
+        "name": "Malphite",
+        "role": "Top",
+        "currentWR": 52.8,
+        "change": 0.8
+      },
+      {
+        "name": "Mordekaiser",
+        "role": "Top",
+        "currentWR": 45.2,
+        "change": -4.8
+      },
+      {
+        "name": "Briar",
+        "role": "Jungle",
+        "currentWR": 50.1,
+        "change": -2.1
       }
     ]
   },
