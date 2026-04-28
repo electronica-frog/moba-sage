@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-04-28T23:49:00Z",
+  "operations": [
+    {
+      "id": "site-health",
+      "file": "operations/03-site-health.md",
+      "name": "Health Check",
+      "description": "Verificar que el sitio carga, APIs responden, datos son válidos y no hay overflow",
+      "active": true,
+      "frequency": "every-30min",
+      "priority": 10,
+      "lastRun": null,
+      "lastStatus": null
+    },
+    {
+      "id": "patch-update",
+      "file": "operations/01-patch-update.md",
+      "name": "Actualización de Parches",
+      "description": "Detectar parche nuevo de Riot, scrapear notas oficiales, traducir al español mejorado, actualizar JSONs",
+      "active": true,
+      "frequency": "every-30min",
+      "priority": 15,
+      "lastRun": null,
+      "lastStatus": null
+    },
+    {
+      "id": "tierlist-update",
+      "file": "operations/02-tierlist-update.md",
+      "name": "Actualización de Tier List",
+      "description": "Obtener datos de tier list de U.GG/OP.GG, asignar tiers, actualizar builds y tendencias",
+      "active": true,
+      "frequency": "every-30min",
+      "priority": 15,
+      "lastRun": null,
+      "lastStatus": null
+    }
+  ],
+  "cronSchedule": "every 30 minutes",
+  "repo": "gamer-frog/moba-sage",
+  "branch": "main",
+  "siteUrl": "https://moba-sage.vercel.app"
+}
