@@ -129,7 +129,10 @@ async function ghAppend(path: string, line: string, message: string): Promise<bo
 // ===== VERSION HELPERS =====
 function ddragonToSeason(ddVersion: string): string {
   const parts = ddVersion.split('.');
-  return `${parseInt(parts[0]) + 10}.${parts[1]}`;
+  const seasonNum = parseInt(parts[0]) + 10;
+  // Prevent version regression: if result is below 20, the DD version format changed
+  const major = seasonNum >= 20 ? seasonNum : parseInt(parts[0]);
+  return `${major}.${parts[1]}`;
 }
 
 // ===== HEALTH CHECK =====
