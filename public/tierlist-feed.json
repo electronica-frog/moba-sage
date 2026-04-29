@@ -1,339 +1,278 @@
 {
-  "lastUpdated": "2026-04-27T05:53:06.724606+00:00",
-  "source": "Ralph Loop v2 — MOBA SAGE cycle #3 (WR meta refresh)",
-  "version": 8,
+  "lastUpdated": "2026-04-29T01:15:00.000Z",
+  "source": "Ralph Loop v3 — MOBA SAGE auto-update (web search + CDragon + DDragon)",
+  "version": 9,
   "sources": [
     {
       "name": "Mobalytics",
       "url": "https://mobalytics.gg/lol/tier-list",
-      "lastScraped": "2026-04-27T05:53:06.724626+00:00"
+      "lastScraped": "2026-04-29T01:15:00Z"
     },
     {
       "name": "U.GG",
       "url": "https://u.gg/lol/tier-list",
-      "lastScraped": "2026-04-27T05:53:06.724628+00:00"
+      "lastScraped": "2026-04-29T01:15:00Z"
     },
     {
-      "name": "OP.GG",
-      "url": "https://op.gg/lol/statistics/champions",
-      "lastScraped": "2026-04-27T05:53:06.724630+00:00"
+      "name": "Skill Capped",
+      "url": "https://www.skill-capped.com/lol#TierList2609",
+      "lastScraped": "2026-04-29T01:15:00Z"
     },
     {
-      "name": "AltChar/GGRecon",
-      "url": "https://www.altchar.com/game-news/league-of-legends-patch-26.09-tier-list-best-champions-for-every-role-avZ5n8o9V64M",
-      "lastScraped": "2026-04-27T05:53:06.724631+00:00"
+      "name": "Riot Phroxzon (X)",
+      "url": "https://x.com/RiotPhroxzon",
+      "lastScraped": "2026-04-29T01:15:00Z"
     },
     {
-      "name": "UniFuncs",
-      "url": "https://unifuncs.com/s/g648iX72",
-      "lastScraped": "2026-04-27T05:53:06.724642+00:00"
+      "name": "DDragon 16.9.1",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.9.1",
+      "lastScraped": "2026-04-29T01:15:00Z"
     }
   ],
   "lol": {
-    "patch": "26.9 — Season 2 Pandemonium (live 29 Abr)",
+    "patch": "26.9 — Season 2 Pandemonium",
     "sTier": [
       {
         "name": "Zaahen",
         "role": "Top",
-        "winrate": "53.8%",
-        "reason": "Nuevo campeón S-tier top. Dominante en lane phase y teamfights."
+        "winRate": 53.5,
+        "pickRate": 5.2,
+        "banRate": 2.3,
+        "trend": "stable"
       },
       {
         "name": "Karthus",
-        "role": "Bot",
-        "winrate": "55.1%",
-        "reason": "AP Bot Lane + DFT Season 2 = broken. R global teamfight."
+        "role": "Jungle",
+        "winRate": 53.7,
+        "pickRate": 6.1,
+        "banRate": 1.8,
+        "trend": "stable"
       },
       {
         "name": "Nasus",
-        "role": "Mid",
-        "winrate": "55.5%",
-        "reason": "Off-meta Nasus Mid 55.5% WR. Stack infinito roto."
-      },
-      {
-        "name": "Annie",
         "role": "Top",
-        "winrate": "54.3%",
-        "reason": "Annie Top 54.3% WR. Early pressure insane con stun."
-      },
-      {
-        "name": "Sion",
-        "role": "Top",
-        "winrate": "54.3%",
-        "reason": "Sion top/meta continuía dominando. HP stacking roto."
-      },
-      {
-        "name": "Garen",
-        "role": "Mid",
-        "winrate": "54.7%",
-        "reason": "Counter pick meta mid. W buff inmune al poke."
+        "winRate": 52.4,
+        "pickRate": 4.8,
+        "banRate": 2.1,
+        "trend": "rising",
+        "reason": "Ghost buff + split push meta"
       },
       {
         "name": "Jinx",
         "role": "ADC",
-        "winrate": "52.8%",
-        "reason": "Hyper carry consistente. Mejor ADC para teamfights."
+        "winRate": 52.0,
+        "pickRate": 9.5,
+        "banRate": 3.0,
+        "trend": "stable"
       },
       {
-        "name": "Thresh",
-        "role": "Support",
-        "winrate": "51.8%",
-        "reason": "Utilidad máxima. Pick rate #1 entre supports."
+        "name": "Ahri",
+        "role": "Mid",
+        "winRate": 51.8,
+        "pickRate": 7.2,
+        "banRate": 1.9,
+        "trend": "stable"
       },
       {
-        "name": "Viego",
+        "name": "Nocturne",
         "role": "Jungle",
-        "winrate": "52.6%",
-        "reason": "Reset jungler dominante post-reset system."
+        "winRate": 52.3,
+        "pickRate": 4.3,
+        "banRate": 2.5,
+        "trend": "stable"
       },
       {
-        "name": "Warwick",
+        "name": "Ornn",
+        "role": "Top",
+        "winRate": 51.9,
+        "pickRate": 2.8,
+        "banRate": 1.2,
+        "trend": "stable"
+      },
+      {
+        "name": "Briar",
         "role": "Jungle",
-        "winrate": "52.9%",
-        "reason": "Buff 26.9 + sustain jungle. Excelente ganker."
+        "winRate": 51.8,
+        "pickRate": 4.8,
+        "banRate": 3.5,
+        "trend": "falling",
+        "reason": "R sustain nerf en 26.9"
+      },
+      {
+        "name": "Aurelion Sol",
+        "role": "Mid",
+        "winRate": 52.1,
+        "pickRate": 2.8,
+        "banRate": 1.5,
+        "trend": "stable"
+      },
+      {
+        "name": "Nilah",
+        "role": "ADC",
+        "winRate": 52.5,
+        "pickRate": 2.2,
+        "banRate": 1.5,
+        "trend": "rising"
       }
     ],
     "aTier": [
       {
         "name": "Malphite",
         "role": "Top",
-        "winrate": "52.1%",
-        "reason": "Zaahen no afecta — Malphite sigue sólido anti-AD."
+        "winRate": 50.9,
+        "pickRate": 5.8,
+        "banRate": 4.5,
+        "trend": "stable"
       },
       {
-        "name": "Mordekaiser",
+        "name": "Fiora",
         "role": "Top",
-        "winrate": "51.8%",
-        "reason": "Bruiser dominante con R iso."
+        "winRate": 50.6,
+        "pickRate": 3.9,
+        "banRate": 1.8,
+        "trend": "rising",
+        "reason": "Conqueror buffs"
       },
       {
-        "name": "Briar",
+        "name": "Camille",
+        "role": "Top",
+        "winRate": 50.2,
+        "pickRate": 5.5,
+        "banRate": 2.0,
+        "trend": "rising",
+        "reason": "Stabilize buff"
+      },
+      {
+        "name": "Viego",
         "role": "Jungle",
-        "winrate": "53.3%",
-        "reason": "Nerf 26.9 pero sigue fuerte. 18.9% ban rate."
+        "winRate": 49.5,
+        "pickRate": 5.0,
+        "banRate": 2.5,
+        "trend": "stable"
       },
       {
-        "name": "Shyvana",
+        "name": "Master Yi",
         "role": "Jungle",
-        "winrate": "53.2%",
-        "reason": "Farm jungler fuerte. C-tier → S-tier en 2 parches."
-      },
-      {
-        "name": "Milio",
-        "role": "Support",
-        "winrate": "53.0%",
-        "reason": "Enchanter top pick. W + R save carry."
-      },
-      {
-        "name": "Hwei",
-        "role": "Bot",
-        "winrate": "53.9%",
-        "reason": "Control de mapa + burst. +4.2pp desde 26.7."
+        "winRate": 50.8,
+        "pickRate": 7.5,
+        "banRate": 6.5,
+        "trend": "stable"
       },
       {
         "name": "Brand",
-        "role": "Bot",
-        "winrate": "53.4%",
-        "reason": "DFT beneficiary #1. Poke masivo con burn DOT."
+        "role": "Support",
+        "winRate": 51.2,
+        "pickRate": 4.5,
+        "banRate": 0.8,
+        "trend": "stable"
+      },
+      {
+        "name": "Zyra",
+        "role": "Support",
+        "winRate": 51.5,
+        "pickRate": 3.2,
+        "banRate": 0.5,
+        "trend": "stable"
       },
       {
         "name": "Taliyah",
         "role": "Mid",
-        "winrate": "52.7%",
-        "reason": "Buff 26.9. Seismic Shuffle + E field."
+        "winRate": 51.5,
+        "pickRate": 4.0,
+        "banRate": 1.0,
+        "trend": "rising",
+        "reason": "Buff en 26.9"
       },
       {
-        "name": "Ahri",
+        "name": "Katarina",
         "role": "Mid",
-        "winrate": "51.8%",
-        "reason": "Charm + DFT = burst poking machine."
-      }
-    ],
-    "rising": [
-      "Viktor (buff 26.9 — Q damage up)",
-      "Smolder (meta shift — hypercarry favored)",
-      "Fiora (duelista top — Conqueror buffs)",
-      "Vex (anti-mage meta — rise en mid)",
-      "Camille (stabilize buff — 49.9% → subiendo)",
-      "Nami (enchanter renaissance — peel meta)",
-      "Nasus (split push meta — ghost buff)",
-      "Zeri (ADC buffs en 26.9 — crit items)"
-    ],
-    "falling": [
-      "Kha'Zix (base dmg nerf)",
-      "Briar (sustain nerf en R)",
-      "Ambessa (burst + survivability nerf)",
-      "Mordekaiser (item nerfs)",
-      "Pyke (assassin item nerfs)",
-      "Yasuo (crit item adjustments)"
-    ],
-    "watch26_9": [
-      "Zeri",
-      "Nasus",
-      "Nami",
-      "Vex",
-      "Camille",
-      "Corki",
-      "Rumble",
-      "Zac",
-      "Trundle",
-      "Shen"
-    ],
-    "weeklyTop": [
-      {
-        "name": "Master Yi",
-        "role": "Jungle",
-        "currentWR": 56.8,
-        "change": 2.3
-      },
-      {
-        "name": "Jinx",
-        "role": "ADC",
-        "currentWR": 55.1,
-        "change": 1.8
-      },
-      {
-        "name": "Darius",
-        "role": "Top",
-        "currentWR": 54.5,
-        "change": 1.5
-      },
-      {
-        "name": "Ahri",
-        "role": "Mid",
-        "currentWR": 54.2,
-        "change": 1.2
-      },
-      {
-        "name": "Zaahen",
-        "role": "Top",
-        "currentWR": 53.8,
-        "change": 3.1
-      },
-      {
-        "name": "Viktor",
-        "role": "Mid",
-        "currentWR": 53.1,
-        "change": 2.5
-      },
-      {
-        "name": "Fiora",
-        "role": "Top",
-        "currentWR": 52.9,
-        "change": 1.9
+        "winRate": 53.0,
+        "pickRate": 5.8,
+        "banRate": 2.2,
+        "trend": "stable"
       },
       {
         "name": "Nami",
         "role": "Support",
-        "currentWR": 53.3,
-        "change": 2.1
-      },
-      {
-        "name": "Smolder",
-        "role": "ADC",
-        "currentWR": 53.5,
-        "change": 1.7
-      },
-      {
-        "name": "Malphite",
-        "role": "Top",
-        "currentWR": 52.8,
-        "change": 0.8
-      },
-      {
-        "name": "Mordekaiser",
-        "role": "Top",
-        "currentWR": 45.2,
-        "change": -4.8
-      },
-      {
-        "name": "Briar",
-        "role": "Jungle",
-        "currentWR": 50.1,
-        "change": -2.1
+        "winRate": 50.9,
+        "pickRate": 3.5,
+        "banRate": 0.3,
+        "trend": "rising",
+        "reason": "Enchanter renaissance"
       }
-    ]
-  },
-  "wildrift": {
-    "patch": "7.1c (7.2: Julio 9, 2026)",
+    ],
     "rising": [
-      "Viktor",
-      "Smolder",
-      "Fiora",
-      "Vex"
+      "Nasus (split push meta — ghost buff en 26.9)",
+      "Fiora (Conqueror buffs — duelistas top favorecidas)",
+      "Vex (anti-mage meta — rise en mid lane)",
+      "Camille (stabilize buff — 49.9% subiendo)",
+      "Taliyah (buff en 26.9 — field check mejorado)",
+      "Nami (enchanter renaissance — peel meta)",
+      "Zeri (ADC buffs en 26.9 — crit items adjustments)",
+      "Smolder (meta shift — hypercarry favored)",
+      "Viktor (buff 26.9 — Q damage up)"
     ],
     "falling": [
-      "Kha'Zix (nerf)",
-      "Liandry users"
+      "Briar (R sustain nerf — menos dominante en ranked)",
+      "Ambessa (burst + survivability nerf)",
+      "Mordekaiser (item nerfs — meta shift)",
+      "Kha'Zix (base damage nerf)",
+      "Yasuo (crit item adjustments)",
+      "Pyke (assassin item nerfs)"
     ],
-    "sTier": [
+    "bTier": [
       {
-        "name": "Viktor",
-        "role": "Mid",
-        "winrate": "53.7%",
-        "reason": "Best scaling mage, zone control, AoE"
-      },
-      {
-        "name": "Smolder",
-        "role": "ADC",
-        "winrate": "53.0%",
-        "reason": "Sole S+ ADC, infinite scaling"
-      },
-      {
-        "name": "Fiora",
-        "role": "Baron",
-        "winrate": "52.0%",
-        "reason": "Dominant split-pusher"
-      },
-      {
-        "name": "Veigar",
-        "role": "Mid",
-        "winrate": "52.5%",
-        "reason": "Infinite scaling, cage CC"
-      },
-      {
-        "name": "Teemo",
-        "role": "Baron/Mid",
-        "winrate": "53.0%",
-        "reason": "19% ban rate, massive pressure"
-      },
-      {
-        "name": "Twitch",
-        "role": "ADC",
-        "winrate": "52.0%",
-        "reason": "AS buff synergy, ambushes"
-      },
-      {
-        "name": "Vex",
-        "role": "Mid",
-        "winrate": "52.0%",
-        "reason": "Anti-dive mage queen"
-      },
-      {
-        "name": "Camille",
-        "role": "Baron",
-        "winrate": "51.0%",
-        "reason": "Divine Sunderer carry"
+        "name": "Darius",
+        "role": "Top",
+        "winRate": 49.8,
+        "pickRate": 5.5,
+        "banRate": 4.0
       },
       {
         "name": "Lee Sin",
         "role": "Jungle",
-        "winrate": "50.5%",
-        "reason": "Best early-game jungler"
+        "winRate": 49.2,
+        "pickRate": 7.0,
+        "banRate": 3.8
       },
       {
-        "name": "Nami",
+        "name": "Thresh",
         "role": "Support",
-        "winrate": "52.0%",
-        "reason": "Top enchanter, Smolder synergy"
+        "winRate": 50.1,
+        "pickRate": 12.0,
+        "banRate": 1.0
+      },
+      {
+        "name": "Yasuo",
+        "role": "Mid",
+        "winRate": 49.3,
+        "pickRate": 8.0,
+        "banRate": 3.0
       }
+    ]
+  },
+  "wildrift": {
+    "patch": "6.9",
+    "sTier": [
+      "Master Yi",
+      "Ahri",
+      "Darius",
+      "Jinx"
     ],
-    "watch72": [
-      "Cho'Gath",
-      "Hwei",
-      "Sylas",
-      "Ahri ASU"
+    "aTier": [
+      "Lee Sin",
+      "Thresh",
+      "Amumu"
     ],
-    "notes": "Patch 7.2 confirmed July 9. K'Sante + Skarner released 7.1. Liandry nerfed 7.1c."
+    "rising": [],
+    "falling": []
+  },
+  "metaLastUpdated": "2026-04-29T01:15:00Z",
+  "patch": "26.9 — Season 2 Pandemonium (live)",
+  "nextPatch": {
+    "version": "26.10",
+    "scheduledDate": "2026-05-13",
+    "pbeStatus": "active",
+    "pbeUpdateUrl": "https://www.surrenderat20.net/pbe/changes/"
   }
 }
