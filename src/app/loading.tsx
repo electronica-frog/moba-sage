@@ -50,8 +50,15 @@ export default function Loading() {
           MOBA SAGE
         </h1>
 
+        <p
+          className="text-[11px] font-semibold tracking-[0.15em] uppercase mb-4"
+          style={{ color: '#c8aa6e', opacity: 0.7 }}
+        >
+          Cargando datos...
+        </p>
+
         {/* Loading bar */}
-        <div className="w-48 h-[2px] rounded-full overflow-hidden mt-4" style={{ background: 'rgba(200,170,110,0.08)' }}>
+        <div className="w-48 h-[2px] rounded-full overflow-hidden" style={{ background: 'rgba(200,170,110,0.08)' }}>
           <div
             className="h-full rounded-full"
             style={{
@@ -61,10 +68,6 @@ export default function Loading() {
             }}
           />
         </div>
-
-        <p className="text-[10px] mt-4 tracking-widest uppercase" style={{ color: '#5b5a56' }}>
-          Cargando...
-        </p>
       </div>
 
       <style>{`
