@@ -52,3 +52,18 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# Audit/test artifacts
+search_*.json
+read_*.json
+screenshot_*.png
+tab_*.png
+after_*.png
+current_*.png
+fresh_*.png
+homepage*.png
+*_modal*.png
+tier_list*.png
+combos_tab.png
+--timeout
+/moba-sage
