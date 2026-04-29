@@ -10,7 +10,9 @@ export async function GET(request: NextRequest) {
       game: searchParams.get('game') || undefined,
       search: searchParams.get('search') || undefined,
     });
-    return NextResponse.json(champions);
+    return NextResponse.json(champions, {
+      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
+    });
   } catch (error) {
     console.error('[API /champions] Error:', error);
     return NextResponse.json({ error: 'Failed to fetch champions' }, { status: 500 });
