@@ -57,3 +57,24 @@ Stage Summary:
 - Vercel deploying successfully after fixes
 - 2 commits pushed as gamer-frog (correct identity for Vercel webhooks)
 - 2 cron jobs active for autonomous improvement
+
+---
+Task ID: 6
+Agent: Super Z (Main)
+Task: Fix git identity + diagnose Vercel deployment failure
+
+Work Log:
+- Found git was pushing as "Z User <z@container>" instead of electronica-frog or gamer-frog
+- Configured git user.name=electronica-frog, user.email=bautiarmanielectronica@gmail.com
+- Pushed test commit 6723737 as electronica-frog - confirmed correct identity
+- Checked Vercel deployments: NO new deployment created (last was April 29, 5c9799a2)
+- Checked GitHub webhooks: NO webhooks configured at all
+- Root cause: Vercel GitHub integration is disconnected/paused — no webhooks = no auto-deploy
+- Deleted 3 duplicate crons (117177, 117178, 117093)
+- Created new clean cron (117197) every 30min with correct git identity instructions
+
+Stage Summary:
+- Git identity fixed: all future commits will be as electronica-frog
+- CRITICAL: Vercel integration needs user intervention — go to Vercel dashboard > moba-sage > Settings > Git > check GitHub connection
+- Cron running every 30min (job 117197) with correct git config
+- User needs to reconnect GitHub integration in Vercel for auto-deploys to resume
