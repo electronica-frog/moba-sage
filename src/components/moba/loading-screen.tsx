@@ -8,9 +8,9 @@ import {
 } from 'lucide-react';
 
 /* ================================================================
-   MOBA SAGE — Loading Screen v6.0
+   MOBA SAGE — Loading Screen v7.0
    - ~12s timeline, sources animate slowly and readable
-   - "Entrar" button appears AFTER all sources finish (~12s)
+   - "Entrar" button visible from the start
    - No auto-dismiss — user controls when to enter
    - Self-contained, only fetches /api/version
    - z-index 210
@@ -44,19 +44,6 @@ export function LoadingScreen({ onSkip }: LoadingScreenProps) {
   const [version, setVersion] = useState<VersionInfo | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const [mountedAt] = useState(() => Date.now());
-  const [allDone, setAllDone] = useState(false);
-
-  // Detect when all sources are done
-  useEffect(() => {
-    const iv = setInterval(() => {
-      const ms = Date.now() - mountedAt;
-      // All sources done at ~12s (last source doneAt: 12000)
-      if (ms >= 12500) {
-        setAllDone(true);
-      }
-    }, 200);
-    return () => clearInterval(iv);
-  }, [mountedAt]);
 
   // Fetch version for display
   useEffect(() => {
@@ -106,6 +93,7 @@ export function LoadingScreen({ onSkip }: LoadingScreenProps) {
 
   const ms = Date.now() - mountedAt;
   const doneCount = sources.filter(s => ms >= s.doneAt).length;
+  const allDone = doneCount === sources.length;
   const progressPct = Math.min(100, Math.round((ms / 12000) * 100));
 
   // Steps — spread across 12s
@@ -362,56 +350,59 @@ export function LoadingScreen({ onSkip }: LoadingScreenProps) {
           </div>
         </motion.div>
 
-        {/* ===== ENTRAR BUTTON — appears after all sources done (~12s) ===== */}
-        <AnimatePresence>
-          {allDone && onSkip && (
-            <motion.div
-              initial={{ opacity: 0, y: 12, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.5, type: 'spring', damping: 20, stiffness: 200 }}
-              className="mt-5 w-full"
-            >
-              {/* Ready indicator */}
-              <div className="flex items-center justify-center gap-2 mb-3">
+        {/* ===== ENTRAR BUTTON — always visible ===== */}
+        {onSkip && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.4 }}
+            className="mt-5 w-full"
+          >
+            {allDone && (
+              <div className="flex items-center justify-center gap-2 mb-2.5">
                 <motion.div
                   className="w-2 h-2 rounded-full"
                   style={{ background: '#0fba81' }}
                   animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                 />
-                <span className="text-[11px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#0fba81' }}>
+                <span className="text-[10px] font-semibold tracking-[0.12em] uppercase" style={{ color: '#0fba81' }}>
                   Todos los datos cargados
                 </span>
               </div>
+            )}
 
-              {/* Main CTA button */}
-              <motion.button
-                type="button"
-                onClick={onSkip}
-                className="w-full py-3.5 rounded-xl text-sm font-bold tracking-[0.12em] uppercase transition-all cursor-pointer"
-                style={{
-                  background: 'linear-gradient(135deg, #c8aa6e, #785a28)',
-                  border: '1.5px solid rgba(200,170,110,0.5)',
-                  color: '#0a0e1a',
-                  boxShadow: '0 0 30px rgba(200,170,110,0.25), 0 4px 20px rgba(0,0,0,0.4)',
-                }}
-                whileHover={{ scale: 1.02, boxShadow: '0 0 40px rgba(200,170,110,0.35), 0 6px 24px rgba(0,0,0,0.5)' }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="flex items-center justify-center gap-2.5">
-                  <Sword className="w-4 h-4" />
-                  <span>Entrar a MOBA SAGE</span>
-                  <ChevronRight className="w-4 h-4" />
-                </div>
-              </motion.button>
+            <motion.button
+              type="button"
+              onClick={onSkip}
+              className="w-full py-3 rounded-xl text-sm font-bold tracking-[0.12em] uppercase transition-all cursor-pointer"
+              style={{
+                background: allDone
+                  ? 'linear-gradient(135deg, #c8aa6e, #785a28)'
+                  : 'linear-gradient(135deg, rgba(200,170,110,0.2), rgba(120,90,40,0.15))',
+                border: '1.5px solid rgba(200,170,110,0.35)',
+                color: allDone ? '#0a0e1a' : '#c8aa6e',
+                boxShadow: allDone
+                  ? '0 0 30px rgba(200,170,110,0.25), 0 4px 20px rgba(0,0,0,0.4)'
+                  : '0 0 12px rgba(200,170,110,0.06)',
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <Sword className="w-4 h-4" />
+                <span>Entrar a MOBA SAGE</span>
+                <ChevronRight className="w-4 h-4" />
+              </div>
+            </motion.button>
 
-              <p className="text-center text-[9px] mt-2.5 tracking-wider" style={{ color: '#5b5a56' }}>
-                167 campeones · 7 fuentes · Listo para jugar
+            {!allDone && (
+              <p className="text-center text-[9px] mt-2 tracking-wider" style={{ color: '#5b5a56' }}>
+                {doneCount}/{sources.length} fuentes · Podes entrar cuando quieras
               </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+          </motion.div>
+        )}
 
         {/* Bottom shimmer */}
         <motion.div className="w-full h-[1px] mt-4 rounded-full overflow-hidden" style={{ background: 'rgba(200,170,110,0.04)' }}
