@@ -34,7 +34,6 @@ import { ProfileTab } from '@/components/moba/tabs/profile-tab';
 
 // Lazy-loaded tabs (code splitting for less-visited pages)
 const CombosTab = dynamic(() => import('@/components/moba/tabs/combos-tab').then(m => ({ default: m.CombosTab })), { loading: () => <TabSkeleton /> });
-const ComparisonTab = dynamic(() => import('@/components/moba/tabs/comparison-tab').then(m => ({ default: m.ComparisonTab })), { loading: () => <TabSkeleton /> });
 const CompetitiveTab = dynamic(() => import('@/components/moba/tabs/competitive-tab').then(m => ({ default: m.CompetitiveTab })), { loading: () => <TabSkeleton /> });
 const GuidesTab = dynamic(() => import('@/components/moba/tabs/guides-tab').then(m => ({ default: m.GuidesTab })), { loading: () => <TabSkeleton /> });
 const TasksTab = dynamic(() => import('@/components/moba/tabs/tasks-tab').then(m => ({ default: m.TasksTab })), { loading: () => <TabSkeleton /> });
@@ -92,7 +91,6 @@ function TabContent({
       case 'broken': return <BrokenStuffTab champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />;
       case 'combos': return <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />;
       case 'coaching': return <CoachingTab selectedGame={selectedGame || ''} />;
-      case 'comparison': return <ComparisonTab champions={champions} loading={loading} selectedGame={selectedGame} onChampionClick={onChampionClick} />;
       case 'competitive': return <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;
       case 'guides': return <GuidesTab />;
       case 'profile': return <ProfileTab summonerName={summonerName} onSummonerNameChange={onSummonerNameChange} summonerRegion={summonerRegion} onSummonerRegionChange={onSummonerRegionChange} summonerData={summonerData} summonerLoading={summonerLoading} summonerError={summonerError} onSearchSummoner={onSearchSummoner} />;

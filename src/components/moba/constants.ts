@@ -74,7 +74,6 @@ export const GAME_TAB_ITEMS = [
   { id: 'broken', label: 'Cosas Rotas', icon: AlertTriangle },
   { id: 'combos', label: 'Combos', icon: Flame },
   { id: 'coaching', label: 'Coaching', icon: GraduationCap },
-  { id: 'comparison', label: 'Comparar', icon: GitCompare },
   { id: 'competitive', label: 'Competitivo', icon: Crown },
   { id: 'guides', label: 'Guías', icon: BookMarked },
   { id: 'profile', label: 'Perfil', icon: User },
