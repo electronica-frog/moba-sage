@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Rocket, Sparkles, Clock, GitCommit,
+  Rocket, Sparkles, Clock, GitCommit, ExternalLink,
   AlertTriangle, CheckCircle2, Loader2, Bug, Palette, Eye, Filter
 } from 'lucide-react';
 
@@ -246,9 +246,15 @@ export function ActivityTab() {
                     <span className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{formatDate(entry.timestamp)}</span>
                     <span>{timeAgo(entry.timestamp)}</span>
                     {entry.commit && (
-                      <span className="flex items-center gap-1 font-mono">
+                      <a
+                        href={`https://github.com/gamer-frog/moba-sage/commit/${entry.commit}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 font-mono text-[9px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors"
+                      >
                         <GitCommit className="w-2.5 h-2.5" />{entry.commit.slice(0, 7)}
-                      </span>
+                        <ExternalLink className="w-2 h-2" />
+                      </a>
                     )}
                   </div>
                 </div>
