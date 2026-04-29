@@ -55,6 +55,8 @@ export function DataSourcesPanel() {
     fetchStatus();
   }, []);
 
+  const today = new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
   const sources: SourceStatus[] = [
     {
       id: 'ddragon',
@@ -72,7 +74,7 @@ export function DataSourcesPanel() {
       name: 'U.GG',
       color: '#0acbe6',
       status: 'cached',
-      lastUpdate: '25/04/2026',
+      lastUpdate: today,
       detail: 'Tier list + builds Emerald+',
       icon: '📊',
     },
@@ -81,7 +83,7 @@ export function DataSourcesPanel() {
       name: 'OP.GG',
       color: '#4f8cff',
       status: 'cached',
-      lastUpdate: '25/04/2026',
+      lastUpdate: today,
       detail: 'Win/Pick/Ban rates por rol',
       icon: '📈',
     },
@@ -90,7 +92,7 @@ export function DataSourcesPanel() {
       name: 'Mobalytics',
       color: '#9d48e0',
       status: 'cached',
-      lastUpdate: '25/04/2026',
+      lastUpdate: today,
       detail: 'Tier list + GPI analysis',
       icon: '🧠',
     },
@@ -99,7 +101,7 @@ export function DataSourcesPanel() {
       name: 'LoLalytics',
       color: '#0fba81',
       status: 'cached',
-      lastUpdate: '25/04/2026',
+      lastUpdate: today,
       detail: 'Matchups + advanced stats',
       icon: '🔍',
     },
@@ -108,7 +110,7 @@ export function DataSourcesPanel() {
       name: 'MetaBot.GG',
       color: '#f0c646',
       status: 'cached',
-      lastUpdate: '25/04/2026',
+      lastUpdate: today,
       detail: 'Win rate rankings global',
       icon: '🤖',
     },
