@@ -1,7 +1,15 @@
 {
-  "version": "1.9",
+  "version": "2.0",
   "lastUpdated": "2026-04-27T04:55:00Z",
   "entries": [
+    {
+      "id": "patch-26-9-20260429011513",
+      "type": "improvement",
+      "title": "Patch 26.9 — Season 2 Pandemonium: Datos actualizados",
+      "description": "Tierlist actualizada con datos frescos de Mobalytics/U.GG/Skill Capped. Patch analysis con buffs/nerfs completos. Briar nerfeada, enchanters renacidos. 26.10 programado para 13 de Mayo. PBE activo con cambios visibles.",
+      "timestamp": "2026-04-29T01:15:00Z",
+      "category": "meta"
+    },
     {
       "id": "e26",
       "type": "improvement",
