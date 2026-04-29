@@ -181,9 +181,11 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
 // Derive champion patch changes from existing data
 function deriveChampionChanges(analysis: PatchAnalysis): PatchChampionChange[] {
   const changes: PatchChampionChange[] = [];
+  const broken = Array.isArray(analysis.brokenChampions) ? analysis.brokenChampions : [];
+  const fallen = Array.isArray(analysis.fallenChampions) ? analysis.fallenChampions : [];
 
   // Build from broken champions (these went UP)
-  for (const champ of analysis.brokenChampions) {
+  for (const champ of broken) {
     changes.push({
       name: champ.name,
       tierAfter: champ.tier,
@@ -194,11 +196,11 @@ function deriveChampionChanges(analysis: PatchAnalysis): PatchChampionChange[] {
   }
 
   // Build from fallen champions (these went DOWN)
-  for (const champ of analysis.fallenChampions) {
+  for (const champ of fallen) {
     const existingIdx = changes.findIndex(c => c.name === champ.name);
     if (existingIdx >= 0) {
       changes[existingIdx].tierBefore = champ.tier;
-      changes[existingIdx].tierAfter = analysis.brokenChampions.find(b => b.name === champ.name)?.tier;
+      changes[existingIdx].tierAfter = broken.find(b => b.name === champ.name)?.tier;
       // Don't add duplicate
     } else {
       changes.push({
@@ -214,8 +216,8 @@ function deriveChampionChanges(analysis: PatchAnalysis): PatchChampionChange[] {
   // Add tier before/after from the broken/fallen structure
   // Cross-reference: broken = went UP, fallen = went DOWN
   for (const change of changes) {
-    const isBroken = analysis.brokenChampions.some(b => b.name === change.name);
-    const isFallen = analysis.fallenChampions.some(f => f.name === change.name);
+    const isBroken = broken.some(b => b.name === change.name);
+    const isFallen = fallen.some(f => f.name === change.name);
     
     if (isBroken) {
       // Went up to current tier
@@ -236,6 +238,8 @@ function deriveChampionChanges(analysis: PatchAnalysis): PatchChampionChange[] {
 function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
   // Derive per-champion changes from the analysis data
   const championChanges = deriveChampionChanges(analysis);
+  const broken = Array.isArray(analysis.brokenChampions) ? analysis.brokenChampions : [];
+  const fallen = Array.isArray(analysis.fallenChampions) ? analysis.fallenChampions : [];
 
   return (
     <motion.div
@@ -265,19 +269,21 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         <p className="text-xs text-[#a09b8c] leading-relaxed">{analysis.summary}</p>
       </div>
 
-      {/* Two columns: Broken + Fallen */}
+      {/* Two columns: Broken + Fallen — only show when data exists */}
+      {(broken.length > 0 || fallen.length > 0) && (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Broken Champions */}
+        {broken.length > 0 && (
         <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(15,186,129,0.15)' }}>
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(15,186,129,0.12)', border: '1px solid rgba(15,186,129,0.3)' }}>
               <ArrowUpCircle className="w-4 h-4 text-[#0fba81]" />
             </div>
             <span className="lol-label text-xs font-semibold text-[#0fba81]">¿Quién Queda Roto?</span>
-            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{analysis.brokenChampions.length}</span>
+            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{broken.length}</span>
           </div>
           <div className="space-y-2.5">
-            {analysis.brokenChampions.map((champ, i) => (
+            {broken.map((champ, i) => (
               <motion.div
                 key={champ.name}
                 initial={{ opacity: 0, x: -8 }}
@@ -299,18 +305,20 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
             ))}
           </div>
         </div>
+        )}
 
         {/* Fallen Champions */}
+        {fallen.length > 0 && (
         <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(232,64,87,0.15)' }}>
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(232,64,87,0.12)', border: '1px solid rgba(232,64,87,0.3)' }}>
               <ArrowDownCircle className="w-4 h-4 text-[#e84057]" />
             </div>
             <span className="lol-label text-xs font-semibold text-[#e84057]">¿Quién Cayó?</span>
-            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{analysis.fallenChampions.length}</span>
+            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{fallen.length}</span>
           </div>
           <div className="space-y-2.5">
-            {analysis.fallenChampions.map((champ, i) => (
+            {fallen.map((champ, i) => (
               <motion.div
                 key={champ.name}
                 initial={{ opacity: 0, x: -8 }}
@@ -332,7 +340,9 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
             ))}
           </div>
         </div>
+        )}
       </div>
+      )}
 
       {/* Per-Champion Patch Changes (NEW: TASK 3) */}
       {championChanges.length > 0 && (
@@ -423,8 +433,22 @@ export function BrokenStuffTab({
       try {
         const res = await fetch('/patch-analysis.json');
         if (res.ok) {
-          const data: PatchAnalysis = await res.json();
-          setPatchAnalysis(data);
+          const raw = await res.json();
+          // Map actual JSON structure to PatchAnalysis type
+          const mapped: PatchAnalysis = {
+            lastUpdated: raw.date || new Date().toISOString(),
+            currentPatch: raw.version || '',
+            nextPatch: raw.nextPatch?.number || raw.nextPatch?.version || '',
+            patchDate: raw.date || '',
+            keyChanges: Array.isArray(raw.highlights) ? raw.highlights : [],
+            systemChanges: Array.isArray(raw.metaDirection) ? raw.metaDirection : [],
+            brokenChampions: Array.isArray(raw.brokenChampions) ? raw.brokenChampions : [],
+            fallenChampions: Array.isArray(raw.fallenChampions) ? raw.fallenChampions : [],
+            itemImpact: { winners: [], losers: [] },
+            summary: raw.summary || '',
+            patchChanges: [],
+          };
+          setPatchAnalysis(mapped);
         }
       } catch (err) {
         console.error('Error loading patch analysis:', err);
