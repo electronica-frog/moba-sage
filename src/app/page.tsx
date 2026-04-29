@@ -106,7 +106,7 @@ function TabContent({
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div key={activeTab} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.15 }}>
+      <motion.div key={activeTab} id={`tabpanel-${activeTab}`} role="tabpanel" aria-label={activeTab} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.15 }}>
         {selectedGame === 'wildrift' && <WildRiftHeader version={liveVersions.wr} />}
         {fetchError && !loading ? (
           <motion.div
