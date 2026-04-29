@@ -178,3 +178,24 @@ Stage Summary:
 - Commit 474bc17 pushed as electronica-frog
 - Loading screen now reliably shows for 5 seconds with animated data source progress
 - No popup interference possible during loading
+
+---
+Task ID: 3
+Agent: Main Agent
+Task: Live site audit + fix critical Cosas Rotas crash
+
+Work Log:
+- Ran full visual audit of moba-sage.vercel.app via browser automation
+- Tested all 10 sidebar tabs on desktop
+- Found 5 bugs total (1 critical, 4 medium/low)
+- CRITICAL: Cosas Rotas tab crashed with "brokenChampions is not iterable"
+  - Root cause: patch-analysis.json has no brokenChampions/fallenChampions keys
+  - Component was iterating undefined/null values
+  - Fix: Added Array.isArray() guards + JSON mapping layer + conditional rendering
+- Identified but deferred: champion modal, duplicate search, notifications, patch label
+- Also fixed next.config.ts eslint removal for Next.js 16 compatibility
+
+Stage Summary:
+- Commit 85db875 pushed as electronica-frog
+- Cosas Rotas tab now loads properly with available data
+- 4 remaining bugs documented for next improvement cycle
