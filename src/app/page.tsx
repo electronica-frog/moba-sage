@@ -395,6 +395,15 @@ export default function Home() {
   // ============ RENDER ============
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden" style={{ backgroundColor: '#0a0e1a', width: '100%' }}>
+      {/* Skip to content — accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold"
+        style={{ background: 'linear-gradient(135deg, #c8aa6e, #785a28)', color: '#0a0e1a' }}
+      >
+        Ir al contenido principal
+      </a>
+
       {/* Loading Screen (initial only) */}
       <AnimatePresence>
         {!initialLoadDone && <LoadingScreen />}
@@ -517,7 +526,7 @@ export default function Home() {
       {selectedGame && <SidebarNav activeTab={activeTab} onTabChange={setActiveTab} gamePatch={selectedGame === 'wildrift' ? liveVersions.wr : liveVersions.gamePatch} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />}
 
       {/* Content — offset for sidebar on desktop, bottom nav on mobile */}
-      <main className={`flex-1 w-full px-3 sm:px-4 py-4 sm:py-6 transition-all duration-300 overflow-x-hidden ${selectedGame ? 'lg:ml-[220px] lg:w-[calc(100%-220px)] pb-24 lg:pb-6' : ''}`}>
+      <main id="main-content" className={`flex-1 w-full px-3 sm:px-4 py-4 sm:py-6 transition-all duration-300 overflow-x-hidden ${selectedGame ? 'lg:ml-[220px] lg:w-[calc(100%-220px)] pb-24 lg:pb-6' : ''}`} role="main">
         <div className={selectedGame ? 'max-w-6xl mx-auto' : ''}>
           <AnimatePresence mode="popLayout">
             {!selectedGame ? (

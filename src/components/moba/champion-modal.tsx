@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { ExternalLink, Info, Sparkles, Crosshair, Users, Wrench, AlertTriangle, Eye, ShieldCheck, TrendingUp, X, Star, Swords, Flame, Wind, Shield, Lightbulb } from 'lucide-react';
@@ -523,6 +523,34 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
   const [failedSkins, setFailedSkins] = useState<Set<number>>(new Set());
   const [metaBuild, setMetaBuild] = useState<any>(null);
   const [hoveredAbility, setHoveredAbility] = useState<'Q' | 'W' | 'E' | 'R' | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap + Escape to close
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (!modal) return;
+    // Focus the first focusable element
+    const focusable = modal.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (focusable) focusable.focus();
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Tab' && modal) {
+        const focusableEls = Array.from(modal.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+        if (focusableEls.length === 0) return;
+        const first = focusableEls[0];
+        const last = focusableEls[focusableEls.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
 
   useEffect(() => {
     if (champion.tier !== 'S') return;
@@ -567,6 +595,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.92, opacity: 0, y: 20 }}
         transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+        ref={modalRef}
         className="w-full max-w-[480px] sm:max-w-[520px] max-h-[92vh] overflow-hidden rounded-2xl flex flex-col"
         style={{
           background: 'linear-gradient(180deg, rgba(20,24,30,0.99), rgba(10,14,26,0.99))',
