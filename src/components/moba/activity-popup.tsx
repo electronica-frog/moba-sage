@@ -191,7 +191,7 @@ export function ActivityPopup() {
                         </div>
                         {latestEntry.commit && (
                           <a
-                            href={`https://github.com/bautiarmij/moba-sage/commit/${latestEntry.commit}`}
+                            href={`https://github.com/gamer-frog/moba-sage/commit/${latestEntry.commit}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1 text-[8px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors font-mono"
@@ -244,7 +244,7 @@ export function ActivityPopup() {
                         {timeAgo(entry.timestamp)}
                         {entry.commit && (
                           <a
-                            href={`https://github.com/bautiarmij/moba-sage/commit/${entry.commit}`}
+                            href={`https://github.com/gamer-frog/moba-sage/commit/${entry.commit}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="font-mono text-[#0acbe6] hover:text-[#f0e6d2] transition-colors"
