@@ -26,7 +26,7 @@ const _SplashCarousel = memo(function _SplashCarousel() {
       {SPLASH_CHAMPIONS.map((key, i) => (
         <div
           key={key}
-          className="absolute inset-0 transition-opacity duration-s]"
+          className="absolute inset-0 transition-opacity duration-500"
           style={{
             opacity: i === current ? 0.08 : 0,
             backgroundImage: `url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${key}_0.jpg)`,
