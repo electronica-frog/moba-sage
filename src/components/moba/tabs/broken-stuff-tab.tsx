@@ -458,8 +458,8 @@ export function BrokenStuffTab({
         </div>
       </div>
 
-      {/* PATCH ANALYSIS SECTION */}
-      {analysisLoading ? (
+      {/* PATCH ANALYSIS SECTION — LoL only (WR doesn't have patch-analysis.json) */}
+      {selectedGame !== 'wildrift' && (analysisLoading ? (
         <div className="space-y-3">
           <Skeleton className="h-32 rounded-xl" />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -469,7 +469,7 @@ export function BrokenStuffTab({
         </div>
       ) : patchAnalysis ? (
         <PatchAnalysisSection analysis={patchAnalysis} />
-      ) : null}
+      ) : null)}
 
       {!loading && sTierChamps.length > 0 && (
         <div>
