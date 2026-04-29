@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Search, ArrowUp } from 'lucide-react';
+import { Brain, Search, ArrowUp, RefreshCw, WifiOff } from 'lucide-react';
 import { ChampionIcon } from '@/components/moba/champion-icon';
 import { RoleBadge } from '@/components/moba/badges';
 import { updateDdVersion } from '@/components/moba/helpers';
@@ -21,23 +22,43 @@ import { WildRiftHeader } from '@/components/moba/wr-banner';
 import { ChampionModal } from '@/components/moba/champion-modal';
 import { LoadingScreen } from '@/components/moba/loading-screen';
 import { MinimapDecoration } from '@/components/moba/minimap-decoration';
+import { ActivityPopup } from '@/components/moba/activity-popup';
+import { FloatingNotes } from '@/components/moba/floating-notes';
 
-// Tabs
+// Tabs — core tabs loaded eagerly, secondary tabs lazy loaded
 import { TierListTab } from '@/components/moba/tabs/tier-list-tab';
 import { PatchesTab } from '@/components/moba/tabs/patches-tab';
 import { BrokenStuffTab } from '@/components/moba/tabs/broken-stuff-tab';
-import { TasksTab } from '@/components/moba/tabs/tasks-tab';
-import { IdeasTab } from '@/components/moba/tabs/ideas-tab';
-import { CombosTab } from '@/components/moba/tabs/combos-tab';
-import { ProfileTab } from '@/components/moba/tabs/profile-tab';
-import { ActivityTab } from '@/components/moba/tabs/activity-tab';
 import { CoachingTab } from '@/components/moba/tabs/coaching-tab';
-import { ComparisonTab } from '@/components/moba/tabs/comparison-tab';
-import { CompetitiveTab } from '@/components/moba/tabs/competitive-tab';
-import { GuidesTab } from '@/components/moba/tabs/guides-tab';
-import { RoadmapTab } from '@/components/moba/tabs/roadmap-tab';
-import { ActivityPopup } from '@/components/moba/activity-popup';
-import { FloatingNotes } from '@/components/moba/floating-notes';
+import { ProfileTab } from '@/components/moba/tabs/profile-tab';
+
+// Lazy-loaded tabs (code splitting for less-visited pages)
+const CombosTab = dynamic(() => import('@/components/moba/tabs/combos-tab').then(m => ({ default: m.CombosTab })), { loading: () => <TabSkeleton /> });
+const ComparisonTab = dynamic(() => import('@/components/moba/tabs/comparison-tab').then(m => ({ default: m.ComparisonTab })), { loading: () => <TabSkeleton /> });
+const CompetitiveTab = dynamic(() => import('@/components/moba/tabs/competitive-tab').then(m => ({ default: m.CompetitiveTab })), { loading: () => <TabSkeleton /> });
+const GuidesTab = dynamic(() => import('@/components/moba/tabs/guides-tab').then(m => ({ default: m.GuidesTab })), { loading: () => <TabSkeleton /> });
+const TasksTab = dynamic(() => import('@/components/moba/tabs/tasks-tab').then(m => ({ default: m.TasksTab })), { loading: () => <TabSkeleton /> });
+const IdeasTab = dynamic(() => import('@/components/moba/tabs/ideas-tab').then(m => ({ default: m.IdeasTab })), { loading: () => <TabSkeleton /> });
+const ActivityTab = dynamic(() => import('@/components/moba/tabs/activity-tab').then(m => ({ default: m.ActivityTab })), { loading: () => <TabSkeleton /> });
+const RoadmapTab = dynamic(() => import('@/components/moba/tabs/roadmap-tab').then(m => ({ default: m.RoadmapTab })), { loading: () => <TabSkeleton /> });
+
+// ============ TAB SKELETON (lazy loading placeholder) ============
+function TabSkeleton() {
+  return (
+    <div className="space-y-4 animate-pulse">
+      <div className="h-7 w-40 rounded-lg bg-[#1e2328]" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(30,35,40,0.4)', border: '1px solid rgba(120,90,40,0.1)' }}>
+            <div className="h-5 w-32 rounded bg-[#1e2328]" />
+            <div className="h-4 w-full rounded bg-[#1e2328]" />
+            <div className="h-4 w-3/4 rounded bg-[#1e2328]" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // ============ TAB CONTENT RENDERER ============
 function TabContent({
@@ -45,7 +66,7 @@ function TabContent({
   searchQuery, onSearchChange, roleFilter, onRoleFilterChange, favorites, onToggleFavorite,
   onChampionClick, summonerName, onSummonerNameChange, summonerRegion, onSummonerRegionChange,
   summonerData, summonerLoading, summonerError, onSearchSummoner, liveVersions, fetchData,
-  proRegionFilter, onProRegionFilterChange, handleToggleTask,
+  proRegionFilter, onProRegionFilterChange, handleToggleTask, fetchError, onRetryFetch,
 }: {
   activeTab: string; selectedGame: GameSelection; champions: Champion[];
   loading: boolean; patches: PatchNote[]; insights: AiInsight[];
@@ -62,6 +83,7 @@ function TabContent({
   fetchData: () => void;
   proRegionFilter: string; onProRegionFilterChange: (r: string) => void;
   handleToggleTask: (t: TaskItem) => void;
+  fetchError: boolean; onRetryFetch: () => void;
 }) {
   const renderTab = () => {
     switch (activeTab) {
@@ -86,7 +108,30 @@ function TabContent({
     <AnimatePresence mode="wait">
       <motion.div key={activeTab} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.15 }}>
         {selectedGame === 'wildrift' && <WildRiftHeader version={liveVersions.wr} />}
-        {renderTab()}
+        {fetchError && !loading ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card rounded-xl p-12 text-center max-w-md mx-auto"
+            style={{ border: '1px solid rgba(232,64,87,0.2)' }}
+          >
+            <WifiOff className="w-12 h-12 mx-auto mb-4 text-[#e84057]/60" />
+            <h3 className="lol-title text-lg text-[#f0e6d2] mb-2">Error al cargar datos</h3>
+            <p className="text-sm text-[#a09b8c] mb-6">No se pudo conectar con el servidor. Verificá tu conexión e intentá de nuevo.</p>
+            <motion.button
+              onClick={onRetryFetch}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer"
+              style={{ background: 'linear-gradient(135deg, #c8aa6e, #785a28)', color: '#0a0e1a', boxShadow: '0 0 20px rgba(200,170,110,0.2)' }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <RefreshCw className="w-4 h-4" />
+              Reintentar
+            </motion.button>
+          </motion.div>
+        ) : (
+          renderTab()
+        )}
       </motion.div>
     </AnimatePresence>
   );
@@ -103,6 +148,7 @@ export default function Home() {
   const [proPicks, setProPicks] = useState<ProPick[]>([]);
   const [combos, setCombos] = useState<BrokenCombo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [initialLoadDone, setInitialLoadDone] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('Todos');
@@ -199,6 +245,7 @@ export default function Home() {
       }
     } catch (err) {
       console.error('Error fetching data:', err);
+      setFetchError(true);
     } finally {
       setLoading(false);
       setInitialLoadDone(true);
@@ -506,6 +553,8 @@ export default function Home() {
                 proRegionFilter={proRegionFilter}
                 onProRegionFilterChange={setProRegionFilter}
                 handleToggleTask={handleToggleTask}
+                fetchError={fetchError}
+                onRetryFetch={() => { setFetchError(false); fetchData(); }}
               />
             )}
           </AnimatePresence>
