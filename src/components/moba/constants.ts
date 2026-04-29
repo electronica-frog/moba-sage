@@ -7,6 +7,7 @@ import {
   ChevronRight, Zap, Shield, Target, Crosshair,
   Trophy, User, Flame, Map, Crown, Sparkles, Lightbulb,
   Rocket, Wrench, Settings, BookOpen, GraduationCap,
+  GitCompare, BookMarked,
 } from 'lucide-react';
 
 export const TIERS = ['S', 'A', 'B'] as const;
@@ -73,6 +74,9 @@ export const GAME_TAB_ITEMS = [
   { id: 'broken', label: 'Cosas Rotas', icon: AlertTriangle },
   { id: 'combos', label: 'Combos', icon: Flame },
   { id: 'coaching', label: 'Coaching', icon: GraduationCap },
+  { id: 'comparison', label: 'Comparar', icon: GitCompare },
+  { id: 'competitive', label: 'Competitivo', icon: Crown },
+  { id: 'guides', label: 'Guías', icon: BookMarked },
   { id: 'profile', label: 'Perfil', icon: User },
 ];
 
@@ -81,6 +85,7 @@ export const DEV_TAB_ITEMS = [
   { id: 'novedades', label: 'Novedades', icon: Rocket },
   { id: 'ideas', label: 'Ideas', icon: Lightbulb },
   { id: 'tasks', label: 'Tareas', icon: Wrench },
+  { id: 'roadmap', label: 'Roadmap', icon: Map },
 ];
 
 // All tabs combined (for tab navigation)

@@ -129,6 +129,14 @@ function getGameStyle(game: string): { color: string; bg: string; border: string
       return { color: '#0acbe6', bg: 'rgba(10,203,230,0.1)', border: 'rgba(10,203,230,0.3)', label: 'Wild Rift' };
     case 'LoL':
       return { color: '#c8aa6e', bg: 'rgba(200,170,110,0.1)', border: 'rgba(200,170,110,0.3)', label: 'LoL' };
+    case 'Dota':
+      return { color: '#e84057', bg: 'rgba(232,64,87,0.1)', border: 'rgba(232,64,87,0.3)', label: 'Dota 2' };
+    case 'CS2':
+      return { color: '#f0c646', bg: 'rgba(240,198,70,0.1)', border: 'rgba(240,198,70,0.3)', label: 'CS2' };
+    default:
+      return { color: '#a09b8c', bg: 'rgba(160,155,140,0.1)', border: 'rgba(160,155,140,0.3)', label: game };
+  }
+}
 
 function getPatchNotesUrl(patch: PatchNote): string {
   const v = patch.version.replace(/\./g, '-');

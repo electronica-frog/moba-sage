@@ -32,6 +32,10 @@ import { CombosTab } from '@/components/moba/tabs/combos-tab';
 import { ProfileTab } from '@/components/moba/tabs/profile-tab';
 import { ActivityTab } from '@/components/moba/tabs/activity-tab';
 import { CoachingTab } from '@/components/moba/tabs/coaching-tab';
+import { ComparisonTab } from '@/components/moba/tabs/comparison-tab';
+import { CompetitiveTab } from '@/components/moba/tabs/competitive-tab';
+import { GuidesTab } from '@/components/moba/tabs/guides-tab';
+import { RoadmapTab } from '@/components/moba/tabs/roadmap-tab';
 import { ActivityPopup } from '@/components/moba/activity-popup';
 import { FloatingNotes } from '@/components/moba/floating-notes';
 
@@ -66,10 +70,14 @@ function TabContent({
       case 'broken': return <BrokenStuffTab champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />;
       case 'combos': return <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />;
       case 'coaching': return <CoachingTab selectedGame={selectedGame || ''} />;
+      case 'comparison': return <ComparisonTab champions={champions} loading={loading} selectedGame={selectedGame} onChampionClick={onChampionClick} />;
+      case 'competitive': return <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;
+      case 'guides': return <GuidesTab />;
       case 'profile': return <ProfileTab summonerName={summonerName} onSummonerNameChange={onSummonerNameChange} summonerRegion={summonerRegion} onSummonerRegionChange={onSummonerRegionChange} summonerData={summonerData} summonerLoading={summonerLoading} summonerError={summonerError} onSearchSummoner={onSearchSummoner} />;
       case 'novedades': return <ActivityTab />;
       case 'ideas': return <IdeasTab />;
       case 'tasks': return <TasksTab tasks={tasks} loading={loading} onRefresh={fetchData} onToggleTask={handleToggleTask} />;
+      case 'roadmap': return <RoadmapTab />;
       default: return <TierListTab champions={champions} loading={loading} selectedGame={selectedGame} searchQuery={searchQuery} onSearchChange={onSearchChange} roleFilter={roleFilter} onRoleFilterChange={onRoleFilterChange} favorites={favorites} onToggleFavorite={onToggleFavorite} onChampionClick={onChampionClick} metaLastUpdated={liveVersions.metaLastUpdated} />;
     }
   };

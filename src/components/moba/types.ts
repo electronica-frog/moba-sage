@@ -40,6 +40,7 @@ export interface PatchNote {
   highlights?: string[];
   changes?: Record<string, string[]>;
   feedStatus?: string;
+  url?: string;
 }
 
 export interface AiInsight {
