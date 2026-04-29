@@ -99,9 +99,25 @@ export function AppHeader({
   }, []);
 
   // Click outside to close dropdown
+  // Use a ref flag to prevent the opening click from immediately closing the dropdown
+  const notifJustOpened = useRef(false);
+  
+  const toggleNotif = () => {
+    if (!notifOpen) {
+      // Opening — set flag to ignore the next click outside
+      notifJustOpened.current = true;
+    }
+    setNotifOpen(prev => !prev);
+  };
+
   useEffect(() => {
     if (!notifOpen) return;
     function handleClickOutside(e: MouseEvent) {
+      // Skip if this click just opened the dropdown (race condition fix)
+      if (notifJustOpened.current) {
+        notifJustOpened.current = false;
+        return;
+      }
       if (
         dropdownRef.current && !dropdownRef.current.contains(e.target as Node) &&
         bellRef.current && !bellRef.current.contains(e.target as Node)
@@ -109,8 +125,8 @@ export function AppHeader({
         setNotifOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [notifOpen]);
 
   // Close detail popup on Escape
@@ -212,7 +228,7 @@ export function AppHeader({
           <div className="relative">
             <button
               ref={bellRef}
-              onClick={() => setNotifOpen(prev => !prev)}
+              onClick={toggleNotif}
               className="relative flex items-center justify-center w-9 h-9 rounded-lg transition-all duration-200"
               style={{
                 color: hasNotifs ? '#c8aa6e' : '#a09b8c',
