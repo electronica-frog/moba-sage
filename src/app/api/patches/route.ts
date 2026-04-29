@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 interface PatchEntry {
-  id: number | string;
+  id: number;
   version: string;
   title: string;
   date: string;
@@ -13,59 +13,88 @@ interface PatchEntry {
   sourceGame: string;
   highlights?: string[];
   changes?: Record<string, string[]>;
-  status?: string;
 }
+
+const FALLBACK_PATCHES: PatchEntry[] = [
+  {
+    id: 1,
+    version: '26.9',
+    title: 'Patch 26.9 — Nuevo Campeón Zaahen',
+    date: '2026-04-29',
+    summary: 'Zaahen llega como nuevo campeón rompiendo top lane. Nerfs a Mordekaiser, Briar y Ambessa. Buffs a Viktor y Camille.',
+    digest: 'Patch 26.9 trae a Zaahen como nuevo campeón rompiendo top lane. Nerfs significativos a Mordekaiser, Briar y Ambessa. Buffs a Viktor y Camille. Meta shift hacia hypercarries ADC y enchanters support.',
+    url: 'https://www.leagueoflegends.com/en-us/news/game-updates/patch-26-9-notes/',
+    sourceGame: 'LoL',
+  },
+  {
+    id: 2,
+    version: '26.8',
+    title: 'Patch 26.8 — Ajustes de Temporada',
+    date: '2026-04-17',
+    summary: 'Ajustes de balance para la temporada 2026. Meta estable pre-Season 2. Cambios a Ornn, Garen, Nocturne y varios bruisers.',
+    digest: 'Patch 26.8 trae cambios significativos al meta actual. Se ajustan items mythic y objetos legendarios, se modifican las ratios de la jungla, y varios campeones reciben buffs y nerfs de balance.',
+    url: 'https://www.leagueoflegends.com/en-us/news/game-updates/patch-26-8-notes/',
+    sourceGame: 'LoL',
+  },
+  {
+    id: 3,
+    version: '6.8',
+    title: 'Patch 6.8 — Wild Rift Mid Season',
+    date: '2026-04-15',
+    summary: 'Ajustes de balance para Wild Rift mid-season. Buffs a Master Yi, Lee Sin. Ahri y Darius se consolidan.',
+    digest: 'Patch 6.8 de Wild Rift trae ajustes significativos al meta móvil. Master Yi recibe buffs en su Alpha Strike, Lee Sin tiene mejor scaling con items bruiser.',
+    url: 'https://www.leagueoflegends.com/en-us/news/game-updates/wild-rift-patch-6-8-notes/',
+    sourceGame: 'WR',
+  },
+];
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const gameFilter = searchParams.get('game') || undefined;
 
+  // ===== PRIORITY 1: Local curated patches-feed.json =====
   try {
-    // ── PRIMARY: Read curated patches-feed.json ──
-    const feedPath = path.join(process.cwd(), 'public', 'patches-feed.json');
-    const raw = await fs.readFile(feedPath, 'utf-8').catch(() => null);
+    const feedPath = join(process.cwd(), 'public', 'patches-feed.json');
+    const feedContent = readFileSync(feedPath, 'utf-8');
+    const feedData = JSON.parse(feedContent);
 
-    if (raw) {
-      let patches: PatchEntry[] = [];
+    let patches: PatchEntry[] = [];
 
-      // Handle both formats: plain array OR { patches: [...] }
-      try {
-        const data = JSON.parse(raw);
-        if (Array.isArray(data)) {
-          patches = data;
-        } else if (Array.isArray(data.patches)) {
-          patches = data.patches;
-        }
-      } catch {
-        // JSON parse failed, try CommunityDragon below
-      }
+    // Handle both array and { patches: [...] } formats
+    const feedPatches = Array.isArray(feedData) ? feedData : (feedData.patches || []);
 
-      if (patches.length > 0) {
-        // Normalize sourceGame (feed uses lowercase "lol", we use "LoL")
-        patches = patches.map((p: any) => ({
-          id: p.id,
-          version: p.version,
-          title: p.title,
-          summary: p.summary || '',
-          digest: p.digest || '',
-          date: p.date,
-          url: p.url || '',
-          sourceGame: normalizeSourceGame(p.sourceGame || p.game),
-          highlights: p.highlights,
-          changes: p.changes,
-          status: p.status,
-        }));
-
-        // Apply game filter
-        let filtered = patches;
-        if (gameFilter === 'lol') filtered = patches.filter(p => p.sourceGame === 'LoL');
-        else if (gameFilter === 'wildrift' || gameFilter === 'wr') filtered = patches.filter(p => p.sourceGame === 'WR');
-
-        return NextResponse.json(filtered);
-      }
+    for (const fp of feedPatches) {
+      const normalizedGame = fp.game === 'lol' ? 'LoL' : fp.game === 'wildrift' ? 'WR' : fp.game || 'LoL';
+      patches.push({
+        id: typeof fp.id === 'number' ? fp.id : patches.length + 1,
+        version: fp.version,
+        title: fp.title || `Patch ${fp.version}`,
+        date: fp.date || new Date().toISOString().split('T')[0],
+        summary: fp.summary || '',
+        digest: fp.digest || '',
+        url: fp.url || '',
+        sourceGame: normalizedGame,
+        highlights: fp.highlights,
+        changes: fp.changes,
+      });
     }
 
-    // ── FALLBACK: CommunityDragon patches ──
+    // Sort by date descending
+    patches.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    // Apply game filter
+    if (gameFilter === 'lol') patches = patches.filter(p => p.sourceGame === 'LoL');
+    else if (gameFilter === 'wildrift') patches = patches.filter(p => p.sourceGame === 'WR');
+
+    if (patches.length > 0) {
+      return NextResponse.json(patches);
+    }
+  } catch {
+    // patches-feed.json not found or invalid — continue to next source
+  }
+
+  // ===== PRIORITY 2: CommunityDragon (live fallback) =====
+  try {
     const cdResponse = await fetch(
       'https://raw.communitydragon.org/latest/cdragon/patches.json',
       { next: { revalidate: 3600 } }
@@ -77,48 +106,53 @@ export async function GET(request: NextRequest) {
 
       if (Array.isArray(cdData.patches)) {
         const latestPatches = cdData.patches.slice(0, 10);
-        latestPatches.forEach((patch: any, index: number) => {
+        latestPatches.forEach((patch: { id?: string; name?: string; patch?: string; title?: string; date?: string; banner?: string; notes?: string }, index: number) => {
           const version = patch.id || patch.name || patch.patch || `16.${8 - index}`;
+          const title = patch.title || `Patch ${version}`;
+          const date = patch.date || new Date(Date.now() - index * 14 * 86400000).toISOString().split('T')[0];
+          const url = patch.banner
+            ? `https://www.leagueoflegends.com/en-us/news/game-updates/patch-${version.replace(/\./g, '-')}-notes/`
+            : `https://www.leagueoflegends.com/en-us/news/game-updates/`;
+
           patches.push({
             id: index + 1,
             version,
-            title: patch.title || `Patch ${version}`,
-            date: patch.date || new Date(Date.now() - index * 14 * 86400000).toISOString().split('T')[0],
-            summary: patch.notes || `Notas del parche ${version}.`,
+            title,
+            date,
+            summary: patch.notes || `Notas del parche ${version} con ajustes de balance.`,
             digest: patch.notes || `Cambios en el parche ${version}.`,
-            url: `https://www.leagueoflegends.com/en-us/news/game-updates/patch-${version.replace(/\./g, '-')}-notes/`,
+            url,
             sourceGame: 'LoL',
           });
         });
       }
 
+      // Add WR fallback
+      patches.push({
+        id: patches.length + 1,
+        version: '6.8',
+        title: 'Patch 6.8 — Wild Rift Mid Season',
+        date: '2026-04-15',
+        summary: 'Ajustes de balance para Wild Rift mid-season.',
+        digest: 'Patch 6.8 de Wild Rift trae ajustes significativos al meta móvil.',
+        url: 'https://www.leagueoflegends.com/en-us/news/game-updates/wild-rift-patch-6-8-notes/',
+        sourceGame: 'WR',
+      });
+
       let filtered = patches;
       if (gameFilter === 'lol') filtered = patches.filter(p => p.sourceGame === 'LoL');
-      else if (gameFilter === 'wildrift' || gameFilter === 'wr') filtered = patches.filter(p => p.sourceGame === 'WR');
+      else if (gameFilter === 'wildrift') filtered = patches.filter(p => p.sourceGame === 'WR');
 
       return NextResponse.json(filtered);
     }
-  } catch (err) {
-    console.error('[/api/patches] Error:', err);
+  } catch {
+    // CommunityDragon failed — continue to fallback
   }
 
-  // ── LAST RESORT: hardcoded fallback ──
-  const fallback: PatchEntry[] = [
-    { id: 1, version: '26.9', title: 'Patch 26.9 — Pandemonium', date: '2026-04-29', summary: 'Season 2 Pandemonium launch.', digest: 'Season 2 Pandemonium.', url: '', sourceGame: 'LoL' },
-    { id: 2, version: '26.8', title: 'Patch 26.8 — Ajustes de Temporada', date: '2026-04-17', summary: 'Ajustes de balance.', digest: 'Ajustes de balance.', url: '', sourceGame: 'LoL' },
-  ];
-
-  let filtered = fallback;
-  if (gameFilter === 'lol') filtered = fallback.filter(p => p.sourceGame === 'LoL');
-  else if (gameFilter === 'wildrift' || gameFilter === 'wr') filtered = fallback.filter(p => p.sourceGame === 'WR');
+  // ===== PRIORITY 3: Hardcoded fallback =====
+  let filtered = FALLBACK_PATCHES;
+  if (gameFilter === 'lol') filtered = FALLBACK_PATCHES.filter(p => p.sourceGame === 'LoL');
+  else if (gameFilter === 'wildrift') filtered = FALLBACK_PATCHES.filter(p => p.sourceGame === 'WR');
 
   return NextResponse.json(filtered);
-}
-
-function normalizeSourceGame(raw: string): string {
-  const lower = (raw || '').toLowerCase();
-  if (lower === 'lol' || lower === 'league of legends' || lower === 'leagueoflegends') return 'LoL';
-  if (lower === 'wr' || lower === 'wildrift' || lower === 'wild rift') return 'WR';
-  if (lower === 'val' || lower === 'valorant') return 'VAL';
-  return 'LoL';
 }
