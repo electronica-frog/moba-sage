@@ -1,18 +1,19 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import {
   Sword, Database, Shield, Swords, Target, TrendingUp,
-  Zap, Globe, Trophy, Flame, Sparkles
+  Zap, Globe, Trophy, Flame, Sparkles, ChevronRight
 } from 'lucide-react';
 
 /* ================================================================
-   MOBA SAGE — Loading Screen v4.0
-   - Self-contained: fetches only /api/version for display
-   - Fixed 5-second animated timeline (reliable, no race conditions)
-   - 7 data sources with animated progress
-   - z-index 210 (above everything)
+   MOBA SAGE — Loading Screen v6.0
+   - ~12s timeline, sources animate slowly and readable
+   - "Entrar" button appears AFTER all sources finish (~12s)
+   - No auto-dismiss — user controls when to enter
+   - Self-contained, only fetches /api/version
+   - z-index 210
    ================================================================ */
 
 interface VersionInfo {
@@ -35,10 +36,27 @@ interface SourceDef {
   doneAt: number;   // ms
 }
 
-export function LoadingScreen() {
+export interface LoadingScreenProps {
+  onSkip?: () => void;
+}
+
+export function LoadingScreen({ onSkip }: LoadingScreenProps) {
   const [version, setVersion] = useState<VersionInfo | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const [mountedAt] = useState(() => Date.now());
+  const [allDone, setAllDone] = useState(false);
+
+  // Detect when all sources are done
+  useEffect(() => {
+    const iv = setInterval(() => {
+      const ms = Date.now() - mountedAt;
+      // All sources done at ~12s (last source doneAt: 12000)
+      if (ms >= 12500) {
+        setAllDone(true);
+      }
+    }, 200);
+    return () => clearInterval(iv);
+  }, [mountedAt]);
 
   // Fetch version for display
   useEffect(() => {
@@ -75,29 +93,31 @@ export function LoadingScreen() {
     return new Date(iso).toLocaleTimeString('es-AR', { timeZone: 'America/Buenos_Aires', hour: '2-digit', minute: '2-digit' });
   };
 
-  // 7 data sources — each appears and "finishes" at a specific time
+  // 7 data sources — spread across 12 seconds for readability
   const sources: SourceDef[] = [
-    { id: 'ddragon',   name: 'Data Dragon',       icon: <Shield className="w-3.5 h-3.5" />,     color: '#c8aa6e', doneLabel: version ? `v${version.lol}` : 'v16.9.1', records: 'Live',    appearAt: 400,  doneAt: 1200 },
-    { id: 'champions', name: 'Base de Campeones', icon: <Swords className="w-3.5 h-3.5" />,    color: '#0acbe6', doneLabel: '167 campeones',                                records: '167',    appearAt: 800,  doneAt: 2200 },
-    { id: 'tierlist',  name: 'Tier List Meta',     icon: <TrendingUp className="w-3.5 h-3.5" />, color: '#0fba81', doneLabel: '42 insights activos',                            records: '42',     appearAt: 1200, doneAt: 2800 },
-    { id: 'probuilds', name: 'Pro Builds & Picks', icon: <Trophy className="w-3.5 h-3.5" />,    color: '#f0c646', doneLabel: '58 picks profesionales',                          records: '58',     appearAt: 1500, doneAt: 3200 },
-    { id: 'insights',  name: 'IA Insights',        icon: <Sparkles className="w-3.5 h-3.5" />,  color: '#a78bfa', doneLabel: 'Modelo preparado',                               records: 'IA',     appearAt: 1800, doneAt: 3500 },
-    { id: 'combos',    name: 'Combos Rotos',       icon: <Flame className="w-3.5 h-3.5" />,     color: '#e84057', doneLabel: '23 combos identificados',                        records: '23',     appearAt: 2200, doneAt: 3800 },
-    { id: 'patches',   name: 'Patch Notes',        icon: <Zap className="w-3.5 h-3.5" />,       color: '#785a28', doneLabel: '4 parches analizados',                           records: '4',      appearAt: 2500, doneAt: 4000 },
+    { id: 'ddragon',   name: 'Data Dragon (Riot Games)',    icon: <Shield className="w-3.5 h-3.5" />,     color: '#c8aa6e', doneLabel: version ? `v${version.lol} (CDN Live)` : 'v16.9.1', records: 'Live',     appearAt: 800,   doneAt: 2800 },
+    { id: 'champions', name: 'Base de Campeones',            icon: <Swords className="w-3.5 h-3.5" />,    color: '#0acbe6', doneLabel: '167 campeones cargados',                         records: '167',     appearAt: 2000,  doneAt: 4500 },
+    { id: 'tierlist',  name: 'Tier List & Meta Data',         icon: <TrendingUp className="w-3.5 h-3.5" />, color: '#0fba81', doneLabel: '42 insights generados',                           records: '42',      appearAt: 3200,  doneAt: 6000 },
+    { id: 'probuilds', name: 'Pro Builds & Tournament Picks', icon: <Trophy className="w-3.5 h-3.5" />,    color: '#f0c646', doneLabel: '58 picks profesionales',                            records: '58',      appearAt: 4500,  doneAt: 7500 },
+    { id: 'insights',  name: 'Insights de IA',               icon: <Sparkles className="w-3.5 h-3.5" />,  color: '#a78bfa', doneLabel: 'Modelo IA preparado',                               records: 'IA',      appearAt: 5500,  doneAt: 8500 },
+    { id: 'combos',    name: 'Combos Rotos',                icon: <Flame className="w-3.5 h-3.5" />,     color: '#e84057', doneLabel: '23 combos identificados',                          records: '23',      appearAt: 6500,  doneAt: 10000 },
+    { id: 'patches',   name: 'Patch Notes & Cambios',         icon: <Zap className="w-3.5 h-3.5" />,       color: '#785a28', doneLabel: '4 parches analizados',                             records: '4',       appearAt: 7800,  doneAt: 12000 },
   ];
 
   const ms = Date.now() - mountedAt;
   const doneCount = sources.filter(s => ms >= s.doneAt).length;
-  const progressPct = Math.min(100, Math.round((ms / 4500) * 100));
+  const progressPct = Math.min(100, Math.round((ms / 12000) * 100));
 
-  // Steps
+  // Steps — spread across 12s
   const steps = [
-    { label: 'Inicializando conexion',            done: ms > 800 },
-    { label: 'Consultando Data Dragon',           done: ms > 1200 },
-    { label: 'Cargando campeones',                done: ms > 2200 },
-    { label: 'Descargando meta data',             done: ms > 3200 },
-    { label: 'Procesando combos y parches',       done: ms > 4000 },
-    { label: 'Preparando interfaz',               done: ms > 4500 },
+    { label: 'Inicializando conexion',            done: ms > 2000 },
+    { label: 'Consultando Data Dragon',           done: ms > 2800 },
+    { label: 'Cargando base de campeones',        done: ms > 4500 },
+    { label: 'Descargando tier list y meta',      done: ms > 6000 },
+    { label: 'Procesando datos profesionales',      done: ms > 7500 },
+    { label: 'Generando insights de IA',           done: ms > 8500 },
+    { label: 'Analizando combos rotos',            done: ms > 10000 },
+    { label: 'Preparando interfaz',               done: ms > 12000 },
   ];
   const activeStepIdx = steps.findIndex(s => !s.done);
 
@@ -106,7 +126,7 @@ export function LoadingScreen() {
       className="fixed inset-0 z-[210] flex flex-col items-center justify-center overflow-hidden"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: 'easeInOut' }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
       style={{ backgroundColor: '#060a12' }}
     >
       {/* BG layers */}
@@ -121,7 +141,7 @@ export function LoadingScreen() {
         backgroundPosition: '0 0, 40px 70px',
       }} />
 
-      <div className="relative z-10 w-full max-w-[400px] px-5 flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-[420px] px-5 flex flex-col items-center">
 
         {/* Logo */}
         <motion.div className="relative mb-5" initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5, ease: 'easeOut' }}>
@@ -170,14 +190,14 @@ export function LoadingScreen() {
         <motion.div className="w-full h-[3px] rounded-full overflow-hidden mb-5" style={{ background: 'rgba(200,170,110,0.06)' }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35, duration: 0.3 }}>
           <motion.div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, #785a28, #c8aa6e, #0acbe6)' }}
-            animate={{ width: `${Math.max(progressPct, 3)}%` }} transition={{ duration: 0.4, ease: 'easeOut' }} />
+            animate={{ width: `${Math.max(progressPct, 2)}%` }} transition={{ duration: 0.5, ease: 'easeOut' }} />
         </motion.div>
 
         {/* Patch info card */}
-        <motion.div className="w-full rounded-xl p-3 mb-3"
+        <motion.div className="w-full rounded-xl p-3.5 mb-3"
           style={{ background: 'linear-gradient(135deg, rgba(30,35,40,0.65), rgba(18,22,30,0.85))', border: '1px solid rgba(200,170,110,0.1)', boxShadow: '0 4px 24px rgba(0,0,0,0.35)' }}
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }}>
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-2.5">
             <div className="flex items-center gap-1.5">
               <Globe className="w-3 h-3" style={{ color: '#785a28' }} />
               <span className="text-[9px] font-semibold tracking-[0.18em] uppercase" style={{ color: '#785a28' }}>Versiones del juego</span>
@@ -208,16 +228,16 @@ export function LoadingScreen() {
           </div>
           <div className="flex items-center justify-between mt-2 pt-2" style={{ borderTop: '1px solid rgba(200,170,110,0.06)' }}>
             <span className="text-[8px]" style={{ color: '#5b5a56' }}>
-              Meta: <span style={{ color: '#785a28' }}>{version?.metaLastUpdated ? formatDate(version.metaLastUpdated) : '...'}</span>
+              Meta actualizado: <span style={{ color: '#785a28' }}>{version?.metaLastUpdated ? formatDate(version.metaLastUpdated) : '...'}</span>
             </span>
             <span className="text-[8px]" style={{ color: '#5b5a56' }}>
-              Datos: <span style={{ color: '#785a28' }}>{version?.fetchedAt ? formatTime(version.fetchedAt) : '...'}</span>
+              Datos obtenidos: <span style={{ color: '#785a28' }}>{version?.fetchedAt ? formatTime(version.fetchedAt) : '...'}</span>
             </span>
           </div>
         </motion.div>
 
-        {/* Data Sources */}
-        <motion.div className="w-full rounded-xl p-3 mb-3"
+        {/* Data Sources card */}
+        <motion.div className="w-full rounded-xl p-3.5 mb-3"
           style={{ background: 'linear-gradient(135deg, rgba(30,35,40,0.65), rgba(18,22,30,0.85))', border: '1px solid rgba(10,203,230,0.06)', boxShadow: '0 4px 24px rgba(0,0,0,0.35)' }}
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.4 }}>
           <div className="flex items-center justify-between mb-2.5">
@@ -237,10 +257,10 @@ export function LoadingScreen() {
               const done = ms >= source.doneAt;
               const loading = visible && !done;
               return (
-                <motion.div key={source.id} className="flex items-center justify-between rounded-lg px-2.5 py-[6px]"
-                  style={{ background: loading ? 'rgba(200,170,110,0.04)' : 'rgba(10,14,26,0.35)' }}
+                <motion.div key={source.id} className="flex items-center justify-between rounded-lg px-2.5 py-[7px]"
+                  style={{ background: loading ? 'rgba(200,170,110,0.04)' : done ? `${source.color}06` : 'rgba(10,14,26,0.35)' }}
                   initial={{ opacity: 0, x: -8 }} animate={{ opacity: visible ? 1 : 0, x: 0 }}
-                  transition={{ duration: 0.2 }}>
+                  transition={{ duration: 0.25 }}>
                   <div className="flex items-center gap-2 min-w-0">
                     <div className="relative shrink-0">
                       {loading ? (
@@ -265,7 +285,7 @@ export function LoadingScreen() {
                         {source.records}
                       </span>
                     )}
-                    <span className="text-[9px] font-mono max-w-[120px] truncate text-right" style={{
+                    <span className="text-[9px] font-mono max-w-[130px] truncate text-right" style={{
                       color: loading ? '#c8aa6e' : done ? '#5b5a56' : '#3d3c38',
                     }}>
                       {!visible ? 'En espera' : loading ? 'Conectando...' : source.doneLabel}
@@ -275,13 +295,21 @@ export function LoadingScreen() {
               );
             })}
           </div>
+          <div className="mt-2 pt-2 flex items-center justify-between" style={{ borderTop: '1px solid rgba(10,203,230,0.06)' }}>
+            <span className="text-[7px]" style={{ color: '#3d3c38' }}>
+              Actualizado: <span style={{ color: '#5b5a56' }}>{version?.fetchedAt ? `${formatDate(version.fetchedAt)} ${formatTime(version.fetchedAt)}` : '...'}</span>
+            </span>
+            <span className="text-[7px]" style={{ color: '#3d3c38' }}>
+              Cache: <span style={{ color: '#5b5a56' }}>30 min</span>
+            </span>
+          </div>
         </motion.div>
 
         {/* Steps */}
         <motion.div className="w-full space-y-1.5 mb-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 0.4 }}>
           {steps.map((s, i) => (
             <motion.div key={i} className="flex items-center gap-2 px-0.5"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 + i * 0.12, duration: 0.2 }}>
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 + i * 0.1, duration: 0.2 }}>
               <div className="w-4 h-4 rounded flex items-center justify-center shrink-0" style={{
                 background: s.done ? 'rgba(15,186,129,0.12)' : i === activeStepIdx ? 'rgba(200,170,110,0.12)' : 'rgba(91,90,86,0.05)',
                 border: `1px solid ${s.done ? 'rgba(15,186,129,0.25)' : i === activeStepIdx ? 'rgba(200,170,110,0.25)' : 'rgba(91,90,86,0.08)'}`,
@@ -333,6 +361,57 @@ export function LoadingScreen() {
             </div>
           </div>
         </motion.div>
+
+        {/* ===== ENTRAR BUTTON — appears after all sources done (~12s) ===== */}
+        <AnimatePresence>
+          {allDone && onSkip && (
+            <motion.div
+              initial={{ opacity: 0, y: 12, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5, type: 'spring', damping: 20, stiffness: 200 }}
+              className="mt-5 w-full"
+            >
+              {/* Ready indicator */}
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <motion.div
+                  className="w-2 h-2 rounded-full"
+                  style={{ background: '#0fba81' }}
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                />
+                <span className="text-[11px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#0fba81' }}>
+                  Todos los datos cargados
+                </span>
+              </div>
+
+              {/* Main CTA button */}
+              <motion.button
+                type="button"
+                onClick={onSkip}
+                className="w-full py-3.5 rounded-xl text-sm font-bold tracking-[0.12em] uppercase transition-all cursor-pointer"
+                style={{
+                  background: 'linear-gradient(135deg, #c8aa6e, #785a28)',
+                  border: '1.5px solid rgba(200,170,110,0.5)',
+                  color: '#0a0e1a',
+                  boxShadow: '0 0 30px rgba(200,170,110,0.25), 0 4px 20px rgba(0,0,0,0.4)',
+                }}
+                whileHover={{ scale: 1.02, boxShadow: '0 0 40px rgba(200,170,110,0.35), 0 6px 24px rgba(0,0,0,0.5)' }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="flex items-center justify-center gap-2.5">
+                  <Sword className="w-4 h-4" />
+                  <span>Entrar a MOBA SAGE</span>
+                  <ChevronRight className="w-4 h-4" />
+                </div>
+              </motion.button>
+
+              <p className="text-center text-[9px] mt-2.5 tracking-wider" style={{ color: '#5b5a56' }}>
+                167 campeones · 7 fuentes · Listo para jugar
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Bottom shimmer */}
         <motion.div className="w-full h-[1px] mt-4 rounded-full overflow-hidden" style={{ background: 'rgba(200,170,110,0.04)' }}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, memo, useRef } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
 import { Sword, Monitor, Smartphone, Gamepad2, ChevronRight, Database, Clock, Shield, GraduationCap, Trophy, Zap } from 'lucide-react';
 import { GAME_TAB_ITEMS, DEV_TAB_ITEMS } from './constants';
@@ -39,41 +39,14 @@ const _SplashCarousel = memo(function _SplashCarousel() {
   );
 });
 
-export function GameSelectorLanding({ onSelectGame }: { onSelectGame: (game: GameSelection) => void }) {
+export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch, championCount: externalCount }: { onSelectGame: (game: GameSelection) => void; patchVersion?: string; championCount?: number }) {
   const now = new Date();
   const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
   const formattedDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
 
-  // Dynamic data from API
-  const [patchVersion, setPatchVersion] = useState('26.9');
-  const [championCount, setChampionCount] = useState(20);
-
-  useEffect(() => {
-    async function fetchLiveData() {
-      try {
-        const [versionRes, championsRes] = await Promise.all([
-          fetch('/api/version'),
-          fetch('/api/champions'),
-        ]);
-        if (versionRes.ok) {
-          const versionData = await versionRes.json();
-          if (versionData?.gamePatch || versionData?.lol) {
-            const patch = versionData.gamePatch || (versionData.lol ? versionData.lol.split('.').slice(0, 2).join('.') : '26.9');
-            setPatchVersion(patch);
-          }
-        }
-        if (championsRes.ok) {
-          const champsData = await championsRes.json();
-          if (Array.isArray(champsData)) {
-            setChampionCount(champsData.length);
-          }
-        }
-      } catch {
-        // Keep fallback values
-      }
-    }
-    fetchLiveData();
-  }, []);
+  // Use props from parent when available, fallback to safe defaults
+  const patchVersion = externalPatch || '26.9';
+  const championCount = externalCount || 20;
 
   return (
     <motion.div

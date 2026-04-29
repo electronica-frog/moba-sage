@@ -61,7 +61,7 @@ const roadmapCategories = [
     items: [
       { id: 'D1', title: 'Parches reales', desc: 'Scrapear notas de parche del blog de Riot / CommunityDragon', status: 'done' as IdeaStatus },
       { id: 'D2', title: '100% datos completos', desc: 'aiAnalysis + runes detalladas + counters/synergias para TODOS los campeones', status: 'done' as IdeaStatus },
-      { id: 'D3', title: 'Pro Picks reales', desc: 'Scrapear de gol.gg u Oracles Elixir', status: 'pending' as IdeaStatus },
+      { id: 'D3', title: 'Pro Picks reales', desc: 'Scrapear de gol.gg u Oracles Elixir', status: 'done' as IdeaStatus },
       { id: 'D4', title: 'Counters con datos reales', desc: 'WR de matchups (ej: Darius vs Garen: 54.2%) de champion.gg', status: 'pending' as IdeaStatus },
       { id: 'D5', title: 'Tier List automático', desc: 'Calcular tier basado en WR + Pick Rate + Ban Rate reales', status: 'pending' as IdeaStatus },
       { id: 'D6', title: 'Runas populares', desc: 'Top 3 rune pages por campeón desde CommunityDragon', status: 'pending' as IdeaStatus },
@@ -73,7 +73,7 @@ const roadmapCategories = [
     color: '#e84057',
     items: [
       { id: 'F1', title: 'Chat IA flotante', desc: 'Botón Pregúntale al Sage conectado a /api/ai-reason. CANCELADO por decisión del CEO', status: 'cancelled' as IdeaStatus },
-      { id: 'F2', title: 'Comparador de Campeones', desc: 'Side-by-side: stats, WR, counters, synergies de 2 campeones', status: 'pending' as IdeaStatus },
+      { id: 'F2', title: 'Comparador de Campeones', desc: 'Side-by-side: stats, WR, counters, synergies de 2 campeones', status: 'done' as IdeaStatus },
       { id: 'F3', title: 'Builder de Comp', desc: 'Arrastrar 5 campeones y analizar synergies, counters, WR', status: 'cancelled' as IdeaStatus },
       { id: 'F4', title: 'Draft Assistant', desc: 'Flujo de decisión: que pick contra X, que sinergia con Y', status: 'cancelled' as IdeaStatus },
       { id: 'F5', title: 'Counter Picker Tool', desc: 'Input: campeón enemigo. Output: top 3 counters con WR y razones', status: 'cancelled' as IdeaStatus },
@@ -86,7 +86,7 @@ const roadmapCategories = [
       { id: 'F12', title: 'Copy Build to Clipboard', desc: 'Botón que copia items como texto para pegar en el client', status: 'done' as IdeaStatus },
       { id: 'F13', title: 'Share Link', desc: 'URL compartible: moba-sage.vercel.app/champion/yasuo', status: 'pending' as IdeaStatus },
       { id: 'F14', title: 'Onboarding / Tour', desc: 'Primer uso: tooltips guiados por las tabs', status: 'pending' as IdeaStatus },
-      { id: 'F15', title: 'Búsqueda predictiva', desc: 'Autocomplete al escribir nombre de campeón', status: 'done' as IdeaStatus },
+      { id: 'F15', title: 'Búsqueda predictiva', desc: 'Autocomplete al escribir nombre de campeón', status: 'done' as IdeaStatus }, // Cmd+K global search with autocomplete
       { id: 'F16', title: 'Historial de vistas', desc: 'Últimos vistos en Tier List', status: 'pending' as IdeaStatus },
       { id: 'F17', title: 'Temporadas/Etapas por campeón', desc: 'Early game, Mid game, Late game con power curves', status: 'pending' as IdeaStatus },
       { id: 'F18', title: 'Notas personales por campeón', desc: 'Textarea editable en modal para notas del usuario (localStorage)', status: 'pending' as IdeaStatus },

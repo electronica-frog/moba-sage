@@ -68,12 +68,16 @@ const mecanicasCategories: CategorySection[] = [
 ];
 
 // ============ WARDING POR ROL ============
-const wardingTips: TipCard[] = [
-  { title: 'Top Lane', description: 'Ward de tríbush (bush superior) para ver ganks del jungler. Controla el río con tu support y jungler. En mid game, wardia la jungle rival para split push seguro. Pink ward en tríbush es staple.', icon: <Eye className="w-4 h-4 text-[#c8aa6e]" /> },
-  { title: 'Jungle', description: 'Wardia los buffs rivales para trackear al jungler. Deep wards en su jungle te dan timers de spawn. Vision de río para objetivar Dragon/Baron. Siempre carries control wards.', icon: <Eye className="w-4 h-4 text-[#0acbe6]" /> },
-  { title: 'Mid Lane', description: 'Ward de río (ambos lados) y parte de jungle. Cuando tu warden se cae, reemplazalo inmediatamente. Pink ward en una de las brush del río es esencial para mid game teamfights.', icon: <Eye className="w-4 h-4 text-[#e84057]" /> },
-  { title: 'ADC', description: 'Tu support debería wardar, pero si vas solo: ward de tríbush y el lane bush. En teamfights, mantén vision del flank. En late game, wardia antes de cada objetivo con tu team.', icon: <Eye className="w-4 h-4 text-[#0fba81]" /> },
-  { title: 'Support', description: 'Eres el principal warder del equipo. Control ward en río early, oracle lens en mid/late. Wardia jungle rival para enable plays de tu jungler. En late game, prioriza vision de Baron y bases rivales.', icon: <Eye className="w-4 h-4 text-[#f0c646]" /> },
+interface WardingTip extends TipCard {
+  color: string;
+}
+
+const wardingTips: WardingTip[] = [
+  { title: 'Top Lane', color: '#c8aa6e', description: 'Ward de tríbush (bush superior) para ver ganks del jungler. Controla el río con tu support y jungler. En mid game, wardia la jungle rival para split push seguro. Pink ward en tríbush es staple.', icon: <Eye className="w-4 h-4 text-[#c8aa6e]" /> },
+  { title: 'Jungle', color: '#0fba81', description: 'Wardia los buffs rivales para trackear al jungler. Deep wards en su jungle te dan timers de spawn. Vision de río para objetivar Dragon/Baron. Siempre carries control wards.', icon: <Eye className="w-4 h-4 text-[#0fba81]" /> },
+  { title: 'Mid Lane', color: '#5b8af5', description: 'Ward de río (ambos lados) y parte de jungle. Cuando tu warden se cae, reemplazalo inmediatamente. Pink ward en una de las brush del río es esencial para mid game teamfights.', icon: <Eye className="w-4 h-4 text-[#5b8af5]" /> },
+  { title: 'ADC', color: '#e84057', description: 'Tu support debería wardar, pero si vas solo: ward de tríbush y el lane bush. En teamfights, mantén vision del flank. En late game, wardia antes de cada objetivo con tu team.', icon: <Eye className="w-4 h-4 text-[#e84057]" /> },
+  { title: 'Support', color: '#f0c646', description: 'Eres el principal warder del equipo. Control ward en río early, oracle lens en mid/late. Wardia jungle rival para enable plays de tu jungler. En late game, prioriza vision de Baron y bases rivales.', icon: <Eye className="w-4 h-4 text-[#f0c646]" /> },
 ];
 
 // ============ ERRORES A EVITAR ============
@@ -296,7 +300,6 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
 
                   {/* WARDING */}
                   {section.id === 'warding' && wardingTips.map((tip, i) => {
-                    const wColor = ('color' in tip ? tip.color : '#c8aa6e') as string;
                     return (
                     <motion.div
                       key={i}

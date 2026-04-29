@@ -151,17 +151,26 @@ export default function Home() {
   const [fetchError, setFetchError] = useState(false);
   const [initialLoadDone, setInitialLoadDone] = useState(false);
 
-  // Loading screen: show for at least 5 seconds
+  // Loading screen: shows for ~12s animation, then user clicks "Entrar"
   const [showLoading, setShowLoading] = useState(true);
   const [appReady, setAppReady] = useState(false);
 
-  // Hide loading screen only when BOTH data is ready AND 5s have passed
+  // Safety fallback: auto-dismiss loading after 30s (in case user never clicks)
   useEffect(() => {
-    if (appReady) {
- const timer = setTimeout(() => setShowLoading(false), 400);
-      return () => clearTimeout(timer);
-    }
-  }, [appReady]);
+    const timer = setTimeout(() => {
+      if (showLoading) {
+        setShowLoading(false);
+      }
+    }, 30000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // User clicks "Entrar" — dismiss loading screen
+  const handleSkipLoading = useCallback(() => {
+    setInitialLoadDone(true);
+    setAppReady(true);
+    setShowLoading(false);
+  }, []);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('Todos');
   const [proRegionFilter, setProRegionFilter] = useState('');
@@ -440,9 +449,9 @@ export default function Home() {
         Ir al contenido principal
       </a>
 
-      {/* Loading Screen — z-210, self-contained, min 5s */}
+      {/* Loading Screen — z-210, self-contained, 12s timeline + "Entrar" button */}
       <AnimatePresence>
-        {showLoading && <LoadingScreen />}
+        {showLoading && <LoadingScreen onSkip={handleSkipLoading} />}
       </AnimatePresence>
 
       {/* Global Search Overlay (Command Palette) */}
@@ -566,7 +575,7 @@ export default function Home() {
         <div className={selectedGame ? 'max-w-6xl mx-auto' : ''}>
           <AnimatePresence mode="popLayout">
             {!selectedGame ? (
-              <GameSelectorLanding onSelectGame={handleSelectGame} key="selector" />
+              <GameSelectorLanding onSelectGame={handleSelectGame} patchVersion={liveVersions.gamePatch || liveVersions.lol} championCount={champions.length} key="selector" />
             ) : (
               <TabContent
                 activeTab={activeTab}
