@@ -132,3 +132,27 @@ Stage Summary:
 - Shows real-time version data from /api/version endpoint
 - Displays data sources with update timestamps
 - Smooth entrance/exit animations with AnimatePresence
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Enhanced loading screen v2.0 for MOBA SAGE
+
+Work Log:
+- Read current loading-screen.tsx, loading.tsx, page.tsx, globals.css, layout.tsx, package.json
+- Identified 7 API endpoints fetched on app load: /api/version, /api/champions, /api/patches, /api/insights, /api/tasks, /api/pro-picks, /api/combos
+- Identified /api/version returns VersionInfo with lol, wr, gamePatch, cdnVersion, metaLastUpdated, fetchedAt, ddragonStatus
+- Redesigned loading-screen.tsx with real-time data fetching from all 6+ endpoints
+- Added 7 live data source status indicators with latency tracking
+- Added prominent "Cargando datos" animated message
+- Added time-based greeting (Buenos dias/tardes/noches, invocador)
+- Added real-time progress bar connected to actual fetch progress
+- Added champion count, source connectivity, and elapsed time
+- Added stats footer and attribution
+- Updated route-level loading.tsx with "Cargando datos..." text
+- Committed as electronica-frog and pushed to origin/main
+
+Stage Summary:
+- 2 files changed, 539 insertions, 194 deletions
+- Commit 8d4e44f pushed as electronica-frog
+- Loading screen now shows real data: version info, 7 data sources with status, latency, record counts, timestamps
