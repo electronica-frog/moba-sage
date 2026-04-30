@@ -61,7 +61,7 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-bold text-[#f0e6d2] lol-title">Entrenador MOBA</h2>
-            <span className="text-[8px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>IA</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>IA</span>
           </div>
           <p className="text-xs text-[#5b5a56]">Mecánicas, visión, errores comunes y más para mejorar tu juego</p>
         </div>
@@ -86,7 +86,7 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                 {section.icon}
               </div>
               <span className="text-sm font-semibold text-[#f0e6d2] flex-1 text-left">{section.label}</span>
-              {'count' in section && <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(120,90,40,0.1)', color: '#785a28' }}>{section.count}</span>}
+              {'count' in section && <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(120,90,40,0.1)', color: '#785a28' }}>{section.count}</span>}
               {isOpen ? <ChevronUp className="w-4 h-4 text-[#c8aa6e]" /> : <ChevronDown className="w-4 h-4 text-[#5b5a56]" />}
             </button>
 
@@ -244,10 +244,10 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                             <div key={elo} className="mb-3">
                               <div className="flex items-center gap-2 mb-2 px-1">
                                 <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: eloCfg.gradient, boxShadow: `0 0 8px ${eloCfg.text}30` }}>
-                                  <span className="text-[8px] font-black text-[#0a0e1a]">{elo.charAt(0)}</span>
+                                  <span className="text-[10px] font-black text-[#0a0e1a]">{elo.charAt(0)}</span>
                                 </div>
                                 <span className="text-xs font-bold" style={{ color: eloCfg.text }}>{elo}</span>
-                                <span className="text-[9px] text-[#5b5a56]">{errs.length} error{errs.length > 1 ? 'es' : ''}</span>
+                                <span className="text-[10px] text-[#5b5a56]">{errs.length} error{errs.length > 1 ? 'es' : ''}</span>
                               </div>
                               <div className="space-y-1.5">
                                 {errs.map((err, i) => {
@@ -264,7 +264,7 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                                       <div className="flex items-center gap-2 mb-1.5">
                                         <div style={{ color: sev.color }}>{sev.icon}</div>
                                         <h4 className="text-xs font-semibold text-[#f0e6d2] flex-1">{err.title}</h4>
-                                        <span className="text-[9px] px-1.5 py-0.5 rounded font-semibold" style={{ background: `${sev.color}15`, color: sev.color, border: `1px solid ${sev.color}30` }}>
+                                        <span className="text-[10px] px-1.5 py-0.5 rounded font-semibold" style={{ background: `${sev.color}15`, color: sev.color, border: `1px solid ${sev.color}30` }}>
                                           {sev.label}
                                         </span>
                                       </div>

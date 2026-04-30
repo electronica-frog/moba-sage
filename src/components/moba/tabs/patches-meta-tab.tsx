@@ -136,7 +136,7 @@ function TierBadge({ tier }: { tier: string }) {
   };
   const c = colors[tier] || colors['A'];
   return (
-    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black"
+    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black"
       style={{ backgroundColor: c.bg, color: c.color, border: `1px solid ${c.border}` }}>
       {tier}
     </span>
@@ -227,15 +227,15 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 mb-0.5">
             <span className="text-[11px] font-semibold text-[#f0e6d2] truncate">{change.name}</span>
-            <span className="text-[8px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${type.color}15`, color: type.color, border: `1px solid ${type.color}25` }}>{type.label}</span>
-            {change.impact && <span className="text-[8px] text-[#5b5a56]">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>}
+            <span className="text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${type.color}15`, color: type.color, border: `1px solid ${type.color}25` }}>{type.label}</span>
+            {change.impact && <span className="text-[10px] text-[#5b5a56]">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>}
           </div>
-          <p className="text-[9px] text-[#a09b8c] truncate">{change.description}</p>
+          <p className="text-[10px] text-[#a09b8c] truncate">{change.description}</p>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          {change.tierBefore && <div className="text-center"><span className="block text-[8px] text-[#5b5a56]">Antes</span><TierBadge tier={change.tierBefore} /></div>}
+          {change.tierBefore && <div className="text-center"><span className="block text-[10px] text-[#5b5a56]">Antes</span><TierBadge tier={change.tierBefore} /></div>}
           <div className="flex flex-col items-center"><span className="text-sm font-black leading-none" style={{ color: dir.color }}>{dir.icon}</span></div>
-          {change.tierAfter && <div className="text-center"><span className="block text-[8px] text-[#5b5a56]">Ahora</span><TierBadge tier={change.tierAfter} /></div>}
+          {change.tierAfter && <div className="text-center"><span className="block text-[10px] text-[#5b5a56]">Ahora</span><TierBadge tier={change.tierAfter} /></div>}
           {direction !== 'new' && change.tierBefore && change.tierAfter && change.tierBefore !== change.tierAfter && (
             <div className="w-12 h-1.5 rounded-full overflow-hidden ml-1" style={{ background: 'rgba(120,90,40,0.08)' }}>
               <motion.div className="h-full rounded-full" style={{ background: dir.color, boxShadow: `0 0 4px ${dir.color}40` }} initial={{ width: 0 }} animate={{ width: `${magnitude}%` }} transition={{ duration: 0.5, delay: index * 0.04 }} />
@@ -361,7 +361,7 @@ function MetaImpactSection({ latestPatch }: { latestPatch: PatchNote & { feedSta
               <div className="flex items-center gap-1.5">
                 <TinyChampionIcon name={highlights[0].name} />
                 <span className="text-xs font-bold text-[#f0e6d2]">{highlights[0].name}</span>
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: highlights[0].type === 'buff' ? 'rgba(15,186,129,0.15)' : highlights[0].type === 'nerf' ? 'rgba(232,64,87,0.15)' : 'rgba(240,198,70,0.15)', color: highlights[0].type === 'buff' ? '#0fba81' : highlights[0].type === 'nerf' ? '#e84057' : '#f0c646' }}>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: highlights[0].type === 'buff' ? 'rgba(15,186,129,0.15)' : highlights[0].type === 'nerf' ? 'rgba(232,64,87,0.15)' : 'rgba(240,198,70,0.15)', color: highlights[0].type === 'buff' ? '#0fba81' : highlights[0].type === 'nerf' ? '#e84057' : '#f0c646' }}>
                   {highlights[0].type === 'buff' ? '↑ BUFF' : highlights[0].type === 'nerf' ? '↓ NERF' : '→ AJUSTE'}
                 </span>
               </div>
@@ -411,7 +411,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(15,186,129,0.12)', border: '1px solid rgba(15,186,129,0.3)' }}><ArrowUpCircle className="w-4 h-4 text-[#0fba81]" /></div>
                 <span className="lol-label text-xs font-semibold text-[#0fba81]">¿Quién Queda Roto?</span>
-                <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{broken.length}</span>
+                <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{broken.length}</span>
               </div>
               <div className="space-y-2.5">
                 {broken.map((champ, i) => (
@@ -421,7 +421,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
                         <TierBadge tier={champ.tier} />
-                        <span className="ml-auto text-[8px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.3)' }}>BUFFED</span>
+                        <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.3)' }}>BUFFED</span>
                       </div>
                       <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
                     </div>
@@ -435,7 +435,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(232,64,87,0.12)', border: '1px solid rgba(232,64,87,0.3)' }}><ArrowDownCircle className="w-4 h-4 text-[#e84057]" /></div>
                 <span className="lol-label text-xs font-semibold text-[#e84057]">¿Quién Cayó?</span>
-                <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{fallen.length}</span>
+                <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{fallen.length}</span>
               </div>
               <div className="space-y-2.5">
                 {fallen.map((champ, i) => (
@@ -445,7 +445,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
                         <TierBadge tier={champ.tier} />
-                        <span className="ml-auto text-[8px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057', border: '1px solid rgba(232,64,87,0.3)' }}>NERFED</span>
+                        <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057', border: '1px solid rgba(232,64,87,0.3)' }}>NERFED</span>
                       </div>
                       <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
                     </div>
@@ -463,12 +463,12 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,170,110,0.12)', border: '1px solid rgba(200,170,110,0.2)' }}><Newspaper className="w-3.5 h-3.5 text-[#c8aa6e]" /></div>
             <span className="lol-label text-xs font-semibold text-[#c8aa6e]">Cambios por Campeón</span>
-            <span className="ml-auto text-[9px] text-[#5b5a56]">{championChanges.length} campeones</span>
+            <span className="ml-auto text-[10px] text-[#5b5a56]">{championChanges.length} campeones</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-3 px-1">
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Tier sube</span>
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Tier baja</span>
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#c8aa6e' }} /> Nuevo</span>
+            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Tier sube</span>
+            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Tier baja</span>
+            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#c8aa6e' }} /> Nuevo</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {championChanges.map((change, i) => <ChampionPatchCard key={change.name} change={change} index={i} />)}
@@ -681,7 +681,7 @@ export function PatchesMetaTab({
         {[
           { id: 'meta' as const, label: 'Análisis & Meta', icon: Brain },
           { id: 'history' as const, label: 'Historial de Parches', icon: Clock },
-          { id: 'broken' as const, label: 'Combos Rotos', icon: AlertTriangle },
+          { id: 'broken' as const, label: 'Situación del Meta', icon: AlertTriangle },
         ].map(tab => (
           <button
             key={tab.id}
@@ -736,7 +736,7 @@ export function PatchesMetaTab({
                           <Image src={getChampionSplashUrl(champ.name, 0)} alt={champ.name} fill className="object-cover" style={{ filter: 'brightness(0.65) saturate(1.2)' }} sizes="180px" />
                           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 15%, rgba(10,14,26,0.6) 50%, rgba(10,14,26,0.97) 100%)' }} />
                         </div>
-                        {champ.winRate >= 53 && <div className="absolute top-2 left-2 z-10"><Badge className="bg-[#e84057]/90 text-white border border-[#e84057] text-[8px] px-1.5 py-0.5 font-black">ROTO OP</Badge></div>}
+                        {champ.winRate >= 53 && <div className="absolute top-2 left-2 z-10"><Badge className="bg-[#e84057]/90 text-white border border-[#e84057] text-[10px] px-1.5 py-0.5 font-black">ROTO OP</Badge></div>}
                         <div className="absolute top-2 right-2 z-10"><span className="inline-flex items-center justify-center w-6 h-6 rounded-md text-[10px] font-black" style={{ backgroundColor: '#c8aa6e', color: '#0a0e1a', boxShadow: '0 0 12px rgba(200,170,110,0.4)' }}>S</span></div>
                         <div className="relative h-full flex flex-col justify-end p-3">
                           <span className="lol-title text-base font-bold text-[#f0e6d2]">{champ.name}</span>
@@ -750,7 +750,7 @@ export function PatchesMetaTab({
                           {mainBuild && buildItems.length > 0 && (
                             <div className="mt-2 flex items-center gap-1 overflow-hidden">
                               {buildItems.slice(0, 4).map((item, i) => <div key={i} className="relative"><ItemIcon name={item} /></div>)}
-                              {buildItems.length > 4 && <span className="text-[8px] text-[#5b5a56]">+{buildItems.length - 4}</span>}
+                              {buildItems.length > 4 && <span className="text-[10px] text-[#5b5a56]">+{buildItems.length - 4}</span>}
                             </div>
                           )}
                         </div>
@@ -774,7 +774,7 @@ export function PatchesMetaTab({
                     <motion.div key={champ.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: idx * 0.03 }} className="flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-xl group cursor-pointer transition-all duration-300" style={{ background: 'rgba(10,203,230,0.04)', border: '1px solid rgba(10,203,230,0.12)' }} whileHover={{ borderColor: 'rgba(200,170,110,0.5)', boxShadow: '0 0 20px rgba(200,170,110,0.15), 0 0 40px rgba(200,170,110,0.05)' }}>
                       <div className="relative shrink-0">
                         <div className="w-14 h-14 rounded-xl overflow-hidden transition-all duration-300 group-hover:shadow-[0_0_16px_rgba(200,170,110,0.3)]" style={{ border: '2px solid #0acbe680' }}><SplashArtIcon name={champ.name} /></div>
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black" style={{ backgroundColor: '#0acbe6', color: '#0a0e1a' }}>A</div>
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black" style={{ backgroundColor: '#0acbe6', color: '#0a0e1a' }}>A</div>
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[12px] font-semibold text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors">{champ.name}</p>
@@ -803,7 +803,7 @@ export function PatchesMetaTab({
                   {bTierChamps.map(champ => (
                     <motion.div key={champ.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-1.5 p-2 rounded-lg" style={{ background: 'rgba(15,186,129,0.03)', border: '1px solid rgba(15,186,129,0.1)' }}>
                       <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
-                      <div className="flex-1 min-w-0"><p className="text-[10px] font-medium text-[#f0e6d2] truncate">{champ.name}</p><p className="text-[9px] text-[#5b5a56] font-mono">{champ.winRate}%</p></div>
+                      <div className="flex-1 min-w-0"><p className="text-[10px] font-medium text-[#f0e6d2] truncate">{champ.name}</p><p className="text-[10px] text-[#5b5a56] font-mono">{champ.winRate}%</p></div>
                     </motion.div>
                   ))}
                 </div>
@@ -852,7 +852,7 @@ export function PatchesMetaTab({
                           </motion.div>
                           <div className="text-center">
                             <p className={`text-[10px] font-bold transition-colors duration-200 ${isSelected ? 'text-[#f0e6d2]' : 'text-[#5b5a56] group-hover:text-[#a09b8c]'}`}>{patch.version}</p>
-                            <p className="text-[8px] mt-0.5 transition-colors duration-200" style={{ color: isSelected ? gs.color : '#785a2860' }}>{gs.label}</p>
+                            <p className="text-[10px] mt-0.5 transition-colors duration-200" style={{ color: isSelected ? gs.color : '#785a2860' }}>{gs.label}</p>
                           </div>
                         </div>
                       );
@@ -867,7 +867,7 @@ export function PatchesMetaTab({
                       <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(120,90,40,0.15)' }}>
                         <div className="flex items-center gap-2 mb-2 flex-wrap">
                           <Badge className="bg-[#c8aa6e] text-[#0a0e1a] font-bold text-xs px-2.5 py-0.5">{selectedPatchDetail.version}</Badge>
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider" style={{ backgroundColor: getGameStyle(selectedPatchDetail.sourceGame).bg, color: getGameStyle(selectedPatchDetail.sourceGame).color }}>{getGameStyle(selectedPatchDetail.sourceGame).label}</span>
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ backgroundColor: getGameStyle(selectedPatchDetail.sourceGame).bg, color: getGameStyle(selectedPatchDetail.sourceGame).color }}>{getGameStyle(selectedPatchDetail.sourceGame).label}</span>
                           <span className="text-[10px] text-[#5b5a56] ml-auto">{new Date(selectedPatchDetail.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                         </div>
                         <h4 className="lol-title text-sm text-[#f0e6d2] mb-1">{selectedPatchDetail.title}</h4>
@@ -929,7 +929,7 @@ export function PatchesMetaTab({
                         <Badge className="bg-[#c8aa6e] text-[#0a0e1a] font-bold text-sm px-3 py-1">{patch.version}</Badge>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ backgroundColor: gs.bg, color: gs.color, border: `1px solid ${gs.border}` }}>{getGameIcon(patch.sourceGame)}{gs.label}</span>
                         {feedStatus && feedStatus !== 'current' && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-medium uppercase tracking-wider" style={{ backgroundColor: feedStatus === 'live' ? 'rgba(15,186,129,0.1)' : feedStatus === 'pbe' ? 'rgba(10,203,230,0.1)' : 'rgba(240,198,70,0.1)', color: feedStatus === 'live' ? '#0fba81' : feedStatus === 'pbe' ? '#0acbe6' : '#f0c646', border: `1px solid ${feedStatus === 'live' ? 'rgba(15,186,129,0.3)' : feedStatus === 'pbe' ? 'rgba(10,203,230,0.3)' : 'rgba(240,198,70,0.3)'}` }}>
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider" style={{ backgroundColor: feedStatus === 'live' ? 'rgba(15,186,129,0.1)' : feedStatus === 'pbe' ? 'rgba(10,203,230,0.1)' : 'rgba(240,198,70,0.1)', color: feedStatus === 'live' ? '#0fba81' : feedStatus === 'pbe' ? '#0acbe6' : '#f0c646', border: `1px solid ${feedStatus === 'live' ? 'rgba(15,186,129,0.3)' : feedStatus === 'pbe' ? 'rgba(10,203,230,0.3)' : 'rgba(240,198,70,0.3)'}` }}>
                             {feedStatus === 'live' && <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] mr-1 animate-pulse" />}
                             {feedStatus === 'upcoming' ? 'Próximo' : feedStatus === 'rolling_out' ? 'Desplegando' : feedStatus}
                           </span>
@@ -951,7 +951,7 @@ export function PatchesMetaTab({
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">{championHighlights.map(change => { const cfg = getChangeTypeConfig(change.type); const Icon = cfg.icon; return (
                           <motion.div key={change.name} whileHover={{ scale: 1.03, y: -1 }} className="rounded-lg p-2.5 flex items-center gap-2" style={{ background: 'rgba(10,14,26,0.6)', border: '1px solid rgba(200,170,110,0.2)', backdropFilter: 'blur(8px)' }}>
                             <TinyChampionIcon name={change.name} />
-                            <div className="flex-1 min-w-0"><p className="text-[10px] font-semibold text-[#f0e6d2] truncate">{change.name}</p><span className="inline-flex items-center gap-0.5 text-[8px] font-bold px-1.5 py-0.5 rounded mt-0.5" style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}><Icon className="w-2 h-2" />{cfg.label}</span></div>
+                            <div className="flex-1 min-w-0"><p className="text-[10px] font-semibold text-[#f0e6d2] truncate">{change.name}</p><span className="inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded mt-0.5" style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}><Icon className="w-2 h-2" />{cfg.label}</span></div>
                           </motion.div>
                         ); })}</div>
                       </div>
@@ -1000,7 +1000,7 @@ export function PatchesMetaTab({
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-sm font-bold text-[#e84057]">💥 Combos Rotos</span>
                         <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(232,64,87,0.2), transparent)' }} />
-                        <span className="text-[9px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'meta').length}</span>
+                        <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'meta').length}</span>
                       </div>
                       <div className="space-y-3">
                         {metaInsights.filter(i => i.category === 'meta').map((insight, i) => {
@@ -1014,7 +1014,7 @@ export function PatchesMetaTab({
                                     <div>
                                       <div className="flex items-center gap-1.5">
                                         <span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span>
-                                        <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[9px] px-1.5 py-0"><AlertTriangle className="w-3 h-3 mr-0.5" />ROTO</Badge>
+                                        <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[10px] px-1.5 py-0"><AlertTriangle className="w-3 h-3 mr-0.5" />ROTO</Badge>
                                       </div>
                                       <CategoryBadge category={insight.category} />
                                     </div>
@@ -1046,7 +1046,7 @@ export function PatchesMetaTab({
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-sm font-bold text-[#0acbe6]">🔧 Items & Buffs</span>
                         <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.2), transparent)' }} />
-                        <span className="text-[9px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'buff').length}</span>
+                        <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'buff').length}</span>
                       </div>
                       <div className="space-y-3">
                         {metaInsights.filter(i => i.category === 'buff').map((insight, i) => {
@@ -1058,7 +1058,7 @@ export function PatchesMetaTab({
                                   <div className="flex items-center gap-2 mb-2 flex-wrap">
                                     <ChampionIcon name={insight.champion} tier={gameChampions.find(c => c.name === insight.champion)?.tier || 'A'} />
                                     <div>
-                                      <div className="flex items-center gap-1.5"><span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span><Badge className="bg-[#0acbe6]/20 text-[#0acbe6] border border-[#0acbe6]/30 text-[9px] px-1.5 py-0">BUFF</Badge></div>
+                                      <div className="flex items-center gap-1.5"><span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span><Badge className="bg-[#0acbe6]/20 text-[#0acbe6] border border-[#0acbe6]/30 text-[10px] px-1.5 py-0">BUFF</Badge></div>
                                       <CategoryBadge category={insight.category} />
                                     </div>
                                   </div>

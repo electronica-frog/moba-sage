@@ -380,7 +380,7 @@ export function ProfileTab({
                     </div>
                     <div className="text-right shrink-0">
                       <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: 'rgba(120,90,40,0.08)' }}>
-                        <span className="text-[8px] text-[#5b5a56]/30">—</span>
+                        <span className="text-[10px] text-[#5b5a56]/30">—</span>
                       </div>
                     </div>
                   </div>

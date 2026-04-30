@@ -50,7 +50,7 @@ function TierBadge({ tier }: { tier: string }) {
   };
   const c = colors[tier] || colors['A'];
   return (
-    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black"
+    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black"
       style={{ backgroundColor: c.bg, color: c.color, border: `1px solid ${c.border}` }}>
       {tier}
     </span>
@@ -122,23 +122,23 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
           <div className="flex items-center gap-1.5 mb-0.5">
             <span className="text-[11px] font-semibold text-[#f0e6d2] truncate">{change.name}</span>
             <span
-              className="text-[8px] px-1.5 py-0.5 rounded font-bold"
+              className="text-[10px] px-1.5 py-0.5 rounded font-bold"
               style={{ background: `${type.color}15`, color: type.color, border: `1px solid ${type.color}25` }}
             >
               {type.label}
             </span>
             {change.impact && (
-              <span className="text-[8px] text-[#5b5a56]">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>
+              <span className="text-[10px] text-[#5b5a56]">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>
             )}
           </div>
-          <p className="text-[9px] text-[#a09b8c] truncate">{change.description}</p>
+          <p className="text-[10px] text-[#a09b8c] truncate">{change.description}</p>
         </div>
 
         {/* Tier change indicator */}
         <div className="flex items-center gap-1.5 shrink-0">
           {change.tierBefore && (
             <div className="text-center">
-              <span className="block text-[8px] text-[#5b5a56]">Antes</span>
+              <span className="block text-[10px] text-[#5b5a56]">Antes</span>
               <TierBadge tier={change.tierBefore} />
             </div>
           )}
@@ -153,7 +153,7 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
           </div>
           {change.tierAfter && (
             <div className="text-center">
-              <span className="block text-[8px] text-[#5b5a56]">Ahora</span>
+              <span className="block text-[10px] text-[#5b5a56]">Ahora</span>
               <TierBadge tier={change.tierAfter} />
             </div>
           )}
@@ -280,7 +280,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
               <ArrowUpCircle className="w-4 h-4 text-[#0fba81]" />
             </div>
             <span className="lol-label text-xs font-semibold text-[#0fba81]">¿Quién Queda Roto?</span>
-            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{broken.length}</span>
+            <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{broken.length}</span>
           </div>
           <div className="space-y-2.5">
             {broken.map((champ, i) => (
@@ -297,7 +297,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
                     <TierBadge tier={champ.tier} />
-                    <span className="ml-auto text-[8px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.3)' }}>BUFFED</span>
+                    <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.3)' }}>BUFFED</span>
                   </div>
                   <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
                 </div>
@@ -315,7 +315,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
               <ArrowDownCircle className="w-4 h-4 text-[#e84057]" />
             </div>
             <span className="lol-label text-xs font-semibold text-[#e84057]">¿Quién Cayó?</span>
-            <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{fallen.length}</span>
+            <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{fallen.length}</span>
           </div>
           <div className="space-y-2.5">
             {fallen.map((champ, i) => (
@@ -332,7 +332,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
                     <TierBadge tier={champ.tier} />
-                    <span className="ml-auto text-[8px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057', border: '1px solid rgba(232,64,87,0.3)' }}>NERFED</span>
+                    <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057', border: '1px solid rgba(232,64,87,0.3)' }}>NERFED</span>
                   </div>
                   <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
                 </div>
@@ -357,18 +357,18 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
               <Newspaper className="w-3.5 h-3.5 text-[#c8aa6e]" />
             </div>
             <span className="lol-label text-xs font-semibold text-[#c8aa6e]">Cambios por Campeón</span>
-            <span className="ml-auto text-[9px] text-[#5b5a56]">{championChanges.length} campeones</span>
+            <span className="ml-auto text-[10px] text-[#5b5a56]">{championChanges.length} campeones</span>
           </div>
           
           {/* Legend */}
           <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-3 px-1">
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
+            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]">
               <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Tier sube
             </span>
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
+            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]">
               <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Tier baja
             </span>
-            <span className="flex items-center gap-1.5 text-[9px] text-[#5b5a56]">
+            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]">
               <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#c8aa6e' }} /> Nuevo
             </span>
           </div>
@@ -534,7 +534,7 @@ export function BrokenStuffTab({
                   {/* ROTO OP badge */}
                   {champ.winRate >= 53 && (
                     <div className="absolute top-2 left-2 z-10">
-                      <Badge className="bg-[#e84057]/90 text-white border border-[#e84057] text-[8px] px-1.5 py-0.5 font-black">
+                      <Badge className="bg-[#e84057]/90 text-white border border-[#e84057] text-[10px] px-1.5 py-0.5 font-black">
                         ROTO OP
                       </Badge>
                     </div>
@@ -574,7 +574,7 @@ export function BrokenStuffTab({
                           </div>
                         ))}
                         {buildItems.length > 4 && (
-                          <span className="text-[8px] text-[#5b5a56]">+{buildItems.length - 4}</span>
+                          <span className="text-[10px] text-[#5b5a56]">+{buildItems.length - 4}</span>
                         )}
                       </div>
                     )}
@@ -615,7 +615,7 @@ export function BrokenStuffTab({
                     style={{ border: '2px solid #0acbe680' }}>
                     <SplashArtIcon name={champ.name} />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black" style={{ backgroundColor: '#0acbe6', color: '#0a0e1a' }}>A</div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black" style={{ backgroundColor: '#0acbe6', color: '#0a0e1a' }}>A</div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[12px] font-semibold text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors">{champ.name}</p>
@@ -645,7 +645,7 @@ export function BrokenStuffTab({
                 <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] font-medium text-[#f0e6d2] truncate">{champ.name}</p>
-                  <p className="text-[9px] text-[#5b5a56] font-mono">{champ.winRate}%</p>
+                  <p className="text-[10px] text-[#5b5a56] font-mono">{champ.winRate}%</p>
                 </div>
               </motion.div>
             ))}
@@ -679,7 +679,7 @@ export function BrokenStuffTab({
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-sm font-bold text-[#e84057]">💥 Combos Rotos</span>
                     <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(232,64,87,0.2), transparent)' }} />
-                    <span className="text-[9px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'meta').length}</span>
+                    <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'meta').length}</span>
                   </div>
                   <div className="space-y-3">
                     {metaInsights.filter(i => i.category === 'meta').map((insight, i) => {
@@ -700,7 +700,7 @@ export function BrokenStuffTab({
                                 <div>
                                   <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span>
-                                    <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[9px] px-1.5 py-0">
+                                    <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[10px] px-1.5 py-0">
                                       <AlertTriangle className="w-3 h-3 mr-0.5" />
                                       ROTO
                                     </Badge>
@@ -743,7 +743,7 @@ export function BrokenStuffTab({
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-sm font-bold text-[#0acbe6]">🔧 Items & Buffs</span>
                     <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.2), transparent)' }} />
-                    <span className="text-[9px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'buff').length}</span>
+                    <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'buff').length}</span>
                   </div>
                   <div className="space-y-3">
                     {metaInsights.filter(i => i.category === 'buff').map((insight, i) => {
@@ -764,7 +764,7 @@ export function BrokenStuffTab({
                                 <div>
                                   <div className="flex items-center gap-1.5">
                                     <span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span>
-                                    <Badge className="bg-[#0acbe6]/20 text-[#0acbe6] border border-[#0acbe6]/30 text-[9px] px-1.5 py-0">
+                                    <Badge className="bg-[#0acbe6]/20 text-[#0acbe6] border border-[#0acbe6]/30 text-[10px] px-1.5 py-0">
                                       BUFF
                                     </Badge>
                                   </div>

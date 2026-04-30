@@ -139,7 +139,7 @@ function ComboListCard({
               </div>
               {i < combo.champions.length - 1 && (
                 <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 z-10">
-                  <span className="text-[7px] text-[#c8aa6e] font-bold">+</span>
+                  <span className="text-[10px] text-[#c8aa6e] font-bold">+</span>
                 </div>
               )}
             </div>
@@ -160,7 +160,7 @@ function ComboListCard({
         <div className="flex items-center gap-1.5 mt-2">
           {/* Win Rate */}
           <span
-            className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded"
+            className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded"
             style={{
               backgroundColor: isMeta ? 'rgba(10,203,230,0.12)' : 'rgba(160,155,140,0.08)',
               color: isMeta ? '#0acbe6' : '#a09b8c',
@@ -173,7 +173,7 @@ function ComboListCard({
           {/* Meta tag */}
           {isMeta && (
             <span
-              className="text-[8px] font-black px-1.5 py-0.5 rounded"
+              className="text-[10px] font-black px-1.5 py-0.5 rounded"
               style={{ background: 'rgba(200,170,110,0.15)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}
             >
               META
@@ -183,7 +183,7 @@ function ComboListCard({
           {/* Combo type */}
           {comboTypeCfg && (
             <span
-              className="text-[8px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5"
+              className="text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5"
               style={{ backgroundColor: comboTypeCfg.bg, color: comboTypeCfg.color, border: `1px solid ${comboTypeCfg.border}` }}
             >
               {(() => { const Icon = comboTypeCfg.icon; return <Icon className="w-2.5 h-2.5" />; })()}
@@ -240,7 +240,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
           {/* Meta badge */}
           {isMeta && (
             <div className="mb-2">
-              <span className="text-[9px] font-black px-2.5 py-1 rounded-md inline-flex items-center gap-1" style={{
+              <span className="text-[10px] font-black px-2.5 py-1 rounded-md inline-flex items-center gap-1" style={{
                 background: 'linear-gradient(135deg, rgba(200,170,110,0.2), rgba(240,198,70,0.15))',
                 color: '#c8aa6e',
                 border: '1px solid rgba(200,170,110,0.4)',
@@ -282,10 +282,10 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
                   <div className="absolute bottom-0 inset-x-0 py-0.5 text-center" style={{
                     background: 'linear-gradient(transparent, rgba(10,14,26,0.9))',
                   }}>
-                    <span className="text-[7px] font-black text-[#c8aa6e]">{i + 1}</span>
+                    <span className="text-[10px] font-black text-[#c8aa6e]">{i + 1}</span>
                   </div>
                 </div>
-                <span className="text-[8px] sm:text-[9px] font-semibold text-[#a09b8c] mt-1 max-w-[60px] truncate text-center">{name}</span>
+                <span className="text-[10px] sm:text-[10px] font-semibold text-[#a09b8c] mt-1 max-w-[60px] truncate text-center">{name}</span>
               </motion.div>
             ))}
           </div>
@@ -307,7 +307,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
             >
               <Trophy className="w-4 h-4 mx-auto mb-1.5" style={{ color: '#0acbe6' }} />
               <span className="text-lg font-mono font-bold block" style={{ color: isMeta ? '#0acbe6' : '#a09b8c' }}>{combo.winRate}%</span>
-              <p className="text-[9px] text-[#5b5a56] mt-0.5">Win Rate</p>
+              <p className="text-[10px] text-[#5b5a56] mt-0.5">Win Rate</p>
             </div>
 
             {/* Difficulty */}
@@ -334,7 +334,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
               <span className="text-sm font-bold block" style={{ color: comboTypeCfg ? comboTypeCfg.color : '#5b5a56' }}>
                 {comboType || 'Mixto'}
               </span>
-              <p className="text-[9px] text-[#5b5a56] mt-0.5">Tipo</p>
+              <p className="text-[10px] text-[#5b5a56] mt-0.5">Tipo</p>
             </div>
 
             {/* Champion Count */}
@@ -347,7 +347,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
             >
               <Users className="w-4 h-4 mx-auto mb-1.5 text-[#c8aa6e]" />
               <span className="text-lg font-bold block text-[#c8aa6e]">{combo.champions.length}</span>
-              <p className="text-[9px] text-[#5b5a56] mt-0.5">
+              <p className="text-[10px] text-[#5b5a56] mt-0.5">
                 {combo.champions.length === 2 ? 'Dúo' : combo.champions.length === 3 ? 'Trío' : combo.champions.length === 4 ? 'Cuarteto' : 'Equipo'}
               </p>
             </div>
@@ -356,7 +356,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
           {/* Difficulty progress bar */}
           <div className="p-3 rounded-lg" style={{ background: 'rgba(10,14,26,0.4)', border: '1px solid rgba(120,90,40,0.1)' }}>
             <div className="flex items-center justify-between mb-2">
-              <span className="lol-label text-[9px] text-[#5b5a56]">Dificultad de ejecución</span>
+              <span className="lol-label text-[10px] text-[#5b5a56]">Dificultad de ejecución</span>
               <DifficultyStars rating={diffRating} size="lg" />
             </div>
             <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.08)' }}>
@@ -389,10 +389,10 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
                   <ChampionIcon name={name} tier={isMeta ? 'S' : 'A'} />
                   <div className="flex-1 min-w-0">
                     <span className="text-xs font-bold text-[#f0e6d2] block truncate">{name}</span>
-                    <span className="text-[9px] text-[#5b5a56]">Posición {i + 1}</span>
+                    <span className="text-[10px] text-[#5b5a56]">Posición {i + 1}</span>
                   </div>
                   {i === 0 && (
-                    <span className="text-[8px] font-bold px-2 py-0.5 rounded" style={{
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded" style={{
                       background: 'rgba(200,170,110,0.12)',
                       color: '#c8aa6e',
                       border: '1px solid rgba(200,170,110,0.3)',
@@ -512,7 +512,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
               style={{ maxHeight: 'calc(100vh - 280px)' }}
             >
               <div className="flex items-center gap-2 px-1 mb-1">
-                <span className="lol-label text-[9px] text-[#c8aa6e]">
+                <span className="lol-label text-[10px] text-[#c8aa6e]">
                   {filtered.length} COMBO{filtered.length !== 1 ? 'S' : ''}
                 </span>
                 <div className="flex-1 h-[1px]" style={{ background: 'rgba(200,170,110,0.15)' }} />
@@ -555,7 +555,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
             {/* Horizontal scroll strip */}
             <div className="relative">
               <div className="flex items-center gap-2 mb-2 px-1">
-                <span className="lol-label text-[9px] text-[#c8aa6e]">
+                <span className="lol-label text-[10px] text-[#c8aa6e]">
                   {filtered.length} COMBO{filtered.length !== 1 ? 'S' : ''}
                 </span>
                 <div className="flex-1 h-[1px]" style={{ background: 'rgba(200,170,110,0.15)' }} />
@@ -597,11 +597,11 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
                         </div>
                         <p className="text-[10px] font-bold text-[#f0e6d2] leading-tight truncate">{combo.name}</p>
                         <div className="flex items-center gap-1.5 mt-1.5">
-                          <span className="text-[9px] font-mono font-bold" style={{ color: isMeta ? '#0acbe6' : '#a09b8c' }}>
+                          <span className="text-[10px] font-mono font-bold" style={{ color: isMeta ? '#0acbe6' : '#a09b8c' }}>
                             {combo.winRate}%
                           </span>
                           {isMeta && (
-                            <span className="text-[7px] font-black px-1 py-0.5 rounded" style={{ background: 'rgba(200,170,110,0.15)', color: '#c8aa6e' }}>META</span>
+                            <span className="text-[10px] font-black px-1 py-0.5 rounded" style={{ background: 'rgba(200,170,110,0.15)', color: '#c8aa6e' }}>META</span>
                           )}
                         </div>
                       </div>
@@ -647,7 +647,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
           <div>
             <h2 className="lol-title text-lg text-[#f0e6d2]">Composiciones Pro</h2>
             <div className="flex items-center gap-2">
-              <span className="text-[9px] px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{proComps.length} comps</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{proComps.length} comps</span>
               <p className="text-xs text-[#5b5a56]">Team comps más fuertes del meta actual</p>
             </div>
           </div>
@@ -665,7 +665,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, #c8aa6e, #c8aa6e40)' }} />
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-bold text-[#f0e6d2]">{comp.name}</h3>
-                <span className="text-[9px] px-2 py-0.5 rounded-md font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{comp.playstyle}</span>
+                <span className="text-[10px] px-2 py-0.5 rounded-md font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{comp.playstyle}</span>
               </div>
               <div className="flex items-center gap-2 mb-3 flex-wrap">
                 {comp.champions.map(c => (

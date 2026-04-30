@@ -278,7 +278,7 @@ function CategoryList({ data, showCategory }: { data: { category: string; icon: 
                       <p className="text-[10px] text-[#5b5a56] mt-0.5 truncate">{idea.desc}</p>
                     </div>
                     <span
-                      className="text-[9px] font-medium px-1.5 py-0.5 rounded shrink-0"
+                      className="text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0"
                       style={{ color: cfg.color, background: cfg.bg }}
                     >
                       {cfg.label}

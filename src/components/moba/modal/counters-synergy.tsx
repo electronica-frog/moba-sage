@@ -21,7 +21,7 @@ export function CountersSynergyGrid({ champion }: { champion: Champion }) {
               {counterNames.slice(0, 3).map((name) => (
                 <div key={name} className="flex flex-col items-center gap-1">
                   <TinyChampionIcon name={name} />
-                  <span className="text-[8px] text-[#a09b8c] leading-none truncate max-w-[40px] text-center">{name}</span>
+                  <span className="text-[10px] text-[#a09b8c] leading-none truncate max-w-[40px] text-center">{name}</span>
                 </div>
               ))}
             </div>
@@ -42,7 +42,7 @@ export function CountersSynergyGrid({ champion }: { champion: Champion }) {
                   <ChampionIcon name={name} tier={champion.tier} />
                   <div className="flex flex-col">
                     <span className="text-[11px] font-semibold text-[#f0e6d2] leading-tight">{name}</span>
-                    <span className="text-[8px] text-[#0acbe6]">Sinergia</span>
+                    <span className="text-[10px] text-[#0acbe6]">Sinergia</span>
                   </div>
                 </div>
               ))}

@@ -43,7 +43,7 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
       {/* Mobile close button */}
       {onClose && (
         <div className="flex items-center justify-between px-4 pt-3 pb-1 lg:hidden">
-          <p className="lol-label text-[9px] text-lol-gold-dark">Navegación</p>
+          <p className="lol-label text-[10px] text-lol-gold-dark">Navegación</p>
           <button onClick={onClose} className="text-lol-dim hover:text-lol-muted transition-colors p-1" aria-label="Cerrar menú">
             <X className="w-5 h-5" />
           </button>
@@ -52,7 +52,7 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
 
       {/* Game Navigation */}
       <div className="flex-1 overflow-y-auto py-4 px-3 scrollbar-none">
-        <p className="lol-label text-[9px] text-lol-gold-dark px-3 mb-2">Análisis</p>
+        <p className="lol-label text-[10px] text-lol-gold-dark px-3 mb-2">Análisis</p>
         <div className="space-y-0.5">
           {GAME_TAB_ITEMS.map((tab) => {
             const Icon = GAME_ICONS[tab.id] || Trophy;
@@ -101,9 +101,9 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
         {/* Dev Navigation (collapsible, dimmer) */}
         <button
           onClick={() => setDevExpanded(!devExpanded)}
-          className="w-full flex items-center gap-2 px-3 mb-2 text-[9px] text-lol-dim hover:text-lol-gold-dark transition-colors lol-label"
+          className="w-full flex items-center gap-2 px-3 mb-2 text-[10px] text-lol-dim hover:text-lol-gold-dark transition-colors lol-label"
         >
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[7px] font-bold tracking-wider"
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider"
             style={{ backgroundColor: 'rgba(91,90,86,0.15)', color: '#5b5a56', border: '1px solid rgba(91,90,86,0.2)' }}>
             DEV
           </span>
@@ -148,7 +148,7 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
                       )}
                       <Icon className={`w-3 h-3 shrink-0 ${isActive ? 'text-lol-success' : 'text-lol-dim group-hover:text-lol-gold-dark'}`} />
                       <span className='lol-label text-[11px]'>
-                        <span className="text-[8px] mr-1 opacity-50">[DEV]</span>
+                        <span className="text-[10px] mr-1 opacity-50">[DEV]</span>
                         {tab.label}
                       </span>
                     </button>
@@ -163,9 +163,9 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
       {/* Sidebar footer with patch badge */}
       <div className="px-4 py-3 border-t border-lol-gold-dark/10 mb-20 lg:mb-0">
         <div className="flex items-center justify-between">
-          <p className="text-[9px] text-lol-gold-dark/60 tracking-wider">{APP_NAME} v{APP_VERSION}</p>
+          <p className="text-[10px] text-lol-gold-dark/60 tracking-wider">{APP_NAME} v{APP_VERSION}</p>
           {gamePatch && (
-            <span className="flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: 'rgba(15,186,129,0.1)', border: '1px solid rgba(15,186,129,0.2)', color: '#0fba81' }}>
+            <span className="flex items-center gap-1 text-[10px] font-mono px-1.5 py-0.5 rounded" style={{ background: 'rgba(15,186,129,0.1)', border: '1px solid rgba(15,186,129,0.2)', color: '#0fba81' }}>
               <span className="w-1 h-1 rounded-full bg-lol-green animate-pulse" />
               {gamePatch}
             </span>
@@ -174,12 +174,12 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
 
         {/* Keyboard shortcut hints — desktop only */}
         <div className="mt-2 pt-2 border-t border-lol-gold-dark/8 space-y-1 hidden lg:block">
-          <p className="text-[9px] text-lol-dim/60 flex items-center gap-1.5">
-            <span className="inline-flex px-1 py-0.5 rounded text-[8px] font-mono" style={{ background: 'rgba(30,35,40,0.6)', border: '1px solid rgba(120,90,40,0.15)' }}>Ctrl+K</span>
+          <p className="text-[10px] text-lol-dim/60 flex items-center gap-1.5">
+            <span className="inline-flex px-1 py-0.5 rounded text-[10px] font-mono" style={{ background: 'rgba(30,35,40,0.6)', border: '1px solid rgba(120,90,40,0.15)' }}>Ctrl+K</span>
             Buscar campeón
           </p>
-          <p className="text-[9px] text-lol-dim/60 flex items-center gap-1.5">
-            <span className="inline-flex px-1 py-0.5 rounded text-[8px] font-mono" style={{ background: 'rgba(30,35,40,0.6)', border: '1px solid rgba(120,90,40,0.15)' }}>Esc</span>
+          <p className="text-[10px] text-lol-dim/60 flex items-center gap-1.5">
+            <span className="inline-flex px-1 py-0.5 rounded text-[10px] font-mono" style={{ background: 'rgba(30,35,40,0.6)', border: '1px solid rgba(120,90,40,0.15)' }}>Esc</span>
             Cerrar paneles
           </p>
         </div>

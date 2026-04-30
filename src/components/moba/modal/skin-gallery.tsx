@@ -54,7 +54,7 @@ export function SkinGallery({ championName, activeSkin, failedSkins, tierColor, 
                 <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${tierColor}10, rgba(10,14,26,0.5))` }} />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <span className="absolute bottom-0.5 left-1.5 text-[7px] text-[#a09b8c] font-medium truncate max-w-[90px]">
+              <span className="absolute bottom-0.5 left-1.5 text-[10px] text-[#a09b8c] font-medium truncate max-w-[90px]">
                 {getSkinLabel(championName, skinNum)}
               </span>
               {isActive && (

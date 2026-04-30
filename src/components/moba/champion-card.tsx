@@ -42,7 +42,7 @@ export function ChampionCard({
 
   // Size configs for LoL card-style
   const sizeConfig = {
-    sm: { w: 'w-[140px]', h: 'h-[195px]', nameSize: 'text-[13px]', statSize: 'text-[9px]', iconSize: 36 },
+    sm: { w: 'w-[140px]', h: 'h-[195px]', nameSize: 'text-[13px]', statSize: 'text-[10px]', iconSize: 36 },
     lg: { w: 'w-[185px]', h: 'h-[260px]', nameSize: 'text-[15px]', statSize: 'text-[10px]', iconSize: 44 },
     xl: { w: 'w-[220px]', h: 'h-[310px]', nameSize: 'text-[17px]', statSize: 'text-[11px]', iconSize: 52 },
   };
@@ -194,19 +194,19 @@ export function ChampionCard({
         <div className="flex items-center gap-2 mb-1">
           <div className="flex items-center gap-1">
             <span className={`${sc.statSize} font-mono font-bold`} style={{ color: wrColor }}>{winRate}%</span>
-            <span className="text-[7px] text-[#5b5a56] uppercase">WR</span>
+            <span className="text-[10px] text-[#5b5a56] uppercase">WR</span>
           </div>
           <div className="w-px h-2.5 bg-[#785a28]/30" />
           <div className="flex items-center gap-1">
             <span className={`${sc.statSize} font-mono text-[#a09b8c]`}>{pickRate}%</span>
-            <span className="text-[7px] text-[#5b5a56] uppercase">Pick</span>
+            <span className="text-[10px] text-[#5b5a56] uppercase">Pick</span>
           </div>
           {size !== 'sm' && banRate > 0 && (
             <>
               <div className="w-px h-2.5 bg-[#785a28]/30" />
               <div className="flex items-center gap-1">
                 <span className={`${sc.statSize} font-mono`} style={{ color: banRate > 5 ? '#e84057' : '#a09b8c' }}>{banRate}%</span>
-                <span className="text-[7px] text-[#5b5a56] uppercase">Ban</span>
+                <span className="text-[10px] text-[#5b5a56] uppercase">Ban</span>
               </div>
             </>
           )}

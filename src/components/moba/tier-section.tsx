@@ -86,7 +86,7 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
       )}
 
       <div
-        className="hidden sm:flex items-center px-4 py-1.5 text-[8px] text-[#5b5a56] uppercase tracking-widest font-medium"
+        className="hidden sm:flex items-center px-4 py-1.5 text-[10px] text-[#5b5a56] uppercase tracking-widest font-medium"
         style={{
           background: 'rgba(20, 24, 30, 0.8)',
           borderLeft: `1px solid rgba(120, 90, 40, 0.15)`,

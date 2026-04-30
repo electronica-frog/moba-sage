@@ -143,7 +143,7 @@ export function DataSourcesPanel() {
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-medium text-[#f0e6d2]">{source.name}</span>
-                  <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold ${statusColors[source.status]} text-white`}>
+                  <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold ${statusColors[source.status]} text-white`}>
                     {statusLabels[source.status]}
                   </span>
                 </div>
@@ -159,7 +159,7 @@ export function DataSourcesPanel() {
           <p className="text-[10px] text-[#a09b8c] text-center">
             Patch <span className="text-[#c8aa6e] font-medium">26.9</span> · Season 2 Pandemonium
           </p>
-          <p className="text-[9px] text-[#a09b8c]/60 text-center mt-1">
+          <p className="text-[10px] text-[#a09b8c]/60 text-center mt-1">
             © Riot Games, Inc. League of Legends y todo el contenido relacionado son marcas registradas de Riot Games, Inc.
           </p>
         </div>

@@ -89,16 +89,16 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
             {champion.name}
           </h3>
           {trend === 'rising' && (
-            <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-black" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81' }}>▲</span>
+            <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-black" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81' }}>▲</span>
           )}
           {trend === 'falling' && (
-            <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[9px] font-black" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057' }}>▼</span>
+            <span className="inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-black" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057' }}>▼</span>
           )}
           {champion.proPickRate !== undefined && champion.proPickRate > 0 && (
             <TrendIcon rate={champion.proPickRate} />
           )}
         </div>
-        <p className="text-[9px] text-[#785a28] truncate leading-tight mt-0.5 italic">{champion.title}</p>
+        <p className="text-[10px] text-[#785a28] truncate leading-tight mt-0.5 italic">{champion.title}</p>
         {/* Matchup indicators — synergy (green) + counters (red) */}
         {hasMatchups && (
           <div className="flex items-center gap-1.5 mt-1 opacity-70 group-hover:opacity-100 transition-opacity">
@@ -127,20 +127,20 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
           <span className="font-mono font-bold text-[11px] sm:text-[12px] leading-none" style={{ color: wr }}>
             {champion.winRate}%
           </span>
-          <span className="text-[7px] text-[#5b5a56] uppercase tracking-widest">WR</span>
+          <span className="text-[10px] text-[#5b5a56] uppercase tracking-widest">WR</span>
         </div>
         <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-md" style={{ background: 'rgba(91,138,245,0.08)', border: '1px solid rgba(91,138,245,0.15)' }}>
           <span className="font-mono font-semibold text-[12px] text-[#5b8af5] leading-none">{champion.pickRate}%</span>
-          <span className="text-[7px] text-[#5b5a56] uppercase tracking-widest">Pick</span>
+          <span className="text-[10px] text-[#5b5a56] uppercase tracking-widest">Pick</span>
         </div>
         <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-md" style={{ background: champion.banRate > 5 ? 'rgba(232,64,87,0.08)' : 'rgba(120,90,40,0.05)', border: champion.banRate > 5 ? '1px solid rgba(232,64,87,0.15)' : '1px solid rgba(120,90,40,0.1)' }}>
           <span className="font-mono font-semibold text-[12px] leading-none" style={{ color: champion.banRate > 5 ? '#e84057' : '#a09b8c' }}>{champion.banRate}%</span>
-          <span className="text-[7px] text-[#5b5a56] uppercase tracking-widest">Ban</span>
+          <span className="text-[10px] text-[#5b5a56] uppercase tracking-widest">Ban</span>
         </div>
         {/* Weekly WR mini chart */}
         {showWeeklyChart && (
           <div className="flex flex-col items-end gap-0.5">
-            <span className="text-[8px] text-[#5b5a56] uppercase tracking-wider leading-none">4 Sem</span>
+            <span className="text-[10px] text-[#5b5a56] uppercase tracking-wider leading-none">4 Sem</span>
             <WeeklyWRChart championName={champion.name} currentWR={champion.winRate} compact />
           </div>
         )}

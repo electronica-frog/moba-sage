@@ -5,11 +5,20 @@ import { useEffect, useState } from 'react';
 
 export function MinimapDecoration() {
   const [visible, setVisible] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     // Small delay for smooth appearance
     const timer = setTimeout(() => setVisible(true), 1500);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   if (!visible) return null;
@@ -39,9 +48,9 @@ export function MinimapDecoration() {
           stroke="rgba(10,203,230,0.3)"
           strokeWidth="6"
           strokeLinecap="round"
-          initial={{ pathLength: 0 }}
+          initial={reducedMotion ? { pathLength: 1 } : { pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={{ duration: 2, ease: 'easeInOut' }}
+          transition={{ duration: reducedMotion ? 0 : 2, ease: 'easeInOut' }}
         />
 
         {/* Top lane */}
@@ -84,12 +93,12 @@ export function MinimapDecoration() {
           fill="rgba(240,198,70,0.15)"
           stroke="rgba(240,198,70,0.4)"
           strokeWidth="0.8"
-          animate={{
+          animate={reducedMotion ? { strokeOpacity: 0.5 } : {
             strokeOpacity: [0.3, 0.7, 0.3],
           }}
           transition={{
             duration: 3,
-            repeat: Infinity,
+            repeat: reducedMotion ? 0 : Infinity,
             ease: 'easeInOut',
           }}
         />
@@ -102,12 +111,12 @@ export function MinimapDecoration() {
           fill="rgba(168,85,247,0.15)"
           stroke="rgba(168,85,247,0.4)"
           strokeWidth="0.8"
-          animate={{
+          animate={reducedMotion ? { strokeOpacity: 0.5 } : {
             strokeOpacity: [0.3, 0.7, 0.3],
           }}
           transition={{
             duration: 3,
-            repeat: Infinity,
+            repeat: reducedMotion ? 0 : Infinity,
             ease: 'easeInOut',
             delay: 1.5,
           }}

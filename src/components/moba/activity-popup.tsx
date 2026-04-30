@@ -185,7 +185,7 @@ export function ActivityPopup() {
                       <p className="text-sm font-semibold text-[#f0e6d2]">{latestEntry.title}</p>
                       <p className="text-[11px] text-[#a09b8c] mt-1 leading-relaxed line-clamp-2">{latestEntry.description}</p>
                       <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                        <div className="flex items-center gap-1 text-[8px] text-[#5b5a56]">
+                        <div className="flex items-center gap-1 text-[10px] text-[#5b5a56]">
                           <Clock className="w-2.5 h-2.5" />
                           {timeAgo(latestEntry.timestamp)}
                         </div>
@@ -195,7 +195,7 @@ export function ActivityPopup() {
                             target="_blank"
                             rel="noopener noreferrer"
                             title={`Commit: ${latestEntry.commit.slice(0, 7)}`}
-                            className="flex items-center gap-1 text-[8px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors font-mono"
+                            className="flex items-center gap-1 text-[10px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors font-mono"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <GitCommit className="w-2.5 h-2.5" />
@@ -214,7 +214,7 @@ export function ActivityPopup() {
             {feed.highlights.length > 0 && (
               <div className="px-5 py-2">
                 <div className="rounded-lg p-3" style={{ background: 'rgba(15,186,129,0.04)', border: '1px solid rgba(15,186,129,0.1)' }}>
-                  <p className="lol-label text-[9px] text-[#0fba81] mb-2">La app tiene</p>
+                  <p className="lol-label text-[10px] text-[#0fba81] mb-2">La app tiene</p>
                   <div className="flex flex-wrap gap-x-3 gap-y-1">
                     {feed.highlights.map((h, i) => (
                       <span key={i} className="text-[10px] text-[#a09b8c] flex items-center gap-1">
@@ -229,7 +229,7 @@ export function ActivityPopup() {
 
             {/* Recent activity entries */}
             <div className="px-5 py-2 space-y-1">
-              <p className="lol-label text-[9px] text-[#5b5a56] mb-2">Actividad reciente</p>
+              <p className="lol-label text-[10px] text-[#5b5a56] mb-2">Actividad reciente</p>
               {recentEntries.slice(1).map((entry) => {
                 const color = TYPE_COLORS[entry.type] || '#a09b8c';
                 const Icon = TYPE_ICONS[entry.type] || Sparkles;
@@ -240,7 +240,7 @@ export function ActivityPopup() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[11px] font-medium text-[#f0e6d2]">{entry.title}</p>
-                      <div className="flex items-center gap-2 mt-0.5 text-[8px] text-[#5b5a56]">
+                      <div className="flex items-center gap-2 mt-0.5 text-[10px] text-[#5b5a56]">
                         <Clock className="w-2 h-2" />
                         {timeAgo(entry.timestamp)}
                         {entry.commit && (

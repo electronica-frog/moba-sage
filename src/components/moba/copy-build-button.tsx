@@ -15,7 +15,7 @@ export function CopyBuildButton({ buildName, itemsStr }: { buildName: string; it
   return (
     <button
       onClick={handleCopy}
-      className="inline-flex items-center gap-1 px-2 py-1 rounded text-[9px] font-medium transition-all hover:scale-105"
+      className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-medium transition-all hover:scale-105"
       style={{ background: copied ? 'rgba(15,186,129,0.15)' : 'rgba(200,170,110,0.08)', border: `1px solid ${copied ? 'rgba(15,186,129,0.3)' : 'rgba(200,170,110,0.15)'}`, color: copied ? '#0fba81' : '#785a28' }}
       title="Copiar build"
       aria-label={`Copiar build ${buildName} al portapapeles`}

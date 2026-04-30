@@ -93,7 +93,7 @@ export function AppHeader({
       }
     }
     loadActivity();
-    const interval = setInterval(loadActivity, 60000);
+    const interval = setInterval(loadActivity, 300000);
     return () => clearInterval(interval);
   }, []);
 
@@ -180,7 +180,7 @@ export function AppHeader({
           </div>
           <div className="hidden sm:block">
             <h1 className="lol-title text-lg leading-none" style={{ color: '#c8aa6e', textShadow: '0 0 30px rgba(200,170,110,0.4), 0 2px 4px rgba(0,0,0,0.8)' }}>MOBA SAGE</h1>
-            <p className="lol-subtitle text-[9px] text-lol-dim leading-none mt-0.5">Analytics con IA</p>
+            <p className="lol-subtitle text-[10px] text-lol-dim leading-none mt-0.5">Analytics con IA</p>
           </div>
           {selectedGame && (
             <motion.div initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} className="ml-1">
@@ -205,7 +205,7 @@ export function AppHeader({
             <span className="w-1.5 h-1.5 rounded-full bg-lol-green mr-1.5 animate-pulse" />
             En vivo
           </Badge>
-          <span className="hidden md:inline text-[9px] text-lol-dim ml-1">
+          <span className="hidden md:inline text-[10px] text-lol-dim ml-1">
             Update: {lastUpdate || 'Cargando...'}
           </span>
 
@@ -238,7 +238,7 @@ export function AppHeader({
             >
               <Bell className="w-4 h-4" fill={hasNotifs ? '#c8aa6e' : 'none'} />
               {hasNotifs && (
-                <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[9px] font-bold"
+                <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold"
                   style={{ backgroundColor: '#e84057', color: '#fff', boxShadow: '0 0 6px rgba(232,64,87,0.5)' }}>
                   {notifCount}
                 </span>
@@ -300,8 +300,8 @@ export function AppHeader({
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="text-[11px] font-medium text-lol-text truncate">{entry.title}</p>
-                              <p className="text-[9px] text-lol-dim truncate">{entry.description}</p>
-                              <div className="flex items-center gap-1.5 mt-0.5 text-[8px] text-lol-dim">
+                              <p className="text-[10px] text-lol-dim truncate">{entry.description}</p>
+                              <div className="flex items-center gap-1.5 mt-0.5 text-[10px] text-lol-dim">
                                 <Clock className="w-2 h-2" />
                                 {timeAgo(entry.timestamp)}
                               </div>

@@ -69,7 +69,7 @@ export function CompetitiveTab({
           {/* Desktop Table View */}
           <div className="hidden sm:block">
             <div className="glass-card rounded-xl overflow-hidden">
-              <div className="grid grid-cols-[2.5rem_1fr_4rem_5rem_3.5rem_3.5rem_3.5rem] gap-2 px-4 py-2 lol-label text-[8px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+              <div className="grid grid-cols-[2.5rem_1fr_4rem_5rem_3.5rem_3.5rem_3.5rem] gap-2 px-4 py-2 lol-label text-[10px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
                 <div />
                 <div>Campeón</div>
                 <div>Rol</div>
@@ -198,15 +198,15 @@ function ProPickCard({ pick, index }: { pick: ProPick; index: number }) {
         <div className="grid grid-cols-3 gap-2">
           <div className="rounded-lg p-2 text-center" style={{ background: 'rgba(10,203,230,0.08)', border: '1px solid rgba(10,203,230,0.15)' }}>
             <p className="text-sm font-mono font-bold text-[#0acbe6]">{pick.pickRate}%</p>
-            <p className="text-[8px] text-[#5b5a56] uppercase tracking-wider mt-0.5">Pick</p>
+            <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider mt-0.5">Pick</p>
           </div>
           <div className="rounded-lg p-2 text-center" style={{ background: pick.banRate > 10 ? 'rgba(232,64,87,0.08)' : 'rgba(160,155,140,0.05)', border: `1px solid ${pick.banRate > 10 ? 'rgba(232,64,87,0.15)' : 'rgba(160,155,140,0.1)'}` }}>
             <p className="text-sm font-mono font-bold" style={{ color: pick.banRate > 10 ? '#e84057' : '#a09b8c' }}>{pick.banRate}%</p>
-            <p className="text-[8px] text-[#5b5a56] uppercase tracking-wider mt-0.5">Ban</p>
+            <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider mt-0.5">Ban</p>
           </div>
           <div className="rounded-lg p-2 text-center" style={{ background: 'rgba(15,186,129,0.08)', border: '1px solid rgba(15,186,129,0.15)' }}>
             <p className="text-sm font-mono font-bold" style={{ color: pick.winRate >= 54 ? '#0acbe6' : pick.winRate >= 50 ? '#a09b8c' : '#e84057' }}>{pick.winRate}%</p>
-            <p className="text-[8px] text-[#5b5a56] uppercase tracking-wider mt-0.5">WR</p>
+            <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider mt-0.5">WR</p>
           </div>
         </div>
       </div>
@@ -224,11 +224,11 @@ function ProPickCard({ pick, index }: { pick: ProPick; index: number }) {
             <div className="px-4 pb-4 pt-1" style={{ borderTop: '1px solid rgba(120,90,40,0.1)' }}>
               <div className="grid grid-cols-2 gap-3 mt-2">
                 <div className="space-y-1">
-                  <p className="text-[9px] text-[#5b5a56] uppercase tracking-wider">Región</p>
+                  <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider">Región</p>
                   <TournamentBadge tournament={pick.tournament} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[9px] text-[#5b5a56] uppercase tracking-wider">Patch</p>
+                  <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider">Patch</p>
                   <span className="text-xs font-mono text-[#a09b8c]">{pick.patch}</span>
                 </div>
               </div>

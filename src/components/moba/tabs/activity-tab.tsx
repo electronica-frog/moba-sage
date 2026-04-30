@@ -237,12 +237,12 @@ export function ActivityTab() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="text-xs font-semibold text-[#f0e6d2]">{entry.title}</h4>
-                    <span className="text-[8px] font-medium px-1.5 py-0.5 rounded shrink-0" style={{ color: cfg.color, background: cfg.bg }}>
+                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0" style={{ color: cfg.color, background: cfg.bg }}>
                       {cfg.label}
                     </span>
                   </div>
                   <p className="text-[11px] text-[#785a28] leading-relaxed">{entry.description}</p>
-                  <div className="flex items-center gap-3 mt-2 text-[9px] text-[#5b5a56]">
+                  <div className="flex items-center gap-3 mt-2 text-[10px] text-[#5b5a56]">
                     <span className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{formatDate(entry.timestamp)}</span>
                     <span>{timeAgo(entry.timestamp)}</span>
                     {entry.commit && (
@@ -250,7 +250,7 @@ export function ActivityTab() {
                         href={`https://github.com/gamer-frog/moba-sage/commit/${entry.commit}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 font-mono text-[9px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors"
+                        className="flex items-center gap-1 font-mono text-[10px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors"
                       >
                         <GitCommit className="w-2.5 h-2.5" />{entry.commit.slice(0, 7)}
                         <ExternalLink className="w-2 h-2" />

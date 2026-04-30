@@ -410,7 +410,7 @@ export default function Home() {
                   style={{ fontFamily: 'inherit', letterSpacing: '0.05em' }}
                 />
                 <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] text-[#5b5a56]" style={{ background: 'rgba(120,90,40,0.12)', border: '1px solid rgba(120,90,40,0.2)' }}>
-                  <span className="text-[8px]">⌘</span>K
+                  <span className="text-[10px]">⌘</span>K
                 </kbd>
               </div>
 

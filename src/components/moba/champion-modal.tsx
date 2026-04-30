@@ -288,7 +288,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                   </div>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] animate-pulse" />
-                    <span className="text-[9px] text-[#0fba81] font-medium">
+                    <span className="text-[10px] text-[#0fba81] font-medium">
                       {metaBuild.scrapedAt ? timeAgoMeta(metaBuild.scrapedAt) : 'En Vivo'}
                     </span>
                   </div>
@@ -306,7 +306,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                       </span>
                     ))}
                   </div>
-                  <p className="text-[8px] text-[#5b5a56]">Fuente: {metaBuild.source} | Patch {metaBuild.patch}</p>
+                  <p className="text-[10px] text-[#5b5a56]">Fuente: {metaBuild.source} | Patch {metaBuild.patch}</p>
                 </div>
               </div>
             )}
@@ -353,23 +353,23 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                                 {iconUrl ? (
                                   <Image src={iconUrl} alt={item} width={28} height={28} className="w-7 h-7 rounded" style={{ border: '1px solid rgba(200,170,110,0.2)' }} loading="lazy" />
                                 ) : (
-                                  <div className="w-7 h-7 rounded bg-[#1e2328] flex items-center justify-center text-[8px] text-[#5b5a56] border border-[#785a28]/20">
+                                  <div className="w-7 h-7 rounded bg-[#1e2328] flex items-center justify-center text-[10px] text-[#5b5a56] border border-[#785a28]/20">
                                     {item[0]}
                                   </div>
                                 )}
-                                <span className="text-[7px] text-[#785a28] leading-none text-center max-w-[56px] truncate">{item}</span>
+                                <span className="text-[10px] text-[#785a28] leading-none text-center max-w-[56px] truncate">{item}</span>
                               </div>
                             );
                           })}
                         </div>
                         <div className="flex items-center gap-2">
-                          <a href={extUrls.ugg} target="_blank" rel="noopener noreferrer" className="text-[9px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
+                          <a href={extUrls.ugg} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
                             <ExternalLink className="w-2.5 h-2.5" /> U.GG
                           </a>
-                          <a href={extUrls.mobalytics} target="_blank" rel="noopener noreferrer" className="text-[9px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
+                          <a href={extUrls.mobalytics} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
                             <ExternalLink className="w-2.5 h-2.5" /> Mobalytics
                           </a>
-                          <a href={extUrls.opgg} target="_blank" rel="noopener noreferrer" className="text-[9px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
+                          <a href={extUrls.opgg} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
                             <ExternalLink className="w-2.5 h-2.5" /> OP.GG
                           </a>
                         </div>

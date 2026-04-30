@@ -42,7 +42,7 @@ export function ChampionStatsRow({ champion, tierColor }: ChampionStatsRowProps)
           >
             {stat.value}{stat.suffix}
           </p>
-          <p className="text-[8px] text-[#5b5a56] uppercase tracking-widest mt-0.5">{stat.label}</p>
+          <p className="text-[10px] text-[#5b5a56] uppercase tracking-widest mt-0.5">{stat.label}</p>
         </div>
       ))}
     </motion.div>

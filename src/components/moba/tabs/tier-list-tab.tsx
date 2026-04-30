@@ -248,12 +248,12 @@ export function TierListTab({
             <div className="flex items-center gap-2 min-w-0">
               <Database className="w-4 h-4 text-[#c8aa6e] shrink-0" />
               <span className="lol-label text-xs font-bold text-[#c8aa6e] uppercase tracking-wider truncate">Fuentes de Datos</span>
-              <span className="text-[9px] text-[#5b5a56] hidden sm:inline">· {dataSources.length} fuentes activas</span>
+              <span className="text-[10px] text-[#5b5a56] hidden sm:inline">· {dataSources.length} fuentes activas</span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-[10px] font-mono text-[#a09b8c]">{versionData?.gamePatch || '26.9'}</span>
               <span
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold"
                 style={{ background: `${freshnessInfo.color}15`, color: freshnessInfo.color, border: `1px solid ${freshnessInfo.color}30` }}
               >
                 <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: freshnessInfo.color }} />
@@ -281,7 +281,7 @@ export function TierListTab({
                     {new Date(source.lastScraped).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                   </span>
                   <span
-                    className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-bold"
+                    className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold"
                     style={{ background: `${srcFreshness.color}12`, color: srcFreshness.color, border: `1px solid ${srcFreshness.color}25` }}
                   >
                     {srcFreshness.label}
@@ -331,7 +331,7 @@ export function TierListTab({
                     <ChampionIcon name={s.name} tier={s.tier} />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold text-[#f0e6d2] truncate">{s.name}</p>
-                      <p className="text-[9px] text-[#5b5a56]">{s.role} · {s.winRate}% WR</p>
+                      <p className="text-[10px] text-[#5b5a56]">{s.role} · {s.winRate}% WR</p>
                     </div>
                     <span className="text-[10px] font-bold" style={{ color: TIER_CONFIG[s.tier]?.color }}>{s.tier}</span>
                   </button>
@@ -432,7 +432,7 @@ export function TierListTab({
                   <ArrowUpCircle className="w-4 h-4 text-white" />
                 </div>
                 <span className="lol-title text-sm text-[#0fba81]">En Ascenso</span>
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.2)' }}>{risingChampions.length} campeones</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.2)' }}>{risingChampions.length} campeones</span>
               </div>
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {risingChampions.map((entry, i) => {
@@ -470,7 +470,7 @@ export function TierListTab({
                           loading="lazy"
                         />
                         {/* Trend badge */}
-                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black" style={{ background: '#0fba81', color: '#fff', boxShadow: '0 0 6px rgba(15,186,129,0.5)' }}>
+                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black" style={{ background: '#0fba81', color: '#fff', boxShadow: '0 0 6px rgba(15,186,129,0.5)' }}>
                           ↑
                         </div>
                       </div>
@@ -478,10 +478,10 @@ export function TierListTab({
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] font-bold text-[#f0e6d2] truncate leading-tight">{name}</p>
                         {champData && (
-                          <p className="text-[9px] text-[#0fba81] font-semibold">{champData.role} · {champData.winRate}% WR</p>
+                          <p className="text-[10px] text-[#0fba81] font-semibold">{champData.role} · {champData.winRate}% WR</p>
                         )}
                         {reason && (
-                          <p className="text-[8px] text-[#a09b8c] mt-0.5 truncate leading-tight">{reason}</p>
+                          <p className="text-[10px] text-[#a09b8c] mt-0.5 truncate leading-tight">{reason}</p>
                         )}
                       </div>
                     </motion.div>
@@ -499,7 +499,7 @@ export function TierListTab({
                   <ArrowDownCircle className="w-4 h-4 text-white" />
                 </div>
                 <span className="lol-title text-sm text-[#e84057]">En Caída</span>
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.2)' }}>{fallingChampions.length} campeones</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.2)' }}>{fallingChampions.length} campeones</span>
               </div>
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {fallingChampions.map((entry, i) => {
@@ -537,7 +537,7 @@ export function TierListTab({
                           loading="lazy"
                         />
                         {/* Trend badge */}
-                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-black" style={{ background: '#e84057', color: '#fff', boxShadow: '0 0 6px rgba(232,64,87,0.5)' }}>
+                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black" style={{ background: '#e84057', color: '#fff', boxShadow: '0 0 6px rgba(232,64,87,0.5)' }}>
                           ↓
                         </div>
                       </div>
@@ -545,10 +545,10 @@ export function TierListTab({
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] font-bold text-[#f0e6d2] truncate leading-tight">{name}</p>
                         {champData && (
-                          <p className="text-[9px] text-[#e84057] font-semibold">{champData.role} · {champData.winRate}% WR</p>
+                          <p className="text-[10px] text-[#e84057] font-semibold">{champData.role} · {champData.winRate}% WR</p>
                         )}
                         {reason && (
-                          <p className="text-[8px] text-[#a09b8c] mt-0.5 truncate leading-tight">{reason}</p>
+                          <p className="text-[10px] text-[#a09b8c] mt-0.5 truncate leading-tight">{reason}</p>
                         )}
                       </div>
                     </motion.div>
@@ -573,20 +573,20 @@ export function TierListTab({
               <span className="lol-label text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider truncate">
                 Top Movimientos Semanales
               </span>
-              <span className="text-[9px] text-[#5b5a56] shrink-0">Patch {feedData?.lol?.patch || '26.8'}</span>
+              <span className="text-[10px] text-[#5b5a56] shrink-0">Patch {feedData?.lol?.patch || '26.8'}</span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <div className="flex items-center gap-1.5">
                 <div className="flex items-center gap-0.5">
                   <div className="w-2 h-2 rounded-sm bg-[#0fba81]" />
-                  <span className="text-[8px] text-[#5b5a56]">Sube</span>
+                  <span className="text-[10px] text-[#5b5a56]">Sube</span>
                 </div>
                 <div className="flex items-center gap-0.5">
                   <div className="w-2 h-2 rounded-sm bg-[#e84057]" />
-                  <span className="text-[8px] text-[#5b5a56]">Baja</span>
+                  <span className="text-[10px] text-[#5b5a56]">Baja</span>
                 </div>
               </div>
-              <div className="flex items-center gap-1 text-[9px] text-[#5b5a56]">
+              <div className="flex items-center gap-1 text-[10px] text-[#5b5a56]">
                 <Clock className="w-3 h-3" />
                 {feedLastUpdated || 'Actualizado hoy'}
               </div>
@@ -642,7 +642,7 @@ export function TierListTab({
                           >
                             {isPositive ? '↑' : '↓'}{Math.abs(mover.change).toFixed(1)}%
                           </span>
-                          <span className="text-[9px] text-[#a09b8c] font-mono">{mover.currentWR}%</span>
+                          <span className="text-[10px] text-[#a09b8c] font-mono">{mover.currentWR}%</span>
                         </div>
                       </div>
                       <div className="w-full h-2 rounded-full overflow-hidden relative" style={{ background: 'rgba(120,90,40,0.08)' }}>
@@ -704,7 +704,7 @@ export function TierListTab({
           <div className="flex items-center gap-2 mb-3">
             <BarChart3 className="w-4 h-4 text-[#c8aa6e]" />
             <span className="lol-label text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider">Meta Overview</span>
-            <span className="ml-auto text-[9px] text-[#5b5a56]">{gameChampions.length} campeones</span>
+            <span className="ml-auto text-[10px] text-[#5b5a56]">{gameChampions.length} campeones</span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             <StatCard
@@ -782,7 +782,7 @@ export function TierListTab({
                   >
                     <span className="lol-label text-[10px] text-[#a09b8c]">{role}</span>
                     <span className="text-sm font-bold font-mono" style={{ color }}>{avg}%</span>
-                    <span className="text-[8px] text-[#5b5a56]">({count})</span>
+                    <span className="text-[10px] text-[#5b5a56]">({count})</span>
                   </div>
                 );
               })}
@@ -861,7 +861,7 @@ export function TierListTab({
           </div>
           <div className="overflow-x-auto">
             <div className="glass-card rounded-xl overflow-hidden">
-              <div className="hidden sm:grid grid-cols-[3rem_1fr_3.5rem_3.5rem_3.5rem_3.5rem] gap-2 px-3 py-2 lol-label text-[8px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+              <div className="hidden sm:grid grid-cols-[3rem_1fr_3.5rem_3.5rem_3.5rem_3.5rem] gap-2 px-3 py-2 lol-label text-[10px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
                 <div />
                 <div>Campeón</div>
                 <div>Rol</div>
@@ -870,7 +870,7 @@ export function TierListTab({
                 <div className="text-right">WR%</div>
               </div>
               {/* Mobile compact header */}
-              <div className="sm:hidden grid grid-cols-[3rem_1fr_3rem] gap-1 px-3 py-2 lol-label text-[8px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+              <div className="sm:hidden grid grid-cols-[3rem_1fr_3rem] gap-1 px-3 py-2 lol-label text-[10px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
                 <div />
                 <div>Campeón</div>
                 <div className="text-right">WR%</div>
@@ -889,7 +889,7 @@ export function TierListTab({
                     <div className="relative shrink-0">
                       <ChampionIcon name={pick.champion} tier="A" />
                       {isRotoPro && (
-                        <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-black z-10"
+                        <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black z-10"
                           style={{ background: '#e84057', color: '#fff', boxShadow: '0 0 6px rgba(232,64,87,0.5)' }}>
                           🔥
                         </div>
@@ -897,7 +897,7 @@ export function TierListTab({
                     </div>
                     <div className="flex-1 min-w-0">
                       <span className="text-xs sm:text-sm font-semibold text-[#f0e6d2] truncate block">{pick.champion}</span>
-                      <span className="sm:hidden text-[9px] text-[#5b5a56]">{pick.role} · P:{pick.pickRate}% B:{pick.banRate}%</span>
+                      <span className="sm:hidden text-[10px] text-[#5b5a56]">{pick.role} · P:{pick.pickRate}% B:{pick.banRate}%</span>
                     </div>
                     <div className="w-14 shrink-0 hidden sm:block"><RoleBadge role={pick.role} /></div>
                     <span className="text-[11px] font-mono font-semibold text-[#0acbe6] w-12 text-right hidden sm:block">{pick.pickRate}%</span>
@@ -1025,7 +1025,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                         <div className="absolute top-2.5 right-2.5 z-20 flex flex-col items-end gap-1">
                           {isBroken && (
                             <motion.span
-                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black"
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black"
                               style={{ background: 'rgba(232,64,87,0.9)', color: '#fff', boxShadow: '0 0 12px rgba(232,64,87,0.6)', border: '1px solid rgba(255,255,255,0.2)' }}
                               animate={{ scale: [1, 1.1, 1] }}
                               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -1034,13 +1034,13 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                             </motion.span>
                           )}
                           {isRoto && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black"
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black"
                               style={{ background: 'rgba(232,64,87,0.85)', color: '#fff', boxShadow: '0 0 10px rgba(232,64,87,0.5)', border: '1px solid rgba(232,64,87,0.3)' }}>
                               {'🔥 Roto'}
                             </span>
                           )}
                           {isAltoBan && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black"
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black"
                               style={{ background: 'rgba(240,198,70,0.85)', color: '#0a0e1a', boxShadow: '0 0 10px rgba(240,198,70,0.4)', border: '1px solid rgba(240,198,70,0.3)' }}>
                               {'⚠️ Alto Ban'}
                             </span>
@@ -1067,14 +1067,14 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                                   loading="lazy"
                                 />
                               </div>
-                              <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-black z-10"
+                              <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black z-10"
                                 style={{ background: '#c8aa6e', color: '#0a0e1a', border: '2px solid #0a0e1a', boxShadow: '0 0 8px rgba(200,170,110,0.5)' }}>
                                 {idx + 1}
                               </div>
                               {trendMap?.[champ.name] && (
                                 <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#0a0e1a] flex items-center justify-center z-10"
                                   style={{ border: `1.5px solid ${trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057'}` }}>
-                                  <span className="text-[7px] font-black" style={{ color: trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057' }}>
+                                  <span className="text-[10px] font-black" style={{ color: trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057' }}>
                                     {trendMap[champ.name] === 'rising' ? '↑' : '↓'}
                                   </span>
                                 </div>
@@ -1200,19 +1200,19 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                         {(isBroken || isRoto || isAltoBan) && (
                           <div className="absolute top-2 right-2 z-20 flex flex-col items-end gap-1">
                             {isBroken && (
-                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[8px] font-black"
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-black"
                                 style={{ background: 'rgba(232,64,87,0.9)', color: '#fff', boxShadow: '0 0 8px rgba(232,64,87,0.5)', border: '1px solid rgba(255,255,255,0.2)' }}>
                                 {'💀 Broken'}
                               </span>
                             )}
                             {isRoto && (
-                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[8px] font-black"
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-black"
                                 style={{ background: 'rgba(232,64,87,0.85)', color: '#fff', boxShadow: '0 0 8px rgba(232,64,87,0.4)', border: '1px solid rgba(232,64,87,0.3)' }}>
                                 {'🔥 Roto'}
                               </span>
                             )}
                             {isAltoBan && (
-                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[8px] font-black"
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[10px] font-black"
                                 style={{ background: 'rgba(240,198,70,0.85)', color: '#0a0e1a', boxShadow: '0 0 8px rgba(240,198,70,0.3)', border: '1px solid rgba(240,198,70,0.3)' }}>
                                 {'⚠️ Alto Ban'}
                               </span>
@@ -1244,7 +1244,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                               {trendMap?.[champ.name] && (
                                 <div className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#0a0e1a] flex items-center justify-center z-10"
                                   style={{ border: `1.5px solid ${trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057'}` }}>
-                                  <span className="text-[7px] font-black" style={{ color: trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057' }}>
+                                  <span className="text-[10px] font-black" style={{ color: trendMap[champ.name] === 'rising' ? '#0fba81' : '#e84057' }}>
                                     {trendMap[champ.name] === 'rising' ? '↑' : '↓'}
                                   </span>
                                 </div>
@@ -1270,7 +1270,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                           </div>
                           <div className="space-y-1">
                             <div className="flex items-center gap-1.5">
-                              <span className="text-[9px] text-[#785a28] w-6 shrink-0">WR</span>
+                              <span className="text-[10px] text-[#785a28] w-6 shrink-0">WR</span>
                               <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.12)' }}>
                                 <motion.div className="h-full rounded-full"
                                   style={{ background: `linear-gradient(90deg, ${wrColor(champ.winRate)}60, ${wrColor(champ.winRate)})` }}
@@ -1281,7 +1281,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                               <span className="text-[10px] font-bold font-mono w-9 text-right" style={{ color: wrColor(champ.winRate) }}>{champ.winRate}%</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                              <span className="text-[9px] text-[#785a28] w-6 shrink-0">Pick</span>
+                              <span className="text-[10px] text-[#785a28] w-6 shrink-0">Pick</span>
                               <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.08)' }}>
                                 <motion.div className="h-full rounded-full"
                                   style={{ background: 'linear-gradient(90deg, rgba(91,138,245,0.3), #5b8af5)' }}
@@ -1293,7 +1293,7 @@ function BoardView({ champions, favorites, onChampionClick, onToggleFavorite, tr
                             </div>
                             {champ.banRate > 0 && (
                               <div className="flex items-center gap-1.5">
-                                <span className="text-[9px] text-[#785a28] w-6 shrink-0">Ban</span>
+                                <span className="text-[10px] text-[#785a28] w-6 shrink-0">Ban</span>
                                 <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.08)' }}>
                                   <motion.div className="h-full rounded-full"
                                     style={{ background: 'linear-gradient(90deg, rgba(232,64,87,0.3), #e84057)' }}

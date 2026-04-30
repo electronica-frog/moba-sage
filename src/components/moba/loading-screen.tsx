@@ -227,29 +227,29 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5">
               <Globe className="w-3 h-3" style={{ color: '#785a28' }} />
-              <span className="text-[9px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#785a28' }}>Versiones</span>
+              <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#785a28' }}>Versiones</span>
             </div>
             <div className="flex items-center gap-1.5">
               <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }} transition={{ duration: 1.5, repeat: Infinity }}
                 className="w-1.5 h-1.5 rounded-full" style={{ background: version?.ddragonStatus === 'live' ? '#0fba81' : '#f0c646' }} />
-              <span className="text-[9px] font-mono font-bold" style={{ color: version?.ddragonStatus === 'live' ? '#0fba81' : '#f0c646' }}>
+              <span className="text-[10px] font-mono font-bold" style={{ color: version?.ddragonStatus === 'live' ? '#0fba81' : '#f0c646' }}>
                 {version?.ddragonStatus === 'live' ? 'CDN LIVE' : '...'}
               </span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex-1 rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(10,14,26,0.5)' }}>
-              <p className="text-[7px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>LoL</p>
+              <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>LoL</p>
               <p className="text-[15px] font-bold font-mono" style={{ color: '#f0e6d2' }}>{version ? version.lol : '...'}</p>
             </div>
             <div className="w-px h-7 shrink-0" style={{ background: 'rgba(200,170,110,0.08)' }} />
             <div className="flex-1 rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(10,14,26,0.5)' }}>
-              <p className="text-[7px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>Wild Rift</p>
+              <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>Wild Rift</p>
               <p className="text-[15px] font-bold font-mono" style={{ color: '#f0e6d2' }}>{version ? version.wr : '...'}</p>
             </div>
             <div className="w-px h-7 shrink-0" style={{ background: 'rgba(200,170,110,0.08)' }} />
             <div className="flex-1 rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(10,14,26,0.5)' }}>
-              <p className="text-[7px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>Meta</p>
+              <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>Meta</p>
               <p className="text-[10px] font-mono font-semibold mt-0.5" style={{ color: '#785a28' }}>
                 {version?.metaLastUpdated ? formatDate(version.metaLastUpdated) : '...'}
               </p>
@@ -264,10 +264,10 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5">
               <Database className="w-3 h-3" style={{ color: '#0acbe6' }} />
-              <span className="text-[9px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#0acbe6' }}>Fuentes de datos</span>
+              <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#0acbe6' }}>Fuentes de datos</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-mono font-bold" style={{ color: allDone ? '#0fba81' : '#f0c646' }}>{doneCount}/{sources.length}</span>
+              <span className="text-[10px] font-mono font-bold" style={{ color: allDone ? '#0fba81' : '#f0c646' }}>{doneCount}/{sources.length}</span>
               <CircleDot className="w-3 h-3" style={{ color: allDone ? '#0fba81' : '#f0c646' }} />
             </div>
           </div>
@@ -301,11 +301,11 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
                     {done && (
-                      <span className="text-[7px] font-mono px-1 py-0.5 rounded" style={{ background: `${source.color}10`, color: source.color }}>
+                      <span className="text-[10px] font-mono px-1 py-0.5 rounded" style={{ background: `${source.color}10`, color: source.color }}>
                         {source.records}
                       </span>
                     )}
-                    <span className="text-[8px] font-mono max-w-[120px] truncate text-right" style={{
+                    <span className="text-[10px] font-mono max-w-[120px] truncate text-right" style={{
                       color: loading ? '#c8aa6e' : done ? '#5b5a56' : '#3d3c38',
                     }}>
                       {!visible ? '' : loading ? 'Conectando...' : source.doneLabel}
@@ -324,7 +324,7 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           <div className="flex items-start gap-2">
             <Lightbulb className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: '#f0c646' }} />
             <div className="min-w-0">
-              <p className="text-[8px] font-semibold tracking-[0.15em] uppercase mb-1" style={{ color: '#785a28' }}>Tip del dia</p>
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-1" style={{ color: '#785a28' }}>Tip del dia</p>
               <motion.p
                 key={tipIdx}
                 className="text-[10px] leading-relaxed"
@@ -385,11 +385,11 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
 
             <div className="flex items-center justify-center gap-3 mt-2">
               {!allDone && (
-                <span className="text-[8px] tracking-wider" style={{ color: '#5b5a56' }}>
+                <span className="text-[10px] tracking-wider" style={{ color: '#5b5a56' }}>
                   {doneCount}/{sources.length} fuentes
                 </span>
               )}
-              <span className="text-[8px] tracking-wider" style={{ color: '#3d3c38' }}>
+              <span className="text-[10px] tracking-wider" style={{ color: '#3d3c38' }}>
                 Enter para entrar
               </span>
             </div>
@@ -403,7 +403,7 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
             initial={{ x: '-40%' }} animate={{ x: '140%' }} transition={{ duration: 2.5, repeat: Infinity, ease: 'linear' }} />
         </motion.div>
 
-        <motion.p className="text-[7px] mt-2 tracking-wider" style={{ color: '#1e1e1c' }}
+        <motion.p className="text-[10px] mt-2 tracking-wider" style={{ color: '#1e1e1c' }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3, duration: 0.3 }}>
           {APP_NAME} v{APP_VERSION} — Datos de Riot Games y comunidad — No afiliado a Riot Games
         </motion.p>

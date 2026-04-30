@@ -46,7 +46,7 @@ function StatBar({ label, value1, value2, format = '%', higherIsBetter = true }:
         <span className="text-[11px] font-mono font-bold" style={{ color: barColor(value1) }}>
           {value1}{format}
         </span>
-        <span className="text-[9px] text-[#5b5a56] uppercase tracking-wider">{label}</span>
+        <span className="text-[10px] text-[#5b5a56] uppercase tracking-wider">{label}</span>
         <span className="text-[11px] font-mono font-bold" style={{ color: barColor(value2) }}>
           {value2}{format}
         </span>
@@ -75,7 +75,7 @@ function StatBar({ label, value1, value2, format = '%', higherIsBetter = true }:
       </div>
       {/* Difference indicator */}
       {diff > 0 && winner > 0 && (
-        <p className="text-[8px] text-center" style={{ color: winner === 1 ? '#0fba81' : '#e84057' }}>
+        <p className="text-[10px] text-center" style={{ color: winner === 1 ? '#0fba81' : '#e84057' }}>
           {winner === 1 ? '← ' : '→ '}{diff.toFixed(1)}{format}
         </p>
       )}
@@ -206,7 +206,7 @@ function ChampionSelector({
                   <ChampionIcon name={champ.name} tier={champ.tier} />
                   <div className="flex-1 min-w-0 text-left">
                     <p className="text-xs font-semibold text-[#f0e6d2] truncate">{champ.name}</p>
-                    <p className="text-[9px] text-[#5b5a56]">{champ.role} · {champ.winRate}% WR</p>
+                    <p className="text-[10px] text-[#5b5a56]">{champ.role} · {champ.winRate}% WR</p>
                   </div>
                   <span className="text-[10px] font-bold" style={{ color: TIER_CONFIG[champ.tier]?.color }}>
                     {champ.tier}
@@ -271,7 +271,7 @@ function ChampionComparisonCard({ champion, side }: { champion: Champion; side: 
           </div>
           <div className="flex items-center gap-2">
             <RoleBadge role={champion.role} />
-            <span className="text-[9px] text-[#5b5a56] font-mono">P{champion.patch}</span>
+            <span className="text-[10px] text-[#5b5a56] font-mono">P{champion.patch}</span>
           </div>
         </div>
       </div>
@@ -281,13 +281,13 @@ function ChampionComparisonCard({ champion, side }: { champion: Champion; side: 
         <div className="rounded-lg p-2.5" style={{ background: 'rgba(232,64,87,0.06)', border: '1px solid rgba(232,64,87,0.15)' }}>
           <div className="flex items-center gap-1.5 mb-2">
             <Crosshair className="w-3 h-3 text-[#e84057]" />
-            <span className="text-[9px] font-semibold text-[#e84057] uppercase tracking-wider">Counters</span>
+            <span className="text-[10px] font-semibold text-[#e84057] uppercase tracking-wider">Counters</span>
           </div>
           <div className="flex items-center gap-2">
             {counterNames.slice(0, 3).map(name => (
               <div key={name} className="flex flex-col items-center gap-0.5">
                 <TinyChampionIcon name={name} />
-                <span className="text-[7px] text-[#a09b8c] leading-none truncate max-w-[36px] text-center">{name}</span>
+                <span className="text-[10px] text-[#a09b8c] leading-none truncate max-w-[36px] text-center">{name}</span>
               </div>
             ))}
           </div>
@@ -299,13 +299,13 @@ function ChampionComparisonCard({ champion, side }: { champion: Champion; side: 
         <div className="rounded-lg p-2.5" style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}>
           <div className="flex items-center gap-1.5 mb-2">
             <Users className="w-3 h-3 text-[#0acbe6]" />
-            <span className="text-[9px] font-semibold text-[#0acbe6] uppercase tracking-wider">Sinergias</span>
+            <span className="text-[10px] font-semibold text-[#0acbe6] uppercase tracking-wider">Sinergias</span>
           </div>
           <div className="flex items-center gap-2">
             {synNames.slice(0, 3).map(name => (
               <div key={name} className="flex flex-col items-center gap-0.5">
                 <TinyChampionIcon name={name} />
-                <span className="text-[7px] text-[#a09b8c] leading-none truncate max-w-[36px] text-center">{name}</span>
+                <span className="text-[10px] text-[#a09b8c] leading-none truncate max-w-[36px] text-center">{name}</span>
               </div>
             ))}
           </div>
@@ -317,11 +317,11 @@ function ChampionComparisonCard({ champion, side }: { champion: Champion; side: 
         <div className="rounded-lg p-2.5" style={{ background: 'rgba(232,64,87,0.04)', border: '1px solid rgba(232,64,87,0.12)' }}>
           <div className="flex items-center gap-1.5 mb-1.5">
             <AlertTriangle className="w-3 h-3 text-[#e84057]" />
-            <span className="text-[9px] font-semibold text-[#e84057] uppercase tracking-wider">Cosas Rotas</span>
+            <span className="text-[10px] font-semibold text-[#e84057] uppercase tracking-wider">Cosas Rotas</span>
           </div>
           <div className="space-y-1">
             {champion.brokenThings.slice(0, 3).map((thing, i) => (
-              <p key={i} className="text-[9px] text-[#a09b8c] leading-snug">
+              <p key={i} className="text-[10px] text-[#a09b8c] leading-snug">
                 <span className="text-[#e84057] mr-1">▸</span>{thing}
               </p>
             ))}
@@ -334,9 +334,9 @@ function ChampionComparisonCard({ champion, side }: { champion: Champion; side: 
         <div className="rounded-lg p-2.5" style={{ background: 'rgba(200,170,110,0.04)', border: '1px solid rgba(200,170,110,0.15)' }}>
           <div className="flex items-center gap-1.5 mb-1.5">
             <Sparkles className="w-3 h-3 text-[#c8aa6e]" />
-            <span className="text-[9px] font-semibold text-[#c8aa6e] uppercase tracking-wider">Análisis IA</span>
+            <span className="text-[10px] font-semibold text-[#c8aa6e] uppercase tracking-wider">Análisis IA</span>
           </div>
-          <p className="text-[9px] text-[#a09b8c] leading-relaxed">{champion.aiAnalysis.slice(0, 200)}{champion.aiAnalysis.length > 200 ? '...' : ''}</p>
+          <p className="text-[10px] text-[#a09b8c] leading-relaxed">{champion.aiAnalysis.slice(0, 200)}{champion.aiAnalysis.length > 200 ? '...' : ''}</p>
         </div>
       )}
     </motion.div>
@@ -439,12 +439,12 @@ export function ComparisonTab({ champions, loading, selectedGame, onChampionClic
               <div className="flex items-center justify-between pt-2 mt-2" style={{ borderTop: '1px solid rgba(120,90,40,0.15)' }}>
                 <div className="flex items-center gap-2">
                   <RoleBadge role={champ1.role} />
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-black" style={{ backgroundColor: TIER_CONFIG[champ1.tier]?.color, color: '#0a0e1a' }}>
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-black" style={{ backgroundColor: TIER_CONFIG[champ1.tier]?.color, color: '#0a0e1a' }}>
                     {champ1.tier} Tier
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-black" style={{ backgroundColor: TIER_CONFIG[champ2.tier]?.color, color: '#0a0e1a' }}>
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-black" style={{ backgroundColor: TIER_CONFIG[champ2.tier]?.color, color: '#0a0e1a' }}>
                     {champ2.tier} Tier
                   </span>
                   <RoleBadge role={champ2.role} />

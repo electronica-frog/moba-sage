@@ -46,7 +46,7 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
 
   // Use props from parent when available, fallback to safe defaults
   const patchVersion = externalPatch || '26.9';
-  const championCount = externalCount || 20;
+  const championCount = externalCount ?? '--';
 
   return (
     <motion.div
@@ -95,7 +95,7 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm sm:text-base font-bold text-[#c8aa6e] lol-title">Patch {patchVersion} — Meta Report</h3>
-                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>
+                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>
                   <Zap className="w-2.5 h-2.5" />
                   LIVE
                 </span>
@@ -310,7 +310,7 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
 
       {/* Version info */}
       <motion.p
-        className="text-[9px] text-[#5b5a56]/40 mt-2 tracking-wider relative z-10"
+        className="text-[10px] text-[#5b5a56]/40 mt-2 tracking-wider relative z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}

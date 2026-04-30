@@ -88,7 +88,7 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
               <h2 className="lol-title text-lg text-[#f0e6d2] leading-tight mb-2">{guide.title}</h2>
               <div className="flex items-center gap-2 flex-wrap">
                 <span
-                  className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                  className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
                   style={{ backgroundColor: 'rgba(200,170,110,0.1)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}
                 >
                   LoL
@@ -127,7 +127,7 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
               >
                 <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                   style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.2)' }}>
-                  <span className="text-[9px] font-bold text-[#c8aa6e]">{i + 1}</span>
+                  <span className="text-[10px] font-bold text-[#c8aa6e]">{i + 1}</span>
                 </div>
                 <span className="text-xs text-[#a09b8c] leading-relaxed">{point}</span>
               </motion.div>
@@ -143,7 +143,7 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
               {guide.tags.map(tag => (
                 <span
                   key={tag}
-                  className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-medium text-[#a09b8c] bg-[#1e2328]/60 border border-[#785a28]/15"
+                  className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium text-[#a09b8c] bg-[#1e2328]/60 border border-[#785a28]/15"
                 >
                   {tag}
                 </span>

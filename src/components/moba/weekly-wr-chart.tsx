@@ -104,7 +104,7 @@ export function WeeklyWRChart({
     <div className="space-y-2">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <span className="text-[9px] text-[#5b5a56] uppercase tracking-wider font-semibold">Tendencia 4 Semanas</span>
+        <span className="text-[10px] text-[#5b5a56] uppercase tracking-wider font-semibold">Tendencia 4 Semanas</span>
         <div className="flex items-center gap-1.5">
           <span className="text-[10px] font-mono font-bold" style={{ color: trendColor }}>
             {overallTrend > 0 ? '+' : ''}{overallTrend.toFixed(1)}%
@@ -204,10 +204,10 @@ export function WeeklyWRChart({
             const isLast = i === data.length - 1;
             return (
               <div key={i} className="flex flex-col items-center gap-0.5 flex-1">
-                <span className={`font-mono font-bold ${isLast ? 'text-[10px]' : 'text-[9px]'}`} style={{ color }}>
+                <span className={`font-mono font-bold ${isLast ? 'text-[10px]' : 'text-[10px]'}`} style={{ color }}>
                   {d.wr}%
                 </span>
-                <span className="text-[7px] text-[#5b5a56]">{d.week}</span>
+                <span className="text-[10px] text-[#5b5a56]">{d.week}</span>
               </div>
             );
           })}
@@ -215,7 +215,7 @@ export function WeeklyWRChart({
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-3 text-[8px]">
+      <div className="flex items-center gap-3 text-[10px]">
         <div className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-sm bg-[#0fba81]" />
           <span className="text-[#5b5a56]">Sube</span>

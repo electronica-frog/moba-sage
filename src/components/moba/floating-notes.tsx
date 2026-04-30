@@ -214,7 +214,7 @@ export function FloatingNotes() {
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-[#0fba81] animate-pulse" />
-                  <span className="text-[9px] text-[#0fba81]">Live</span>
+                  <span className="text-[10px] text-[#0fba81]">Live</span>
                 </div>
               </div>
 
@@ -258,7 +258,7 @@ export function FloatingNotes() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <span className="text-[11px] font-semibold text-[#f0e6d2]">{note.author}</span>
-                            <span className="text-[9px] text-[#5b5a56]">{formatTime(note.timestamp)}</span>
+                            <span className="text-[10px] text-[#5b5a56]">{formatTime(note.timestamp)}</span>
                           </div>
                           <p className="text-[12px] text-[#a09b8c] leading-relaxed">{note.content}</p>
                         </div>
@@ -322,7 +322,7 @@ export function FloatingNotes() {
                   </motion.button>
                 </div>
                 {authorName && (
-                  <p className="text-[9px] text-[#5b5a56] mt-1.5 flex items-center gap-1">
+                  <p className="text-[10px] text-[#5b5a56] mt-1.5 flex items-center gap-1">
                     <MessageSquare className="w-2.5 h-2.5" />
                     Publicando como <span className="text-[#c8aa6e] font-medium">{authorName}</span>
                     <button onClick={() => { setAuthorName(''); localStorage.removeItem('moba-sage-notes-author'); }} className="ml-1 text-[#e84057]/60 hover:text-[#e84057] cursor-pointer">cambiar</button>

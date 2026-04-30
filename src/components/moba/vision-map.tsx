@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, X } from 'lucide-react';
 
@@ -66,7 +66,16 @@ const WARD_TYPE_LABELS: Record<string, string> = {
 
 export function VisionMap({ role }: { role: string }) {
   const [selectedWard, setSelectedWard] = useState<WardPosition | null>(null);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const wards = WARD_POSITIONS[role] || WARD_POSITIONS['Mid'];
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   return (
     <div className="relative">
@@ -158,7 +167,9 @@ export function VisionMap({ role }: { role: string }) {
             >
               <motion.div
                 className="relative flex items-center justify-center"
-                animate={{
+                animate={reducedMotion ? {
+                  boxShadow: `0 0 8px ${color}50`,
+                } : {
                   boxShadow: [
                     `0 0 4px ${color}40`,
                     `0 0 12px ${color}60`,
@@ -167,7 +178,7 @@ export function VisionMap({ role }: { role: string }) {
                 }}
                 transition={{
                   duration: 2,
-                  repeat: Infinity,
+                  repeat: reducedMotion ? 0 : Infinity,
                   ease: 'easeInOut',
                 }}
               >
@@ -193,7 +204,7 @@ export function VisionMap({ role }: { role: string }) {
             return (
               <div key={type} className="flex items-center gap-1">
                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-                <span className="text-[7px]" style={{ color: `${color}aa` }}>{label}</span>
+                <span className="text-[10px]" style={{ color: `${color}aa` }}>{label}</span>
               </div>
             );
           })}

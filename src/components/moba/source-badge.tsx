@@ -19,7 +19,7 @@ export function SourceBadge({ source, timestamp, patch, size = 'sm' }: SourceBad
     : null;
 
   return (
-    <div className={`flex items-center gap-1.5 ${isSmall ? 'text-[9px]' : 'text-[10px]'} text-[#a09b8c]`}>
+    <div className={`flex items-center gap-1.5 ${isSmall ? 'text-[10px]' : 'text-[10px]'} text-[#a09b8c]`}>
       {source && (
         <>
           <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-[#c8aa6e]/10 text-[#c8aa6e] font-medium">

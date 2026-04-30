@@ -376,7 +376,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                       <TinyChampionIcon name={highlights[0].name} />
                       <span className="text-xs font-bold text-[#f0e6d2]">{highlights[0].name}</span>
                       <span
-                        className="text-[9px] font-bold px-1.5 py-0.5 rounded"
+                        className="text-[10px] font-bold px-1.5 py-0.5 rounded"
                         style={{
                           backgroundColor: highlights[0].type === 'buff' ? 'rgba(15,186,129,0.15)' : highlights[0].type === 'nerf' ? 'rgba(232,64,87,0.15)' : 'rgba(240,198,70,0.15)',
                           color: highlights[0].type === 'buff' ? '#0fba81' : highlights[0].type === 'nerf' ? '#e84057' : '#f0c646',
@@ -459,7 +459,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                     <p className={`text-[10px] font-bold transition-colors duration-200 ${isSelected ? 'text-[#f0e6d2]' : 'text-[#5b5a56] group-hover:text-[#a09b8c]'}`}>
                       {patch.version}
                     </p>
-                    <p className="text-[8px] mt-0.5 transition-colors duration-200" style={{ color: isSelected ? gameStyle.color : 'rgba(120,90,40,0.38)' }}>
+                    <p className="text-[10px] mt-0.5 transition-colors duration-200" style={{ color: isSelected ? gameStyle.color : 'rgba(120,90,40,0.38)' }}>
                       {gameStyle.label}
                     </p>
                   </div>
@@ -486,7 +486,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                     {selectedPatchDetail.version}
                   </Badge>
                   <span
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
                     style={{ backgroundColor: getGameStyle(selectedPatchDetail.sourceGame).bg, color: getGameStyle(selectedPatchDetail.sourceGame).color }}
                   >
                     {getGameStyle(selectedPatchDetail.sourceGame).label}
@@ -561,7 +561,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                                       <span className="text-xs font-bold text-[#0fba81] w-4">#{i+1}</span>
                                       <TinyChampionIcon name={w.name} />
                                       <span className="text-sm font-semibold text-[#f0e6d2]">{w.name}</span>
-                                      <span className="text-[9px] ml-auto font-semibold" style={{ color: '#0fba81' }}>{w.description}</span>
+                                      <span className="text-[10px] ml-auto font-semibold" style={{ color: '#0fba81' }}>{w.description}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -579,7 +579,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                                       <span className="text-xs font-bold text-[#e84057] w-4">#{i+1}</span>
                                       <TinyChampionIcon name={l.name} />
                                       <span className="text-sm font-semibold text-[#f0e6d2]">{l.name}</span>
-                                      <span className="text-[9px] ml-auto font-semibold" style={{ color: '#e84057' }}>{l.description}</span>
+                                      <span className="text-[10px] ml-auto font-semibold" style={{ color: '#e84057' }}>{l.description}</span>
                                     </div>
                                   ))}
                                 </div>
@@ -702,7 +702,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                   {/* Status badge */}
                   {feedStatus && feedStatus !== 'current' && (
                     <span
-                      className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-medium uppercase tracking-wider"
+                      className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider"
                       style={{
                         backgroundColor: feedStatus === 'live' ? 'rgba(15,186,129,0.1)' : feedStatus === 'pbe' ? 'rgba(10,203,230,0.1)' : 'rgba(240,198,70,0.1)',
                         color: feedStatus === 'live' ? '#0fba81' : feedStatus === 'pbe' ? '#0acbe6' : '#f0c646',
@@ -756,7 +756,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                           <div className="flex-1 min-w-0">
                             <p className="text-[10px] font-semibold text-[#f0e6d2] truncate">{change.name}</p>
                             <span
-                              className="inline-flex items-center gap-0.5 text-[8px] font-bold px-1.5 py-0.5 rounded mt-0.5"
+                              className="inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded mt-0.5"
                               style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}
                             >
                               <Icon className="w-2 h-2" />
@@ -813,7 +813,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                       const label = catLabels[category] || category;
                       return (
                         <div key={category} className="rounded-lg p-2.5" style={{ background: `${color}08`, border: `1px solid ${color}20`, borderLeft: `3px solid ${color}` }}>
-                          <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color }}>{label}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color }}>{label}</span>
                           <div className="flex flex-wrap gap-1 mt-1.5">
                             {items.map((item: string) => (
                               <span key={item} className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: `${color}12`, color, border: `1px solid ${color}25` }}>
