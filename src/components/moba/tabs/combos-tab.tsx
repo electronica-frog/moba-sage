@@ -88,8 +88,8 @@ function ComboListCard({
       className={`
         relative cursor-pointer rounded-lg overflow-hidden transition-all duration-200 group
         ${isSelected
-          ? 'ring-1 ring-[#c8aa6e]/60 shadow-lg shadow-[#c8aa6e]/10'
-          : 'hover:ring-1 hover:ring-[#c8aa6e]/25'
+          ? 'ring-1 ring-lol-gold/60 shadow-lg shadow-lol-gold/10'
+          : 'hover:ring-1 hover:ring-lol-gold/25'
         }
       `}
       style={{
@@ -139,7 +139,7 @@ function ComboListCard({
               </div>
               {i < combo.champions.length - 1 && (
                 <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 z-10">
-                  <span className="text-[10px] text-[#c8aa6e] font-bold">+</span>
+                  <span className="text-[10px] text-lol-gold font-bold">+</span>
                 </div>
               )}
             </div>
@@ -150,7 +150,7 @@ function ComboListCard({
         <h3
           className={`
             text-xs font-bold leading-tight transition-colors duration-200
-            ${isSelected ? 'text-[#f0e6d2]' : 'text-[#a09b8c] group-hover:text-[#f0e6d2]'}
+            ${isSelected ? 'text-lol-text' : 'text-lol-muted group-hover:text-lol-text'}
           `}
         >
           {combo.name}
@@ -253,7 +253,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
           )}
 
           {/* Combo name */}
-          <h2 className="lol-title text-xl sm:text-2xl md:text-3xl text-[#f0e6d2] leading-tight drop-shadow-lg">
+          <h2 className="lol-title text-xl sm:text-2xl md:text-3xl text-lol-text leading-tight drop-shadow-lg">
             {combo.name}
           </h2>
 
@@ -282,10 +282,10 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
                   <div className="absolute bottom-0 inset-x-0 py-0.5 text-center" style={{
                     background: 'linear-gradient(transparent, rgba(10,14,26,0.9))',
                   }}>
-                    <span className="text-[10px] font-black text-[#c8aa6e]">{i + 1}</span>
+                    <span className="text-[10px] font-black text-lol-gold">{i + 1}</span>
                   </div>
                 </div>
-                <span className="text-[10px] sm:text-[10px] font-semibold text-[#a09b8c] mt-1 max-w-[60px] truncate text-center">{name}</span>
+                <span className="text-[10px] sm:text-[10px] font-semibold text-lol-muted mt-1 max-w-[60px] truncate text-center">{name}</span>
               </motion.div>
             ))}
           </div>
@@ -307,7 +307,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
             >
               <Trophy className="w-4 h-4 mx-auto mb-1.5" style={{ color: '#0acbe6' }} />
               <span className="text-lg font-mono font-bold block" style={{ color: isMeta ? '#0acbe6' : '#a09b8c' }}>{combo.winRate}%</span>
-              <p className="text-[10px] text-[#5b5a56] mt-0.5">Win Rate</p>
+              <p className="text-[10px] text-lol-dim mt-0.5">Win Rate</p>
             </div>
 
             {/* Difficulty */}
@@ -330,11 +330,11 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
                 border: comboTypeCfg ? `1px solid ${comboTypeCfg.border}` : '1px solid rgba(160,155,140,0.15)',
               }}
             >
-              {comboTypeCfg ? (() => { const Icon = comboTypeCfg.icon; return <Icon className="w-4 h-4 mx-auto mb-1.5" style={{ color: comboTypeCfg.color }} />; })() : <CircleDot className="w-4 h-4 mx-auto mb-1.5 text-[#5b5a56]" />}
+              {comboTypeCfg ? (() => { const Icon = comboTypeCfg.icon; return <Icon className="w-4 h-4 mx-auto mb-1.5" style={{ color: comboTypeCfg.color }} />; })() : <CircleDot className="w-4 h-4 mx-auto mb-1.5 text-lol-dim" />}
               <span className="text-sm font-bold block" style={{ color: comboTypeCfg ? comboTypeCfg.color : '#5b5a56' }}>
                 {comboType || 'Mixto'}
               </span>
-              <p className="text-[10px] text-[#5b5a56] mt-0.5">Tipo</p>
+              <p className="text-[10px] text-lol-dim mt-0.5">Tipo</p>
             </div>
 
             {/* Champion Count */}
@@ -345,9 +345,9 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
                 border: '1px solid rgba(200,170,110,0.15)',
               }}
             >
-              <Users className="w-4 h-4 mx-auto mb-1.5 text-[#c8aa6e]" />
-              <span className="text-lg font-bold block text-[#c8aa6e]">{combo.champions.length}</span>
-              <p className="text-[10px] text-[#5b5a56] mt-0.5">
+              <Users className="w-4 h-4 mx-auto mb-1.5 text-lol-gold" />
+              <span className="text-lg font-bold block text-lol-gold">{combo.champions.length}</span>
+              <p className="text-[10px] text-lol-dim mt-0.5">
                 {combo.champions.length === 2 ? 'Dúo' : combo.champions.length === 3 ? 'Trío' : combo.champions.length === 4 ? 'Cuarteto' : 'Equipo'}
               </p>
             </div>
@@ -356,7 +356,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
           {/* Difficulty progress bar */}
           <div className="p-3 rounded-lg" style={{ background: 'rgba(10,14,26,0.4)', border: '1px solid rgba(120,90,40,0.1)' }}>
             <div className="flex items-center justify-between mb-2">
-              <span className="lol-label text-[10px] text-[#5b5a56]">Dificultad de ejecución</span>
+              <span className="lol-label text-[10px] text-lol-dim">Dificultad de ejecución</span>
               <DifficultyStars rating={diffRating} size="lg" />
             </div>
             <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.08)' }}>
@@ -375,7 +375,7 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
 
           {/* Champions list with roles */}
           <div>
-            <span className="lol-label text-[10px] text-[#c8aa6e] mb-2.5 block">Campeones</span>
+            <span className="lol-label text-[10px] text-lol-gold mb-2.5 block">Campeones</span>
             <div className="space-y-1.5">
               {combo.champions.map((name, i) => (
                 <motion.div
@@ -388,8 +388,8 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
                 >
                   <ChampionIcon name={name} tier={isMeta ? 'S' : 'A'} />
                   <div className="flex-1 min-w-0">
-                    <span className="text-xs font-bold text-[#f0e6d2] block truncate">{name}</span>
-                    <span className="text-[10px] text-[#5b5a56]">Posición {i + 1}</span>
+                    <span className="text-xs font-bold text-lol-text block truncate">{name}</span>
+                    <span className="text-[10px] text-lol-dim">Posición {i + 1}</span>
                   </div>
                   {i === 0 && (
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded" style={{
@@ -407,8 +407,8 @@ function ComboDetailPanel({ combo }: { combo: BrokenCombo }) {
 
           {/* Description */}
           <div>
-            <span className="lol-label text-[10px] text-[#c8aa6e] mb-2 block">Por qué funciona</span>
-            <p className="text-xs text-[#a09b8c] leading-relaxed">{combo.description}</p>
+            <span className="lol-label text-[10px] text-lol-gold mb-2 block">Por qué funciona</span>
+            <p className="text-xs text-lol-muted leading-relaxed">{combo.description}</p>
           </div>
         </div>
       </div>
@@ -453,11 +453,11 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(232,64,87,0.12)', border: '1px solid rgba(232,64,87,0.25)' }}>
-          <Flame className="w-4 h-4 text-[#e84057]" />
+          <Flame className="w-4 h-4 text-lol-danger" />
         </div>
         <div>
-          <h2 className="lol-title text-lg text-[#f0e6d2]">Combos Rotos</h2>
-          <p className="text-xs text-[#5b5a56]">Combinaciones más tóxicas del meta — Selecciona un combo para ver detalles</p>
+          <h2 className="lol-title text-lg text-lol-text">Combos Rotos</h2>
+          <p className="text-xs text-lol-dim">Combinaciones más tóxicas del meta — Selecciona un combo para ver detalles</p>
         </div>
       </div>
 
@@ -470,8 +470,8 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
             className={`
               px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200
               ${sizeFilter === opt.value
-                ? 'bg-[#c8aa6e]/15 text-[#c8aa6e] border border-[#c8aa6e]/30 shadow-sm shadow-[#c8aa6e]/10'
-                : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
+                ? 'bg-lol-gold/15 text-lol-gold border border-lol-gold/30 shadow-sm shadow-lol-gold/10'
+                : 'text-lol-dim hover:text-lol-muted hover:bg-lol-card/40 border border-transparent'
               }
             `}
             aria-pressed={sizeFilter === opt.value}
@@ -497,7 +497,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
         </div>
       ) : filtered.length === 0 ? (
         /* Empty state */
-        <div className="text-center py-16 text-[#5b5a56]">
+        <div className="text-center py-16 text-lol-dim">
           <Flame className="w-12 h-12 mx-auto mb-3 opacity-20" />
           <p className="text-sm">No hay combos para este filtro</p>
         </div>
@@ -512,7 +512,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
               style={{ maxHeight: 'calc(100vh - 280px)' }}
             >
               <div className="flex items-center gap-2 px-1 mb-1">
-                <span className="lol-label text-[10px] text-[#c8aa6e]">
+                <span className="lol-label text-[10px] text-lol-gold">
                   {filtered.length} COMBO{filtered.length !== 1 ? 'S' : ''}
                 </span>
                 <div className="flex-1 h-[1px]" style={{ background: 'rgba(200,170,110,0.15)' }} />
@@ -537,7 +537,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="h-full flex items-center justify-center text-[#5b5a56]"
+                    className="h-full flex items-center justify-center text-lol-dim"
                     style={{ minHeight: '400px' }}
                   >
                     <div className="text-center">
@@ -555,7 +555,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
             {/* Horizontal scroll strip */}
             <div className="relative">
               <div className="flex items-center gap-2 mb-2 px-1">
-                <span className="lol-label text-[10px] text-[#c8aa6e]">
+                <span className="lol-label text-[10px] text-lol-gold">
                   {filtered.length} COMBO{filtered.length !== 1 ? 'S' : ''}
                 </span>
                 <div className="flex-1 h-[1px]" style={{ background: 'rgba(200,170,110,0.15)' }} />
@@ -573,7 +573,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
                       className={`
                         shrink-0 snap-start rounded-lg overflow-hidden transition-all duration-200 text-left
                         ${effectiveId === combo.id
-                          ? 'ring-1 ring-[#c8aa6e]/60'
+                          ? 'ring-1 ring-lol-gold/60'
                           : 'opacity-70 hover:opacity-100'
                         }
                       `}
@@ -595,7 +595,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
                             </div>
                           ))}
                         </div>
-                        <p className="text-[10px] font-bold text-[#f0e6d2] leading-tight truncate">{combo.name}</p>
+                        <p className="text-[10px] font-bold text-lol-text leading-tight truncate">{combo.name}</p>
                         <div className="flex items-center gap-1.5 mt-1.5">
                           <span className="text-[10px] font-mono font-bold" style={{ color: isMeta ? '#0acbe6' : '#a09b8c' }}>
                             {combo.winRate}%
@@ -627,7 +627,7 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="glass-card rounded-xl p-8 text-center text-[#5b5a56]"
+                  className="glass-card rounded-xl p-8 text-center text-lol-dim"
                 >
                   <ChevronLeft className="w-6 h-6 mx-auto mb-2 opacity-30 rotate-90" />
                   <p className="text-xs">Desliza y selecciona un combo arriba</p>
@@ -642,13 +642,13 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
       <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(120,90,40,0.2)' }}>
         <div className="flex items-center gap-3 mb-4">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,170,110,0.12)', border: '1px solid rgba(200,170,110,0.25)' }}>
-            <Users className="w-4 h-4 text-[#c8aa6e]" />
+            <Users className="w-4 h-4 text-lol-gold" />
           </div>
           <div>
-            <h2 className="lol-title text-lg text-[#f0e6d2]">Composiciones Pro</h2>
+            <h2 className="lol-title text-lg text-lol-text">Composiciones Pro</h2>
             <div className="flex items-center gap-2">
               <span className="text-[10px] px-2 py-0.5 rounded-full font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{proComps.length} comps</span>
-              <p className="text-xs text-[#5b5a56]">Team comps más fuertes del meta actual</p>
+              <p className="text-xs text-lol-dim">Team comps más fuertes del meta actual</p>
             </div>
           </div>
         </div>
@@ -664,18 +664,18 @@ export function CombosTab({ combos, loading, selectedGame }: { combos: BrokenCom
             >
               <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, #c8aa6e, #c8aa6e40)' }} />
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-bold text-[#f0e6d2]">{comp.name}</h3>
+                <h3 className="text-sm font-bold text-lol-text">{comp.name}</h3>
                 <span className="text-[10px] px-2 py-0.5 rounded-md font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>{comp.playstyle}</span>
               </div>
               <div className="flex items-center gap-2 mb-3 flex-wrap">
                 {comp.champions.map(c => (
                   <div key={c} className="flex items-center gap-1.5 px-1.5 py-1 rounded-lg" style={{ background: 'rgba(200,170,110,0.06)', border: '1px solid rgba(200,170,110,0.15)' }}>
                     <ChampionIcon name={c} tier="A" />
-                    <span className="text-[10px] font-semibold text-[#f0e6d2]">{c}</span>
+                    <span className="text-[10px] font-semibold text-lol-text">{c}</span>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-[#a09b8c] leading-relaxed">{comp.description}</p>
+              <p className="text-xs text-lol-muted leading-relaxed">{comp.description}</p>
             </motion.div>
           ))}
         </div>

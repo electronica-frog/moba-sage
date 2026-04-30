@@ -14,14 +14,14 @@ export function CountersSynergyGrid({ champion }: { champion: Champion }) {
         return (
           <div className="rounded-lg p-3" style={{ background: 'rgba(232,64,87,0.06)', border: '1px solid rgba(232,64,87,0.15)' }}>
             <div className="flex items-center gap-1.5 mb-2">
-              <Crosshair className="w-3.5 h-3.5 text-[#e84057]" />
-              <h4 className="text-[10px] font-semibold text-[#e84057] uppercase tracking-wider">Counters</h4>
+              <Crosshair className="w-3.5 h-3.5 text-lol-danger" />
+              <h4 className="text-[10px] font-semibold text-lol-danger uppercase tracking-wider">Counters</h4>
             </div>
             <div className="flex items-center gap-2">
               {counterNames.slice(0, 3).map((name) => (
                 <div key={name} className="flex flex-col items-center gap-1">
                   <TinyChampionIcon name={name} />
-                  <span className="text-[10px] text-[#a09b8c] leading-none truncate max-w-[40px] text-center">{name}</span>
+                  <span className="text-[10px] text-lol-muted leading-none truncate max-w-[40px] text-center">{name}</span>
                 </div>
               ))}
             </div>
@@ -33,16 +33,16 @@ export function CountersSynergyGrid({ champion }: { champion: Champion }) {
         return (
           <div className="rounded-lg p-3" style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}>
             <div className="flex items-center gap-1.5 mb-2">
-              <Users className="w-3.5 h-3.5 text-[#0acbe6]" />
-              <h4 className="text-[10px] font-semibold text-[#0acbe6] uppercase tracking-wider">Sinergia</h4>
+              <Users className="w-3.5 h-3.5 text-lol-success" />
+              <h4 className="text-[10px] font-semibold text-lol-success uppercase tracking-wider">Sinergia</h4>
             </div>
             <div className="flex flex-wrap gap-2">
               {synNames.slice(0, 3).map((name) => (
                 <div key={name} className="flex items-center gap-2 px-2 py-1 rounded-lg" style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.12)' }}>
                   <ChampionIcon name={name} tier={champion.tier} />
                   <div className="flex flex-col">
-                    <span className="text-[11px] font-semibold text-[#f0e6d2] leading-tight">{name}</span>
-                    <span className="text-[10px] text-[#0acbe6]">Sinergia</span>
+                    <span className="text-[11px] font-semibold text-lol-text leading-tight">{name}</span>
+                    <span className="text-[10px] text-lol-success">Sinergia</span>
                   </div>
                 </div>
               ))}

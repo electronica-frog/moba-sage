@@ -25,8 +25,8 @@ export function CounterStrategiesSection({ champion }: CounterStrategiesSectionP
           }}>
             <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: strat.severity === 'strong' ? '#e84057' : '#f0c646' }} />
             <div>
-              <p className="text-[11px] font-semibold text-[#f0e6d2]">{strat.title}</p>
-              <p className="text-[10px] text-[#a09b8c] leading-relaxed mt-0.5">{strat.desc}</p>
+              <p className="text-[11px] font-semibold text-lol-text">{strat.title}</p>
+              <p className="text-[10px] text-lol-muted leading-relaxed mt-0.5">{strat.desc}</p>
             </div>
           </div>
         ))}

@@ -226,16 +226,16 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
         <ChampionIcon name={change.name} tier={change.tierAfter || change.tierBefore || 'A'} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 mb-0.5">
-            <span className="text-[11px] font-semibold text-[#f0e6d2] truncate">{change.name}</span>
+            <span className="text-[11px] font-semibold text-lol-text truncate">{change.name}</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: `${type.color}15`, color: type.color, border: `1px solid ${type.color}25` }}>{type.label}</span>
-            {change.impact && <span className="text-[10px] text-[#5b5a56]">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>}
+            {change.impact && <span className="text-[10px] text-lol-dim">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>}
           </div>
-          <p className="text-[10px] text-[#a09b8c] truncate">{change.description}</p>
+          <p className="text-[10px] text-lol-muted truncate">{change.description}</p>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          {change.tierBefore && <div className="text-center"><span className="block text-[10px] text-[#5b5a56]">Antes</span><TierBadge tier={change.tierBefore} /></div>}
+          {change.tierBefore && <div className="text-center"><span className="block text-[10px] text-lol-dim">Antes</span><TierBadge tier={change.tierBefore} /></div>}
           <div className="flex flex-col items-center"><span className="text-sm font-black leading-none" style={{ color: dir.color }}>{dir.icon}</span></div>
-          {change.tierAfter && <div className="text-center"><span className="block text-[10px] text-[#5b5a56]">Ahora</span><TierBadge tier={change.tierAfter} /></div>}
+          {change.tierAfter && <div className="text-center"><span className="block text-[10px] text-lol-dim">Ahora</span><TierBadge tier={change.tierAfter} /></div>}
           {direction !== 'new' && change.tierBefore && change.tierAfter && change.tierBefore !== change.tierAfter && (
             <div className="w-12 h-1.5 rounded-full overflow-hidden ml-1" style={{ background: 'rgba(120,90,40,0.08)' }}>
               <motion.div className="h-full rounded-full" style={{ background: dir.color, boxShadow: `0 0 4px ${dir.color}40` }} initial={{ width: 0 }} animate={{ width: `${magnitude}%` }} transition={{ duration: 0.5, delay: index * 0.04 }} />
@@ -300,13 +300,13 @@ function RiotPatchNotesBanner() {
       style={{ background: 'linear-gradient(135deg, rgba(200,170,110,0.08), rgba(30,35,40,0.5))', border: '1px solid rgba(200,170,110,0.2)' }}
     >
       <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(200,170,110,0.15)', border: '1px solid rgba(200,170,110,0.25)' }}>
-        <ScrollText className="w-4 h-4 text-[#c8aa6e]" />
+        <ScrollText className="w-4 h-4 text-lol-gold" />
       </div>
       <div className="flex-1 min-w-0">
-        <span className="text-sm font-semibold text-[#f0e6d2] block truncate">Notas de Parche Oficiales de Riot</span>
-        <span className="text-[10px] text-[#785a28]">leagueoflegends.com/en-us/news/game-updates</span>
+        <span className="text-sm font-semibold text-lol-text block truncate">Notas de Parche Oficiales de Riot</span>
+        <span className="text-[10px] text-lol-gold-dark">leagueoflegends.com/en-us/news/game-updates</span>
       </div>
-      <ExternalLink className="w-4 h-4 text-[#c8aa6e] shrink-0" />
+      <ExternalLink className="w-4 h-4 text-lol-gold shrink-0" />
     </motion.a>
   );
 }
@@ -328,39 +328,39 @@ function MetaImpactSection({ latestPatch }: { latestPatch: PatchNote & { feedSta
       <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #c8aa6e, transparent)' }} />
       <div className="p-3 sm:p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Zap className="w-4 h-4 text-[#c8aa6e]" />
-          <span className="lol-label text-xs font-bold text-[#c8aa6e] uppercase tracking-wider">Meta Impact</span>
-          <span className="ml-auto text-[10px] font-mono text-[#a09b8c]">{latestPatch.version}</span>
+          <Zap className="w-4 h-4 text-lol-gold" />
+          <span className="lol-label text-xs font-bold text-lol-gold uppercase tracking-wider">Meta Impact</span>
+          <span className="ml-auto text-[10px] font-mono text-lol-muted">{latestPatch.version}</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(15,186,129,0.06)', border: '1px solid rgba(15,186,129,0.15)' }}>
-            <ArrowUp className="w-4 h-4 mx-auto mb-1 text-[#0fba81]" />
-            <span className="text-lg font-bold font-mono text-[#0fba81]">{buffs}</span>
-            <p className="text-[10px] text-[#5b5a56]">Buffeados</p>
+            <ArrowUp className="w-4 h-4 mx-auto mb-1 text-lol-green" />
+            <span className="text-lg font-bold font-mono text-lol-green">{buffs}</span>
+            <p className="text-[10px] text-lol-dim">Buffeados</p>
           </div>
           <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(232,64,87,0.06)', border: '1px solid rgba(232,64,87,0.15)' }}>
-            <ArrowDown className="w-4 h-4 mx-auto mb-1 text-[#e84057]" />
-            <span className="text-lg font-bold font-mono text-[#e84057]">{nerfs}</span>
-            <p className="text-[10px] text-[#5b5a56]">Nerfeados</p>
+            <ArrowDown className="w-4 h-4 mx-auto mb-1 text-lol-danger" />
+            <span className="text-lg font-bold font-mono text-lol-danger">{nerfs}</span>
+            <p className="text-[10px] text-lol-dim">Nerfeados</p>
           </div>
           <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(240,198,70,0.06)', border: '1px solid rgba(240,198,70,0.15)' }}>
-            <Minus className="w-4 h-4 mx-auto mb-1 text-[#f0c646]" />
-            <span className="text-lg font-bold font-mono text-[#f0c646]">{adjusts}</span>
-            <p className="text-[10px] text-[#5b5a56]">Ajustados</p>
+            <Minus className="w-4 h-4 mx-auto mb-1 text-lol-warning" />
+            <span className="text-lg font-bold font-mono text-lol-warning">{adjusts}</span>
+            <p className="text-[10px] text-lol-dim">Ajustados</p>
           </div>
           <div className="rounded-lg p-3 text-center" style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}>
-            <Gamepad2 className="w-4 h-4 mx-auto mb-1 text-[#0acbe6]" />
-            <span className="text-lg font-bold font-mono text-[#0acbe6]">{newItemCount}</span>
-            <p className="text-[10px] text-[#5b5a56]">Items Nuevos</p>
+            <Gamepad2 className="w-4 h-4 mx-auto mb-1 text-lol-success" />
+            <span className="text-lg font-bold font-mono text-lol-success">{newItemCount}</span>
+            <p className="text-[10px] text-lol-dim">Items Nuevos</p>
           </div>
         </div>
         {highlights.length > 0 && (
           <div className="mt-3 px-3 py-2 rounded-lg" style={{ background: 'rgba(200,170,110,0.04)', border: '1px solid rgba(200,170,110,0.12)' }}>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-[#c8aa6e] uppercase">Cambio más significativo:</span>
+              <span className="text-[10px] font-bold text-lol-gold uppercase">Cambio más significativo:</span>
               <div className="flex items-center gap-1.5">
                 <TinyChampionIcon name={highlights[0].name} />
-                <span className="text-xs font-bold text-[#f0e6d2]">{highlights[0].name}</span>
+                <span className="text-xs font-bold text-lol-text">{highlights[0].name}</span>
                 <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ backgroundColor: highlights[0].type === 'buff' ? 'rgba(15,186,129,0.15)' : highlights[0].type === 'nerf' ? 'rgba(232,64,87,0.15)' : 'rgba(240,198,70,0.15)', color: highlights[0].type === 'buff' ? '#0fba81' : highlights[0].type === 'nerf' ? '#e84057' : '#f0c646' }}>
                   {highlights[0].type === 'buff' ? '↑ BUFF' : highlights[0].type === 'nerf' ? '↓ NERF' : '→ AJUSTE'}
                 </span>
@@ -389,18 +389,18 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #c8aa6e, transparent)' }} />
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,170,110,0.15)', border: '1px solid rgba(200,170,110,0.25)' }}>
-            <Newspaper className="w-4 h-4 text-[#c8aa6e]" />
+            <Newspaper className="w-4 h-4 text-lol-gold" />
           </div>
           <div className="flex-1">
-            <h3 className="lol-title text-sm text-[#f0e6d2]">ANÁLISIS DE PARCHE</h3>
-            <p className="text-[10px] text-[#5b5a56]">
-              Parche actual: <span className="font-mono text-[#c8aa6e]">{analysis.currentPatch}</span>
-              {' · '}Próximo: <span className="font-mono text-[#0acbe6]">{analysis.nextPatch}</span>
-              {analysis.patchDate && <span className="text-[#5b5a56]"> · {analysis.patchDate}</span>}
+            <h3 className="lol-title text-sm text-lol-text">ANÁLISIS DE PARCHE</h3>
+            <p className="text-[10px] text-lol-dim">
+              Parche actual: <span className="font-mono text-lol-gold">{analysis.currentPatch}</span>
+              {' · '}Próximo: <span className="font-mono text-lol-success">{analysis.nextPatch}</span>
+              {analysis.patchDate && <span className="text-lol-dim"> · {analysis.patchDate}</span>}
             </p>
           </div>
         </div>
-        <p className="text-xs text-[#a09b8c] leading-relaxed">{analysis.summary}</p>
+        <p className="text-xs text-lol-muted leading-relaxed">{analysis.summary}</p>
       </div>
 
       {/* Broken + Fallen columns */}
@@ -409,8 +409,8 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
           {broken.length > 0 && (
             <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(15,186,129,0.15)' }}>
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(15,186,129,0.12)', border: '1px solid rgba(15,186,129,0.3)' }}><ArrowUpCircle className="w-4 h-4 text-[#0fba81]" /></div>
-                <span className="lol-label text-xs font-semibold text-[#0fba81]">¿Quién Queda Roto?</span>
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(15,186,129,0.12)', border: '1px solid rgba(15,186,129,0.3)' }}><ArrowUpCircle className="w-4 h-4 text-lol-green" /></div>
+                <span className="lol-label text-xs font-semibold text-lol-green">¿Quién Queda Roto?</span>
                 <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{broken.length}</span>
               </div>
               <div className="space-y-2.5">
@@ -419,11 +419,11 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                     <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
+                        <span className="text-xs font-semibold text-lol-text">{champ.name}</span>
                         <TierBadge tier={champ.tier} />
                         <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.3)' }}>BUFFED</span>
                       </div>
-                      <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
+                      <p className="text-[10px] text-lol-muted leading-snug mt-0.5">{champ.reason}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -433,8 +433,8 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
           {fallen.length > 0 && (
             <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(232,64,87,0.15)' }}>
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(232,64,87,0.12)', border: '1px solid rgba(232,64,87,0.3)' }}><ArrowDownCircle className="w-4 h-4 text-[#e84057]" /></div>
-                <span className="lol-label text-xs font-semibold text-[#e84057]">¿Quién Cayó?</span>
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(232,64,87,0.12)', border: '1px solid rgba(232,64,87,0.3)' }}><ArrowDownCircle className="w-4 h-4 text-lol-danger" /></div>
+                <span className="lol-label text-xs font-semibold text-lol-danger">¿Quién Cayó?</span>
                 <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{fallen.length}</span>
               </div>
               <div className="space-y-2.5">
@@ -443,11 +443,11 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                     <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
+                        <span className="text-xs font-semibold text-lol-text">{champ.name}</span>
                         <TierBadge tier={champ.tier} />
                         <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057', border: '1px solid rgba(232,64,87,0.3)' }}>NERFED</span>
                       </div>
-                      <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
+                      <p className="text-[10px] text-lol-muted leading-snug mt-0.5">{champ.reason}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -461,14 +461,14 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
       {championChanges.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(200,170,110,0.2)' }}>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,170,110,0.12)', border: '1px solid rgba(200,170,110,0.2)' }}><Newspaper className="w-3.5 h-3.5 text-[#c8aa6e]" /></div>
-            <span className="lol-label text-xs font-semibold text-[#c8aa6e]">Cambios por Campeón</span>
-            <span className="ml-auto text-[10px] text-[#5b5a56]">{championChanges.length} campeones</span>
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,170,110,0.12)', border: '1px solid rgba(200,170,110,0.2)' }}><Newspaper className="w-3.5 h-3.5 text-lol-gold" /></div>
+            <span className="lol-label text-xs font-semibold text-lol-gold">Cambios por Campeón</span>
+            <span className="ml-auto text-[10px] text-lol-dim">{championChanges.length} campeones</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-3 px-1">
-            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Tier sube</span>
-            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Tier baja</span>
-            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#c8aa6e' }} /> Nuevo</span>
+            <span className="flex items-center gap-1.5 text-[10px] text-lol-dim"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Tier sube</span>
+            <span className="flex items-center gap-1.5 text-[10px] text-lol-dim"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Tier baja</span>
+            <span className="flex items-center gap-1.5 text-[10px] text-lol-dim"><span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#c8aa6e' }} /> Nuevo</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {championChanges.map((change, i) => <ChampionPatchCard key={change.name} change={change} index={i} />)}
@@ -478,12 +478,12 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
 
       {/* Key Changes */}
       <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(120,90,40,0.15)' }}>
-        <div className="flex items-center gap-2 mb-3"><Zap className="w-4 h-4 text-[#f0c646]" /><span className="lol-label text-xs font-semibold text-[#f0c646]">Cambios Clave del Parche</span></div>
+        <div className="flex items-center gap-2 mb-3"><Zap className="w-4 h-4 text-lol-warning" /><span className="lol-label text-xs font-semibold text-lol-warning">Cambios Clave del Parche</span></div>
         <div className="space-y-2">
           {analysis.keyChanges.map((change, i) => (
             <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }} className="flex items-start gap-2">
               <div className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{ background: '#f0c646', boxShadow: '0 0 4px rgba(240,198,70,0.4)' }} />
-              <span className="text-[11px] text-[#a09b8c] leading-snug">{change}</span>
+              <span className="text-[11px] text-lol-muted leading-snug">{change}</span>
             </motion.div>
           ))}
         </div>
@@ -494,7 +494,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         <div className="flex items-center gap-2 mb-3"><Shield className="w-4 h-4 text-[#5b8af5]" /><span className="lol-label text-xs font-semibold text-[#5b8af5]">Cambios de Sistemas</span></div>
         <div className="flex flex-wrap gap-1.5">
           {analysis.systemChanges.map((change, i) => (
-            <span key={i} className="inline-flex items-center px-2 py-1 rounded-md text-[10px] text-[#a09b8c]" style={{ background: 'rgba(91,138,245,0.06)', border: '1px solid rgba(91,138,245,0.12)' }}>{change}</span>
+            <span key={i} className="inline-flex items-center px-2 py-1 rounded-md text-[10px] text-lol-muted" style={{ background: 'rgba(91,138,245,0.06)', border: '1px solid rgba(91,138,245,0.12)' }}>{change}</span>
           ))}
         </div>
       </div>
@@ -655,16 +655,16 @@ export function PatchesMetaTab({
     <div className="space-y-5">
       {/* ===== HEADER ===== */}
       <div className="flex items-center gap-3">
-        <ScrollText className="w-6 h-6 text-[#c8aa6e]" />
+        <ScrollText className="w-6 h-6 text-lol-gold" />
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h2 className="lol-title text-xl text-[#f0e6d2]">Parches & Meta</h2>
+            <h2 className="lol-title text-xl text-lol-text">Parches & Meta</h2>
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.4)' }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-lol-green animate-pulse" />
               Versión Actual
             </span>
           </div>
-          <p className="text-sm text-[#785a28]">Parches, notas oficiales, cambios y análisis del meta</p>
+          <p className="text-sm text-lol-gold-dark">Parches, notas oficiales, cambios y análisis del meta</p>
         </div>
       </div>
 
@@ -689,8 +689,8 @@ export function PatchesMetaTab({
             className={`
               flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-xs font-medium transition-all duration-200 cursor-pointer
               ${activeSection === tab.id
-                ? 'text-[#c8aa6e] shadow-sm'
-                : 'text-[#5b5a56] hover:text-[#a09b8c]'
+                ? 'text-lol-gold shadow-sm'
+                : 'text-lol-dim hover:text-lol-muted'
               }
             `}
             style={activeSection === tab.id ? { background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.25)' } : { background: 'transparent', border: '1px solid transparent' }}
@@ -724,7 +724,7 @@ export function PatchesMetaTab({
                 <div className="flex items-center gap-2 mb-3">
                   <span className="lol-title text-sm" style={{ color: '#c8aa6e', textShadow: '0 0 10px rgba(200,170,110,0.3)' }}>S TIER</span>
                   <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(200,170,110,0.3), transparent)' }} />
-                  <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[10px]"><AlertTriangle className="w-3 h-3 mr-1" />ROTO OP</Badge>
+                  <Badge className="bg-lol-danger/20 text-lol-danger border border-lol-danger/30 text-[10px]"><AlertTriangle className="w-3 h-3 mr-1" />ROTO OP</Badge>
                 </div>
                 <div className="flex gap-3 overflow-x-auto scrollbar-none pb-2">
                   {sTierChamps.map((champ, idx) => {
@@ -736,21 +736,21 @@ export function PatchesMetaTab({
                           <Image src={getChampionSplashUrl(champ.name, 0)} alt={champ.name} fill className="object-cover" style={{ filter: 'brightness(0.65) saturate(1.2)' }} sizes="180px" />
                           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 15%, rgba(10,14,26,0.6) 50%, rgba(10,14,26,0.97) 100%)' }} />
                         </div>
-                        {champ.winRate >= 53 && <div className="absolute top-2 left-2 z-10"><Badge className="bg-[#e84057]/90 text-white border border-[#e84057] text-[10px] px-1.5 py-0.5 font-black">ROTO OP</Badge></div>}
+                        {champ.winRate >= 53 && <div className="absolute top-2 left-2 z-10"><Badge className="bg-lol-danger/90 text-white border border-lol-danger text-[10px] px-1.5 py-0.5 font-black">ROTO OP</Badge></div>}
                         <div className="absolute top-2 right-2 z-10"><span className="inline-flex items-center justify-center w-6 h-6 rounded-md text-[10px] font-black" style={{ backgroundColor: '#c8aa6e', color: '#0a0e1a', boxShadow: '0 0 12px rgba(200,170,110,0.4)' }}>S</span></div>
                         <div className="relative h-full flex flex-col justify-end p-3">
-                          <span className="lol-title text-base font-bold text-[#f0e6d2]">{champ.name}</span>
+                          <span className="lol-title text-base font-bold text-lol-text">{champ.name}</span>
                           <RoleBadge role={champ.role} />
                           <div className="flex items-center gap-2 mt-1.5">
                             <span className="font-mono text-[11px] font-bold" style={{ color: champ.winRate >= 53 ? '#0acbe6' : '#c8aa6e' }}>{champ.winRate}% WR</span>
-                            <span className="text-[#5b5a56] text-[10px]">·</span>
-                            <span className="font-mono text-[10px] text-[#a09b8c]">{champ.pickRate}% Pick</span>
-                            {champ.banRate > 5 && <><span className="text-[#5b5a56] text-[10px]">·</span><span className="font-mono text-[10px] text-[#e84057]">{champ.banRate}% Ban</span></>}
+                            <span className="text-lol-dim text-[10px]">·</span>
+                            <span className="font-mono text-[10px] text-lol-muted">{champ.pickRate}% Pick</span>
+                            {champ.banRate > 5 && <><span className="text-lol-dim text-[10px]">·</span><span className="font-mono text-[10px] text-lol-danger">{champ.banRate}% Ban</span></>}
                           </div>
                           {mainBuild && buildItems.length > 0 && (
                             <div className="mt-2 flex items-center gap-1 overflow-hidden">
                               {buildItems.slice(0, 4).map((item, i) => <div key={i} className="relative"><ItemIcon name={item} /></div>)}
-                              {buildItems.length > 4 && <span className="text-[10px] text-[#5b5a56]">+{buildItems.length - 4}</span>}
+                              {buildItems.length > 4 && <span className="text-[10px] text-lol-dim">+{buildItems.length - 4}</span>}
                             </div>
                           )}
                         </div>
@@ -767,7 +767,7 @@ export function PatchesMetaTab({
                 <div className="flex items-center gap-2 mb-3">
                   <span className="lol-title text-sm" style={{ color: '#0acbe6', textShadow: '0 0 10px rgba(10,203,230,0.3)' }}>A TIER</span>
                   <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.3), transparent)' }} />
-                  <span className="text-[10px] text-[#5b5a56]">También fuertes</span>
+                  <span className="text-[10px] text-lol-dim">También fuertes</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {aTierChamps.map((champ, idx) => (
@@ -777,12 +777,12 @@ export function PatchesMetaTab({
                         <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black" style={{ backgroundColor: '#0acbe6', color: '#0a0e1a' }}>A</div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[12px] font-semibold text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors">{champ.name}</p>
+                        <p className="text-[12px] font-semibold text-lol-text truncate group-hover:text-lol-gold transition-colors">{champ.name}</p>
                         <RoleBadge role={champ.role} />
                         <div className="flex items-center gap-2 text-[11px]">
                           <span className="font-mono font-semibold" style={{ color: champ.winRate >= 51 ? '#0acbe6' : '#a09b8c' }}>{champ.winRate}% WR</span>
-                          <span className="text-[#5b5a56]">·</span>
-                          <span className="font-mono text-[#a09b8c]">{champ.pickRate}% Pick</span>
+                          <span className="text-lol-dim">·</span>
+                          <span className="font-mono text-lol-muted">{champ.pickRate}% Pick</span>
                         </div>
                       </div>
                     </motion.div>
@@ -797,13 +797,13 @@ export function PatchesMetaTab({
                 <div className="flex items-center gap-2 mb-3">
                   <span className="lol-title text-sm" style={{ color: '#0fba81', textShadow: '0 0 10px rgba(15,186,129,0.3)' }}>B TIER</span>
                   <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(15,186,129,0.3), transparent)' }} />
-                  <span className="text-[10px] text-[#5b5a56]">Jugables</span>
+                  <span className="text-[10px] text-lol-dim">Jugables</span>
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
                   {bTierChamps.map(champ => (
                     <motion.div key={champ.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-1.5 p-2 rounded-lg" style={{ background: 'rgba(15,186,129,0.03)', border: '1px solid rgba(15,186,129,0.1)' }}>
                       <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
-                      <div className="flex-1 min-w-0"><p className="text-[10px] font-medium text-[#f0e6d2] truncate">{champ.name}</p><p className="text-[10px] text-[#5b5a56] font-mono">{champ.winRate}%</p></div>
+                      <div className="flex-1 min-w-0"><p className="text-[10px] font-medium text-lol-text truncate">{champ.name}</p><p className="text-[10px] text-lol-dim font-mono">{champ.winRate}%</p></div>
                     </motion.div>
                   ))}
                 </div>
@@ -820,12 +820,12 @@ export function PatchesMetaTab({
             {/* Game Filter Buttons */}
             {!isFiltering && (
               <div className="flex items-center gap-2 flex-wrap">
-                <Filter className="w-3.5 h-3.5 text-[#5b5a56]" />
+                <Filter className="w-3.5 h-3.5 text-lol-dim" />
                 {GAME_FILTERS.map(game => {
                   const isActive = gameFilter === game;
                   const style = game !== 'Todos' ? getGameStyle(game) : null;
                   return (
-                    <button key={game} onClick={() => setGameFilter(game)} className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${isActive ? (style ? 'border shadow-[0_0_10px_rgba(200,170,110,0.08)]' : 'bg-[#c8aa6e]/15 text-[#c8aa6e] border border-[#c8aa6e]/30') : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'}`} style={isActive && style ? { backgroundColor: style.bg, color: style.color, borderColor: style.border } : undefined} aria-pressed={isActive}>
+                    <button key={game} onClick={() => setGameFilter(game)} className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${isActive ? (style ? 'border shadow-[0_0_10px_rgba(200,170,110,0.08)]' : 'bg-lol-gold/15 text-lol-gold border border-lol-gold/30') : 'text-lol-dim hover:text-lol-muted hover:bg-lol-card/40 border border-transparent'}`} style={isActive && style ? { backgroundColor: style.bg, color: style.color, borderColor: style.border } : undefined} aria-pressed={isActive}>
                       {game !== 'Todos' && getGameIcon(game)}{game}
                     </button>
                   );
@@ -836,7 +836,7 @@ export function PatchesMetaTab({
             {/* Patch Timeline */}
             {timelinePatches.length > 0 && (
               <div className="glass-card rounded-xl p-3 sm:p-5" style={{ border: '1px solid rgba(200,170,110,0.2)' }}>
-                <div className="flex items-center gap-2 mb-4"><Clock className="w-4 h-4 text-[#c8aa6e]" /><h3 className="lol-label text-xs font-semibold text-[#c8aa6e] uppercase tracking-wider">Línea de Tiempo</h3></div>
+                <div className="flex items-center gap-2 mb-4"><Clock className="w-4 h-4 text-lol-gold" /><h3 className="lol-label text-xs font-semibold text-lol-gold uppercase tracking-wider">Línea de Tiempo</h3></div>
                 <div className="relative">
                   <div className="absolute top-4 left-[24px] right-[24px] h-px" style={{ background: 'linear-gradient(90deg, rgba(120,90,40,0.15), rgba(200,170,110,0.25), rgba(120,90,40,0.15))' }} />
                   <div className="flex items-start justify-between">
@@ -851,7 +851,7 @@ export function PatchesMetaTab({
                             <div className="rounded-full flex items-center justify-center transition-all duration-300" style={{ width: isMostRecent ? 36 : isSelected ? 32 : 28, height: isMostRecent ? 36 : isSelected ? 32 : 28, backgroundColor: isSelected ? gs.color : gs.bg, border: `2px solid ${isSelected ? gs.color : gs.border}`, boxShadow: isSelected ? `0 0 16px ${gs.color}30` : 'none' }}>{getGameIcon(patch.sourceGame)}</div>
                           </motion.div>
                           <div className="text-center">
-                            <p className={`text-[10px] font-bold transition-colors duration-200 ${isSelected ? 'text-[#f0e6d2]' : 'text-[#5b5a56] group-hover:text-[#a09b8c]'}`}>{patch.version}</p>
+                            <p className={`text-[10px] font-bold transition-colors duration-200 ${isSelected ? 'text-lol-text' : 'text-lol-dim group-hover:text-lol-muted'}`}>{patch.version}</p>
                             <p className="text-[10px] mt-0.5 transition-colors duration-200" style={{ color: isSelected ? gs.color : '#785a2860' }}>{gs.label}</p>
                           </div>
                         </div>
@@ -866,22 +866,22 @@ export function PatchesMetaTab({
                     <motion.div key={`${selectedPatchDetail.sourceGame}-${selectedPatchDetail.version}`} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3, ease: 'easeInOut' }} className="overflow-hidden">
                       <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(120,90,40,0.15)' }}>
                         <div className="flex items-center gap-2 mb-2 flex-wrap">
-                          <Badge className="bg-[#c8aa6e] text-[#0a0e1a] font-bold text-xs px-2.5 py-0.5">{selectedPatchDetail.version}</Badge>
+                          <Badge className="bg-lol-gold text-lol-bg font-bold text-xs px-2.5 py-0.5">{selectedPatchDetail.version}</Badge>
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ backgroundColor: getGameStyle(selectedPatchDetail.sourceGame).bg, color: getGameStyle(selectedPatchDetail.sourceGame).color }}>{getGameStyle(selectedPatchDetail.sourceGame).label}</span>
-                          <span className="text-[10px] text-[#5b5a56] ml-auto">{new Date(selectedPatchDetail.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                          <span className="text-[10px] text-lol-dim ml-auto">{new Date(selectedPatchDetail.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                         </div>
-                        <h4 className="lol-title text-sm text-[#f0e6d2] mb-1">{selectedPatchDetail.title}</h4>
-                        <p className="text-[11px] text-[#a09b8c] leading-relaxed line-clamp-2">{selectedPatchDetail.summary}</p>
+                        <h4 className="lol-title text-sm text-lol-text mb-1">{selectedPatchDetail.title}</h4>
+                        <p className="text-[11px] text-lol-muted leading-relaxed line-clamp-2">{selectedPatchDetail.summary}</p>
 
                         {selectedPatchHighlights.length > 0 && (
                           <div className="mt-4">
-                            <div className="flex items-center gap-2 mb-2.5"><TrendingUp className="w-4 h-4 text-[#c8aa6e]" /><h5 className="lol-label text-sm font-semibold text-[#c8aa6e] uppercase tracking-wider">Destacados del Parche</h5></div>
+                            <div className="flex items-center gap-2 mb-2.5"><TrendingUp className="w-4 h-4 text-lol-gold" /><h5 className="lol-label text-sm font-semibold text-lol-gold uppercase tracking-wider">Destacados del Parche</h5></div>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                               {selectedPatchHighlights.map(change => { const cfg = getChangeTypeConfig(change.type); const Icon = cfg.icon; return (
                                 <motion.div key={change.name} whileHover={{ scale: 1.03, y: -2 }} className="rounded-xl p-3 flex items-center gap-3 cursor-default overflow-hidden relative" style={{ background: 'rgba(10,14,26,0.7)', border: `1px solid ${cfg.border}40`, borderLeft: `3px solid ${cfg.color}`, backdropFilter: 'blur(8px)' }}>
                                   <TinyChampionIcon name={change.name} />
                                   <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-bold text-[#f0e6d2] truncate">{change.name}</p>
+                                    <p className="text-sm font-bold text-lol-text truncate">{change.name}</p>
                                     <p className="text-[10px] mt-0.5" style={{ color: cfg.color }}>{change.description}</p>
                                     <span className="inline-flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded mt-1" style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}><Icon className="w-3 h-3" />{cfg.label}</span>
                                   </div>
@@ -894,8 +894,8 @@ export function PatchesMetaTab({
                         {/* Meta Direction */}
                         {metaDirection && metaDirection.length > 0 && (
                           <div className="mt-4 rounded-xl p-3 sm:p-4" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.15)' }}>
-                            <div className="flex items-center gap-2 mb-2.5"><Compass className="w-4 h-4 text-[#f0c646]" /><h5 className="lol-label text-sm font-semibold text-[#f0c646] uppercase tracking-wider">Dirección del Meta</h5></div>
-                            <div className="space-y-2">{metaDirection.map((dir, i) => <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="flex items-start gap-2"><Zap className="w-3.5 h-3.5 text-[#f0c646] shrink-0 mt-0.5" /><span className="text-sm text-[#a09b8c] leading-relaxed">{dir}</span></motion.div>)}</div>
+                            <div className="flex items-center gap-2 mb-2.5"><Compass className="w-4 h-4 text-lol-warning" /><h5 className="lol-label text-sm font-semibold text-lol-warning uppercase tracking-wider">Dirección del Meta</h5></div>
+                            <div className="space-y-2">{metaDirection.map((dir, i) => <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="flex items-start gap-2"><Zap className="w-3.5 h-3.5 text-lol-warning shrink-0 mt-0.5" /><span className="text-sm text-lol-muted leading-relaxed">{dir}</span></motion.div>)}</div>
                           </div>
                         )}
                       </div>
@@ -906,16 +906,16 @@ export function PatchesMetaTab({
             )}
 
             {/* Patch Count */}
-            <div className="flex items-center gap-2 text-[#5b5a56]">
+            <div className="flex items-center gap-2 text-lol-dim">
               <span className="text-sm">{filteredPatches.length} parche(s) encontrado(s)</span>
-              {!isFiltering && <span className="text-[10px] text-[#785a28]">· Fuentes: API + patches-feed.json</span>}
+              {!isFiltering && <span className="text-[10px] text-lol-gold-dark">· Fuentes: API + patches-feed.json</span>}
             </div>
 
             {/* Patch List */}
             {(loading || feedLoading) ? (
               Array.from({ length: 2 }).map((_, i) => <div key={i} className="glass-card rounded-xl p-6 space-y-3"><Skeleton className="h-6 w-32" /><Skeleton className="h-4 w-full" /><Skeleton className="h-4 w-3/4" /><Skeleton className="h-20 w-full" /></div>)
             ) : filteredPatches.length === 0 ? (
-              <div className="text-center py-12 text-[#5b5a56]"><ScrollText className="w-12 h-12 mx-auto mb-3 opacity-20" /><p className="text-sm">No hay parches disponibles para este filtro</p></div>
+              <div className="text-center py-12 text-lol-dim"><ScrollText className="w-12 h-12 mx-auto mb-3 opacity-20" /><p className="text-sm">No hay parches disponibles para este filtro</p></div>
             ) : (
               filteredPatches.map(patch => {
                 const gs = getGameStyle(patch.sourceGame);
@@ -923,52 +923,52 @@ export function PatchesMetaTab({
                 const feedStatus = (patch as PatchNote & { feedStatus?: string }).feedStatus;
                 const championHighlights = getLoLChampionHighlights(patch);
                 return (
-                  <motion.div key={`${patch.sourceGame}-${patch.version}`} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="glass-card rounded-xl p-3 sm:p-5 border border-[#785a28]/25 hover:border-[#c8aa6e]/20 transition-all duration-300">
+                  <motion.div key={`${patch.sourceGame}-${patch.version}`} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="glass-card rounded-xl p-3 sm:p-5 border border-lol-gold-dark/25 hover:border-lol-gold/20 transition-all duration-300">
                     <div className="flex items-start gap-3 mb-4 flex-wrap">
                       <div className="flex items-center gap-2 shrink-0 flex-wrap">
-                        <Badge className="bg-[#c8aa6e] text-[#0a0e1a] font-bold text-sm px-3 py-1">{patch.version}</Badge>
+                        <Badge className="bg-lol-gold text-lol-bg font-bold text-sm px-3 py-1">{patch.version}</Badge>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ backgroundColor: gs.bg, color: gs.color, border: `1px solid ${gs.border}` }}>{getGameIcon(patch.sourceGame)}{gs.label}</span>
                         {feedStatus && feedStatus !== 'current' && (
                           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider" style={{ backgroundColor: feedStatus === 'live' ? 'rgba(15,186,129,0.1)' : feedStatus === 'pbe' ? 'rgba(10,203,230,0.1)' : 'rgba(240,198,70,0.1)', color: feedStatus === 'live' ? '#0fba81' : feedStatus === 'pbe' ? '#0acbe6' : '#f0c646', border: `1px solid ${feedStatus === 'live' ? 'rgba(15,186,129,0.3)' : feedStatus === 'pbe' ? 'rgba(10,203,230,0.3)' : 'rgba(240,198,70,0.3)'}` }}>
-                            {feedStatus === 'live' && <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] mr-1 animate-pulse" />}
+                            {feedStatus === 'live' && <span className="w-1.5 h-1.5 rounded-full bg-lol-green mr-1 animate-pulse" />}
                             {feedStatus === 'upcoming' ? 'Próximo' : feedStatus === 'rolling_out' ? 'Desplegando' : feedStatus}
                           </span>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="lol-title text-lg text-[#f0e6d2]">{patch.title}</h3>
-                        <div className="flex items-center gap-2 text-xs text-[#5b5a56] mt-1 flex-wrap">
+                        <h3 className="lol-title text-lg text-lol-text">{patch.title}</h3>
+                        <div className="flex items-center gap-2 text-xs text-lol-dim mt-1 flex-wrap">
                           <Clock className="w-3 h-3" />
                           <span>{new Date(patch.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                          <a href={externalUrl} target="_blank" rel="noopener noreferrer" className="ml-auto inline-flex items-center gap-1 text-[10px] text-[#c8aa6e] hover:text-[#f0e6d2] transition-colors">Notas Oficiales <ExternalLink className="w-2.5 h-2.5" /></a>
+                          <a href={externalUrl} target="_blank" rel="noopener noreferrer" className="ml-auto inline-flex items-center gap-1 text-[10px] text-lol-gold hover:text-lol-text transition-colors">Notas Oficiales <ExternalLink className="w-2.5 h-2.5" /></a>
                         </div>
                       </div>
                     </div>
-                    <div className="mb-4"><h4 className="lol-label text-xs font-semibold text-[#c8aa6e] mb-2">Resumen</h4><p className="text-sm text-[#a09b8c] leading-relaxed">{patch.summary}</p></div>
+                    <div className="mb-4"><h4 className="lol-label text-xs font-semibold text-lol-gold mb-2">Resumen</h4><p className="text-sm text-lol-muted leading-relaxed">{patch.summary}</p></div>
                     {championHighlights.length > 0 && (
                       <div className="mb-4">
-                        <div className="flex items-center gap-2 mb-2.5"><TrendingUp className="w-3.5 h-3.5 text-[#c8aa6e]" /><h4 className="lol-label text-xs font-semibold text-[#c8aa6e]">Destacados del Parche</h4></div>
+                        <div className="flex items-center gap-2 mb-2.5"><TrendingUp className="w-3.5 h-3.5 text-lol-gold" /><h4 className="lol-label text-xs font-semibold text-lol-gold">Destacados del Parche</h4></div>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">{championHighlights.map(change => { const cfg = getChangeTypeConfig(change.type); const Icon = cfg.icon; return (
                           <motion.div key={change.name} whileHover={{ scale: 1.03, y: -1 }} className="rounded-lg p-2.5 flex items-center gap-2" style={{ background: 'rgba(10,14,26,0.6)', border: '1px solid rgba(200,170,110,0.2)', backdropFilter: 'blur(8px)' }}>
                             <TinyChampionIcon name={change.name} />
-                            <div className="flex-1 min-w-0"><p className="text-[10px] font-semibold text-[#f0e6d2] truncate">{change.name}</p><span className="inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded mt-0.5" style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}><Icon className="w-2 h-2" />{cfg.label}</span></div>
+                            <div className="flex-1 min-w-0"><p className="text-[10px] font-semibold text-lol-text truncate">{change.name}</p><span className="inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded mt-0.5" style={{ backgroundColor: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}><Icon className="w-2 h-2" />{cfg.label}</span></div>
                           </motion.div>
                         ); })}</div>
                       </div>
                     )}
                     {patch.highlights && patch.highlights.length > 0 && (
                       <div className="mb-4">
-                        <div className="flex items-center gap-2 mb-2.5"><Target className="w-3.5 h-3.5 text-[#f0c646]" /><h4 className="lol-label text-xs font-semibold text-[#f0c646]">Highlights del Meta</h4></div>
-                        <div className="space-y-1.5">{patch.highlights.map((h: string, i: number) => <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.1)' }}><span className="text-[10px] font-bold text-[#f0c646] shrink-0 mt-0.5">{i + 1}</span><span className="text-xs text-[#a09b8c] leading-relaxed">{h}</span></div>)}</div>
+                        <div className="flex items-center gap-2 mb-2.5"><Target className="w-3.5 h-3.5 text-lol-warning" /><h4 className="lol-label text-xs font-semibold text-lol-warning">Highlights del Meta</h4></div>
+                        <div className="space-y-1.5">{patch.highlights.map((h: string, i: number) => <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.1)' }}><span className="text-[10px] font-bold text-lol-warning shrink-0 mt-0.5">{i + 1}</span><span className="text-xs text-lol-muted leading-relaxed">{h}</span></div>)}</div>
                       </div>
                     )}
                     {patch.changes && Object.keys(patch.changes).length > 0 && (
                       <div className="mb-4">
-                        <div className="flex items-center gap-2 mb-2.5"><Zap className="w-3.5 h-3.5 text-[#c8aa6e]" /><h4 className="lol-label text-xs font-semibold text-[#c8aa6e]">Cambios Detallados</h4></div>
+                        <div className="flex items-center gap-2 mb-2.5"><Zap className="w-3.5 h-3.5 text-lol-gold" /><h4 className="lol-label text-xs font-semibold text-lol-gold">Cambios Detallados</h4></div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">{Object.entries(patch.changes).map(([category, items]) => (
                           <div key={category} className="rounded-lg p-3" style={{ background: 'rgba(120,90,40,0.06)', border: '1px solid rgba(120,90,40,0.15)' }}>
-                            <span className="text-[10px] font-bold text-[#c8aa6e] uppercase tracking-wider">{category}</span>
-                            <div className="mt-1.5 space-y-1">{(items as string[]).slice(0, 5).map((item, i) => <p key={i} className="text-[11px] text-[#a09b8c] leading-snug">• {item}</p>)}</div>
+                            <span className="text-[10px] font-bold text-lol-gold uppercase tracking-wider">{category}</span>
+                            <div className="mt-1.5 space-y-1">{(items as string[]).slice(0, 5).map((item, i) => <p key={i} className="text-[11px] text-lol-muted leading-snug">• {item}</p>)}</div>
                           </div>
                         ))}</div>
                       </div>
@@ -988,49 +988,49 @@ export function PatchesMetaTab({
             {metaInsights.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className="w-4 h-4 text-[#f0c646]" />
-                  <span className="lol-label text-xs font-semibold text-[#a09b8c]">Insights de IA</span>
+                  <Sparkles className="w-4 h-4 text-lol-warning" />
+                  <span className="lol-label text-xs font-semibold text-lol-muted">Insights de IA</span>
                   <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(240,198,70,0.2), transparent)' }} />
-                  <span className="text-[10px] text-[#5b5a56]">{metaInsights.length} insights</span>
+                  <span className="text-[10px] text-lol-dim">{metaInsights.length} insights</span>
                 </div>
                 <div className="space-y-6">
                   {/* Combos Rotos */}
                   {metaInsights.filter(i => i.category === 'meta').length > 0 && (
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-sm font-bold text-[#e84057]">💥 Combos Rotos</span>
+                        <span className="text-sm font-bold text-lol-danger">💥 Combos Rotos</span>
                         <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(232,64,87,0.2), transparent)' }} />
-                        <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'meta').length}</span>
+                        <span className="text-[10px] text-lol-dim">{metaInsights.filter(i => i.category === 'meta').length}</span>
                       </div>
                       <div className="space-y-3">
                         {metaInsights.filter(i => i.category === 'meta').map((insight, i) => {
                           const metaImpact = Math.min(insight.confidence * 100, 100);
                           return (
-                            <motion.div key={insight.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2, delay: i * 0.04 }} className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-[#e84057]/40 transition-colors" style={{ borderLeftColor: '#e84057', background: 'linear-gradient(135deg, rgba(232,64,87,0.03), rgba(30,35,40,0.5))' }}>
+                            <motion.div key={insight.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2, delay: i * 0.04 }} className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-lol-danger/40 transition-colors" style={{ borderLeftColor: '#e84057', background: 'linear-gradient(135deg, rgba(232,64,87,0.03), rgba(30,35,40,0.5))' }}>
                               <div className="flex items-start gap-3">
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 mb-2 flex-wrap">
                                     <ChampionIcon name={insight.champion} tier={gameChampions.find(c => c.name === insight.champion)?.tier || 'A'} />
                                     <div>
                                       <div className="flex items-center gap-1.5">
-                                        <span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span>
-                                        <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[10px] px-1.5 py-0"><AlertTriangle className="w-3 h-3 mr-0.5" />ROTO</Badge>
+                                        <span className="font-semibold text-lol-text text-sm">{insight.champion}</span>
+                                        <Badge className="bg-lol-danger/20 text-lol-danger border border-lol-danger/30 text-[10px] px-1.5 py-0"><AlertTriangle className="w-3 h-3 mr-0.5" />ROTO</Badge>
                                       </div>
                                       <CategoryBadge category={insight.category} />
                                     </div>
                                   </div>
-                                  <p className="text-sm text-[#a09b8c] leading-relaxed mb-3">{insight.content}</p>
+                                  <p className="text-sm text-lol-muted leading-relaxed mb-3">{insight.content}</p>
                                   <div className="flex items-center gap-3">
-                                    <span className="text-[10px] text-[#5b5a56] shrink-0 font-semibold">Meta Impact</span>
+                                    <span className="text-[10px] text-lol-dim shrink-0 font-semibold">Meta Impact</span>
                                     <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(232,64,87,0.12)' }}>
                                       <motion.div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, rgba(232,64,87,0.4), #e84057)', boxShadow: '0 0 6px rgba(232,64,87,0.3)' }} initial={{ width: 0 }} animate={{ width: `${metaImpact}%` }} transition={{ duration: 0.8, delay: i * 0.1 }} />
                                     </div>
-                                    <span className="text-[10px] font-mono font-bold text-[#e84057] shrink-0">{metaImpact.toFixed(0)}%</span>
+                                    <span className="text-[10px] font-mono font-bold text-lol-danger shrink-0">{metaImpact.toFixed(0)}%</span>
                                   </div>
                                   <div className="flex items-center gap-2 mt-2">
-                                    <span className="text-[10px] text-[#5b5a56] shrink-0">Confianza</span>
+                                    <span className="text-[10px] text-lol-dim shrink-0">Confianza</span>
                                     <Progress value={insight.confidence * 100} className="h-1.5 flex-1" />
-                                    <span className="text-[10px] font-mono text-[#c8aa6e] shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
+                                    <span className="text-[10px] font-mono text-lol-gold shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
                                   </div>
                                 </div>
                               </div>
@@ -1044,36 +1044,36 @@ export function PatchesMetaTab({
                   {metaInsights.filter(i => i.category === 'buff').length > 0 && (
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="text-sm font-bold text-[#0acbe6]">🔧 Items & Buffs</span>
+                        <span className="text-sm font-bold text-lol-success">🔧 Items & Buffs</span>
                         <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.2), transparent)' }} />
-                        <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'buff').length}</span>
+                        <span className="text-[10px] text-lol-dim">{metaInsights.filter(i => i.category === 'buff').length}</span>
                       </div>
                       <div className="space-y-3">
                         {metaInsights.filter(i => i.category === 'buff').map((insight, i) => {
                           const metaImpact = Math.min(insight.confidence * 100, 100);
                           return (
-                            <motion.div key={insight.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2, delay: i * 0.04 }} className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-[#0acbe6]/40 transition-colors" style={{ borderLeftColor: '#0acbe6', background: 'linear-gradient(135deg, rgba(10,203,230,0.03), rgba(30,35,40,0.5))' }}>
+                            <motion.div key={insight.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.2, delay: i * 0.04 }} className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-lol-success/40 transition-colors" style={{ borderLeftColor: '#0acbe6', background: 'linear-gradient(135deg, rgba(10,203,230,0.03), rgba(30,35,40,0.5))' }}>
                               <div className="flex items-start gap-3">
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 mb-2 flex-wrap">
                                     <ChampionIcon name={insight.champion} tier={gameChampions.find(c => c.name === insight.champion)?.tier || 'A'} />
                                     <div>
-                                      <div className="flex items-center gap-1.5"><span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span><Badge className="bg-[#0acbe6]/20 text-[#0acbe6] border border-[#0acbe6]/30 text-[10px] px-1.5 py-0">BUFF</Badge></div>
+                                      <div className="flex items-center gap-1.5"><span className="font-semibold text-lol-text text-sm">{insight.champion}</span><Badge className="bg-lol-success/20 text-lol-success border border-lol-success/30 text-[10px] px-1.5 py-0">BUFF</Badge></div>
                                       <CategoryBadge category={insight.category} />
                                     </div>
                                   </div>
-                                  <p className="text-sm text-[#a09b8c] leading-relaxed mb-3">{insight.content}</p>
+                                  <p className="text-sm text-lol-muted leading-relaxed mb-3">{insight.content}</p>
                                   <div className="flex items-center gap-3">
-                                    <span className="text-[10px] text-[#5b5a56] shrink-0 font-semibold">Meta Impact</span>
+                                    <span className="text-[10px] text-lol-dim shrink-0 font-semibold">Meta Impact</span>
                                     <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(10,203,230,0.12)' }}>
                                       <motion.div className="h-full rounded-full" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.4), #0acbe6)', boxShadow: '0 0 6px rgba(10,203,230,0.3)' }} initial={{ width: 0 }} animate={{ width: `${metaImpact}%` }} transition={{ duration: 0.8, delay: i * 0.1 }} />
                                     </div>
-                                    <span className="text-[10px] font-mono font-bold text-[#0acbe6] shrink-0">{metaImpact.toFixed(0)}%</span>
+                                    <span className="text-[10px] font-mono font-bold text-lol-success shrink-0">{metaImpact.toFixed(0)}%</span>
                                   </div>
                                   <div className="flex items-center gap-2 mt-2">
-                                    <span className="text-[10px] text-[#5b5a56] shrink-0">Confianza</span>
+                                    <span className="text-[10px] text-lol-dim shrink-0">Confianza</span>
                                     <Progress value={insight.confidence * 100} className="h-1.5 flex-1" />
-                                    <span className="text-[10px] font-mono text-[#c8aa6e] shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
+                                    <span className="text-[10px] font-mono text-lol-gold shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
                                   </div>
                                 </div>
                               </div>
@@ -1087,7 +1087,7 @@ export function PatchesMetaTab({
               </div>
             )}
             {!loading && metaInsights.length === 0 && (
-              <div className="text-center py-12 text-[#5b5a56]">
+              <div className="text-center py-12 text-lol-dim">
                 <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-20" />
                 <p className="text-sm">No hay insights disponibles para este filtro</p>
               </div>

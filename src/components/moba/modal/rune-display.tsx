@@ -150,17 +150,17 @@ export function EnhancedRunesDisplay({ champion, metaBuild }: { champion: Champi
           <>
             <div className="flex items-center gap-2.5">
               <RuneIcon runeName={champion.runes.primary} size={20} />
-              <span className="text-[11px] text-[#a09b8c]">{champion.runes.primary}</span>
+              <span className="text-[11px] text-lol-muted">{champion.runes.primary}</span>
             </div>
             <div className="flex items-center gap-2.5">
               <RuneIcon runeName={champion.runes.secondary} size={20} />
-              <span className="text-[11px] text-[#a09b8c]">{champion.runes.secondary}</span>
+              <span className="text-[11px] text-lol-muted">{champion.runes.secondary}</span>
             </div>
             <div className="flex items-center gap-2.5">
               <div className="w-5 h-5 rounded shrink-0 flex items-center justify-center" style={{ background: 'rgba(240,198,70,0.15)', border: '1px solid rgba(240,198,70,0.3)' }}>
-                <span className="text-[10px] text-[#f0c646] font-bold">F</span>
+                <span className="text-[10px] text-lol-warning font-bold">F</span>
               </div>
-              <span className="text-[11px] text-[#a09b8c]">{champion.runes.shards}</span>
+              <span className="text-[11px] text-lol-muted">{champion.runes.shards}</span>
             </div>
           </>
         )}
@@ -188,14 +188,14 @@ export function EnhancedRunesDisplay({ champion, metaBuild }: { champion: Champi
           {/* Keystone — larger, highlighted */}
           <div className="flex items-center gap-2 px-2 py-1.5 rounded-md" style={{ background: `${primaryColor}12`, border: `1px solid ${primaryColor}30` }}>
             <RuneIcon runeName={runePage.keystone} size={24} />
-            <span className="text-[11px] font-semibold text-[#f0e6d2]">{runePage.keystone}</span>
+            <span className="text-[11px] font-semibold text-lol-text">{runePage.keystone}</span>
             <span className="text-[10px] px-1 py-0.5 rounded ml-auto" style={{ background: `${primaryColor}20`, color: primaryColor }}>Keystone</span>
           </div>
           {/* Primary runes */}
           {runePage.primaryRunes.map((rune, i) => (
             <div key={i} className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/[0.02] transition-colors">
               <RuneIcon runeName={rune} size={18} />
-              <span className="text-[10px] text-[#a09b8c]">{rune}</span>
+              <span className="text-[10px] text-lol-muted">{rune}</span>
             </div>
           ))}
         </div>
@@ -214,7 +214,7 @@ export function EnhancedRunesDisplay({ champion, metaBuild }: { champion: Champi
           {runePage.secondaryRunes.map((rune, i) => (
             <div key={i} className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/[0.02] transition-colors">
               <RuneIcon runeName={rune} size={18} />
-              <span className="text-[10px] text-[#a09b8c]">{rune}</span>
+              <span className="text-[10px] text-lol-muted">{rune}</span>
             </div>
           ))}
         </div>
@@ -225,13 +225,13 @@ export function EnhancedRunesDisplay({ champion, metaBuild }: { champion: Champi
         <div className="rounded-lg p-3" style={{ background: 'rgba(240,198,70,0.04)', border: '1px solid rgba(240,198,70,0.15)' }}>
           <div className="flex items-center gap-2 mb-2">
             <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: 'rgba(240,198,70,0.15)', border: '1px solid rgba(240,198,70,0.3)' }}>
-              <span className="text-[10px] text-[#f0c646] font-bold">F</span>
+              <span className="text-[10px] text-lol-warning font-bold">F</span>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#f0c646]">Fragmentos</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-lol-warning">Fragmentos</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             {runePage.shards.map((shard, i) => (
-              <span key={i} className="text-[10px] px-2 py-1 rounded-md text-[#a09b8c]" style={{ background: 'rgba(240,198,70,0.08)', border: '1px solid rgba(240,198,70,0.15)' }}>
+              <span key={i} className="text-[10px] px-2 py-1 rounded-md text-lol-muted" style={{ background: 'rgba(240,198,70,0.08)', border: '1px solid rgba(240,198,70,0.15)' }}>
                 {shard}
               </span>
             ))}

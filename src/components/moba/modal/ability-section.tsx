@@ -34,8 +34,8 @@ export function AbilitySection({ champion }: { champion: Champion }) {
   return (
     <div className="rounded-xl p-4" style={{ background: 'linear-gradient(135deg, rgba(10,203,230,0.06), rgba(10,203,230,0.02))', border: '1px solid rgba(10,203,230,0.15)' }}>
       <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="w-4 h-4 text-[#0acbe6]" />
-        <span className="text-[10px] font-semibold text-[#0acbe6] uppercase tracking-wider">Habilidades</span>
+        <Sparkles className="w-4 h-4 text-lol-success" />
+        <span className="text-[10px] font-semibold text-lol-success uppercase tracking-wider">Habilidades</span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {(['Q', 'W', 'E', 'R'] as const).map(skill => {
@@ -54,9 +54,9 @@ export function AbilitySection({ champion }: { champion: Champion }) {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-black" style={{ color: skillColor }}>{skill}</span>
-                  <span className="text-xs font-semibold text-[#f0e6d2]">{getAbilityName(champion.name, skill)}</span>
+                  <span className="text-xs font-semibold text-lol-text">{getAbilityName(champion.name, skill)}</span>
                 </div>
-                <p className="text-xs text-[#a09b8c] leading-relaxed">
+                <p className="text-xs text-lol-muted leading-relaxed">
                   {getAbilityDescription(champion, skill)}
                 </p>
               </div>

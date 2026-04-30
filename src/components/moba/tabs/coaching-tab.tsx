@@ -37,9 +37,9 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
   if (selectedGame === 'wildrift') {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <GraduationCap className="w-16 h-16 text-[#785a28] mb-4 opacity-30" />
-        <h2 className="text-lg font-bold text-[#f0e6d2] mb-2">Coaching para Wild Rift</h2>
-        <p className="text-sm text-[#5b5a56] max-w-md">Proximamente: guías de mecánicas, warding y macro adaptadas a Wild Rift.</p>
+        <GraduationCap className="w-16 h-16 text-lol-gold-dark mb-4 opacity-30" />
+        <h2 className="text-lg font-bold text-lol-text mb-2">Coaching para Wild Rift</h2>
+        <p className="text-sm text-lol-dim max-w-md">Proximamente: guías de mecánicas, warding y macro adaptadas a Wild Rift.</p>
       </div>
     );
   }
@@ -56,14 +56,14 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl flex items-center justify-center relative overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(200,170,110,0.2), rgba(200,170,110,0.05))', border: '1.5px solid rgba(200,170,110,0.3)', boxShadow: '0 0 16px rgba(200,170,110,0.15)' }}>
-          <GraduationCap className="w-5 h-5 text-[#c8aa6e]" />
+          <GraduationCap className="w-5 h-5 text-lol-gold" />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold text-[#f0e6d2] lol-title">Entrenador MOBA</h2>
+            <h2 className="text-lg font-bold text-lol-text lol-title">Entrenador MOBA</h2>
             <span className="text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(200,170,110,0.12)', color: '#c8aa6e', border: '1px solid rgba(200,170,110,0.3)' }}>IA</span>
           </div>
-          <p className="text-xs text-[#5b5a56]">Mecánicas, visión, errores comunes y más para mejorar tu juego</p>
+          <p className="text-xs text-lol-dim">Mecánicas, visión, errores comunes y más para mejorar tu juego</p>
         </div>
       </div>
 
@@ -85,9 +85,9 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
               <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: isOpen ? 'rgba(200,170,110,0.15)' : 'rgba(200,170,110,0.06)', border: '1px solid ' + (isOpen ? 'rgba(200,170,110,0.3)' : 'rgba(120,90,40,0.15)') }}>
                 {section.icon}
               </div>
-              <span className="text-sm font-semibold text-[#f0e6d2] flex-1 text-left">{section.label}</span>
+              <span className="text-sm font-semibold text-lol-text flex-1 text-left">{section.label}</span>
               {'count' in section && <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(120,90,40,0.1)', color: '#785a28' }}>{section.count}</span>}
-              {isOpen ? <ChevronUp className="w-4 h-4 text-[#c8aa6e]" /> : <ChevronDown className="w-4 h-4 text-[#5b5a56]" />}
+              {isOpen ? <ChevronUp className="w-4 h-4 text-lol-gold" /> : <ChevronDown className="w-4 h-4 text-lol-dim" />}
             </button>
 
             <AnimatePresence>
@@ -115,9 +115,9 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                               }}
                             >
                               <div style={{ color: isCatOpen ? cat.color : '#a09b8c' }}>{cat.icon}</div>
-                              <span className="text-xs font-semibold text-[#f0e6d2] flex-1 text-left">{cat.label}</span>
-                              <span className="text-[10px] text-[#5b5a56]">{cat.tips.length} tips</span>
-                              {isCatOpen ? <ChevronUp className="w-3 h-3" style={{ color: cat.color }} /> : <ChevronDown className="w-3 h-3 text-[#5b5a56]" />}
+                              <span className="text-xs font-semibold text-lol-text flex-1 text-left">{cat.label}</span>
+                              <span className="text-[10px] text-lol-dim">{cat.tips.length} tips</span>
+                              {isCatOpen ? <ChevronUp className="w-3 h-3" style={{ color: cat.color }} /> : <ChevronDown className="w-3 h-3 text-lol-dim" />}
                             </button>
 
                             <AnimatePresence>
@@ -141,9 +141,9 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                                     >
                                       <div className="flex items-center gap-2 mb-1.5">
                                         {tip.icon}
-                                        <h4 className="text-xs font-semibold text-[#f0e6d2]">{tip.title}</h4>
+                                        <h4 className="text-xs font-semibold text-lol-text">{tip.title}</h4>
                                       </div>
-                                      <p className="text-[11px] text-[#a09b8c] leading-relaxed">{tip.description}</p>
+                                      <p className="text-[11px] text-lol-muted leading-relaxed">{tip.description}</p>
                                     </motion.div>
                                   ))}
                                 </motion.div>
@@ -170,9 +170,9 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                         <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${tip.color}15`, border: '1px solid ' + `${tip.color}25` }}>
                           <div style={{ color: tip.color }}>{tip.icon}</div>
                         </div>
-                        <h3 className="text-sm font-semibold text-[#f0e6d2]">{tip.title}</h3>
+                        <h3 className="text-sm font-semibold text-lol-text">{tip.title}</h3>
                       </div>
-                      <p className="text-xs text-[#a09b8c] leading-relaxed">{tip.description}</p>
+                      <p className="text-xs text-lol-muted leading-relaxed">{tip.description}</p>
                     </motion.div>
                     );
                   })}
@@ -189,9 +189,9 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                         }}
                       >
                         <div style={{ color: openRoleCategory === `role-${roleSection.role}` ? roleSection.color : '#a09b8c' }}>{roleSection.icon}</div>
-                        <span className="text-xs font-semibold text-[#f0e6d2] flex-1 text-left">{roleSection.role}</span>
-                        <span className="text-[10px] text-[#5b5a56]">{roleSection.tips.length} tips</span>
-                        {openRoleCategory === `role-${roleSection.role}` ? <ChevronUp className="w-3 h-3" style={{ color: roleSection.color }} /> : <ChevronDown className="w-3 h-3 text-[#5b5a56]" />}
+                        <span className="text-xs font-semibold text-lol-text flex-1 text-left">{roleSection.role}</span>
+                        <span className="text-[10px] text-lol-dim">{roleSection.tips.length} tips</span>
+                        {openRoleCategory === `role-${roleSection.role}` ? <ChevronUp className="w-3 h-3" style={{ color: roleSection.color }} /> : <ChevronDown className="w-3 h-3 text-lol-dim" />}
                       </button>
                       <AnimatePresence>
                         {openRoleCategory === `role-${roleSection.role}` && (
@@ -214,9 +214,9 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                               >
                                 <div className="flex items-center gap-2 mb-1.5">
                                   {tip.icon}
-                                  <h4 className="text-xs font-semibold text-[#f0e6d2]">{tip.title}</h4>
+                                  <h4 className="text-xs font-semibold text-lol-text">{tip.title}</h4>
                                 </div>
-                                <p className="text-[11px] text-[#a09b8c] leading-relaxed">{tip.description}</p>
+                                <p className="text-[11px] text-lol-muted leading-relaxed">{tip.description}</p>
                               </motion.div>
                             ))}
                           </motion.div>
@@ -234,7 +234,7 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                           {Object.entries(severityConfig).map(([key, cfg]) => (
                             <div key={key} className="flex items-center gap-1.5">
                               <div className="w-2 h-2 rounded-full" style={{ background: cfg.color }} />
-                              <span className="text-[10px] text-[#5b5a56]">{cfg.label}</span>
+                              <span className="text-[10px] text-lol-dim">{cfg.label}</span>
                             </div>
                           ))}
                         </div>
@@ -244,10 +244,10 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                             <div key={elo} className="mb-3">
                               <div className="flex items-center gap-2 mb-2 px-1">
                                 <div className="w-5 h-5 rounded-md flex items-center justify-center" style={{ background: eloCfg.gradient, boxShadow: `0 0 8px ${eloCfg.text}30` }}>
-                                  <span className="text-[10px] font-black text-[#0a0e1a]">{elo.charAt(0)}</span>
+                                  <span className="text-[10px] font-black text-lol-bg">{elo.charAt(0)}</span>
                                 </div>
                                 <span className="text-xs font-bold" style={{ color: eloCfg.text }}>{elo}</span>
-                                <span className="text-[10px] text-[#5b5a56]">{errs.length} error{errs.length > 1 ? 'es' : ''}</span>
+                                <span className="text-[10px] text-lol-dim">{errs.length} error{errs.length > 1 ? 'es' : ''}</span>
                               </div>
                               <div className="space-y-1.5">
                                 {errs.map((err, i) => {
@@ -263,12 +263,12 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                                     >
                                       <div className="flex items-center gap-2 mb-1.5">
                                         <div style={{ color: sev.color }}>{sev.icon}</div>
-                                        <h4 className="text-xs font-semibold text-[#f0e6d2] flex-1">{err.title}</h4>
+                                        <h4 className="text-xs font-semibold text-lol-text flex-1">{err.title}</h4>
                                         <span className="text-[10px] px-1.5 py-0.5 rounded font-semibold" style={{ background: `${sev.color}15`, color: sev.color, border: `1px solid ${sev.color}30` }}>
                                           {sev.label}
                                         </span>
                                       </div>
-                                      <p className="text-[11px] text-[#a09b8c] leading-relaxed">{err.description}</p>
+                                      <p className="text-[11px] text-lol-muted leading-relaxed">{err.description}</p>
                                     </motion.div>
                                   );
                                 })}
