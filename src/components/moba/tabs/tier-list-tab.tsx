@@ -351,14 +351,14 @@ export function TierListTab({
           </button>
         </div>
 
-        {/* Role filter — Bigger buttons */}
+        {/* Role filter — responsive pills, 44px min touch target */}
         <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {ROLES.map(role => (
             <button
               key={role}
               onClick={() => onRoleFilterChange(role)}
               className={`
-                px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
+                px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 min-h-[44px]
                 ${roleFilter === role
                   ? 'bg-lol-gold/15 text-lol-gold border border-lol-gold/30 shadow-[0_0_12px_rgba(200,170,110,0.1)]'
                   : 'text-lol-muted hover:text-lol-text hover:bg-lol-card/60 border border-lol-gold-dark/15'
@@ -373,7 +373,7 @@ export function TierListTab({
           <button
             onClick={() => onRoleFilterChange(roleFilter === '★' ? 'Todos' : '★')}
             className={`
-              px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
+              px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 min-h-[44px]
               ${roleFilter === '★'
                 ? 'bg-lol-warning/15 text-lol-warning border border-lol-warning/30'
                 : 'text-lol-muted hover:text-lol-warning hover:bg-lol-card/60 border border-lol-gold-dark/15'

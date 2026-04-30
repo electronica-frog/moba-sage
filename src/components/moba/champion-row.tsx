@@ -133,7 +133,7 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
       {onToggleFavorite && (
         <button
           onClick={(e) => { e.stopPropagation(); onToggleFavorite(e); }}
-          className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity p-1"
+          className="shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity min-w-[44px] min-h-[44px] flex items-center justify-center"
           title={isFavorite ? 'Quitar favorito' : 'Marcar favorito'}
           aria-label={isFavorite ? `Quitar ${champion.name} de favoritos` : `Marcar ${champion.name} como favorito`}
           aria-pressed={isFavorite}

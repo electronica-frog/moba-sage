@@ -671,4 +671,12 @@ img, video, svg {
   }
 }
 
+/* ===== APP-LIKE INTERACTIVE ELEMENTS ===== */
+/* Prevent text selection on interactive elements for a native-app feel */
+button, nav a, [role="tab"], [role="option"], [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 
