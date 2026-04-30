@@ -121,22 +121,27 @@ export function LoadingScreen({ onSkip, dataReady = false, fetchError = false, d
   const [version, setVersion] = useState<VersionInfo | null>(null);
   const [mountedAt] = useState(() => Date.now());
   const [tipIdx, setTipIdx] = useState(0);
-  const [, setTick] = useState(0);
+  // Current time (updates every second for live clock display)
+  const [now, setNow] = useState(() => Date.now());
 
   // Fetch version data
   useEffect(() => {
     fetch('/api/version').then(r => r.json()).then(d => setVersion(d)).catch(() => {});
   }, []);
 
-  // Tick timer — drives time-based animations + tip rotation (re-render every 50ms)
+  // Tip rotation — one render per 3.5s (was 20/s before)
   useEffect(() => {
     const iv = setInterval(() => {
-      setTick(t => t + 1);
-      const ms = Date.now() - mountedAt;
-      setTipIdx(Math.floor(ms / 3500) % TIPS.length);
-    }, 50);
+      setTipIdx(prev => (prev + 1) % TIPS.length);
+    }, 3500);
     return () => clearInterval(iv);
-  }, [mountedAt]);
+  }, []);
+
+  // Time updater — 1 tick/sec for live elapsed time & timeAgo (was 50ms)
+  useEffect(() => {
+    const iv = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(iv);
+  }, []);
 
   // Keyboard: Enter / Escape to skip
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -169,8 +174,8 @@ export function LoadingScreen({ onSkip, dataReady = false, fetchError = false, d
     { id: 'patches',   name: 'Patch Notes',           icon: <Zap className="w-3.5 h-3.5" />,       color: '#785a28', num: dataStats?.patches ?? 0,         label: 'analizados',    appearAt: 1300, doneAt: 2000 },
   ];
 
-  // ---- Derived state (recalculated every tick) ----
-  const ms = Date.now() - mountedAt;
+  // ---- Derived state (recalculated every render) ----
+  const ms = now - mountedAt;
   const progress = dataReady ? 100 : Math.min(100, (ms / 2000) * 100);
 
   const sourceStates = sources.map(s => {
@@ -188,7 +193,7 @@ export function LoadingScreen({ onSkip, dataReady = false, fetchError = false, d
   // ---- Freshness calculation ----
   const freshness = (() => {
     if (!version?.fetchedAt) return { pct: 0, label: 'Cargando...', color: '#5b5a56' };
-    const hours = (Date.now() - new Date(version.fetchedAt).getTime()) / 3600000;
+    const hours = (now - new Date(version.fetchedAt).getTime()) / 3600000;
     if (hours < 0.5) return { pct: 100, label: 'Ultra fresco', color: '#0fba81' };
     if (hours < 2)   return { pct: 82,  label: 'Fresco',     color: '#0fba81' };
     if (hours < 6)   return { pct: 55,  label: 'Aceptable',  color: '#f0c646' };

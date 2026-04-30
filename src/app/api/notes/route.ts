@@ -133,7 +133,7 @@ export async function GET() {
       storage: source,
     });
   } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }
 
@@ -194,7 +194,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ note: newNote, count: store.data.notes.length, storage: token ? 'github' : 'memory' });
   } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }
 
@@ -202,9 +202,12 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     // Auth check: require NOTES_ADMIN_SECRET header or query param
-    const adminSecret = process.env.NOTES_ADMIN_SECRET || '';
+    const adminSecret = process.env.NOTES_ADMIN_SECRET;
+    if (!adminSecret) {
+      return NextResponse.json({ error: 'Función no disponible' }, { status: 503 });
+    }
     const providedSecret = request.headers.get('x-admin-secret') || new URL(request.url).searchParams.get('secret') || '';
-    if (adminSecret && providedSecret !== adminSecret) {
+    if (providedSecret !== adminSecret) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
     }
 
@@ -229,6 +232,6 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ deleted: id, count: store.data.notes.length, storage: token ? 'github' : 'memory' });
   } catch (error) {
-    return NextResponse.json({ error: String(error) }, { status: 500 });
+    return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
   }
 }

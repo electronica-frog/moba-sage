@@ -54,6 +54,10 @@ export function ChampionCard({
       whileHover={{ scale: 1.04, y: -4 }}
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`Ver detalles de ${name} — Tier ${tier} — ${winRate}% WR`}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(); } }}
       className={`
         ${sc.w} ${sc.h} relative rounded-xl overflow-hidden cursor-pointer
         transition-shadow duration-300 group

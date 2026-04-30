@@ -16,7 +16,6 @@ interface Note {
 export function FloatingNotes() {
   const [isOpen, setIsOpen] = useState(false);
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading] = useState(false);
   const [authorName, setAuthorName] = useState('');
   const [newNote, setNewNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -218,7 +217,7 @@ export function FloatingNotes() {
               <div className="overflow-y-auto" style={{ maxHeight: 'calc(70vh - 160px)' }}>
                 {/* Notes list */}
                 <div className="p-3 space-y-2">
-                  {notes.length === 0 && !loading && (
+                  {notes.length === 0 && (
                     <div className="text-center py-8">
                       <Sparkles className="w-10 h-10 mx-auto mb-2 text-lol-gold/30" />
                       <p className="text-xs text-lol-muted">Sin notas todavia</p>

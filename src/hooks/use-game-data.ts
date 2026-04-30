@@ -14,6 +14,14 @@ interface LiveVersions {
   metaLastUpdated: string;
 }
 
+interface VersionData {
+  lol: string;
+  wr: string;
+  gamePatch: string;
+  metaLastUpdated: string;
+  fetchedAt?: string;
+}
+
 const MONTHS_ES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
 // Shared safeJson fetcher
@@ -27,6 +35,19 @@ const safeJson = async <T,>(url: string): Promise<T | null> => {
     return null;
   }
 };
+
+// Deduplicated fetch-all helper — single source of truth for endpoints
+async function fetchAllEndpoints() {
+  return Promise.all([
+    safeJson<Champion[]>('/api/champions'),
+    safeJson<PatchNote[]>('/api/patches'),
+    safeJson<AiInsight[]>('/api/insights'),
+    safeJson<TaskItem[]>('/api/tasks'),
+    safeJson<ProPick[]>('/api/pro-picks'),
+    safeJson<BrokenCombo[]>('/api/combos'),
+    safeJson<VersionData | null>('/api/version'),
+  ]) as Promise<[Champion[] | null, PatchNote[] | null, AiInsight[] | null, TaskItem[] | null, ProPick[] | null, BrokenCombo[] | null, VersionData | null]>;
+}
 
 export function useGameData() {
   const [champions, setChampions] = useState<Champion[]>([]);
@@ -43,7 +64,7 @@ export function useGameData() {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Process version data (shared between initial fetch and silent refresh)
-  const processVersionData = useCallback((versionData: { lol?: string; wr?: string; gamePatch?: string; metaLastUpdated?: string; fetchedAt?: string } | null) => {
+  const processVersionData = useCallback((versionData: VersionData | null) => {
     if (versionData?.lol) {
       const fullVer = versionData.lol;
       setLiveVersions({
@@ -64,39 +85,35 @@ export function useGameData() {
     }
   }, []);
 
+  // Apply fetched data to state (shared between initial fetch and silent refresh)
+  const applyData = useCallback((data: Awaited<ReturnType<typeof fetchAllEndpoints>>) => {
+    const [champsData, patchesData, insightsData, tasksData, proData, combosData, versionData] = data;
+    if (champsData) setChampions(champsData);
+    if (patchesData) setPatches(patchesData);
+    if (insightsData) setInsights(insightsData);
+    if (tasksData) setTasks(tasksData);
+    if (proData) setProPicks(proData);
+    if (combosData) setCombos(combosData);
+    processVersionData(versionData);
+    // Return whether ALL endpoints failed
+    return !champsData && !patchesData && !insightsData && !tasksData && !proData && !combosData && !versionData;
+  }, [processVersionData]);
+
   // Initial data fetch (with loading overlay)
   const fetchData = useCallback(async () => {
     setLoading(true);
     setFetchError(false);
     try {
-      const [champsData, patchesData, insightsData, tasksData, proData, combosData, versionData] = await Promise.all<Promise<unknown>>([
-        safeJson('/api/champions'),
-        safeJson('/api/patches'),
-        safeJson('/api/insights'),
-        safeJson('/api/tasks'),
-        safeJson('/api/pro-picks'),
-        safeJson('/api/combos'),
-        safeJson('/api/version'),
-      ]) as [Champion[], PatchNote[], AiInsight[], TaskItem[], ProPick[], BrokenCombo[], { lol: string; wr: string; gamePatch: string; metaLastUpdated: string; fetchedAt?: string } | null];
-
-      if (champsData) setChampions(champsData as Champion[]);
-      if (patchesData) setPatches(patchesData as PatchNote[]);
-      if (insightsData) setInsights(insightsData as AiInsight[]);
-      if (tasksData) setTasks(tasksData as TaskItem[]);
-      if (proData) setProPicks(proData as ProPick[]);
-      if (combosData) setCombos(combosData as BrokenCombo[]);
-      processVersionData(versionData);
-
-      if (!champsData && !patchesData && !insightsData && !tasksData && !proData && !combosData && !versionData) {
-        setFetchError(true);
-      }
+      const data = await fetchAllEndpoints();
+      const allFailed = applyData(data);
+      if (allFailed) setFetchError(true);
     } catch (err) {
       console.error('Unexpected error in fetchData:', err);
       setFetchError(true);
     } finally {
       setLoading(false);
     }
-  }, [processVersionData]);
+  }, [applyData]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -105,29 +122,13 @@ export function useGameData() {
     setIsRefreshing(true);
     setFetchError(false);
     try {
-      const [champsData, patchesData, insightsData, tasksData, proData, combosData, versionData] = await Promise.all<Promise<unknown>>([
-        safeJson('/api/champions'),
-        safeJson('/api/patches'),
-        safeJson('/api/insights'),
-        safeJson('/api/tasks'),
-        safeJson('/api/pro-picks'),
-        safeJson('/api/combos'),
-        safeJson('/api/version'),
-      ]) as [Champion[], PatchNote[], AiInsight[], TaskItem[], ProPick[], BrokenCombo[], { lol: string; wr: string; gamePatch: string; metaLastUpdated: string; fetchedAt?: string } | null];
-
-      if (champsData) setChampions(champsData as Champion[]);
-      if (patchesData) setPatches(patchesData as PatchNote[]);
-      if (insightsData) setInsights(insightsData as AiInsight[]);
-      if (tasksData) setTasks(tasksData as TaskItem[]);
-      if (proData) setProPicks(proData as ProPick[]);
-      if (combosData) setCombos(combosData as BrokenCombo[]);
-      processVersionData(versionData);
+      await fetchAllEndpoints().then(applyData);
     } catch (err) {
       console.error('Silent refresh error:', err);
     } finally {
       setIsRefreshing(false);
     }
-  }, [processVersionData]);
+  }, [applyData]);
 
   return {
     champions, patches, insights, tasks, proPicks, combos,

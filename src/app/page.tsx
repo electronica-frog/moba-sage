@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Brain, Search, ArrowUp } from 'lucide-react';
 import { ChampionIcon } from '@/components/moba/champion-icon';
@@ -47,14 +47,13 @@ export default function Home() {
 
   // Safety fallback: auto-dismiss loading after 10s
   useEffect(() => {
+    if (!showLoading) return;
     const timer = setTimeout(() => {
-      if (showLoading) {
-        setAppReady(true);
-        setShowLoading(false);
-      }
+      setAppReady(true);
+      setShowLoading(false);
     }, 10000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showLoading]);
 
   const handleSkipLoading = useCallback(() => {
     setAppReady(true);
@@ -161,8 +160,8 @@ export default function Home() {
     }
   };
 
-  // ---- Build context value ----
-  const contextValue = {
+  // ---- Build context value (memoized — prevents unnecessary re-renders in all consumers) ----
+  const contextValue = useMemo(() => ({
     activeTab, selectedGame,
     champions, patches, insights, tasks, combos, proPicks,
     loading, fetchError,
@@ -181,7 +180,12 @@ export default function Home() {
     fetchData,
     handleToggleTask,
     onRetryFetch: () => { fetchError && fetchData(); },
-  };
+  }), [
+    activeTab, selectedGame, champions, patches, insights, tasks, combos, proPicks,
+    loading, fetchError, searchQuery, roleFilter, proRegionFilter, favorites,
+    summonerName, summonerRegion, summonerData, summonerLoading, summonerError,
+    liveVersions, toggleFavorite, handleToggleChampion, handleSearchSummoner, fetchData, fetchError,
+  ]);
 
   // ============ RENDER ============
   return (
