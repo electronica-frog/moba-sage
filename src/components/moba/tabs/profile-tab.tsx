@@ -129,6 +129,7 @@ export function ProfileTab({
       </motion.div>
 
       {/* ===== Conecta tu Cuenta Card ===== */}
+      {!summonerData && (
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -166,11 +167,14 @@ export function ProfileTab({
           </div>
         </div>
       </motion.div>
+      )}
 
+      {!summonerData && (
       <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(200,170,110,0.08)', border: '1px solid rgba(200,170,110,0.15)' }}>
         <Sparkles className="w-4 h-4 text-[#c8aa6e] shrink-0" />
         <p className="text-xs text-[#a09b8c]">Modo Demo — Conecta tu API Key de Riot para datos reales</p>
       </div>
+      )}
 
       <div className="glass-card rounded-xl p-5 space-y-4">
         <div className="space-y-3">

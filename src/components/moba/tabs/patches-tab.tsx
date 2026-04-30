@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollText, Clock, Brain, ExternalLink, Filter, Gamepad2, Swords, Crosshair, Shield, TrendingUp, TrendingDown, Minus, ArrowUp, ArrowDown, Zap, Target, Compass } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { TinyChampionIcon, SmallChampionIcon } from '../champion-icon';
+import { TinyChampionIcon } from '../champion-icon';
 import type { PatchNote, GameSelection } from '../types';
 
 // ---- Local types for patches feed ----
@@ -73,7 +73,7 @@ function getLoLChampionHighlights(patch: { sourceGame: string; version: string; 
     // Generate placeholder highlights based on patch version hash
     const hash = patch.version.split('.').reduce((a, b) => a + parseInt(b || '0'), 0);
     const pool = championNames;
-    const shuffled = pool.sort(() => (hash % 7) - 3);
+    const shuffled = [...pool].sort(() => (hash % 7) - 3);
     for (let i = 0; i < Math.min(3, shuffled.length); i++) {
       const typeIdx = (hash + i) % 3;
       highlights.push({
@@ -459,7 +459,7 @@ export function PatchesTab({ patches, loading, selectedGame }: { patches: PatchN
                     <p className={`text-[10px] font-bold transition-colors duration-200 ${isSelected ? 'text-[#f0e6d2]' : 'text-[#5b5a56] group-hover:text-[#a09b8c]'}`}>
                       {patch.version}
                     </p>
-                    <p className="text-[8px] mt-0.5 transition-colors duration-200" style={{ color: isSelected ? gameStyle.color : '#785a2860' }}>
+                    <p className="text-[8px] mt-0.5 transition-colors duration-200" style={{ color: isSelected ? gameStyle.color : 'rgba(120,90,40,0.38)' }}>
                       {gameStyle.label}
                     </p>
                   </div>

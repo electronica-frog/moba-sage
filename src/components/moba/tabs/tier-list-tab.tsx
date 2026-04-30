@@ -2,15 +2,14 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, ExternalLink, Database, ChevronDown, ArrowUpDown, Crown, Trophy } from 'lucide-react';
+import { Search, Filter, Star, LayoutGrid, List, TrendingUp, BarChart3, X, RefreshCw, ArrowUpCircle, ArrowDownCircle, Clock, Database, ArrowUpDown, Crown, Trophy } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
-import { ChampionIcon, SplashArtIcon } from '../champion-icon';
+import { ChampionIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
 import { TierSection, TierSectionSkeleton } from '../tier-section';
 import { ROLE_CONFIG, TIER_CONFIG, TOURNAMENT_REGIONS } from '../constants';
-import { TinyChampionIcon } from '../champion-icon';
-import { ChampionCard } from '../champion-card';
+
 import { ItemIcon } from '../item-icon';
 import { parseBuildItems, getChampionImageUrl, getChampionSplashUrl } from '../helpers';
 import { WeeklyWRChart } from '../weekly-wr-chart';

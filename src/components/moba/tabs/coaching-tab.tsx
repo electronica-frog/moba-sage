@@ -200,9 +200,11 @@ function groupErrorsByElo(errors: ErrorEntry[]): Record<string, ErrorEntry[]> {
 // ============ COMPONENT ============
 export function CoachingTab({ selectedGame }: { selectedGame: string }) {
   const [openCategory, setOpenCategory] = useState<string | null>('fase-de-linea');
+  const [openRoleCategory, setOpenRoleCategory] = useState<string | null>(null);
   const [openSection, setOpenSection] = useState<string | null>('mecanicas');
 
   const toggleCategory = (id: string) => setOpenCategory(prev => prev === id ? null : id);
+  const toggleRoleCategory = (id: string) => setOpenRoleCategory(prev => prev === id ? null : id);
   const toggleSection = (id: string) => setOpenSection(prev => prev === id ? null : id);
 
   if (selectedGame === 'wildrift') {
@@ -216,7 +218,7 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
   }
 
   const topSections = [
-    { id: 'mecanicas', label: 'Mecánicas Fundamentales', icon: <Swords className="w-4 h-4" />, count: 10, color: '#e84057' },
+    { id: 'mecanicas', label: 'Mecánicas Fundamentales', icon: <Swords className="w-4 h-4" />, count: 12, color: '#e84057' },
     { id: 'warding', label: 'Warding por Rol', icon: <Eye className="w-4 h-4" />, count: 5, color: '#0acbe6' },
     { id: 'roleTips', label: 'Tips por Rol', icon: <Target className="w-4 h-4" />, count: 15, color: '#c8aa6e' },
     { id: 'errores', label: 'Errores a Evitar', icon: <AlertOctagon className="w-4 h-4" />, count: 10, color: '#f0c646' },
@@ -352,20 +354,20 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                   {section.id === 'roleTips' && roleTipsData.map((roleSection, ri) => (
                     <div key={roleSection.role}>
                       <button
-                        onClick={() => toggleCategory(`role-${roleSection.role}`)}
+                        onClick={() => toggleRoleCategory(`role-${roleSection.role}`)}
                         className="w-full flex items-center gap-2 p-2.5 rounded-lg transition-all cursor-pointer"
                         style={{
-                          background: openCategory === `role-${roleSection.role}` ? `${roleSection.color}10` : 'rgba(20,25,32,0.5)',
-                          border: `1px solid ${openCategory === `role-${roleSection.role}` ? `${roleSection.color}30` : 'rgba(120,90,40,0.1)'}`,
+                          background: openRoleCategory === `role-${roleSection.role}` ? `${roleSection.color}10` : 'rgba(20,25,32,0.5)',
+                          border: `1px solid ${openRoleCategory === `role-${roleSection.role}` ? `${roleSection.color}30` : 'rgba(120,90,40,0.1)'}`,
                         }}
                       >
-                        <div style={{ color: openCategory === `role-${roleSection.role}` ? roleSection.color : '#a09b8c' }}>{roleSection.icon}</div>
+                        <div style={{ color: openRoleCategory === `role-${roleSection.role}` ? roleSection.color : '#a09b8c' }}>{roleSection.icon}</div>
                         <span className="text-xs font-semibold text-[#f0e6d2] flex-1 text-left">{roleSection.role}</span>
                         <span className="text-[10px] text-[#5b5a56]">{roleSection.tips.length} tips</span>
-                        {openCategory === `role-${roleSection.role}` ? <ChevronUp className="w-3 h-3" style={{ color: roleSection.color }} /> : <ChevronDown className="w-3 h-3 text-[#5b5a56]" />}
+                        {openRoleCategory === `role-${roleSection.role}` ? <ChevronUp className="w-3 h-3" style={{ color: roleSection.color }} /> : <ChevronDown className="w-3 h-3 text-[#5b5a56]" />}
                       </button>
                       <AnimatePresence>
-                        {openCategory === `role-${roleSection.role}` && (
+                        {openRoleCategory === `role-${roleSection.role}` && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}

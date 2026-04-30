@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Crown, ChevronUp } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChampionIcon, SplashArtIcon } from '../champion-icon';
 import { RoleBadge, TournamentBadge } from '../badges';

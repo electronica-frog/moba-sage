@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Lightbulb, X, Send, Trash2, Plus, ChevronDown, Sparkles, MessageSquare } from 'lucide-react';
+import { Lightbulb, X, Send, Trash2, Sparkles, MessageSquare } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface Note {

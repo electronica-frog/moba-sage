@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sword, ArrowLeft, Bell, Menu, Rocket, Sparkles, AlertTriangle, Eye, Bug, Clock, X, ExternalLink, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { ThemeToggle } from './theme-toggle';
 import type { GameSelection } from './types';
 
 interface ActivityEntry {
@@ -190,7 +189,6 @@ export function AppHeader({
           )}
         </button>
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2 flex-wrap">
-          <ThemeToggle />
           {selectedGame === 'lol' && (
             <Badge variant="outline" className="lol-label text-[10px] border-[#c8aa6e]/30 text-[#c8aa6e] hidden sm:inline-flex">League of Legends</Badge>
           )}
@@ -355,7 +353,7 @@ export function AppHeader({
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.85, opacity: 0 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-                className="w-full max-w-md rounded-2xl overflow-hidden"
+                className="w-full max-w-md rounded-2xl overflow-hidden relative"
                 style={{
                   background: 'linear-gradient(180deg, rgba(30,35,40,0.98), rgba(10,14,26,0.98))',
                   border: `1.5px solid ${notifColor}40`,

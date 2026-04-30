@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Brain, Search, ArrowUp, RefreshCw, WifiOff } from 'lucide-react';
@@ -190,16 +190,20 @@ export default function Home() {
   const [lastUpdate, setLastUpdate] = useState('');
   const [isNewPatch, setIsNewPatch] = useState(false);
 
-  // Favorites (localStorage)
-  const [favorites, setFavorites] = useState<Set<number>>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('moba-sage-favorites');
-        return saved ? new Set(JSON.parse(saved)) : new Set<number>();
-      } catch { return new Set<number>(); }
-    }
-    return new Set<number>();
-  });
+  // Favorites (localStorage) — initialize empty to avoid hydration mismatch
+  const [favorites, setFavorites] = useState<Set<number>>(new Set<number>());
+  const [favoritesHydrated, setFavoritesHydrated] = useState(false);
+
+  // Hydrate favorites from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('moba-sage-favorites');
+      if (saved) {
+        setFavorites(new Set(JSON.parse(saved)));
+      }
+    } catch { /* ignore */ }
+    setFavoritesHydrated(true);
+  }, []);
 
   // Game transition flash
   const [flashColor, setFlashColor] = useState<string | null>(null);
@@ -355,10 +359,12 @@ export default function Home() {
     }
   }, [globalSearchOpen]);
 
-  // Filter champions by search query
-  const searchResults = globalSearchQuery.trim().length > 0
-    ? champions.filter(c => c.name.toLowerCase().includes(globalSearchQuery.toLowerCase())).slice(0, 8)
-    : champions.slice(0, 8);
+  // Filter champions by search query (memoized)
+  const searchResults = useMemo(() => {
+    return globalSearchQuery.trim().length > 0
+      ? champions.filter(c => c.name.toLowerCase().includes(globalSearchQuery.toLowerCase())).slice(0, 8)
+      : champions.slice(0, 8);
+  }, [globalSearchQuery, champions]);
 
   function handleSearchSelect(champ: typeof champions[0]) {
     setSelectedChampion(champ);
@@ -366,12 +372,12 @@ export default function Home() {
     setGlobalSearchQuery('');
   }
 
-  // Persist favorites
+  // Persist favorites (only after hydration to avoid overwriting on mount)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (favoritesHydrated) {
       localStorage.setItem('moba-sage-favorites', JSON.stringify([...favorites]));
     }
-  }, [favorites]);
+  }, [favorites, favoritesHydrated]);
 
   const toggleFavorite = (id: number) => {
     setFavorites(prev => {
@@ -427,7 +433,7 @@ export default function Home() {
 
   // ============ TASK STATUS TOGGLE ============
   const handleToggleTask = async (task: TaskItem) => {
-    const nextStatus = task.status === 'done' ? 'pending' : 'running';
+    const nextStatus = task.status === 'pending' ? 'running' : task.status === 'running' ? 'done' : 'pending';
     try {
       const res = await fetch('/api/tasks', {
         method: 'PUT',

@@ -84,7 +84,7 @@ export const SplashArtIcon = memo(function SplashArtIcon({ name }: { name: strin
         onError={() => setImgError(true)}
       />
     ) : (
-      <div className="w-full h-full flex items-center justify-center text-lg font-black" style={{ backgroundColor: 'rgba(200,170,110,0.15)', color: '#c8aa6e' }}>
+      <div className="w-full h-full flex items-center justify-center text-lg font-black relative" style={{ backgroundColor: 'rgba(200,170,110,0.15)', color: '#c8aa6e' }}>
         {name[0]}
       </div>
     )

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GitCompare, Search, X, ArrowRight, Sparkles, AlertTriangle, Crosshair, Users, ChevronDown, TrendingUp, Shield, Zap, Target, Star } from 'lucide-react';
+import { GitCompare, Search, X, Sparkles, AlertTriangle, Crosshair, Users } from 'lucide-react';
 import { ChampionIcon, TinyChampionIcon } from '../champion-icon';
 import { RoleBadge } from '../badges';
 import { TIER_CONFIG, ROLE_CONFIG } from '../constants';
@@ -251,7 +251,6 @@ function ChampionComparisonCard({ champion, side }: { champion: Champion; side: 
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${splashUrl})`, filter: 'brightness(0.5) contrast(1.1) saturate(1.2)' }}
-            onError={() => setImgError(true)}
           />
         ) : (
           <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${cfg.color}20, rgba(10,14,26,0.8))` }} />
