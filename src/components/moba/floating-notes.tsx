@@ -151,19 +151,18 @@ export function FloatingNotes() {
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div key="close" initial={{ rotate: -180, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 180, opacity: 0 }} transition={{ duration: 0.2 }}>
-              <X className="w-6 h-6 text-[#0a0e1a]" />
+              <X className="w-6 h-6 text-lol-bg" />
             </motion.div>
           ) : (
             <motion.div key="open" initial={{ rotate: 180, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -180, opacity: 0 }} transition={{ duration: 0.2 }}>
-              <Lightbulb className="w-6 h-6 text-[#0a0e1a]" fill="#0a0e1a" />
+              <Lightbulb className="w-6 h-6 text-lol-bg" fill="#0a0e1a" />
             </motion.div>
           )}
         </AnimatePresence>
         {/* Pulse indicator */}
         {!isOpen && notes.length > 0 && (
           <span
-            className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-[#0a0e1a]"
-            style={{ background: '#0fba81', border: '2px solid #0a0e1a' }}
+            className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-lol-bg bg-lol-green border-2 border-lol-bg"
           >
             {notes.length}
           </span>
@@ -202,19 +201,19 @@ export function FloatingNotes() {
               {/* Header */}
               <div className="px-4 py-3 flex items-center gap-3" style={{ borderBottom: '1px solid rgba(200, 170, 110, 0.15)', background: 'rgba(200, 170, 110, 0.05)' }}>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200, 170, 110, 0.15)', border: '1px solid rgba(200, 170, 110, 0.25)' }}>
-                  <Lightbulb className="w-4.5 h-4.5 text-[#c8aa6e]" />
+                  <Lightbulb className="w-4.5 h-4.5 text-lol-gold" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm font-bold text-[#f0e6d2] tracking-wide" style={{ fontFamily: 'Beaufort, sans-serif' }}>
+                  <h3 className="text-sm font-bold text-lol-text tracking-wide" style={{ fontFamily: 'Beaufort, sans-serif' }}>
                     COSAS PARA MEJORAR
                   </h3>
-                  <p className="text-[10px] text-[#a09b8c]">
+                  <p className="text-[10px] text-lol-muted">
                     {notes.length} notas · Compartí ideas con el team
                   </p>
                 </div>
                 <div className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-[#0fba81] animate-pulse" />
-                  <span className="text-[10px] text-[#0fba81]">Live</span>
+                  <span className="w-2 h-2 rounded-full bg-lol-green animate-pulse" />
+                  <span className="text-[10px] text-lol-green">Live</span>
                 </div>
               </div>
 
@@ -224,9 +223,9 @@ export function FloatingNotes() {
                 <div className="p-3 space-y-2">
                   {notes.length === 0 && !loading && (
                     <div className="text-center py-8">
-                      <Sparkles className="w-10 h-10 mx-auto mb-2 text-[#c8aa6e]/30" />
-                      <p className="text-xs text-[#a09b8c]">Sin notas todavia</p>
-                      <p className="text-[10px] text-[#5b5a56] mt-1">Agregá la primera idea para mejorar la app</p>
+                      <Sparkles className="w-10 h-10 mx-auto mb-2 text-lol-gold/30" />
+                      <p className="text-xs text-lol-muted">Sin notas todavia</p>
+                      <p className="text-[10px] text-lol-dim mt-1">Agregá la primera idea para mejorar la app</p>
                     </div>
                   )}
 
@@ -257,19 +256,19 @@ export function FloatingNotes() {
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-[11px] font-semibold text-[#f0e6d2]">{note.author}</span>
-                            <span className="text-[10px] text-[#5b5a56]">{formatTime(note.timestamp)}</span>
+                            <span className="text-[11px] font-semibold text-lol-text">{note.author}</span>
+                            <span className="text-[10px] text-lol-dim">{formatTime(note.timestamp)}</span>
                           </div>
-                          <p className="text-[12px] text-[#a09b8c] leading-relaxed">{note.content}</p>
+                          <p className="text-[12px] text-lol-muted leading-relaxed">{note.content}</p>
                         </div>
                         {/* Delete */}
                         <button
                           onClick={() => handleDelete(note.id)}
-                          className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg flex items-center justify-center hover:bg-[#e84057]/20 transition-all shrink-0 cursor-pointer"
+                          className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg flex items-center justify-center hover:bg-lol-danger/20 transition-all shrink-0 cursor-pointer"
                           title="Eliminar nota"
                           aria-label="Eliminar nota"
                         >
-                          <Trash2 className="w-3.5 h-3.5 text-[#e84057]/60 hover:text-[#e84057]" />
+                          <Trash2 className="w-3.5 h-3.5 text-lol-danger/60 hover:text-lol-danger" />
                         </button>
                       </div>
                     </motion.div>
@@ -286,7 +285,7 @@ export function FloatingNotes() {
                       placeholder="Tu nombre (se guarda)"
                       value={authorName}
                       onChange={e => setAuthorName(e.target.value)}
-                      className="h-8 text-xs bg-[#1e2328]/80 border-[#785a28]/30 text-[#f0e6d2] placeholder:text-[#5b5a56] rounded-lg"
+                      className="h-8 text-xs bg-lol-card/80 border-lol-gold-dark/30 text-lol-text placeholder:text-lol-dim rounded-lg"
                       maxLength={30}
                     />
                   </div>
@@ -304,7 +303,7 @@ export function FloatingNotes() {
                         handleSubmit();
                       }
                     }}
-                    className="flex-1 min-h-[38px] max-h-[100px] px-3 py-2 text-xs rounded-lg resize-none bg-[#1e2328]/80 border border-[#785a28]/30 text-[#f0e6d2] placeholder:text-[#5b5a56] focus:outline-none focus:border-[#c8aa6e]/50 focus:ring-1 focus:ring-[#c8aa6e]/20 transition-colors"
+                    className="flex-1 min-h-[38px] max-h-[100px] px-3 py-2 text-xs rounded-lg resize-none bg-lol-card/80 border border-lol-gold-dark/30 text-lol-text placeholder:text-lol-dim focus:outline-none focus:border-lol-gold/50 focus:ring-1 focus:ring-[#c8aa6e]/20 transition-colors"
                     rows={1}
                     maxLength={500}
                   />
@@ -319,14 +318,14 @@ export function FloatingNotes() {
                     whileHover={newNote.trim() ? { scale: 1.05 } : {}}
                     whileTap={newNote.trim() ? { scale: 0.95 } : {}}
                   >
-                    <Send className="w-4 h-4 text-[#0a0e1a]" />
+                    <Send className="w-4 h-4 text-lol-bg" />
                   </motion.button>
                 </div>
                 {authorName && (
-                  <p className="text-[10px] text-[#5b5a56] mt-1.5 flex items-center gap-1">
+                  <p className="text-[10px] text-lol-dim mt-1.5 flex items-center gap-1">
                     <MessageSquare className="w-2.5 h-2.5" />
-                    Publicando como <span className="text-[#c8aa6e] font-medium">{authorName}</span>
-                    <button onClick={() => { setAuthorName(''); localStorage.removeItem('moba-sage-notes-author'); }} className="ml-1 text-[#e84057]/60 hover:text-[#e84057] cursor-pointer">cambiar</button>
+                    Publicando como <span className="text-lol-gold font-medium">{authorName}</span>
+                    <button onClick={() => { setAuthorName(''); localStorage.removeItem('moba-sage-notes-author'); }} className="ml-1 text-lol-danger/60 hover:text-lol-danger cursor-pointer">cambiar</button>
                   </p>
                 )}
               </div>

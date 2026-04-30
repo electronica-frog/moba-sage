@@ -110,21 +110,21 @@ export function RoadmapTab() {
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-3">
-        <Map className="w-5 h-5 text-[#c8aa6e]" />
+        <Map className="w-5 h-5 text-lol-gold" />
         <div>
-          <h2 className="text-lg font-bold text-[#f0e6d2]">Roadmap</h2>
-          <p className="text-xs text-[#5b5a56]">Ideas de BRAINSTORM.md — {totalDone}/{total} completadas ({pct}%)</p>
+          <h2 className="text-lg font-bold text-lol-text">Roadmap</h2>
+          <p className="text-xs text-lol-dim">Ideas de BRAINSTORM.md — {totalDone}/{total} completadas ({pct}%)</p>
         </div>
       </div>
 
       {/* Progress bar */}
       <div className="rounded-lg px-4 py-3" style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.15)' }}>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs text-[#a09b8c] font-medium">Progreso General</span>
+          <span className="text-xs text-lol-muted font-medium">Progreso General</span>
           <div className="flex items-center gap-3 text-[10px]">
-            <span className="flex items-center gap-1"><Check className="w-3 h-3 text-[#0fba81]" />{totalDone} listas</span>
-            <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-[#f0c646]" />{totalPending} pendientes</span>
-            <span className="flex items-center gap-1"><X className="w-3 h-3 text-[#5b5a56]" />{totalCancelled} canceladas</span>
+            <span className="flex items-center gap-1"><Check className="w-3 h-3 text-lol-green" />{totalDone} listas</span>
+            <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-lol-warning" />{totalPending} pendientes</span>
+            <span className="flex items-center gap-1"><X className="w-3 h-3 text-lol-dim" />{totalCancelled} canceladas</span>
           </div>
         </div>
         <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(120,90,40,0.12)' }}>
@@ -153,8 +153,8 @@ export function RoadmapTab() {
             >
               <div className="flex items-center gap-2 px-4 py-3" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
                 <cat.icon className="w-4 h-4" style={{ color: cat.color }} />
-                <h3 className="text-sm font-semibold text-[#f0e6d2]">{cat.title}</h3>
-                <span className="text-[10px] text-[#5b5a56] ml-auto">{catDone}/{catTotal} completadas</span>
+                <h3 className="text-sm font-semibold text-lol-text">{cat.title}</h3>
+                <span className="text-[10px] text-lol-dim ml-auto">{catDone}/{catTotal} completadas</span>
               </div>
               <div className="divide-y divide-[#785a28]/10">
                 {cat.items.map(idea => {
@@ -163,18 +163,18 @@ export function RoadmapTab() {
                   return (
                     <div
                       key={idea.id}
-                      className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-[#1e2328]/30"
+                      className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-lol-card/30"
                       style={idea.status === 'cancelled' ? { opacity: 0.5 } : {}}
                     >
                       <div className="w-5 h-5 rounded flex items-center justify-center shrink-0" style={{ background: cfg.bg }}>
                         <StatusIcon className="w-3 h-3" style={{ color: cfg.color }} />
                       </div>
-                      <span className="text-[10px] font-mono text-[#5b5a56] shrink-0 w-5">{idea.id}</span>
+                      <span className="text-[10px] font-mono text-lol-dim shrink-0 w-5">{idea.id}</span>
                       <div className="flex-1 min-w-0">
-                        <h4 className={`text-xs font-medium ${idea.status === 'cancelled' ? 'line-through text-[#5b5a56]' : 'text-[#f0e6d2]'}`}>
+                        <h4 className={`text-xs font-medium ${idea.status === 'cancelled' ? 'line-through text-lol-dim' : 'text-lol-text'}`}>
                           {idea.title}
                         </h4>
-                        <p className="text-[10px] text-[#5b5a56] mt-0.5 truncate">{idea.desc}</p>
+                        <p className="text-[10px] text-lol-dim mt-0.5 truncate">{idea.desc}</p>
                       </div>
                       <span
                         className="text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0"

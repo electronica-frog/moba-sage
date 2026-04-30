@@ -128,7 +128,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.1)' }}
               aria-label={`Cerrar detalles de ${champion.name}`}
             >
-              <X className="w-4 h-4 text-[#a09b8c]" />
+              <X className="w-4 h-4 text-lol-muted" />
             </button>
 
             {/* Splash art — full width, prominent */}
@@ -229,7 +229,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                       </span>
                     </motion.div>
                     <motion.h2
-                      className="text-2xl font-black text-[#f0e6d2] tracking-wide"
+                      className="text-2xl font-black text-lol-text tracking-wide"
                       style={{ textShadow: '0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.5)' }}
                       initial={{ x: -20, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
@@ -244,10 +244,10 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <span className="text-xs text-[#a09b8c] italic">{champion.title}</span>
-                    <div className="w-px h-3 bg-[#785a28]/40" />
+                    <span className="text-xs text-lol-muted italic">{champion.title}</span>
+                    <div className="w-px h-3 bg-lol-gold-dark/40" />
                     <RoleBadge role={champion.role} />
-                    <span className="text-[10px] text-[#5b5a56] font-mono">P{champion.patch}</span>
+                    <span className="text-[10px] text-lol-dim font-mono">P{champion.patch}</span>
                   </motion.div>
                 </div>
               </div>
@@ -283,12 +283,12 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
               <div className="rounded-xl p-3" style={{ background: 'linear-gradient(135deg, rgba(15,186,129,0.08), rgba(15,186,129,0.02))', border: '1px solid rgba(15,186,129,0.2)' }}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-[#0fba81]" />
-                    <span className="text-[10px] font-semibold text-[#0fba81] uppercase tracking-wider">Build Meta en Vivo</span>
+                    <ShieldCheck className="w-4 h-4 text-lol-green" />
+                    <span className="text-[10px] font-semibold text-lol-green uppercase tracking-wider">Build Meta en Vivo</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#0fba81] animate-pulse" />
-                    <span className="text-[10px] text-[#0fba81] font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-lol-green animate-pulse" />
+                    <span className="text-[10px] text-lol-green font-medium">
                       {metaBuild.scrapedAt ? timeAgoMeta(metaBuild.scrapedAt) : 'En Vivo'}
                     </span>
                   </div>
@@ -306,7 +306,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                       </span>
                     ))}
                   </div>
-                  <p className="text-[10px] text-[#5b5a56]">Fuente: {metaBuild.source} | Patch {metaBuild.patch}</p>
+                  <p className="text-[10px] text-lol-dim">Fuente: {metaBuild.source} | Patch {metaBuild.patch}</p>
                 </div>
               </div>
             )}
@@ -320,8 +320,8 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                 <div className="space-y-1.5">
                   {champion.brokenThings.map((thing, i) => (
                     <div key={i} className="flex items-start gap-2 text-[11px]">
-                      <span className="text-[#e84057] mt-0.5">▸</span>
-                      <span className="text-[#a09b8c]">{thing}</span>
+                      <span className="text-lol-danger mt-0.5">▸</span>
+                      <span className="text-lol-muted">{thing}</span>
                     </div>
                   ))}
                 </div>
@@ -337,7 +337,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                     return (
                       <div key={i} className="rounded-lg p-3" style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.1)' }}>
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-[#f0e6d2]">{build.name}</span>
+                          <span className="text-xs font-semibold text-lol-text">{build.name}</span>
                           <div className="flex items-center gap-2">
                             <CopyBuildButton buildName={build.name} itemsStr={build.items} />
                             <span className="text-[10px] font-mono" style={{ color: build.winRate >= 53 ? '#0acbe6' : '#a09b8c' }}>
@@ -353,23 +353,23 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
                                 {iconUrl ? (
                                   <Image src={iconUrl} alt={item} width={28} height={28} className="w-7 h-7 rounded" style={{ border: '1px solid rgba(200,170,110,0.2)' }} loading="lazy" />
                                 ) : (
-                                  <div className="w-7 h-7 rounded bg-[#1e2328] flex items-center justify-center text-[10px] text-[#5b5a56] border border-[#785a28]/20">
+                                  <div className="w-7 h-7 rounded bg-lol-card flex items-center justify-center text-[10px] text-lol-dim border border-lol-gold-dark/20">
                                     {item[0]}
                                   </div>
                                 )}
-                                <span className="text-[10px] text-[#785a28] leading-none text-center max-w-[56px] truncate">{item}</span>
+                                <span className="text-[10px] text-lol-gold-dark leading-none text-center max-w-[56px] truncate">{item}</span>
                               </div>
                             );
                           })}
                         </div>
                         <div className="flex items-center gap-2">
-                          <a href={extUrls.ugg} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
+                          <a href={extUrls.ugg} target="_blank" rel="noopener noreferrer" className="text-[10px] text-lol-dim hover:text-lol-success flex items-center gap-0.5 transition-colors">
                             <ExternalLink className="w-2.5 h-2.5" /> U.GG
                           </a>
-                          <a href={extUrls.mobalytics} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
+                          <a href={extUrls.mobalytics} target="_blank" rel="noopener noreferrer" className="text-[10px] text-lol-dim hover:text-lol-success flex items-center gap-0.5 transition-colors">
                             <ExternalLink className="w-2.5 h-2.5" /> Mobalytics
                           </a>
-                          <a href={extUrls.opgg} target="_blank" rel="noopener noreferrer" className="text-[10px] text-[#5b5a56] hover:text-[#0acbe6] flex items-center gap-0.5 transition-colors">
+                          <a href={extUrls.opgg} target="_blank" rel="noopener noreferrer" className="text-[10px] text-lol-dim hover:text-lol-success flex items-center gap-0.5 transition-colors">
                             <ExternalLink className="w-2.5 h-2.5" /> OP.GG
                           </a>
                         </div>
@@ -402,7 +402,7 @@ export function ChampionModal({ champion, onClose }: { champion: Champion; onClo
             {champion.aiAnalysis && (
               <CollapsibleSection title="Análisis" icon={Sparkles} color="#c8aa6e" defaultOpen={false}>
                 <div className="rounded-lg p-4" style={{ background: 'rgba(200,170,110,0.05)', border: '1px solid rgba(200,170,110,0.15)' }}>
-                  <p className="text-[11px] text-[#a09b8c] leading-relaxed whitespace-pre-wrap">{champion.aiAnalysis}</p>
+                  <p className="text-[11px] text-lol-muted leading-relaxed whitespace-pre-wrap">{champion.aiAnalysis}</p>
                 </div>
               </CollapsibleSection>
             )}

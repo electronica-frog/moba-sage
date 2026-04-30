@@ -148,7 +148,7 @@ export function ActivityPopup() {
                 className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Cerrar novedades"
               >
-                <X className="text-[#a09b8c] text-base" />
+                <X className="text-lol-muted text-base" />
               </button>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center"
@@ -157,11 +157,11 @@ export function ActivityPopup() {
                     border: '1.5px solid rgba(200,170,110,0.4)',
                     boxShadow: '0 0 20px rgba(200,170,110,0.1)',
                   }}>
-                  <Rocket className="w-6 h-6 text-[#c8aa6e]" />
+                  <Rocket className="w-6 h-6 text-lol-gold" />
                 </div>
                 <div>
-                  <h2 className="lol-title text-base text-[#f0e6d2]">Novedades</h2>
-                  <p className="lol-subtitle text-[#5b5a56]">Lo último que pasó en MOBA SAGE</p>
+                  <h2 className="lol-title text-base text-lol-text">Novedades</h2>
+                  <p className="lol-subtitle text-lol-dim">Lo último que pasó en MOBA SAGE</p>
                 </div>
               </div>
             </div>
@@ -182,10 +182,10 @@ export function ActivityPopup() {
                       {(() => { const Icon = TYPE_ICONS[latestEntry.type] || Sparkles; return <Icon className="w-5 h-5" style={{ color: TYPE_COLORS[latestEntry.type] || '#a09b8c' }} />; })()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-[#f0e6d2]">{latestEntry.title}</p>
-                      <p className="text-[11px] text-[#a09b8c] mt-1 leading-relaxed line-clamp-2">{latestEntry.description}</p>
+                      <p className="text-sm font-semibold text-lol-text">{latestEntry.title}</p>
+                      <p className="text-[11px] text-lol-muted mt-1 leading-relaxed line-clamp-2">{latestEntry.description}</p>
                       <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                        <div className="flex items-center gap-1 text-[10px] text-[#5b5a56]">
+                        <div className="flex items-center gap-1 text-[10px] text-lol-dim">
                           <Clock className="w-2.5 h-2.5" />
                           {timeAgo(latestEntry.timestamp)}
                         </div>
@@ -195,7 +195,7 @@ export function ActivityPopup() {
                             target="_blank"
                             rel="noopener noreferrer"
                             title={`Commit: ${latestEntry.commit.slice(0, 7)}`}
-                            className="flex items-center gap-1 text-[10px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors font-mono"
+                            className="flex items-center gap-1 text-[10px] text-lol-success hover:text-lol-text transition-colors font-mono"
                             onClick={(e) => e.stopPropagation()}
                           >
                             <GitCommit className="w-2.5 h-2.5" />
@@ -214,11 +214,11 @@ export function ActivityPopup() {
             {feed.highlights.length > 0 && (
               <div className="px-5 py-2">
                 <div className="rounded-lg p-3" style={{ background: 'rgba(15,186,129,0.04)', border: '1px solid rgba(15,186,129,0.1)' }}>
-                  <p className="lol-label text-[10px] text-[#0fba81] mb-2">La app tiene</p>
+                  <p className="lol-label text-[10px] text-lol-green mb-2">La app tiene</p>
                   <div className="flex flex-wrap gap-x-3 gap-y-1">
                     {feed.highlights.map((h, i) => (
-                      <span key={i} className="text-[10px] text-[#a09b8c] flex items-center gap-1">
-                        <CheckCircle2 className="w-2.5 h-2.5 text-[#0fba81]" />
+                      <span key={i} className="text-[10px] text-lol-muted flex items-center gap-1">
+                        <CheckCircle2 className="w-2.5 h-2.5 text-lol-green" />
                         {h}
                       </span>
                     ))}
@@ -229,7 +229,7 @@ export function ActivityPopup() {
 
             {/* Recent activity entries */}
             <div className="px-5 py-2 space-y-1">
-              <p className="lol-label text-[10px] text-[#5b5a56] mb-2">Actividad reciente</p>
+              <p className="lol-label text-[10px] text-lol-dim mb-2">Actividad reciente</p>
               {recentEntries.slice(1).map((entry) => {
                 const color = TYPE_COLORS[entry.type] || '#a09b8c';
                 const Icon = TYPE_ICONS[entry.type] || Sparkles;
@@ -239,8 +239,8 @@ export function ActivityPopup() {
                       <Icon className="w-3 h-3" style={{ color }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-medium text-[#f0e6d2]">{entry.title}</p>
-                      <div className="flex items-center gap-2 mt-0.5 text-[10px] text-[#5b5a56]">
+                      <p className="text-[11px] font-medium text-lol-text">{entry.title}</p>
+                      <div className="flex items-center gap-2 mt-0.5 text-[10px] text-lol-dim">
                         <Clock className="w-2 h-2" />
                         {timeAgo(entry.timestamp)}
                         {entry.commit && (
@@ -248,7 +248,7 @@ export function ActivityPopup() {
                             href={`https://github.com/gamer-frog/moba-sage/commit/${entry.commit}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-mono text-[#0acbe6] hover:text-[#f0e6d2] transition-colors"
+                            className="font-mono text-lol-success hover:text-lol-text transition-colors"
                             onClick={(e) => e.stopPropagation()}
                           >
                             Ver commit
@@ -274,7 +274,7 @@ export function ActivityPopup() {
               <button
                 type="button"
                 onClick={handleDismissPermanently}
-                className="py-2.5 px-4 rounded-xl text-[10px] font-medium transition-all hover:bg-white/5 cursor-pointer text-[#5b5a56] hover:text-[#a09b8c]"
+                className="py-2.5 px-4 rounded-xl text-[10px] font-medium transition-all hover:bg-white/5 cursor-pointer text-lol-dim hover:text-lol-muted"
                 style={{ border: '1px solid rgba(120,90,40,0.2)' }}
               >
                 No volver a mostrar

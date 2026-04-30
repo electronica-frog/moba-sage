@@ -103,8 +103,7 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
           onClick={() => setDevExpanded(!devExpanded)}
           className="w-full flex items-center gap-2 px-3 mb-2 text-[10px] text-lol-dim hover:text-lol-gold-dark transition-colors lol-label"
         >
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider"
-            style={{ backgroundColor: 'rgba(91,90,86,0.15)', color: '#5b5a56', border: '1px solid rgba(91,90,86,0.2)' }}>
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold tracking-wider bg-lol-dim/15 text-lol-dim border border-lol-dim/20">
             DEV
           </span>
           <Wrench className="w-3 h-3" />

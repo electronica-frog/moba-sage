@@ -213,8 +213,7 @@ export function AppHeader({
           {selectedGame && (
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('moba-sage-open-search'))}
-              className="flex items-center justify-center w-9 h-9 rounded-lg transition-all duration-200 hover:bg-lol-card/40"
-              style={{ color: '#a09b8c' }}
+              className="flex items-center justify-center w-9 h-9 rounded-lg transition-all duration-200 hover:bg-lol-card/40 text-lol-muted"
               aria-label="Buscar campeón (Ctrl+K)"
               title="Buscar campeón (Ctrl+K)"
             >

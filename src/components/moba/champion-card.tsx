@@ -139,9 +139,9 @@ export function ChampionCard({
           {trend && (
             <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: trend === 'rising' ? 'rgba(15,186,129,0.2)' : 'rgba(232,64,87,0.2)', backdropFilter: 'blur(4px)' }}>
               {trend === 'rising' ? (
-                <TrendingUp className="w-3 h-3 text-[#0fba81]" />
+                <TrendingUp className="w-3 h-3 text-lol-green" />
               ) : (
-                <TrendingDown className="w-3 h-3 text-[#e84057]" />
+                <TrendingDown className="w-3 h-3 text-lol-danger" />
               )}
             </div>
           )}
@@ -153,7 +153,7 @@ export function ChampionCard({
               style={{ backdropFilter: 'blur(4px)' }}
               aria-label={isFavorite ? `Quitar ${name} de favoritos` : `Agregar ${name} a favoritos`}
             >
-              <Star className={`w-3.5 h-3.5 transition-colors ${isFavorite ? 'text-[#f0c646]' : 'text-[#5b5a56]'}`} fill={isFavorite ? '#f0c646' : 'none'} />
+              <Star className={`w-3.5 h-3.5 transition-colors ${isFavorite ? 'text-lol-warning' : 'text-lol-dim'}`} fill={isFavorite ? '#f0c646' : 'none'} />
             </button>
           )}
         </div>
@@ -184,7 +184,7 @@ export function ChampionCard({
             />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className={`${sc.nameSize} lol-title text-[#f0e6d2] leading-tight truncate`} style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
+            <h3 className={`${sc.nameSize} lol-title text-lol-text leading-tight truncate`} style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
               {name}
             </h3>
             <RoleBadge role={role} />
@@ -195,19 +195,19 @@ export function ChampionCard({
         <div className="flex items-center gap-2 mb-1">
           <div className="flex items-center gap-1">
             <span className={`${sc.statSize} font-mono font-bold`} style={{ color: wrColor }}>{winRate}%</span>
-            <span className="text-[10px] text-[#5b5a56] uppercase">WR</span>
+            <span className="text-[10px] text-lol-dim uppercase">WR</span>
           </div>
-          <div className="w-px h-2.5 bg-[#785a28]/30" />
+          <div className="w-px h-2.5 bg-lol-gold-dark/30" />
           <div className="flex items-center gap-1">
-            <span className={`${sc.statSize} font-mono text-[#a09b8c]`}>{pickRate}%</span>
-            <span className="text-[10px] text-[#5b5a56] uppercase">Pick</span>
+            <span className={`${sc.statSize} font-mono text-lol-muted`}>{pickRate}%</span>
+            <span className="text-[10px] text-lol-dim uppercase">Pick</span>
           </div>
           {size !== 'sm' && banRate > 0 && (
             <>
-              <div className="w-px h-2.5 bg-[#785a28]/30" />
+              <div className="w-px h-2.5 bg-lol-gold-dark/30" />
               <div className="flex items-center gap-1">
                 <span className={`${sc.statSize} font-mono`} style={{ color: banRate > 5 ? '#e84057' : '#a09b8c' }}>{banRate}%</span>
-                <span className="text-[10px] text-[#5b5a56] uppercase">Ban</span>
+                <span className="text-[10px] text-lol-dim uppercase">Ban</span>
               </div>
             </>
           )}

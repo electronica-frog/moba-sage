@@ -120,7 +120,7 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
         {/* Name + Type Badge */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 mb-0.5">
-            <span className="text-[11px] font-semibold text-[#f0e6d2] truncate">{change.name}</span>
+            <span className="text-[11px] font-semibold text-lol-text truncate">{change.name}</span>
             <span
               className="text-[10px] px-1.5 py-0.5 rounded font-bold"
               style={{ background: `${type.color}15`, color: type.color, border: `1px solid ${type.color}25` }}
@@ -128,17 +128,17 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
               {type.label}
             </span>
             {change.impact && (
-              <span className="text-[10px] text-[#5b5a56]">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>
+              <span className="text-[10px] text-lol-dim">· {change.impact === 'high' ? 'Alto impacto' : change.impact === 'medium' ? 'Medio' : 'Bajo'}</span>
             )}
           </div>
-          <p className="text-[10px] text-[#a09b8c] truncate">{change.description}</p>
+          <p className="text-[10px] text-lol-muted truncate">{change.description}</p>
         </div>
 
         {/* Tier change indicator */}
         <div className="flex items-center gap-1.5 shrink-0">
           {change.tierBefore && (
             <div className="text-center">
-              <span className="block text-[10px] text-[#5b5a56]">Antes</span>
+              <span className="block text-[10px] text-lol-dim">Antes</span>
               <TierBadge tier={change.tierBefore} />
             </div>
           )}
@@ -153,7 +153,7 @@ function ChampionPatchCard({ change, index }: { change: PatchChampionChange; ind
           </div>
           {change.tierAfter && (
             <div className="text-center">
-              <span className="block text-[10px] text-[#5b5a56]">Ahora</span>
+              <span className="block text-[10px] text-lol-dim">Ahora</span>
               <TierBadge tier={change.tierAfter} />
             </div>
           )}
@@ -252,21 +252,21 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #c8aa6e, transparent)' }} />
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,170,110,0.15)', border: '1px solid rgba(200,170,110,0.25)' }}>
-            <Newspaper className="w-4 h-4 text-[#c8aa6e]" />
+            <Newspaper className="w-4 h-4 text-lol-gold" />
           </div>
           <div className="flex-1">
-            <h3 className="lol-title text-sm text-[#f0e6d2]">ANÁLISIS DE PARCHE</h3>
-            <p className="text-[10px] text-[#5b5a56]">
-              Parche actual: <span className="font-mono text-[#c8aa6e]">{analysis.currentPatch}</span>
+            <h3 className="lol-title text-sm text-lol-text">ANÁLISIS DE PARCHE</h3>
+            <p className="text-[10px] text-lol-dim">
+              Parche actual: <span className="font-mono text-lol-gold">{analysis.currentPatch}</span>
               {' · '}
-              Próximo: <span className="font-mono text-[#0acbe6]">{analysis.nextPatch}</span>
+              Próximo: <span className="font-mono text-lol-success">{analysis.nextPatch}</span>
               {analysis.patchDate && (
-                <span className="text-[#5b5a56]"> · {analysis.patchDate}</span>
+                <span className="text-lol-dim"> · {analysis.patchDate}</span>
               )}
             </p>
           </div>
         </div>
-        <p className="text-xs text-[#a09b8c] leading-relaxed">{analysis.summary}</p>
+        <p className="text-xs text-lol-muted leading-relaxed">{analysis.summary}</p>
       </div>
 
       {/* Two columns: Broken + Fallen — only show when data exists */}
@@ -277,9 +277,9 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(15,186,129,0.15)' }}>
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(15,186,129,0.12)', border: '1px solid rgba(15,186,129,0.3)' }}>
-              <ArrowUpCircle className="w-4 h-4 text-[#0fba81]" />
+              <ArrowUpCircle className="w-4 h-4 text-lol-green" />
             </div>
-            <span className="lol-label text-xs font-semibold text-[#0fba81]">¿Quién Queda Roto?</span>
+            <span className="lol-label text-xs font-semibold text-lol-green">¿Quién Queda Roto?</span>
             <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.12)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>{broken.length}</span>
           </div>
           <div className="space-y-2.5">
@@ -295,11 +295,11 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                 <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
+                    <span className="text-xs font-semibold text-lol-text">{champ.name}</span>
                     <TierBadge tier={champ.tier} />
                     <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.3)' }}>BUFFED</span>
                   </div>
-                  <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
+                  <p className="text-[10px] text-lol-muted leading-snug mt-0.5">{champ.reason}</p>
                 </div>
               </motion.div>
             ))}
@@ -312,9 +312,9 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(232,64,87,0.15)' }}>
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(232,64,87,0.12)', border: '1px solid rgba(232,64,87,0.3)' }}>
-              <ArrowDownCircle className="w-4 h-4 text-[#e84057]" />
+              <ArrowDownCircle className="w-4 h-4 text-lol-danger" />
             </div>
-            <span className="lol-label text-xs font-semibold text-[#e84057]">¿Quién Cayó?</span>
+            <span className="lol-label text-xs font-semibold text-lol-danger">¿Quién Cayó?</span>
             <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.12)', color: '#e84057', border: '1px solid rgba(232,64,87,0.25)' }}>{fallen.length}</span>
           </div>
           <div className="space-y-2.5">
@@ -330,11 +330,11 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
                 <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-semibold text-[#f0e6d2]">{champ.name}</span>
+                    <span className="text-xs font-semibold text-lol-text">{champ.name}</span>
                     <TierBadge tier={champ.tier} />
                     <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: 'rgba(232,64,87,0.15)', color: '#e84057', border: '1px solid rgba(232,64,87,0.3)' }}>NERFED</span>
                   </div>
-                  <p className="text-[10px] text-[#a09b8c] leading-snug mt-0.5">{champ.reason}</p>
+                  <p className="text-[10px] text-lol-muted leading-snug mt-0.5">{champ.reason}</p>
                 </div>
               </motion.div>
             ))}
@@ -354,21 +354,21 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         >
           <div className="flex items-center gap-2 mb-3">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,170,110,0.12)', border: '1px solid rgba(200,170,110,0.2)' }}>
-              <Newspaper className="w-3.5 h-3.5 text-[#c8aa6e]" />
+              <Newspaper className="w-3.5 h-3.5 text-lol-gold" />
             </div>
-            <span className="lol-label text-xs font-semibold text-[#c8aa6e]">Cambios por Campeón</span>
-            <span className="ml-auto text-[10px] text-[#5b5a56]">{championChanges.length} campeones</span>
+            <span className="lol-label text-xs font-semibold text-lol-gold">Cambios por Campeón</span>
+            <span className="ml-auto text-[10px] text-lol-dim">{championChanges.length} campeones</span>
           </div>
           
           {/* Legend */}
           <div className="flex items-center gap-2 sm:gap-4 flex-wrap mb-3 px-1">
-            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]">
+            <span className="flex items-center gap-1.5 text-[10px] text-lol-dim">
               <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#0fba81' }} /> Tier sube
             </span>
-            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]">
+            <span className="flex items-center gap-1.5 text-[10px] text-lol-dim">
               <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#e84057' }} /> Tier baja
             </span>
-            <span className="flex items-center gap-1.5 text-[10px] text-[#5b5a56]">
+            <span className="flex items-center gap-1.5 text-[10px] text-lol-dim">
               <span className="w-3 h-1.5 rounded-full inline-block" style={{ background: '#c8aa6e' }} /> Nuevo
             </span>
           </div>
@@ -385,8 +385,8 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
       {/* Key Changes */}
       <div className="glass-card rounded-xl p-4" style={{ border: '1px solid rgba(120,90,40,0.15)' }}>
         <div className="flex items-center gap-2 mb-3">
-          <Zap className="w-4 h-4 text-[#f0c646]" />
-          <span className="lol-label text-xs font-semibold text-[#f0c646]">Cambios Clave del Parche</span>
+          <Zap className="w-4 h-4 text-lol-warning" />
+          <span className="lol-label text-xs font-semibold text-lol-warning">Cambios Clave del Parche</span>
         </div>
         <div className="space-y-2">
           {analysis.keyChanges.map((change, i) => (
@@ -398,7 +398,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
               className="flex items-start gap-2"
             >
               <div className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5" style={{ background: '#f0c646', boxShadow: '0 0 4px rgba(240,198,70,0.4)' }} />
-              <span className="text-[11px] text-[#a09b8c] leading-snug">{change}</span>
+              <span className="text-[11px] text-lol-muted leading-snug">{change}</span>
             </motion.div>
           ))}
         </div>
@@ -412,7 +412,7 @@ function PatchAnalysisSection({ analysis }: { analysis: PatchAnalysis }) {
         </div>
         <div className="flex flex-wrap gap-1.5">
           {analysis.systemChanges.map((change, i) => (
-            <span key={i} className="inline-flex items-center px-2 py-1 rounded-md text-[10px] text-[#a09b8c]" style={{ background: 'rgba(91,138,245,0.06)', border: '1px solid rgba(91,138,245,0.12)' }}>
+            <span key={i} className="inline-flex items-center px-2 py-1 rounded-md text-[10px] text-lol-muted" style={{ background: 'rgba(91,138,245,0.06)', border: '1px solid rgba(91,138,245,0.12)' }}>
               {change}
             </span>
           ))}
@@ -475,10 +475,10 @@ export function BrokenStuffTab({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <AlertTriangle className="w-5 h-5 text-[#e84057]" />
+        <AlertTriangle className="w-5 h-5 text-lol-danger" />
         <div>
-          <h2 className="lol-title text-lg text-[#f0e6d2]">Cosas Rotas & Combos OP</h2>
-          <p className="text-xs text-[#5b5a56]">Campeones y combinaciones que están dominando el meta</p>
+          <h2 className="lol-title text-lg text-lol-text">Cosas Rotas & Combos OP</h2>
+          <p className="text-xs text-lol-dim">Campeones y combinaciones que están dominando el meta</p>
         </div>
       </div>
 
@@ -500,7 +500,7 @@ export function BrokenStuffTab({
           <div className="flex items-center gap-2 mb-3">
             <span className="lol-title text-sm" style={{ color: '#c8aa6e', textShadow: '0 0 10px rgba(200,170,110,0.3)' }}>S TIER</span>
             <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(200,170,110,0.3), transparent)' }} />
-            <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[10px]">
+            <Badge className="bg-lol-danger/20 text-lol-danger border border-lol-danger/30 text-[10px]">
               <AlertTriangle className="w-3 h-3 mr-1" />
               ROTO OP
             </Badge>
@@ -534,7 +534,7 @@ export function BrokenStuffTab({
                   {/* ROTO OP badge */}
                   {champ.winRate >= 53 && (
                     <div className="absolute top-2 left-2 z-10">
-                      <Badge className="bg-[#e84057]/90 text-white border border-[#e84057] text-[10px] px-1.5 py-0.5 font-black">
+                      <Badge className="bg-lol-danger/90 text-white border border-lol-danger text-[10px] px-1.5 py-0.5 font-black">
                         ROTO OP
                       </Badge>
                     </div>
@@ -547,7 +547,7 @@ export function BrokenStuffTab({
 
                   {/* Content */}
                   <div className="relative h-full flex flex-col justify-end p-3">
-                    <span className="lol-title text-base font-bold text-[#f0e6d2]">{champ.name}</span>
+                    <span className="lol-title text-base font-bold text-lol-text">{champ.name}</span>
                     <RoleBadge role={champ.role} />
 
                     {/* Stats row */}
@@ -555,12 +555,12 @@ export function BrokenStuffTab({
                       <span className="font-mono text-[11px] font-bold" style={{ color: champ.winRate >= 53 ? '#0acbe6' : '#c8aa6e' }}>
                         {champ.winRate}% WR
                       </span>
-                      <span className="text-[#5b5a56] text-[10px]">·</span>
-                      <span className="font-mono text-[10px] text-[#a09b8c]">{champ.pickRate}% Pick</span>
+                      <span className="text-lol-dim text-[10px]">·</span>
+                      <span className="font-mono text-[10px] text-lol-muted">{champ.pickRate}% Pick</span>
                       {champ.banRate > 5 && (
                         <>
-                          <span className="text-[#5b5a56] text-[10px]">·</span>
-                          <span className="font-mono text-[10px] text-[#e84057]">{champ.banRate}% Ban</span>
+                          <span className="text-lol-dim text-[10px]">·</span>
+                          <span className="font-mono text-[10px] text-lol-danger">{champ.banRate}% Ban</span>
                         </>
                       )}
                     </div>
@@ -574,7 +574,7 @@ export function BrokenStuffTab({
                           </div>
                         ))}
                         {buildItems.length > 4 && (
-                          <span className="text-[10px] text-[#5b5a56]">+{buildItems.length - 4}</span>
+                          <span className="text-[10px] text-lol-dim">+{buildItems.length - 4}</span>
                         )}
                       </div>
                     )}
@@ -591,7 +591,7 @@ export function BrokenStuffTab({
           <div className="flex items-center gap-2 mb-3">
             <span className="lol-title text-sm" style={{ color: '#0acbe6', textShadow: '0 0 10px rgba(10,203,230,0.3)' }}>A TIER</span>
             <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.3), transparent)' }} />
-            <span className="text-[10px] text-[#5b5a56]">También fuertes</span>
+            <span className="text-[10px] text-lol-dim">También fuertes</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {aTierChamps.map((champ, idx) => (
@@ -618,12 +618,12 @@ export function BrokenStuffTab({
                   <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black" style={{ backgroundColor: '#0acbe6', color: '#0a0e1a' }}>A</div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[12px] font-semibold text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors">{champ.name}</p>
+                  <p className="text-[12px] font-semibold text-lol-text truncate group-hover:text-lol-gold transition-colors">{champ.name}</p>
                   <RoleBadge role={champ.role} />
                   <div className="flex items-center gap-2 text-[11px]">
                     <span className="font-mono font-semibold" style={{ color: champ.winRate >= 51 ? '#0acbe6' : '#a09b8c' }}>{champ.winRate}% WR</span>
-                    <span className="text-[#5b5a56]">·</span>
-                    <span className="font-mono text-[#a09b8c]">{champ.pickRate}% Pick</span>
+                    <span className="text-lol-dim">·</span>
+                    <span className="font-mono text-lol-muted">{champ.pickRate}% Pick</span>
                   </div>
                 </div>
               </motion.div>
@@ -637,15 +637,15 @@ export function BrokenStuffTab({
           <div className="flex items-center gap-2 mb-3">
             <span className="lol-title text-sm" style={{ color: '#0fba81', textShadow: '0 0 10px rgba(15,186,129,0.3)' }}>B TIER</span>
             <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(15,186,129,0.3), transparent)' }} />
-            <span className="text-[10px] text-[#5b5a56]">Jugables</span>
+            <span className="text-[10px] text-lol-dim">Jugables</span>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
             {bTierChamps.map(champ => (
               <motion.div key={champ.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-1.5 p-2 rounded-lg" style={{ background: 'rgba(15,186,129,0.03)', border: '1px solid rgba(15,186,129,0.1)' }}>
                 <ChampionIcon name={champ.name} tier={champ.tier || 'A'} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-medium text-[#f0e6d2] truncate">{champ.name}</p>
-                  <p className="text-[10px] text-[#5b5a56] font-mono">{champ.winRate}%</p>
+                  <p className="text-[10px] font-medium text-lol-text truncate">{champ.name}</p>
+                  <p className="text-[10px] text-lol-dim font-mono">{champ.winRate}%</p>
                 </div>
               </motion.div>
             ))}
@@ -657,10 +657,10 @@ export function BrokenStuffTab({
       {!loading && metaInsights.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-4 h-4 text-[#f0c646]" />
-            <span className="lol-label text-xs font-semibold text-[#a09b8c]">Insights de IA</span>
+            <Sparkles className="w-4 h-4 text-lol-warning" />
+            <span className="lol-label text-xs font-semibold text-lol-muted">Insights de IA</span>
             <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(240,198,70,0.2), transparent)' }} />
-            <span className="text-[10px] text-[#5b5a56]">{metaInsights.length} insights</span>
+            <span className="text-[10px] text-lol-dim">{metaInsights.length} insights</span>
           </div>
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
@@ -677,9 +677,9 @@ export function BrokenStuffTab({
               {metaInsights.filter(i => i.category === 'meta').length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-sm font-bold text-[#e84057]">💥 Combos Rotos</span>
+                    <span className="text-sm font-bold text-lol-danger">💥 Combos Rotos</span>
                     <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(232,64,87,0.2), transparent)' }} />
-                    <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'meta').length}</span>
+                    <span className="text-[10px] text-lol-dim">{metaInsights.filter(i => i.category === 'meta').length}</span>
                   </div>
                   <div className="space-y-3">
                     {metaInsights.filter(i => i.category === 'meta').map((insight, i) => {
@@ -690,7 +690,7 @@ export function BrokenStuffTab({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.2, delay: i * 0.04 }}
-                          className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-[#e84057]/40 transition-colors"
+                          className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-lol-danger/40 transition-colors"
                           style={{ borderLeftColor: '#e84057', background: 'linear-gradient(135deg, rgba(232,64,87,0.03), rgba(30,35,40,0.5))' }}
                         >
                           <div className="flex items-start gap-3">
@@ -699,8 +699,8 @@ export function BrokenStuffTab({
                                 <ChampionIcon name={insight.champion} tier={gameChampions.find(c => c.name === insight.champion)?.tier || 'A'} />
                                 <div>
                                   <div className="flex items-center gap-1.5">
-                                    <span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span>
-                                    <Badge className="bg-[#e84057]/20 text-[#e84057] border border-[#e84057]/30 text-[10px] px-1.5 py-0">
+                                    <span className="font-semibold text-lol-text text-sm">{insight.champion}</span>
+                                    <Badge className="bg-lol-danger/20 text-lol-danger border border-lol-danger/30 text-[10px] px-1.5 py-0">
                                       <AlertTriangle className="w-3 h-3 mr-0.5" />
                                       ROTO
                                     </Badge>
@@ -708,10 +708,10 @@ export function BrokenStuffTab({
                                   <CategoryBadge category={insight.category} />
                                 </div>
                               </div>
-                              <p className="text-sm text-[#a09b8c] leading-relaxed mb-3">{insight.content}</p>
+                              <p className="text-sm text-lol-muted leading-relaxed mb-3">{insight.content}</p>
                               {/* Meta Impact rating bar */}
                               <div className="flex items-center gap-3">
-                                <span className="text-[10px] text-[#5b5a56] shrink-0 font-semibold">Meta Impact</span>
+                                <span className="text-[10px] text-lol-dim shrink-0 font-semibold">Meta Impact</span>
                                 <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(232,64,87,0.12)' }}>
                                   <motion.div
                                     className="h-full rounded-full"
@@ -721,13 +721,13 @@ export function BrokenStuffTab({
                                     transition={{ duration: 0.8, delay: i * 0.1 }}
                                   />
                                 </div>
-                                <span className="text-[10px] font-mono font-bold text-[#e84057] shrink-0">{metaImpact.toFixed(0)}%</span>
+                                <span className="text-[10px] font-mono font-bold text-lol-danger shrink-0">{metaImpact.toFixed(0)}%</span>
                               </div>
                               {/* Confidence */}
                               <div className="flex items-center gap-2 mt-2">
-                                <span className="text-[10px] text-[#5b5a56] shrink-0">Confianza</span>
+                                <span className="text-[10px] text-lol-dim shrink-0">Confianza</span>
                                 <Progress value={insight.confidence * 100} className="h-1.5 flex-1" />
-                                <span className="text-[10px] font-mono text-[#c8aa6e] shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
+                                <span className="text-[10px] font-mono text-lol-gold shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
                               </div>
                             </div>
                           </div>
@@ -741,9 +741,9 @@ export function BrokenStuffTab({
               {metaInsights.filter(i => i.category === 'buff').length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-sm font-bold text-[#0acbe6]">🔧 Items & Buffs</span>
+                    <span className="text-sm font-bold text-lol-success">🔧 Items & Buffs</span>
                     <div className="h-px flex-1" style={{ background: 'linear-gradient(90deg, rgba(10,203,230,0.2), transparent)' }} />
-                    <span className="text-[10px] text-[#5b5a56]">{metaInsights.filter(i => i.category === 'buff').length}</span>
+                    <span className="text-[10px] text-lol-dim">{metaInsights.filter(i => i.category === 'buff').length}</span>
                   </div>
                   <div className="space-y-3">
                     {metaInsights.filter(i => i.category === 'buff').map((insight, i) => {
@@ -754,7 +754,7 @@ export function BrokenStuffTab({
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.2, delay: i * 0.04 }}
-                          className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-[#0acbe6]/40 transition-colors"
+                          className="glass-card rounded-xl p-3 sm:p-4 border-l-4 hover:border-lol-success/40 transition-colors"
                           style={{ borderLeftColor: '#0acbe6', background: 'linear-gradient(135deg, rgba(10,203,230,0.03), rgba(30,35,40,0.5))' }}
                         >
                           <div className="flex items-start gap-3">
@@ -763,17 +763,17 @@ export function BrokenStuffTab({
                                 <ChampionIcon name={insight.champion} tier={gameChampions.find(c => c.name === insight.champion)?.tier || 'A'} />
                                 <div>
                                   <div className="flex items-center gap-1.5">
-                                    <span className="font-semibold text-[#f0e6d2] text-sm">{insight.champion}</span>
-                                    <Badge className="bg-[#0acbe6]/20 text-[#0acbe6] border border-[#0acbe6]/30 text-[10px] px-1.5 py-0">
+                                    <span className="font-semibold text-lol-text text-sm">{insight.champion}</span>
+                                    <Badge className="bg-lol-success/20 text-lol-success border border-lol-success/30 text-[10px] px-1.5 py-0">
                                       BUFF
                                     </Badge>
                                   </div>
                                   <CategoryBadge category={insight.category} />
                                 </div>
                               </div>
-                              <p className="text-sm text-[#a09b8c] leading-relaxed mb-3">{insight.content}</p>
+                              <p className="text-sm text-lol-muted leading-relaxed mb-3">{insight.content}</p>
                               <div className="flex items-center gap-3">
-                                <span className="text-[10px] text-[#5b5a56] shrink-0 font-semibold">Meta Impact</span>
+                                <span className="text-[10px] text-lol-dim shrink-0 font-semibold">Meta Impact</span>
                                 <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(10,203,230,0.12)' }}>
                                   <motion.div
                                     className="h-full rounded-full"
@@ -783,12 +783,12 @@ export function BrokenStuffTab({
                                     transition={{ duration: 0.8, delay: i * 0.1 }}
                                   />
                                 </div>
-                                <span className="text-[10px] font-mono font-bold text-[#0acbe6] shrink-0">{metaImpact.toFixed(0)}%</span>
+                                <span className="text-[10px] font-mono font-bold text-lol-success shrink-0">{metaImpact.toFixed(0)}%</span>
                               </div>
                               <div className="flex items-center gap-2 mt-2">
-                                <span className="text-[10px] text-[#5b5a56] shrink-0">Confianza</span>
+                                <span className="text-[10px] text-lol-dim shrink-0">Confianza</span>
                                 <Progress value={insight.confidence * 100} className="h-1.5 flex-1" />
-                                <span className="text-[10px] font-mono text-[#c8aa6e] shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
+                                <span className="text-[10px] font-mono text-lol-gold shrink-0">{(insight.confidence * 100).toFixed(0)}%</span>
                               </div>
                             </div>
                           </div>

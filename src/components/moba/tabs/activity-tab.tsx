@@ -86,7 +86,7 @@ export function ActivityTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-6 h-6 animate-spin text-[#c8aa6e]" />
+        <Loader2 className="w-6 h-6 animate-spin text-lol-gold" />
       </div>
     );
   }
@@ -94,8 +94,8 @@ export function ActivityTab() {
   if (!feed) {
     return (
       <div className="rounded-xl p-6 text-center" style={{ background: 'rgba(30,35,40,0.5)', border: '1px solid rgba(120,90,40,0.15)' }}>
-        <AlertTriangle className="w-8 h-8 mx-auto mb-3 text-[#e84057]" />
-        <p className="text-sm text-[#a09b8c]">No se pudo cargar el feed de actividad.</p>
+        <AlertTriangle className="w-8 h-8 mx-auto mb-3 text-lol-danger" />
+        <p className="text-sm text-lol-muted">No se pudo cargar el feed de actividad.</p>
       </div>
     );
   }
@@ -122,10 +122,10 @@ export function ActivityTab() {
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-3">
-        <Rocket className="w-5 h-5 text-[#c8aa6e]" />
+        <Rocket className="w-5 h-5 text-lol-gold" />
         <div>
-          <h2 className="text-lg font-bold text-[#f0e6d2]">Novedades</h2>
-          <p className="text-xs text-[#5b5a56]">Feed de actividad — cambios, deploys y auditorías</p>
+          <h2 className="text-lg font-bold text-lol-text">Novedades</h2>
+          <p className="text-xs text-lol-dim">Feed de actividad — cambios, deploys y auditorías</p>
         </div>
       </div>
 
@@ -139,27 +139,27 @@ export function ActivityTab() {
           className="rounded-xl p-3 text-center"
           style={{ background: 'rgba(200,170,110,0.06)', border: '1px solid rgba(200,170,110,0.15)' }}
         >
-          <p className="text-lg font-bold text-[#f0e6d2]">{stats.total}</p>
-          <p className="text-[10px] text-[#5b5a56]">Total</p>
+          <p className="text-lg font-bold text-lol-text">{stats.total}</p>
+          <p className="text-[10px] text-lol-dim">Total</p>
         </div>
         <div
           className="rounded-xl p-3 text-center"
           style={{ background: 'rgba(10,203,230,0.06)', border: '1px solid rgba(10,203,230,0.15)' }}
         >
-          <p className="text-lg font-bold text-[#0acbe6]">{stats.thisWeek}</p>
-          <p className="text-[10px] text-[#5b5a56]">Esta semana</p>
+          <p className="text-lg font-bold text-lol-success">{stats.thisWeek}</p>
+          <p className="text-[10px] text-lol-dim">Esta semana</p>
         </div>
         <div
           className="rounded-xl p-3 text-center"
           style={{ background: 'rgba(15,186,129,0.06)', border: '1px solid rgba(15,186,129,0.15)' }}
         >
-          <p className="text-[10px] text-[#5b5a56] mb-1">Desglose</p>
+          <p className="text-[10px] text-lol-dim mb-1">Desglose</p>
           <p className="text-[10px]">
-            <span style={{ color: '#0fba81' }}>{stats.features} {stats.features === 1 ? 'función' : 'funciones'}</span>
-            <span className="text-[#5b5a56]"> · </span>
-            <span style={{ color: '#e84057' }}>{stats.fixes} {stats.fixes === 1 ? 'corrección' : 'correcciones'}</span>
-            <span className="text-[#5b5a56]"> · </span>
-            <span style={{ color: '#f0c646' }}>{stats.improvements} {stats.improvements === 1 ? 'mejora' : 'mejoras'}</span>
+            <span className="text-lol-green">{stats.features} {stats.features === 1 ? 'función' : 'funciones'}</span>
+            <span className="text-lol-dim"> · </span>
+            <span className="text-lol-danger">{stats.fixes} {stats.fixes === 1 ? 'corrección' : 'correcciones'}</span>
+            <span className="text-lol-dim"> · </span>
+            <span className="text-lol-warning">{stats.improvements} {stats.improvements === 1 ? 'mejora' : 'mejoras'}</span>
           </p>
         </div>
       </motion.div>
@@ -171,7 +171,7 @@ export function ActivityTab() {
         transition={{ delay: 0.05 }}
         className="flex items-center gap-2 flex-wrap"
       >
-        <Filter className="w-3.5 h-3.5 text-[#5b5a56] shrink-0" />
+        <Filter className="w-3.5 h-3.5 text-lol-dim shrink-0" />
         {FILTER_OPTIONS.map(opt => {
           const isActive = activeFilter === opt.value;
           return (
@@ -195,7 +195,7 @@ export function ActivityTab() {
             </button>
           );
         })}
-        <span className="text-[10px] text-[#5b5a56] ml-auto">
+        <span className="text-[10px] text-lol-dim ml-auto">
           {sortedEntries.length} {sortedEntries.length === 1 ? 'entrada' : 'entradas'}
         </span>
       </motion.div>
@@ -203,13 +203,13 @@ export function ActivityTab() {
       {feed.highlights && feed.highlights.length > 0 && activeFilter === 'all' && (
         <div className="rounded-xl p-4" style={{ background: 'linear-gradient(135deg, rgba(200,170,110,0.08), rgba(200,170,110,0.02))', border: '1px solid rgba(200,170,110,0.2)' }}>
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-4 h-4 text-[#c8aa6e]" />
-            <span className="text-[10px] font-semibold text-[#c8aa6e] uppercase tracking-wider">Lo que tiene la app</span>
+            <Sparkles className="w-4 h-4 text-lol-gold" />
+            <span className="text-[10px] font-semibold text-lol-gold uppercase tracking-wider">Lo que tiene la app</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {feed.highlights.map((h, i) => (
-              <div key={i} className="flex items-center gap-2 text-[11px] text-[#a09b8c]">
-                <CheckCircle2 className="w-3 h-3 text-[#0fba81] shrink-0" />
+              <div key={i} className="flex items-center gap-2 text-[11px] text-lol-muted">
+                <CheckCircle2 className="w-3 h-3 text-lol-green shrink-0" />
                 {h}
               </div>
             ))}
@@ -236,13 +236,13 @@ export function ActivityTab() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h4 className="text-xs font-semibold text-[#f0e6d2]">{entry.title}</h4>
+                    <h4 className="text-xs font-semibold text-lol-text">{entry.title}</h4>
                     <span className="text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0" style={{ color: cfg.color, background: cfg.bg }}>
                       {cfg.label}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#785a28] leading-relaxed">{entry.description}</p>
-                  <div className="flex items-center gap-3 mt-2 text-[10px] text-[#5b5a56]">
+                  <p className="text-[11px] text-lol-gold-dark leading-relaxed">{entry.description}</p>
+                  <div className="flex items-center gap-3 mt-2 text-[10px] text-lol-dim">
                     <span className="flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{formatDate(entry.timestamp)}</span>
                     <span>{timeAgo(entry.timestamp)}</span>
                     {entry.commit && (
@@ -250,7 +250,7 @@ export function ActivityTab() {
                         href={`https://github.com/gamer-frog/moba-sage/commit/${entry.commit}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 font-mono text-[10px] text-[#0acbe6] hover:text-[#f0e6d2] transition-colors"
+                        className="flex items-center gap-1 font-mono text-[10px] text-lol-success hover:text-lol-text transition-colors"
                       >
                         <GitCommit className="w-2.5 h-2.5" />{entry.commit.slice(0, 7)}
                         <ExternalLink className="w-2 h-2" />
@@ -264,7 +264,7 @@ export function ActivityTab() {
         })}
       </div>
 
-      <div className="text-center text-[10px] text-[#5b5a56]">
+      <div className="text-center text-[10px] text-lol-dim">
         {feed.entries.length} entradas — Última actualización: {formatDate(feed.lastUpdated)}
       </div>
     </div>

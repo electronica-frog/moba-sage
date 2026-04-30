@@ -19,13 +19,13 @@ import { ProfileTab } from '@/components/moba/tabs/profile-tab';
 function TabSkeleton() {
   return (
     <div className="space-y-4 animate-pulse">
-      <div className="h-7 w-40 rounded-lg bg-[#1e2328]" />
+      <div className="h-7 w-40 rounded-lg bg-lol-card" />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <div key={i} className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(30,35,40,0.4)', border: '1px solid rgba(120,90,40,0.1)' }}>
-            <div className="h-5 w-32 rounded bg-[#1e2328]" />
-            <div className="h-4 w-full rounded bg-[#1e2328]" />
-            <div className="h-4 w-3/4 rounded bg-[#1e2328]" />
+            <div className="h-5 w-32 rounded bg-lol-card" />
+            <div className="h-4 w-full rounded bg-lol-card" />
+            <div className="h-4 w-3/4 rounded bg-lol-card" />
           </div>
         ))}
       </div>
@@ -96,13 +96,12 @@ export function TabContent({
             className="glass-card rounded-xl p-12 text-center max-w-md mx-auto"
             style={{ border: '1px solid rgba(232,64,87,0.2)' }}
           >
-            <WifiOff className="w-12 h-12 mx-auto mb-4 text-[#e84057]/60" />
-            <h3 className="lol-title text-lg text-[#f0e6d2] mb-2">Error al cargar datos</h3>
-            <p className="text-sm text-[#a09b8c] mb-6">No se pudo conectar con el servidor. Verificá tu conexión e intentá de nuevo.</p>
+            <WifiOff className="w-12 h-12 mx-auto mb-4 text-lol-danger/60" />
+            <h3 className="lol-title text-lg text-lol-text mb-2">Error al cargar datos</h3>
+            <p className="text-sm text-lol-muted mb-6">No se pudo conectar con el servidor. Verificá tu conexión e intentá de nuevo.</p>
             <motion.button
               onClick={onRetryFetch}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer"
-              style={{ background: 'linear-gradient(135deg, #c8aa6e, #785a28)', color: '#0a0e1a', boxShadow: '0 0 20px rgba(200,170,110,0.2)' }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer bg-lol-gold text-lol-bg"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >

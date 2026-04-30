@@ -54,24 +54,24 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
         >
           {tier}
         </span>
-        <div className="w-px h-4 bg-[#785a28]/40" />
+        <div className="w-px h-4 bg-lol-gold-dark/40" />
         <span className="text-xs font-medium" style={{ color: cfg.color }}>
           {cfg.label}
         </span>
-        <span className="text-[10px] text-[#5b5a56]">
+        <span className="text-[10px] text-lol-dim">
           {champions.length} campeones
         </span>
         {/* Tier averages */}
         <div className="hidden md:flex items-center gap-3 ml-auto text-[10px]">
           <div className="flex items-center gap-1">
-            <span className="text-[#5b5a56]">PROM</span>
+            <span className="text-lol-dim">PROM</span>
             <span className="font-mono font-semibold" style={{ color: wrColor(parseFloat(avgWR)) }}>{avgWR}% WR</span>
           </div>
-          <div className="w-px h-3 bg-[#785a28]/30" />
+          <div className="w-px h-3 bg-lol-gold-dark/30" />
           <div className="flex items-center gap-1">
-            <span className="font-mono text-[#a09b8c]">{avgPick}% Pick</span>
+            <span className="font-mono text-lol-muted">{avgPick}% Pick</span>
           </div>
-          <div className="w-px h-3 bg-[#785a28]/30" />
+          <div className="w-px h-3 bg-lol-gold-dark/30" />
           <div className="flex items-center gap-1">
             <span className="font-mono" style={{ color: parseFloat(avgBan) > 3 ? '#e84057' : '#a09b8c' }}>{avgBan}% Ban</span>
           </div>
@@ -86,7 +86,7 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
       )}
 
       <div
-        className="hidden sm:flex items-center px-4 py-1.5 text-[10px] text-[#5b5a56] uppercase tracking-widest font-medium"
+        className="hidden sm:flex items-center px-4 py-1.5 text-[10px] text-lol-dim uppercase tracking-widest font-medium"
         style={{
           background: 'rgba(20, 24, 30, 0.8)',
           borderLeft: `1px solid rgba(120, 90, 40, 0.15)`,
@@ -125,7 +125,7 @@ export function TierSection({ tier, champions, onChampionClick, favorites, onTog
 export function TierSectionSkeleton() {
   return (
     <div className="mb-4">
-      <div className="h-10 rounded-t-xl bg-[#1e2328]/50 mb-1" />
+      <div className="h-10 rounded-t-xl bg-lol-card/50 mb-1" />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 p-1 rounded-b-xl bg-[#14181e]/50">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg">

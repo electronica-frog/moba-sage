@@ -90,19 +90,19 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
               background: 'linear-gradient(135deg, rgba(200,170,110,0.25), rgba(200,170,110,0.08))',
               border: '1px solid rgba(200,170,110,0.35)',
             }}>
-              <Trophy className="w-6 h-6 text-[#c8aa6e]" />
+              <Trophy className="w-6 h-6 text-lol-gold" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm sm:text-base font-bold text-[#c8aa6e] lol-title">Patch {patchVersion} — Meta Report</h3>
+                <h3 className="text-sm sm:text-base font-bold text-lol-gold lol-title">Patch {patchVersion} — Meta Report</h3>
                 <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold" style={{ background: 'rgba(15,186,129,0.15)', color: '#0fba81', border: '1px solid rgba(15,186,129,0.25)' }}>
                   <Zap className="w-2.5 h-2.5" />
                   LIVE
                 </span>
               </div>
-              <p className="text-[11px] text-[#a09b8c] mt-0.5">{championCount} campeones analizados · 6 parches trackeados · 7 guías disponibles · Coaching IA</p>
+              <p className="text-[11px] text-lol-muted mt-0.5">{championCount} campeones analizados · 6 parches trackeados · 7 guías disponibles · Coaching IA</p>
             </div>
-            <ChevronRight className="w-5 h-5 text-[#785a28] shrink-0" />
+            <ChevronRight className="w-5 h-5 text-lol-gold-dark shrink-0" />
           </div>
         </div>
       </motion.div>
@@ -114,15 +114,14 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
         transition={{ delay: 0.1, duration: 0.6 }}
       >
         <h2
-          className="text-4xl sm:text-5xl font-black tracking-[0.15em] mb-3 lol-heading"
+          className="text-4xl sm:text-5xl font-black tracking-[0.15em] mb-3 lol-heading text-lol-gold"
           style={{
-            color: '#c8aa6e',
             textShadow: '0 0 40px rgba(200,170,110,0.4), 0 0 80px rgba(200,170,110,0.15), 0 2px 8px rgba(0,0,0,0.8)',
           }}
         >
           ELIGE TU JUEGO
         </h2>
-        <p className="text-[#5b5a56] text-sm sm:text-base tracking-widest uppercase">
+        <p className="text-lol-dim text-sm sm:text-base tracking-widest uppercase">
           Selecciona la plataforma para ver análisis
         </p>
         <div className="w-24 h-0.5 mx-auto mt-4" style={{ background: 'linear-gradient(90deg, transparent, #c8aa6e, transparent)' }} />
@@ -166,16 +165,16 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
               whileHover={{ rotate: [-2, 2, 0] }}
               transition={{ duration: 0.4 }}
             >
-              <Sword className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: '#c8aa6e' }} />
+              <Sword className="w-8 h-8 sm:w-10 sm:h-10 text-lol-gold" />
             </motion.div>
-            <h3 className="text-xl sm:text-2xl font-black tracking-[0.2em] mb-2" style={{ color: '#c8aa6e', textShadow: '0 0 20px rgba(200,170,110,0.3)' }}>
+            <h3 className="text-xl sm:text-2xl font-black tracking-[0.2em] mb-2 text-lol-gold" style={{ textShadow: '0 0 20px rgba(200,170,110,0.3)' }}>
               LEAGUE OF LEGENDS
             </h3>
             <div className="flex items-center gap-2 mb-4">
-              <Monitor className="w-4 h-4 text-[#5b5a56]" />
-              <p className="text-sm text-[#5b5a56] tracking-wide">PC Analytics</p>
+              <Monitor className="w-4 h-4 text-lol-dim" />
+              <p className="text-sm text-lol-dim tracking-wide">PC Analytics</p>
             </div>
-            <div className="flex items-center gap-1 text-xs text-[#785a28] group-hover:text-[#c8aa6e] transition-colors">
+            <div className="flex items-center gap-1 text-xs text-lol-gold-dark group-hover:text-lol-gold transition-colors">
               <span>Campeones &bull; Tier List &bull; Coaching</span>
               <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -221,16 +220,16 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
               whileHover={{ rotate: [-2, 2, 0] }}
               transition={{ duration: 0.4 }}
             >
-              <Smartphone className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: '#0acbe6' }} />
+              <Smartphone className="w-8 h-8 sm:w-10 sm:h-10 text-lol-success" />
             </motion.div>
-            <h3 className="text-xl sm:text-2xl font-black tracking-[0.2em] mb-2" style={{ color: '#0acbe6', textShadow: '0 0 20px rgba(10,203,230,0.3)' }}>
+            <h3 className="text-xl sm:text-2xl font-black tracking-[0.2em] mb-2 text-lol-success" style={{ textShadow: '0 0 20px rgba(10,203,230,0.3)' }}>
               WILD RIFT
             </h3>
             <div className="flex items-center gap-2 mb-4">
-              <Gamepad2 className="w-4 h-4 text-[#5b5a56]" />
-              <p className="text-sm text-[#5b5a56] tracking-wide">Mobile Analytics</p>
+              <Gamepad2 className="w-4 h-4 text-lol-dim" />
+              <p className="text-sm text-lol-dim tracking-wide">Mobile Analytics</p>
             </div>
-            <div className="flex items-center gap-1 text-xs text-[#5b5a56] group-hover:text-[#0acbe6] transition-colors">
+            <div className="flex items-center gap-1 text-xs text-lol-dim group-hover:text-lol-success transition-colors">
               <span>Campeones &bull; Tier List &bull; Builds</span>
               <ChevronRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />
             </div>
@@ -247,7 +246,7 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.5 }}
       >
-        <p className="lol-label text-[10px] text-[#785a28] mb-3 tracking-wider uppercase">Campeones Destacados</p>
+        <p className="lol-label text-[10px] text-lol-gold-dark mb-3 tracking-wider uppercase">Campeones Destacados</p>
         <div className="relative overflow-hidden rounded-xl py-2" style={{ maskImage: 'linear-gradient(90deg, transparent, black 8%, black 92%, transparent)' }}>
           <div
             className="flex gap-3 animate-marquee"
@@ -257,7 +256,7 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
               <button
                 key={`${champ}-${i}`}
                 onClick={() => onSelectGame('lol')}
-                className="shrink-0 w-12 h-12 rounded-lg overflow-hidden transition-all duration-300 hover:scale-110 hover:ring-2 hover:ring-[#c8aa6e] hover:shadow-[0_0_12px_rgba(200,170,110,0.4)]"
+                className="shrink-0 w-12 h-12 rounded-lg overflow-hidden transition-all duration-300 hover:scale-110 hover:ring-2 hover:ring-lol-gold hover:shadow-[0_0_12px_rgba(200,170,110,0.4)]"
                 style={{ border: '1px solid rgba(120,90,40,0.25)' }}
                 title={champ}
                 aria-label={champ}
@@ -277,30 +276,30 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
       <motion.div className="mt-12 max-w-2xl w-full relative z-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <div className="glass-card rounded-xl p-4 text-center">
-            <Database className="w-6 h-6 text-[#c8aa6e] mx-auto mb-2" />
-            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Fuentes de Datos</h4>
-            <p className="text-[10px] text-[#5b5a56]">Riot Data Dragon<br/>U.GG / OP.GG / Mobalytics<br/>CommunityDragon API</p>
+            <Database className="w-6 h-6 text-lol-gold mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-lol-text mb-1">Fuentes de Datos</h4>
+            <p className="text-[10px] text-lol-dim">Riot Data Dragon<br/>U.GG / OP.GG / Mobalytics<br/>CommunityDragon API</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <Clock className="w-6 h-6 text-[#0acbe6] mx-auto mb-2" />
-            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Datos del Meta</h4>
-            <p className="text-[10px] text-[#5b5a56]">Campeones (S/A/B)<br/>Builds con iconos<br/>Combos Rotos</p>
+            <Clock className="w-6 h-6 text-lol-success mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-lol-text mb-1">Datos del Meta</h4>
+            <p className="text-[10px] text-lol-dim">Campeones (S/A/B)<br/>Builds con iconos<br/>Combos Rotos</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <Shield className="w-6 h-6 text-[#f0c646] mx-auto mb-2" />
-            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">{TOTAL_TABS} Pestañas</h4>
-            <p className="text-[10px] text-[#5b5a56]">Tier List &bull; Parches<br/>Cosas Rotas &bull; Combos<br/>Competitivo &bull; Perfil</p>
+            <Shield className="w-6 h-6 text-lol-warning mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-lol-text mb-1">{TOTAL_TABS} Pestañas</h4>
+            <p className="text-[10px] text-lol-dim">Tier List &bull; Parches<br/>Cosas Rotas &bull; Combos<br/>Competitivo &bull; Perfil</p>
           </div>
           <div className="glass-card rounded-xl p-4 text-center">
-            <GraduationCap className="w-6 h-6 text-[#0fba81] mx-auto mb-2" />
-            <h4 className="text-xs font-semibold text-[#f0e6d2] mb-1">Coaching IA</h4>
-            <p className="text-[10px] text-[#5b5a56]">Mecánicas clave<br/>Warding y Visión<br/>Composiciones Pro</p>
+            <GraduationCap className="w-6 h-6 text-lol-green mx-auto mb-2" />
+            <h4 className="text-xs font-semibold text-lol-text mb-1">Coaching IA</h4>
+            <p className="text-[10px] text-lol-dim">Mecánicas clave<br/>Warding y Visión<br/>Composiciones Pro</p>
           </div>
         </div>
       </motion.div>
 
       <motion.p
-        className="text-[10px] text-[#785a28] mt-10 tracking-wider relative z-10"
+        className="text-[10px] text-lol-gold-dark mt-10 tracking-wider relative z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
@@ -310,7 +309,7 @@ export function GameSelectorLanding({ onSelectGame, patchVersion: externalPatch,
 
       {/* Version info */}
       <motion.p
-        className="text-[10px] text-[#5b5a56]/40 mt-2 tracking-wider relative z-10"
+        className="text-[10px] text-lol-dim/40 mt-2 tracking-wider relative z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}

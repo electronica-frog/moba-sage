@@ -19,21 +19,21 @@ export function SourceBadge({ source, timestamp, patch, size = 'sm' }: SourceBad
     : null;
 
   return (
-    <div className={`flex items-center gap-1.5 ${isSmall ? 'text-[10px]' : 'text-[10px]'} text-[#a09b8c]`}>
+    <div className={`flex items-center gap-1.5 ${isSmall ? 'text-[10px]' : 'text-[10px]'} text-lol-muted`}>
       {source && (
         <>
-          <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-[#c8aa6e]/10 text-[#c8aa6e] font-medium">
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-lol-gold/10 text-lol-gold font-medium">
             {source}
           </span>
         </>
       )}
       {patch && (
-        <span className="text-[#a09b8c]">
+        <span className="text-lol-muted">
           {patch}
         </span>
       )}
       {formattedTime && (
-        <span className="text-[#a09b8c]/70">
+        <span className="text-lol-muted/70">
           · {formattedTime}
         </span>
       )}
@@ -44,7 +44,7 @@ export function SourceBadge({ source, timestamp, patch, size = 'sm' }: SourceBad
 export function RiotAttribution({ size = 'xs' }: { size?: 'sm' | 'xs' }) {
   const isSmall = size === 'xs';
   return (
-    <p className={`text-[${isSmall ? '8' : '9'}px] text-[#a09b8c]/50 text-center mt-1`}>
+    <p className={`text-[${isSmall ? '8' : '9'}px] text-lol-muted/50 text-center mt-1`}>
       © Riot Games, Inc. League of Legends y todo el contenido son marcas de Riot Games, Inc.
     </p>
   );

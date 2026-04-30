@@ -27,10 +27,10 @@ export function CompetitiveTab({
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Crown className="w-5 h-5 text-[#f0c646]" />
+        <Crown className="w-5 h-5 text-lol-warning" />
         <div>
-          <h2 className="lol-title text-lg text-[#f0e6d2]">Escena Competitiva</h2>
-          <p className="text-xs text-[#5b5a56]">Campeones más pickados en torneos profesionales</p>
+          <h2 className="lol-title text-lg text-lol-text">Escena Competitiva</h2>
+          <p className="text-xs text-lol-dim">Campeones más pickados en torneos profesionales</p>
         </div>
       </div>
 
@@ -38,8 +38,8 @@ export function CompetitiveTab({
         <div className="glass-card rounded-xl overflow-hidden">
           <div className="text-center py-16 px-6">
             <Crown className="w-14 h-14 mx-auto mb-4 opacity-20" />
-            <h3 className="text-base font-semibold text-[#f0e6d2] mb-2">Wild Rift Competitivo</h3>
-            <p className="text-xs text-[#5b5a56] max-w-xs mx-auto">
+            <h3 className="text-base font-semibold text-lol-text mb-2">Wild Rift Competitivo</h3>
+            <p className="text-xs text-lol-dim max-w-xs mx-auto">
               Datos de la escena competitiva de Wild Rift próximamente.
               Mientras tanto, explorá las demás pestañas para encontrar info de WR.
             </p>
@@ -55,8 +55,8 @@ export function CompetitiveTab({
                 className={`
                   px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200
                   ${proRegionFilter === r.value
-                    ? 'bg-[#f0c646]/15 text-[#f0c646] border border-[#f0c646]/30'
-                    : 'text-[#5b5a56] hover:text-[#a09b8c] hover:bg-[#1e2328]/40 border border-transparent'
+                    ? 'bg-lol-warning/15 text-lol-warning border border-lol-warning/30'
+                    : 'text-lol-dim hover:text-lol-muted hover:bg-lol-card/40 border border-transparent'
                   }
                 `}
                 aria-pressed={proRegionFilter === r.value}
@@ -69,7 +69,7 @@ export function CompetitiveTab({
           {/* Desktop Table View */}
           <div className="hidden sm:block">
             <div className="glass-card rounded-xl overflow-hidden">
-              <div className="grid grid-cols-[2.5rem_1fr_4rem_5rem_3.5rem_3.5rem_3.5rem] gap-2 px-4 py-2 lol-label text-[10px] text-[#5b5a56]" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
+              <div className="grid grid-cols-[2.5rem_1fr_4rem_5rem_3.5rem_3.5rem_3.5rem] gap-2 px-4 py-2 lol-label text-[10px] text-lol-dim" style={{ borderBottom: '1px solid rgba(120,90,40,0.15)' }}>
                 <div />
                 <div>Campeón</div>
                 <div>Rol</div>
@@ -97,11 +97,11 @@ export function CompetitiveTab({
                       initial={{ opacity: 0, x: -5 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.03 }}
-                      className="flex items-center gap-3 px-4 py-2.5 hover:bg-[#1e2328]/40 transition-colors"
+                      className="flex items-center gap-3 px-4 py-2.5 hover:bg-lol-card/40 transition-colors"
                     >
                       <ChampionIcon name={pick.champion} tier="A" />
                       <div className="flex-1 min-w-0">
-                        <span className="text-sm font-medium text-[#f0e6d2]">{pick.champion}</span>
+                        <span className="text-sm font-medium text-lol-text">{pick.champion}</span>
                       </div>
                       <div className="w-16 shrink-0">
                         <RoleBadge role={pick.role} />
@@ -110,7 +110,7 @@ export function CompetitiveTab({
                         <TournamentBadge tournament={pick.tournament} />
                       </div>
                       <div className="flex items-center gap-2.5 shrink-0 text-[11px] w-[10.5rem] justify-end">
-                        <span className="font-mono font-semibold text-[#0acbe6] w-14 text-right">{pick.pickRate}%</span>
+                        <span className="font-mono font-semibold text-lol-success w-14 text-right">{pick.pickRate}%</span>
                         <span className="font-mono font-semibold w-14 text-right" style={{ color: pick.banRate > 10 ? '#e84057' : '#a09b8c' }}>{pick.banRate}%</span>
                         <span className="font-mono font-semibold w-14 text-right" style={{ color: pick.winRate >= 54 ? '#0acbe6' : pick.winRate >= 50 ? '#a09b8c' : '#e84057' }}>{pick.winRate}%</span>
                       </div>
@@ -147,7 +147,7 @@ export function CompetitiveTab({
           </div>
 
           {!loading && filteredPicks.length === 0 && (
-            <div className="text-center py-12 text-[#5b5a56]">
+            <div className="text-center py-12 text-lol-dim">
               <Crown className="w-12 h-12 mx-auto mb-3 opacity-20" />
               <p className="text-sm">No hay datos para esta región</p>
             </div>
@@ -182,9 +182,9 @@ function ProPickCard({ pick, index }: { pick: ProPick; index: number }) {
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-semibold text-[#f0e6d2] truncate">{pick.champion}</span>
+              <span className="text-sm font-semibold text-lol-text truncate">{pick.champion}</span>
               <ChevronUp
-                className={`w-3.5 h-3.5 text-[#5b5a56] shrink-0 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+                className={`w-3.5 h-3.5 text-lol-dim shrink-0 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
               />
             </div>
             <div className="flex items-center gap-2">
@@ -197,16 +197,16 @@ function ProPickCard({ pick, index }: { pick: ProPick; index: number }) {
         {/* Stats grid */}
         <div className="grid grid-cols-3 gap-2">
           <div className="rounded-lg p-2 text-center" style={{ background: 'rgba(10,203,230,0.08)', border: '1px solid rgba(10,203,230,0.15)' }}>
-            <p className="text-sm font-mono font-bold text-[#0acbe6]">{pick.pickRate}%</p>
-            <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider mt-0.5">Pick</p>
+            <p className="text-sm font-mono font-bold text-lol-success">{pick.pickRate}%</p>
+            <p className="text-[10px] text-lol-dim uppercase tracking-wider mt-0.5">Pick</p>
           </div>
           <div className="rounded-lg p-2 text-center" style={{ background: pick.banRate > 10 ? 'rgba(232,64,87,0.08)' : 'rgba(160,155,140,0.05)', border: `1px solid ${pick.banRate > 10 ? 'rgba(232,64,87,0.15)' : 'rgba(160,155,140,0.1)'}` }}>
             <p className="text-sm font-mono font-bold" style={{ color: pick.banRate > 10 ? '#e84057' : '#a09b8c' }}>{pick.banRate}%</p>
-            <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider mt-0.5">Ban</p>
+            <p className="text-[10px] text-lol-dim uppercase tracking-wider mt-0.5">Ban</p>
           </div>
           <div className="rounded-lg p-2 text-center" style={{ background: 'rgba(15,186,129,0.08)', border: '1px solid rgba(15,186,129,0.15)' }}>
             <p className="text-sm font-mono font-bold" style={{ color: pick.winRate >= 54 ? '#0acbe6' : pick.winRate >= 50 ? '#a09b8c' : '#e84057' }}>{pick.winRate}%</p>
-            <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider mt-0.5">WR</p>
+            <p className="text-[10px] text-lol-dim uppercase tracking-wider mt-0.5">WR</p>
           </div>
         </div>
       </div>
@@ -224,15 +224,15 @@ function ProPickCard({ pick, index }: { pick: ProPick; index: number }) {
             <div className="px-4 pb-4 pt-1" style={{ borderTop: '1px solid rgba(120,90,40,0.1)' }}>
               <div className="grid grid-cols-2 gap-3 mt-2">
                 <div className="space-y-1">
-                  <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider">Región</p>
+                  <p className="text-[10px] text-lol-dim uppercase tracking-wider">Región</p>
                   <TournamentBadge tournament={pick.tournament} />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] text-[#5b5a56] uppercase tracking-wider">Patch</p>
-                  <span className="text-xs font-mono text-[#a09b8c]">{pick.patch}</span>
+                  <p className="text-[10px] text-lol-dim uppercase tracking-wider">Patch</p>
+                  <span className="text-xs font-mono text-lol-muted">{pick.patch}</span>
                 </div>
               </div>
-              <p className="text-[10px] text-[#785a28] mt-2 italic">
+              <p className="text-[10px] text-lol-gold-dark mt-2 italic">
                 {pick.champion} es pickado el {pick.pickRate}% de las partidas en {pick.tournament}, con un win rate del {pick.winRate}% y ban rate del {pick.banRate}%.
               </p>
             </div>

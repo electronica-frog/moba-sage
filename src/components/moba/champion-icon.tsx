@@ -59,7 +59,7 @@ export const SmallChampionIcon = memo(function SmallChampionIcon({ name }: { nam
           onError={() => setImgError(true)}
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center text-xs font-bold bg-[#1e2328] text-[#a09b8c]">
+        <div className="w-full h-full flex items-center justify-center text-xs font-bold bg-lol-card text-lol-muted">
           {name[0]}
         </div>
       )}
@@ -81,7 +81,7 @@ export const SplashArtIcon = memo(function SplashArtIcon({ name }: { name: strin
         onError={() => setImgError(true)}
       />
     ) : (
-      <div className="w-full h-full flex items-center justify-center text-lg font-black relative" style={{ backgroundColor: 'rgba(200,170,110,0.15)', color: '#c8aa6e' }}>
+      <div className="w-full h-full flex items-center justify-center text-lg font-black relative bg-lol-gold/15 text-lol-gold">
         {name[0]}
       </div>
     )
@@ -106,7 +106,7 @@ export const TinyChampionIcon = memo(function TinyChampionIcon({ name }: { name:
           onError={() => setImgError(true)}
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center text-[10px] font-bold bg-[#1e2328] text-[#a09b8c]">
+        <div className="w-full h-full flex items-center justify-center text-[10px] font-bold bg-lol-card text-lol-muted">
           {name[0]}
         </div>
       )}
@@ -132,7 +132,7 @@ export const MicroChampionIcon = memo(function MicroChampionIcon({ name }: { nam
           onError={() => setImgError(true)}
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center text-[6px] font-bold bg-[#1e2328] text-[#a09b8c]">
+        <div className="w-full h-full flex items-center justify-center text-[6px] font-bold bg-lol-card text-lol-muted">
           {name[0]}
         </div>
       )}

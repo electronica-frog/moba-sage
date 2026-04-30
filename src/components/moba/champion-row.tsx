@@ -33,10 +33,10 @@ function MiniBar({ value, max, color }: { value: number; max: number; color: str
 
 // Trend icon based on pro pick rate
 function TrendIcon({ rate }: { rate: number }) {
-  if (rate >= 15) return <TrendingUp className="w-3 h-3 text-[#0fba81]" />;
-  if (rate >= 8) return <TrendingUp className="w-3 h-3 text-[#0acbe6]" />;
-  if (rate >= 4) return <Minus className="w-3 h-3 text-[#f0c646]" />;
-  return <TrendingDown className="w-3 h-3 text-[#5b5a56]" />;
+  if (rate >= 15) return <TrendingUp className="w-3 h-3 text-lol-green" />;
+  if (rate >= 8) return <TrendingUp className="w-3 h-3 text-lol-success" />;
+  if (rate >= 4) return <Minus className="w-3 h-3 text-lol-warning" />;
+  return <TrendingDown className="w-3 h-3 text-lol-dim" />;
 }
 
 // Parse comma-separated champion names from counterPick or synergy
@@ -79,13 +79,13 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
         <ChampionIcon name={champion.name} tier={champion.tier} />
         {isFavorite && (
           <div className="absolute -top-1 -right-1 z-10 lol-fav-star">
-            <Star className="w-3.5 h-3.5 text-[#f0c646]" fill="#f0c646" />
+            <Star className="w-3.5 h-3.5 text-lol-warning" fill="#f0c646" />
           </div>
         )}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <h3 className="font-bold text-[13px] text-[#f0e6d2] truncate group-hover:text-[#c8aa6e] transition-colors leading-tight">
+          <h3 className="font-bold text-[13px] text-lol-text truncate group-hover:text-lol-gold transition-colors leading-tight">
             {champion.name}
           </h3>
           {trend === 'rising' && (
@@ -98,7 +98,7 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
             <TrendIcon rate={champion.proPickRate} />
           )}
         </div>
-        <p className="text-[10px] text-[#785a28] truncate leading-tight mt-0.5 italic">{champion.title}</p>
+        <p className="text-[10px] text-lol-gold-dark truncate leading-tight mt-0.5 italic">{champion.title}</p>
         {/* Matchup indicators — synergy (green) + counters (red) */}
         {hasMatchups && (
           <div className="flex items-center gap-1.5 mt-1 opacity-70 group-hover:opacity-100 transition-opacity">
@@ -109,7 +109,7 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
               </div>
             ))}
             {synergyNames.length > 0 && counterNames.length > 0 && (
-              <div className="w-px h-3 bg-[#785a28]/30" />
+              <div className="w-px h-3 bg-lol-gold-dark/30" />
             )}
             {counterNames.slice(0, 3).map((name) => (
               <div key={`ctr-${name}`} className="relative" title={`${name} (Counter)`}>
@@ -127,25 +127,25 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
           <span className="font-mono font-bold text-[11px] sm:text-[12px] leading-none" style={{ color: wr }}>
             {champion.winRate}%
           </span>
-          <span className="text-[10px] text-[#5b5a56] uppercase tracking-widest">WR</span>
+          <span className="text-[10px] text-lol-dim uppercase tracking-widest">WR</span>
         </div>
         <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-md" style={{ background: 'rgba(91,138,245,0.08)', border: '1px solid rgba(91,138,245,0.15)' }}>
           <span className="font-mono font-semibold text-[12px] text-[#5b8af5] leading-none">{champion.pickRate}%</span>
-          <span className="text-[10px] text-[#5b5a56] uppercase tracking-widest">Pick</span>
+          <span className="text-[10px] text-lol-dim uppercase tracking-widest">Pick</span>
         </div>
         <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-md" style={{ background: champion.banRate > 5 ? 'rgba(232,64,87,0.08)' : 'rgba(120,90,40,0.05)', border: champion.banRate > 5 ? '1px solid rgba(232,64,87,0.15)' : '1px solid rgba(120,90,40,0.1)' }}>
           <span className="font-mono font-semibold text-[12px] leading-none" style={{ color: champion.banRate > 5 ? '#e84057' : '#a09b8c' }}>{champion.banRate}%</span>
-          <span className="text-[10px] text-[#5b5a56] uppercase tracking-widest">Ban</span>
+          <span className="text-[10px] text-lol-dim uppercase tracking-widest">Ban</span>
         </div>
         {/* Weekly WR mini chart */}
         {showWeeklyChart && (
           <div className="flex flex-col items-end gap-0.5">
-            <span className="text-[10px] text-[#5b5a56] uppercase tracking-wider leading-none">4 Sem</span>
+            <span className="text-[10px] text-lol-dim uppercase tracking-wider leading-none">4 Sem</span>
             <WeeklyWRChart championName={champion.name} currentWR={champion.winRate} compact />
           </div>
         )}
       </div>
-      <ChevronDown className="w-4 h-4 text-[#785a28] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <ChevronDown className="w-4 h-4 text-lol-gold-dark shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
       {onToggleFavorite && (
         <button
           onClick={(e) => { e.stopPropagation(); onToggleFavorite(e); }}
@@ -154,7 +154,7 @@ export function ChampionRow({ champion, onClick, isFavorite, onToggleFavorite, t
           aria-label={isFavorite ? `Quitar ${champion.name} de favoritos` : `Marcar ${champion.name} como favorito`}
           aria-pressed={isFavorite}
         >
-          <Star className={`w-4 h-4 transition-colors ${isFavorite ? 'text-[#f0c646]' : 'text-[#5b5a56] hover:text-[#f0c646]'}`} fill={isFavorite ? '#f0c646' : 'none'} />
+          <Star className={`w-4 h-4 transition-colors ${isFavorite ? 'text-lol-warning' : 'text-lol-dim hover:text-lol-warning'}`} fill={isFavorite ? '#f0c646' : 'none'} />
         </button>
       )}
     </motion.div>

@@ -179,7 +179,7 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <Sword className="w-7 h-7" style={{ color: '#c8aa6e' }} />
+            <Sword className="w-7 h-7 text-lol-gold" />
           </motion.div>
         </motion.div>
 
@@ -189,7 +189,7 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.4 }}>
           MOBA SAGE
         </motion.h1>
-        <motion.p className="text-[10px] tracking-[0.2em] uppercase mb-4" style={{ color: '#5b5a56' }}
+        <motion.p className="text-[10px] tracking-[0.2em] uppercase mb-4 text-lol-dim"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25, duration: 0.4 }}>
           {getGreeting()}, invocador
         </motion.p>
@@ -226,8 +226,8 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.4 }}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5">
-              <Globe className="w-3 h-3" style={{ color: '#785a28' }} />
-              <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#785a28' }}>Versiones</span>
+              <Globe className="w-3 h-3 text-lol-gold-dark" />
+              <span className="text-[10px] font-semibold tracking-[0.15em] uppercase text-lol-gold-dark">Versiones</span>
             </div>
             <div className="flex items-center gap-1.5">
               <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }} transition={{ duration: 1.5, repeat: Infinity }}
@@ -239,18 +239,18 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           </div>
           <div className="flex items-center gap-2">
             <div className="flex-1 rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(10,14,26,0.5)' }}>
-              <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>LoL</p>
-              <p className="text-[15px] font-bold font-mono" style={{ color: '#f0e6d2' }}>{version ? version.lol : '...'}</p>
+              <p className="text-[10px] uppercase tracking-wider mb-0.5 text-lol-dim">LoL</p>
+              <p className="text-[15px] font-bold font-mono text-lol-text">{version ? version.lol : '...'}</p>
             </div>
             <div className="w-px h-7 shrink-0" style={{ background: 'rgba(200,170,110,0.08)' }} />
             <div className="flex-1 rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(10,14,26,0.5)' }}>
-              <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>Wild Rift</p>
-              <p className="text-[15px] font-bold font-mono" style={{ color: '#f0e6d2' }}>{version ? version.wr : '...'}</p>
+              <p className="text-[10px] uppercase tracking-wider mb-0.5 text-lol-dim">Wild Rift</p>
+              <p className="text-[15px] font-bold font-mono text-lol-text">{version ? version.wr : '...'}</p>
             </div>
             <div className="w-px h-7 shrink-0" style={{ background: 'rgba(200,170,110,0.08)' }} />
             <div className="flex-1 rounded-lg px-2.5 py-1.5" style={{ background: 'rgba(10,14,26,0.5)' }}>
-              <p className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: '#5b5a56' }}>Meta</p>
-              <p className="text-[10px] font-mono font-semibold mt-0.5" style={{ color: '#785a28' }}>
+              <p className="text-[10px] uppercase tracking-wider mb-0.5 text-lol-dim">Meta</p>
+              <p className="text-[10px] font-mono font-semibold mt-0.5 text-lol-gold-dark">
                 {version?.metaLastUpdated ? formatDate(version.metaLastUpdated) : '...'}
               </p>
             </div>
@@ -263,8 +263,8 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.4 }}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5">
-              <Database className="w-3 h-3" style={{ color: '#0acbe6' }} />
-              <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: '#0acbe6' }}>Fuentes de datos</span>
+              <Database className="w-3 h-3 text-lol-success" />
+              <span className="text-[10px] font-semibold tracking-[0.15em] uppercase text-lol-success">Fuentes de datos</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] font-mono font-bold" style={{ color: allDone ? '#0fba81' : '#f0c646' }}>{doneCount}/{sources.length}</span>
@@ -322,13 +322,12 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
           style={{ background: 'linear-gradient(135deg, rgba(120,90,40,0.08), rgba(18,22,30,0.5))', border: '1px solid rgba(200,170,110,0.06)' }}
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.4 }}>
           <div className="flex items-start gap-2">
-            <Lightbulb className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: '#f0c646' }} />
+            <Lightbulb className="w-3.5 h-3.5 shrink-0 mt-0.5 text-lol-warning" />
             <div className="min-w-0">
-              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-1" style={{ color: '#785a28' }}>Tip del dia</p>
+              <p className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-1 text-lol-gold-dark">Tip del dia</p>
               <motion.p
                 key={tipIdx}
-                className="text-[10px] leading-relaxed"
-                style={{ color: '#a09b8c' }}
+                className="text-[10px] leading-relaxed text-lol-muted"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
@@ -385,7 +384,7 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
 
             <div className="flex items-center justify-center gap-3 mt-2">
               {!allDone && (
-                <span className="text-[10px] tracking-wider" style={{ color: '#5b5a56' }}>
+                <span className="text-[10px] tracking-wider text-lol-dim">
                   {doneCount}/{sources.length} fuentes
                 </span>
               )}

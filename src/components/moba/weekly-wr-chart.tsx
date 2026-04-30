@@ -104,7 +104,7 @@ export function WeeklyWRChart({
     <div className="space-y-2">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <span className="text-[10px] text-[#5b5a56] uppercase tracking-wider font-semibold">Tendencia 4 Semanas</span>
+        <span className="text-[10px] text-lol-dim uppercase tracking-wider font-semibold">Tendencia 4 Semanas</span>
         <div className="flex items-center gap-1.5">
           <span className="text-[10px] font-mono font-bold" style={{ color: trendColor }}>
             {overallTrend > 0 ? '+' : ''}{overallTrend.toFixed(1)}%
@@ -207,7 +207,7 @@ export function WeeklyWRChart({
                 <span className={`font-mono font-bold ${isLast ? 'text-[10px]' : 'text-[10px]'}`} style={{ color }}>
                   {d.wr}%
                 </span>
-                <span className="text-[10px] text-[#5b5a56]">{d.week}</span>
+                <span className="text-[10px] text-lol-dim">{d.week}</span>
               </div>
             );
           })}
@@ -217,16 +217,16 @@ export function WeeklyWRChart({
       {/* Legend */}
       <div className="flex items-center gap-3 text-[10px]">
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-sm bg-[#0fba81]" />
-          <span className="text-[#5b5a56]">Sube</span>
+          <div className="w-2 h-2 rounded-sm bg-lol-green" />
+          <span className="text-lol-dim">Sube</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-sm bg-[#e84057]" />
-          <span className="text-[#5b5a56]">Baja</span>
+          <div className="w-2 h-2 rounded-sm bg-lol-danger" />
+          <span className="text-lol-dim">Baja</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-sm bg-[#c8aa6e]" />
-          <span className="text-[#5b5a56]">Estable</span>
+          <div className="w-2 h-2 rounded-sm bg-lol-gold" />
+          <span className="text-lol-dim">Estable</span>
         </div>
       </div>
     </div>

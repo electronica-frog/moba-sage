@@ -20,29 +20,29 @@ export function TasksTab({ tasks, loading, onRefresh, onToggleTask }: {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 mb-2">
-        <ListTodo className="w-5 h-5 text-[#c8aa6e]" />
+        <ListTodo className="w-5 h-5 text-lol-gold" />
         <div>
-          <h2 className="text-lg font-bold text-[#f0e6d2]">Cola de Tareas Circulares</h2>
-          <p className="text-xs text-[#5b5a56]">Tareas automáticas que mantienen los datos actualizados</p>
+          <h2 className="text-lg font-bold text-lol-text">Cola de Tareas Circulares</h2>
+          <p className="text-xs text-lol-dim">Tareas automáticas que mantienen los datos actualizados</p>
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3">
         <div className="glass-card rounded-xl p-3 text-center">
-          <p className="text-2xl font-bold text-[#0acbe6]">{runningCount}</p>
-          <p className="text-[10px] text-[#5b5a56]">Ejecutando</p>
+          <p className="text-2xl font-bold text-lol-success">{runningCount}</p>
+          <p className="text-[10px] text-lol-dim">Ejecutando</p>
         </div>
         <div className="glass-card rounded-xl p-3 text-center">
-          <p className="text-2xl font-bold text-[#0acbe6]">{doneCount}</p>
-          <p className="text-[10px] text-[#5b5a56]">Completados</p>
+          <p className="text-2xl font-bold text-lol-success">{doneCount}</p>
+          <p className="text-[10px] text-lol-dim">Completados</p>
         </div>
         <div className="glass-card rounded-xl p-3 text-center">
-          <p className="text-2xl font-bold text-[#5b5a56]">{pendingCount}</p>
-          <p className="text-[10px] text-[#5b5a56]">Pendientes</p>
+          <p className="text-2xl font-bold text-lol-dim">{pendingCount}</p>
+          <p className="text-[10px] text-lol-dim">Pendientes</p>
         </div>
       </div>
 
-      <Button variant="outline" size="sm" onClick={onRefresh} className="border-[#785a28]/30 text-[#5b5a56] hover:text-[#f0e6d2] hover:border-[#c8aa6e]/50 text-xs">
+      <Button variant="outline" size="sm" onClick={onRefresh} className="border-lol-gold-dark/30 text-lol-dim hover:text-lol-text hover:border-lol-gold/50 text-xs">
         <RefreshCw className="w-3 h-3 mr-1" />
         Refrescar
       </Button>
@@ -65,24 +65,24 @@ export function TasksTab({ tasks, loading, onRefresh, onToggleTask }: {
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.15, delay: idx * 0.03 }}
-              className="glass-card rounded-xl p-4 flex items-start gap-3 group hover:border-[#c8aa6e]/30 transition-colors cursor-pointer"
+              className="glass-card rounded-xl p-4 flex items-start gap-3 group hover:border-lol-gold/30 transition-colors cursor-pointer"
               onClick={() => onToggleTask(task)}
             >
               <div className="mt-0.5 shrink-0">
-                <span className="text-xs font-mono text-[#785a28]">#{task.pointer}</span>
+                <span className="text-xs font-mono text-lol-gold-dark">#{task.pointer}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <h4 className="text-sm font-medium text-[#f0e6d2]">{task.title}</h4>
+                  <h4 className="text-sm font-medium text-lol-text">{task.title}</h4>
                   <StatusBadge status={task.status} />
                 </div>
-                <p className="text-xs text-[#5b5a56] leading-relaxed mb-1">{task.description}</p>
-                <div className="flex items-center gap-1 text-[10px] text-[#785a28]">
+                <p className="text-xs text-lol-dim leading-relaxed mb-1">{task.description}</p>
+                <div className="flex items-center gap-1 text-[10px] text-lol-gold-dark">
                   <Clock className="w-3 h-3" />
                   <span>{task.interval} min</span>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-[#785a28] shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
+              <ChevronRight className="w-4 h-4 text-lol-gold-dark shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
             </motion.div>
           ))}
         </div>

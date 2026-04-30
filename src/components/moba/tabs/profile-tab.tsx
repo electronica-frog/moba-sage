@@ -92,10 +92,10 @@ export function ProfileTab({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <User className="w-5 h-5 text-[#c8aa6e]" />
+        <User className="w-5 h-5 text-lol-gold" />
         <div>
-          <h2 className="text-lg font-bold text-[#f0e6d2]">Perfil de Invocador</h2>
-          <p className="text-xs text-[#5b5a56]">Busca cualquier invocador para ver su perfil</p>
+          <h2 className="text-lg font-bold text-lol-text">Perfil de Invocador</h2>
+          <p className="text-xs text-lol-dim">Busca cualquier invocador para ver su perfil</p>
         </div>
       </div>
 
@@ -121,8 +121,8 @@ export function ProfileTab({
               >
                 <Icon className="w-4 h-4" style={{ color: stat.color }} />
               </div>
-              <p className="text-[10px] text-[#5b5a56] mb-0.5 truncate">{stat.label}</p>
-              <p className="text-sm font-bold text-[#f0e6d2] truncate">{stat.value}</p>
+              <p className="text-[10px] text-lol-dim mb-0.5 truncate">{stat.label}</p>
+              <p className="text-sm font-bold text-lol-text truncate">{stat.value}</p>
             </motion.div>
           );
         })}
@@ -150,18 +150,18 @@ export function ProfileTab({
                 boxShadow: '0 0 16px rgba(200,170,110,0.3)',
               }}
             >
-              <Key className="w-5 h-5 text-[#0a0e1a]" />
+              <Key className="w-5 h-5 text-lol-bg" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-[#f0e6d2]">Conecta tu cuenta</h3>
-              <p className="text-[10px] text-[#a09b8c]">Desbloquea estadísticas completas</p>
+              <h3 className="text-sm font-bold text-lol-text">Conecta tu cuenta</h3>
+              <p className="text-[10px] text-lol-muted">Desbloquea estadísticas completas</p>
             </div>
           </div>
           <div className="space-y-1.5">
             {CONNECT_FEATURES.map((feature, idx) => (
               <div key={idx} className="flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: '#c8aa6e', boxShadow: '0 0 6px rgba(200,170,110,0.4)' }} />
-                <span className="text-[11px] text-[#a09b8c]">{feature}</span>
+                <span className="text-[11px] text-lol-muted">{feature}</span>
               </div>
             ))}
           </div>
@@ -171,54 +171,54 @@ export function ProfileTab({
 
       {!summonerData && (
       <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(200,170,110,0.08)', border: '1px solid rgba(200,170,110,0.15)' }}>
-        <Sparkles className="w-4 h-4 text-[#c8aa6e] shrink-0" />
-        <p className="text-xs text-[#a09b8c]">Modo Demo — Conecta tu API Key de Riot para datos reales</p>
+        <Sparkles className="w-4 h-4 text-lol-gold shrink-0" />
+        <p className="text-xs text-lol-muted">Modo Demo — Conecta tu API Key de Riot para datos reales</p>
       </div>
       )}
 
       <div className="glass-card rounded-xl p-5 space-y-4">
         <div className="space-y-3">
           <div>
-            <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">Nombre de Invocador</label>
+            <label className="text-xs font-medium text-lol-muted mb-1.5 block tracking-wide uppercase">Nombre de Invocador</label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-lol-dim" />
               <Input
                 placeholder="Ej: Faker"
                 value={summonerName}
                 onChange={e => onSummonerNameChange(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && onSearchSummoner()}
-                className="pl-10 bg-[#0a0e1a]/60 border-[#785a28]/30 text-[#f0e6d2] placeholder:text-[#5b5a56] focus-visible:border-[#c8aa6e] focus-visible:ring-[#c8aa6e]/20 h-10 rounded-lg"
+                className="pl-10 bg-lol-bg/60 border-lol-gold-dark/30 text-lol-text placeholder:text-lol-dim focus-visible:border-lol-gold focus-visible:ring-lol-gold/20 h-10 rounded-lg"
               />
             </div>
           </div>
           <div>
-            <label className="text-xs font-medium text-[#a09b8c] mb-1.5 block tracking-wide uppercase">Región</label>
+            <label className="text-xs font-medium text-lol-muted mb-1.5 block tracking-wide uppercase">Región</label>
             <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56] pointer-events-none" />
+              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-lol-dim pointer-events-none" />
               <select
                 value={summonerRegion}
                 onChange={e => onSummonerRegionChange(e.target.value)}
-                className="w-full pl-10 pr-8 h-10 rounded-lg bg-[#0a0e1a]/60 border-[#785a28]/30 text-[#f0e6d2] text-sm appearance-none cursor-pointer focus:outline-none focus:border-[#c8aa6e] focus:ring-[#c8aa6e]/20"
+                className="w-full pl-10 pr-8 h-10 rounded-lg bg-lol-bg/60 border-lol-gold-dark/30 text-lol-text text-sm appearance-none cursor-pointer focus:outline-none focus:border-lol-gold focus:ring-[#c8aa6e]/20"
                 style={{ backgroundImage: 'none' }}
               >
                 {REGIONS.map(r => (
-                  <option key={r.value} value={r.value} className="bg-[#1e2328] text-[#f0e6d2]">{r.label}</option>
+                  <option key={r.value} value={r.value} className="bg-lol-card text-lol-text">{r.label}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5b5a56] pointer-events-none" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-lol-dim pointer-events-none" />
             </div>
           </div>
         </div>
-        <Button onClick={onSearchSummoner} disabled={summonerLoading || !summonerName.trim()} className="w-full bg-[#c8aa6e] text-[#0a0e1a] hover:bg-[#c8aa6e]/90 font-semibold rounded-lg gap-2">
+        <Button onClick={onSearchSummoner} disabled={summonerLoading || !summonerName.trim()} className="w-full bg-lol-gold text-lol-bg hover:bg-lol-gold/90 font-semibold rounded-lg gap-2">
           {summonerLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
           Buscar
         </Button>
       </div>
 
       {summonerError && (
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 px-4 py-3 rounded-xl border border-[#e84057]/30" style={{ background: 'rgba(232,64,87,0.08)' }}>
-          <AlertTriangle className="w-4 h-4 text-[#e84057] shrink-0" />
-          <p className="text-sm text-[#e84057]">{summonerError}</p>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3 px-4 py-3 rounded-xl border border-lol-danger/30" style={{ background: 'rgba(232,64,87,0.08)' }}>
+          <AlertTriangle className="w-4 h-4 text-lol-danger shrink-0" />
+          <p className="text-sm text-lol-danger">{summonerError}</p>
         </motion.div>
       )}
 
@@ -247,12 +247,12 @@ export function ProfileTab({
                 <Image src={`https://ddragon.leagueoflegends.com/cdn/img/profileicon/${summonerData.profileIconId}.png`} alt={summonerData.name} fill className="object-cover" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-xl font-bold text-[#f0e6d2] truncate">{summonerData.name}</h3>
+                <h3 className="text-xl font-bold text-lol-text truncate">{summonerData.name}</h3>
                 <div className="flex items-center gap-2 mt-1">
-                  <Crown className="w-4 h-4 text-[#c8aa6e]" />
-                  <span className="text-sm text-[#a09b8c]">Nivel {summonerData.level}</span>
+                  <Crown className="w-4 h-4 text-lol-gold" />
+                  <span className="text-sm text-lol-muted">Nivel {summonerData.level}</span>
                 </div>
-                <Badge variant="outline" className="mt-2 text-[10px] border-[#0acbe6]/30 text-[#0acbe6]">{summonerRegion}</Badge>
+                <Badge variant="outline" className="mt-2 text-[10px] border-lol-success/30 text-lol-success">{summonerRegion}</Badge>
               </div>
             </div>
           </div>
@@ -271,7 +271,7 @@ export function ProfileTab({
                   <motion.div key={entry.queueType} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }} className="glass-card rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Icon className="w-4 h-4" style={{ color: tierColor }} />
-                      <span className="text-xs font-medium text-[#a09b8c] uppercase tracking-wider">{queueLabel}</span>
+                      <span className="text-xs font-medium text-lol-muted uppercase tracking-wider">{queueLabel}</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="text-center">
@@ -280,13 +280,13 @@ export function ProfileTab({
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-[#f0e6d2]">{entry.tier} {entry.rank}</p>
-                        <p className="text-xs text-[#a09b8c]"><span className="font-mono font-semibold" style={{ color: '#c8aa6e' }}>{entry.lp}</span> LP</p>
+                        <p className="text-sm font-semibold text-lol-text">{entry.tier} {entry.rank}</p>
+                        <p className="text-xs text-lol-muted"><span className="font-mono font-semibold" style={{ color: '#c8aa6e' }}>{entry.lp}</span> LP</p>
                         <div className="flex items-center gap-2 mt-1.5 text-[11px]">
-                          <span className="text-[#0acbe6]">{entry.wins}V</span>
-                          <span className="text-[#5b5a56]">/</span>
-                          <span className="text-[#e84057]">{entry.losses}D</span>
-                          <span className="text-[#a09b8c] ml-1">({winRate}%)</span>
+                          <span className="text-lol-success">{entry.wins}V</span>
+                          <span className="text-lol-dim">/</span>
+                          <span className="text-lol-danger">{entry.losses}D</span>
+                          <span className="text-lol-muted ml-1">({winRate}%)</span>
                         </div>
                       </div>
                     </div>
@@ -299,20 +299,20 @@ export function ProfileTab({
           {summonerData.mostPlayed.length > 0 && (
             <div className="glass-card rounded-xl p-5">
               <div className="flex items-center gap-2 mb-4">
-                <Trophy className="w-4 h-4 text-[#c8aa6e]" />
-                <h4 className="text-sm font-semibold text-[#f0e6d2]">Campeones Más Jugados</h4>
+                <Trophy className="w-4 h-4 text-lol-gold" />
+                <h4 className="text-sm font-semibold text-lol-text">Campeones Más Jugados</h4>
               </div>
               <div className="space-y-2">
                 {summonerData.mostPlayed.map((entry, idx) => (
-                  <motion.div key={entry.champion} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }} className="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1e2328]/60 transition-colors">
+                  <motion.div key={entry.champion} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.05 }} className="flex items-center gap-3 p-2 rounded-lg hover:bg-lol-card/60 transition-colors">
                     <SmallChampionIcon name={entry.champion} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#f0e6d2] truncate">{entry.champion}</p>
-                      <p className="text-[11px] text-[#5b5a56]">{entry.games} partidas</p>
+                      <p className="text-sm font-medium text-lol-text truncate">{entry.champion}</p>
+                      <p className="text-[11px] text-lol-dim">{entry.games} partidas</p>
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-sm font-semibold font-mono" style={{ color: entry.winRate >= 52 ? '#0acbe6' : entry.winRate >= 48 ? '#a09b8c' : '#e84057' }}>{entry.winRate}%</p>
-                      <p className="text-[10px] text-[#5b5a56]">Win Rate</p>
+                      <p className="text-[10px] text-lol-dim">Win Rate</p>
                     </div>
                   </motion.div>
                 ))}
@@ -326,9 +326,9 @@ export function ProfileTab({
         <div className="space-y-6">
           {/* Empty state for search */}
           <div className="text-center py-10">
-            <User className="w-16 h-16 mx-auto mb-4 text-[#785a28]/30" />
-            <p className="text-[#5b5a56] text-sm">Busca un invocador para ver su perfil</p>
-            <p className="text-[#785a28]/40 text-xs mt-1">Escribe el nombre y selecciona una región</p>
+            <User className="w-16 h-16 mx-auto mb-4 text-lol-gold-dark/30" />
+            <p className="text-lol-dim text-sm">Busca un invocador para ver su perfil</p>
+            <p className="text-lol-gold-dark/40 text-xs mt-1">Escribe el nombre y selecciona una región</p>
           </div>
 
           {/* Match History Placeholder */}
@@ -338,8 +338,8 @@ export function ProfileTab({
             transition={{ delay: 0.2 }}
           >
             <div className="flex items-center gap-2 mb-4">
-              <Clock className="w-4 h-4 text-[#c8aa6e]" />
-              <h4 className="text-sm font-semibold text-[#f0e6d2] lol-title">Historial de Partidas</h4>
+              <Clock className="w-4 h-4 text-lol-gold" />
+              <h4 className="text-sm font-semibold text-lol-text lol-title">Historial de Partidas</h4>
             </div>
             <div className="relative pl-6">
               {/* Timeline line */}
@@ -372,15 +372,15 @@ export function ProfileTab({
                       className="w-10 h-10 rounded-full shrink-0 flex items-center justify-center"
                       style={{ background: 'rgba(120,90,40,0.08)', border: '1px solid rgba(120,90,40,0.1)' }}
                     >
-                      <User className="w-5 h-5 text-[#785a28]/15" />
+                      <User className="w-5 h-5 text-lol-gold-dark/15" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs text-[#5b5a56]/50 truncate">Partida {5 - idx}</p>
-                      <p className="text-[10px] text-[#5b5a56]/30 mt-0.5">Esperando datos...</p>
+                      <p className="text-xs text-lol-dim/50 truncate">Partida {5 - idx}</p>
+                      <p className="text-[10px] text-lol-dim/30 mt-0.5">Esperando datos...</p>
                     </div>
                     <div className="text-right shrink-0">
                       <div className="w-6 h-6 rounded flex items-center justify-center" style={{ background: 'rgba(120,90,40,0.08)' }}>
-                        <span className="text-[10px] text-[#5b5a56]/30">—</span>
+                        <span className="text-[10px] text-lol-dim/30">—</span>
                       </div>
                     </div>
                   </div>
@@ -397,11 +397,11 @@ export function ProfileTab({
               style={{ background: 'rgba(200,170,110,0.06)', border: '1px solid rgba(200,170,110,0.12)' }}
             >
               <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.2)' }}>
-                <Key className="w-4 h-4 text-[#c8aa6e]" />
+                <Key className="w-4 h-4 text-lol-gold" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-[#c8aa6e]">Conecta tu API Key de Riot</p>
-                <p className="text-[10px] text-[#5b5a56] mt-0.5">para ver tu historial de partidas completo</p>
+                <p className="text-xs font-semibold text-lol-gold">Conecta tu API Key de Riot</p>
+                <p className="text-[10px] text-lol-dim mt-0.5">para ver tu historial de partidas completo</p>
               </div>
             </motion.div>
           </motion.div>

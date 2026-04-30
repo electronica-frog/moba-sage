@@ -65,7 +65,7 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 hover:bg-[#1e2328] text-[#5b5a56] hover:text-[#f0e6d2]"
+          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 hover:bg-lol-card text-lol-dim hover:text-lol-text"
           aria-label="Cerrar"
         >
           <X className="w-4 h-4" />
@@ -80,12 +80,12 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
               ) : (
                 <div className="w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center"
                   style={{ border: '2.5px solid rgba(200,170,110,0.4)', background: 'rgba(200,170,110,0.1)' }}>
-                  <Swords className="w-6 h-6" style={{ color: '#c8aa6e' }} />
+                  <Swords className="w-6 h-6 text-lol-gold" />
                 </div>
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="lol-title text-lg text-[#f0e6d2] leading-tight mb-2">{guide.title}</h2>
+              <h2 className="lol-title text-lg text-lol-text leading-tight mb-2">{guide.title}</h2>
               <div className="flex items-center gap-2 flex-wrap">
                 <span
                   className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
@@ -93,18 +93,18 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
                 >
                   LoL
                 </span>
-                <span className="text-[10px] font-mono text-[#a09b8c] flex items-center gap-1">
+                <span className="text-[10px] font-mono text-lol-muted flex items-center gap-1">
                   <Clock className="w-3 h-3" /> v{guide.patch}
                 </span>
                 {guide.role && (
-                  <span className="text-[10px] text-[#5b5a56]">· {guide.role}</span>
+                  <span className="text-[10px] text-lol-dim">· {guide.role}</span>
                 )}
               </div>
             </div>
           </div>
 
           {/* Summary */}
-          <p className="text-sm text-[#a09b8c] leading-relaxed">{guide.summary}</p>
+          <p className="text-sm text-lol-muted leading-relaxed">{guide.summary}</p>
         </div>
 
         {/* Divider */}
@@ -112,7 +112,7 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
 
         {/* Key Points */}
         <div className="p-6">
-          <h3 className="lol-label text-xs font-semibold text-[#c8aa6e] mb-3 flex items-center gap-2">
+          <h3 className="lol-label text-xs font-semibold text-lol-gold mb-3 flex items-center gap-2">
             <FileText className="w-3.5 h-3.5" />
             Puntos Clave
           </h3>
@@ -127,9 +127,9 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
               >
                 <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                   style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.2)' }}>
-                  <span className="text-[10px] font-bold text-[#c8aa6e]">{i + 1}</span>
+                  <span className="text-[10px] font-bold text-lol-gold">{i + 1}</span>
                 </div>
-                <span className="text-xs text-[#a09b8c] leading-relaxed">{point}</span>
+                <span className="text-xs text-lol-muted leading-relaxed">{point}</span>
               </motion.div>
             ))}
           </div>
@@ -139,11 +139,11 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
         {guide.tags && guide.tags.length > 0 && (
           <div className="px-6 pb-4">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <Tag className="w-3 h-3 text-[#785a28]" />
+              <Tag className="w-3 h-3 text-lol-gold-dark" />
               {guide.tags.map(tag => (
                 <span
                   key={tag}
-                  className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium text-[#a09b8c] bg-[#1e2328]/60 border border-[#785a28]/15"
+                  className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium text-lol-muted bg-lol-card/60 border border-lol-gold-dark/15"
                 >
                   {tag}
                 </span>
@@ -157,10 +157,10 @@ function GuideModal({ guide, onClose }: { guide: GuideEntry; onClose: () => void
           style={{ background: 'rgba(200,170,110,0.04)', border: '1px solid rgba(200,170,110,0.1)' }}>
           <div className="w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center"
             style={{ background: 'rgba(200,170,110,0.1)', border: '1px solid rgba(200,170,110,0.15)' }}>
-            <Clock className="w-5 h-5 text-[#c8aa6e]" />
+            <Clock className="w-5 h-5 text-lol-gold" />
           </div>
-          <p className="text-xs font-semibold text-[#f0e6d2] mb-1">Contenido en desarrollo</p>
-          <p className="text-[10px] text-[#5b5a56]">La guía completa con builds, runas y estrategias estará disponible próximamente.</p>
+          <p className="text-xs font-semibold text-lol-text mb-1">Contenido en desarrollo</p>
+          <p className="text-[10px] text-lol-dim">La guía completa con builds, runas y estrategias estará disponible próximamente.</p>
         </div>
       </motion.div>
     </motion.div>
@@ -207,12 +207,12 @@ export function GuidesTab() {
           border: '1px solid rgba(200,170,110,0.15)',
         }}
       >
-        <Info className="w-3.5 h-3.5 text-[#c8aa6e] shrink-0" />
-        <p className="text-[11px] text-[#a09b8c] flex-1">
+        <Info className="w-3.5 h-3.5 text-lol-gold shrink-0" />
+        <p className="text-[11px] text-lol-muted flex-1">
           Buscás tips de mecánicas y errores comunes? Visitá{' '}
           <button
             onClick={() => window.dispatchEvent(new CustomEvent('moba-sage-switch-tab', { detail: 'coaching' }))}
-            className="text-[#c8aa6e] font-semibold hover:underline cursor-pointer"
+            className="text-lol-gold font-semibold hover:underline cursor-pointer"
           >
             Coaching
           </button>

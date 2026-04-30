@@ -231,7 +231,7 @@ export function VisionMap({ role }: { role: string }) {
               className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
               aria-label="Cerrar tooltip"
             >
-              <X className="w-3 h-3 text-[#5b5a56]" />
+              <X className="w-3 h-3 text-lol-dim" />
             </button>
             <div className="flex items-center gap-2 mb-1">
               <Eye className="w-3.5 h-3.5" style={{ color: WARD_TYPE_COLORS[selectedWard.type] }} />
@@ -239,7 +239,7 @@ export function VisionMap({ role }: { role: string }) {
                 {WARD_TYPE_LABELS[selectedWard.type]}
               </span>
             </div>
-            <p className="text-[11px] text-[#a09b8c] leading-relaxed pr-4">
+            <p className="text-[11px] text-lol-muted leading-relaxed pr-4">
               {selectedWard.description}
             </p>
           </motion.div>
@@ -247,7 +247,7 @@ export function VisionMap({ role }: { role: string }) {
       </AnimatePresence>
 
       {/* Role label */}
-      <p className="text-[10px] text-[#5b5a56] mt-2 text-center italic">
+      <p className="text-[10px] text-lol-dim mt-2 text-center italic">
         Posiciones de ward recomendadas para {role}
       </p>
     </div>
