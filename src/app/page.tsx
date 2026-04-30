@@ -199,6 +199,7 @@ export default function Home() {
         {showLoading && (
           <LoadingScreen
             onSkip={handleSkipLoading}
+            dataReady={!loading}
             dataStats={{
               champions: champions.length,
               insights: insights.length,
