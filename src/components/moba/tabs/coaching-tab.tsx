@@ -337,11 +337,11 @@ export function CoachingTab({ selectedGame }: { selectedGame: string }) {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.05 }}
                       className="p-4 rounded-xl"
-                      style={{ background: `${wColor}06`, border: `1px solid ${wColor}20`, borderLeft: `3px solid ${wColor}` }}
+                      style={{ background: `${tip.color}06`, border: `1px solid ${tip.color}20`, borderLeft: `3px solid ${tip.color}` }}
                     >
                       <div className="flex items-center gap-2.5 mb-2">
-                        <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${wColor}15`, border: '1px solid ' + `${wColor}25` }}>
-                          <div style={{ color: wColor }}>{tip.icon}</div>
+                        <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: `${tip.color}15`, border: '1px solid ' + `${tip.color}25` }}>
+                          <div style={{ color: tip.color }}>{tip.icon}</div>
                         </div>
                         <h3 className="text-sm font-semibold text-[#f0e6d2]">{tip.title}</h3>
                       </div>

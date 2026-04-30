@@ -465,7 +465,18 @@ export default function Home() {
 
       {/* Loading Screen — z-210, self-contained, 12s timeline + "Entrar" button */}
       <AnimatePresence>
-        {showLoading && <LoadingScreen onSkip={handleSkipLoading} />}
+        {showLoading && (
+          <LoadingScreen
+            onSkip={handleSkipLoading}
+            dataStats={{
+              champions: champions.length,
+              insights: insights.length,
+              proPicks: proPicks.length,
+              combos: combos.length,
+              patches: patches.length,
+            }}
+          />
+        )}
       </AnimatePresence>
 
       {/* Global Search Overlay (Command Palette) */}
