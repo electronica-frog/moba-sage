@@ -151,6 +151,7 @@ export function ChampionCard({
               onClick={e => e.stopPropagation()}
               className="w-5 h-5 rounded-full flex items-center justify-center"
               style={{ backdropFilter: 'blur(4px)' }}
+              aria-label={isFavorite ? `Quitar ${name} de favoritos` : `Agregar ${name} a favoritos`}
             >
               <Star className={`w-3.5 h-3.5 transition-colors ${isFavorite ? 'text-[#f0c646]' : 'text-[#5b5a56]'}`} fill={isFavorite ? '#f0c646' : 'none'} />
             </button>
@@ -171,7 +172,7 @@ export function ChampionCard({
           >
             <Image
               src={`https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${name.replace(/['\s.]/g, '')}_0.jpg`}
-              alt=""
+              alt={name}
               width={32}
               height={32}
               className="w-full h-full object-cover"

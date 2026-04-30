@@ -267,6 +267,7 @@ export function FloatingNotes() {
                           onClick={() => handleDelete(note.id)}
                           className="opacity-0 group-hover:opacity-100 w-7 h-7 rounded-lg flex items-center justify-center hover:bg-[#e84057]/20 transition-all shrink-0 cursor-pointer"
                           title="Eliminar nota"
+                          aria-label="Eliminar nota"
                         >
                           <Trash2 className="w-3.5 h-3.5 text-[#e84057]/60 hover:text-[#e84057]" />
                         </button>

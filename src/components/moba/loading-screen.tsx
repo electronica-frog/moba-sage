@@ -122,21 +122,21 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
     return new Date(iso).toLocaleTimeString('es-AR', { timeZone: 'America/Buenos_Aires', hour: '2-digit', minute: '2-digit' });
   };
 
-  // 7 data sources — staggered across 10s
+  // 7 data sources — staggered across 2s minimum display time
   const sources: SourceDef[] = [
-    { id: 'ddragon',   name: 'Data Dragon (Riot Games)',    icon: <Shield className="w-3.5 h-3.5" />,     color: '#c8aa6e', doneLabel: version ? `v${version.lol} (CDN Live)` : 'v16.9.1', records: 'Live',     appearAt: 600,   doneAt: 2200 },
-    { id: 'champions', name: 'Base de Campeones',            icon: <Swords className="w-3.5 h-3.5" />,    color: '#0acbe6', doneLabel: dataStats ? `${dataStats.champions} campeones cargados` : '-- campeones',                 records: dataStats ? String(dataStats.champions) : '--',   appearAt: 1600,  doneAt: 3800 },
-    { id: 'tierlist',  name: 'Tier List & Meta Data',         icon: <TrendingUp className="w-3.5 h-3.5" />, color: '#0fba81', doneLabel: dataStats ? `${dataStats.insights} insights generados` : '-- insights',                   records: dataStats ? String(dataStats.insights) : '--',    appearAt: 2800,  doneAt: 5200 },
-    { id: 'probuilds', name: 'Pro Builds & Tournament Picks', icon: <Trophy className="w-3.5 h-3.5" />,    color: '#f0c646', doneLabel: dataStats ? `${dataStats.proPicks} picks profesionales` : '-- picks profesionales',   records: dataStats ? String(dataStats.proPicks) : '--',    appearAt: 3800,  doneAt: 6500 },
-    { id: 'insights',  name: 'Insights de IA',               icon: <Sparkles className="w-3.5 h-3.5" />,  color: '#a78bfa', doneLabel: 'Modelo IA preparado',                               records: 'IA',      appearAt: 4800,  doneAt: 7500 },
-    { id: 'combos',    name: 'Combos Rotos',                icon: <Flame className="w-3.5 h-3.5" />,     color: '#e84057', doneLabel: dataStats ? `${dataStats.combos} combos identificados` : '-- combos',                     records: dataStats ? String(dataStats.combos) : '--',    appearAt: 5600,  doneAt: 8500 },
-    { id: 'patches',   name: 'Patch Notes & Cambios',         icon: <Zap className="w-3.5 h-3.5" />,       color: '#785a28', doneLabel: dataStats ? `${dataStats.patches} parches analizados` : '-- parches',                   records: dataStats ? String(dataStats.patches) : '--',    appearAt: 6800,  doneAt: 10000 },
+    { id: 'ddragon',   name: 'Data Dragon (Riot Games)',    icon: <Shield className="w-3.5 h-3.5" />,     color: '#c8aa6e', doneLabel: version ? `v${version.lol} (CDN Live)` : 'v16.9.1', records: 'Live',     appearAt: 120,   doneAt: 440 },
+    { id: 'champions', name: 'Base de Campeones',            icon: <Swords className="w-3.5 h-3.5" />,    color: '#0acbe6', doneLabel: dataStats ? `${dataStats.champions} campeones cargados` : '-- campeones',                 records: dataStats ? String(dataStats.champions) : '--',   appearAt: 320,  doneAt: 760 },
+    { id: 'tierlist',  name: 'Tier List & Meta Data',         icon: <TrendingUp className="w-3.5 h-3.5" />, color: '#0fba81', doneLabel: dataStats ? `${dataStats.insights} insights generados` : '-- insights',                   records: dataStats ? String(dataStats.insights) : '--',    appearAt: 560,  doneAt: 1040 },
+    { id: 'probuilds', name: 'Pro Builds & Tournament Picks', icon: <Trophy className="w-3.5 h-3.5" />,    color: '#f0c646', doneLabel: dataStats ? `${dataStats.proPicks} picks profesionales` : '-- picks profesionales',   records: dataStats ? String(dataStats.proPicks) : '--',    appearAt: 760,  doneAt: 1300 },
+    { id: 'insights',  name: 'Insights de IA',               icon: <Sparkles className="w-3.5 h-3.5" />,  color: '#a78bfa', doneLabel: 'Modelo IA preparado',                               records: 'IA',      appearAt: 960,  doneAt: 1500 },
+    { id: 'combos',    name: 'Combos Rotos',                icon: <Flame className="w-3.5 h-3.5" />,     color: '#e84057', doneLabel: dataStats ? `${dataStats.combos} combos identificados` : '-- combos',                     records: dataStats ? String(dataStats.combos) : '--',    appearAt: 1120,  doneAt: 1700 },
+    { id: 'patches',   name: 'Patch Notes & Cambios',         icon: <Zap className="w-3.5 h-3.5" />,       color: '#785a28', doneLabel: dataStats ? `${dataStats.patches} parches analizados` : '-- parches',                   records: dataStats ? String(dataStats.patches) : '--',    appearAt: 1360,  doneAt: 2000 },
   ];
 
   const ms = Date.now() - mountedAt;
   const doneCount = sources.filter(s => ms >= s.doneAt).length;
   const allDone = doneCount === sources.length;
-  const progressPct = Math.min(100, Math.round((ms / 10000) * 100));
+  const progressPct = Math.min(100, Math.round((ms / 2000) * 100));
 
   return (
     <motion.div

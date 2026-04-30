@@ -42,7 +42,7 @@ export default function Home() {
   const [showLoading, setShowLoading] = useState(true);
   const [appReady, setAppReady] = useState(false);
 
-  // Safety fallback: auto-dismiss loading after 30s (in case user never clicks)
+  // Safety fallback: auto-dismiss loading after 10s (in case user never clicks)
   useEffect(() => {
     const timer = setTimeout(() => {
       if (showLoading) {
@@ -50,7 +50,7 @@ export default function Home() {
         setAppReady(true);
         setShowLoading(false);
       }
-    }, 30000);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -171,14 +171,6 @@ export default function Home() {
       setFetchError(true);
     } finally {
       setLoading(false);
-
-      // Ensure loading screen shows for at least 5 seconds
-      const elapsed = Date.now() - startMs;
-      const remaining = Math.max(0, 5000 - elapsed);
-      if (remaining > 0) {
-        await new Promise(r => setTimeout(r, remaining));
-      }
-
       setInitialLoadDone(true);
       setAppReady(true);
     }

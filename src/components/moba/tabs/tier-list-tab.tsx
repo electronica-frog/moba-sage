@@ -306,9 +306,11 @@ export function TierListTab({
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               className="pl-10 bg-lol-card/60 border-lol-gold-dark/30 text-lol-text placeholder:text-lol-dim focus-visible:border-lol-gold focus-visible:ring-lol-gold/20 h-10 rounded-lg"
               aria-label="Buscar campeón"
+              aria-controls="tierlist-suggestions"
               aria-expanded={showSuggestions && searchSuggestions.length > 0}
               aria-autocomplete="list"
               role="combobox"
+              id="tierlist-search"
             />
             {searchQuery && (
               <button
@@ -321,10 +323,13 @@ export function TierListTab({
               </button>
             )}
             {showSuggestions && searchSuggestions.length > 0 && searchQuery.length >= 1 && (
-              <div className="absolute top-full left-0 right-0 mt-1 rounded-lg overflow-hidden z-50" style={{ background: 'rgba(30,35,40,0.95)', border: '1px solid rgba(200,170,110,0.2)', backdropFilter: 'blur(12px)' }}>
+              <div id="tierlist-suggestions" role="listbox" aria-labelledby="tierlist-search" className="absolute top-full left-0 right-0 mt-1 rounded-lg overflow-hidden z-50" style={{ background: 'rgba(30,35,40,0.95)', border: '1px solid rgba(200,170,110,0.2)', backdropFilter: 'blur(12px)' }}>
                 {searchSuggestions.map(s => (
                   <button
                     key={s.id}
+                    role="option"
+                    id={`tierlist-option-${s.id}`}
+                    aria-selected={false}
                     className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-lol-gold/10 transition-colors"
                     onMouseDown={() => { onSearchChange(s.name); setShowSuggestions(false); onChampionClick(s); }}
                   >
