@@ -1,15 +1,19 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Brain, Search, ArrowUp } from 'lucide-react';
 import { ChampionIcon } from '@/components/moba/champion-icon';
 import { RoleBadge } from '@/components/moba/badges';
-import { updateDdVersion } from '@/components/moba/helpers';
-import type {
-  Champion, PatchNote, AiInsight, TaskItem,
-  ProPick, BrokenCombo, SummonerData, GameSelection,
-} from '@/components/moba/types';
+import type { Champion, GameSelection, TaskItem } from '@/components/moba/types';
+
+// Hooks
+import { useGameData } from '@/hooks/use-game-data';
+import { useFavorites } from '@/hooks/use-favorites';
+import { useGlobalSearch } from '@/hooks/use-global-search';
+import { useScrollToTop } from '@/hooks/use-scroll-to-top';
+import { useSummonerSearch } from '@/hooks/use-summoner-search';
+import { GameDataContext } from '@/hooks/game-data-context';
 
 // Components
 import { GoldParticles } from '@/components/moba/gold-particles';
@@ -26,27 +30,25 @@ import { TabContent } from '@/components/moba/tab-content';
 
 // ============ MAIN APP ============
 export default function Home() {
+  // ---- Game & navigation state ----
   const [selectedGame, setSelectedGame] = useState<GameSelection>(null);
   const [activeTab, setActiveTab] = useState('tierlist');
-  const [champions, setChampions] = useState<Champion[]>([]);
-  const [patches, setPatches] = useState<PatchNote[]>([]);
-  const [insights, setInsights] = useState<AiInsight[]>([]);
-  const [tasks, setTasks] = useState<TaskItem[]>([]);
-  const [proPicks, setProPicks] = useState<ProPick[]>([]);
-  const [combos, setCombos] = useState<BrokenCombo[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState(false);
-  const [, setInitialLoadDone] = useState(false);
 
-  // Loading screen: shows for ~12s animation, then user clicks "Entrar"
+  // ---- Data fetching (hook) ----
+  const {
+    champions, patches, insights, tasks, proPicks, combos,
+    loading, fetchError, liveVersions, lastUpdate, isNewPatch, isRefreshing,
+    fetchData, handleRefresh, setTasks, setIsNewPatch,
+  } = useGameData();
+
+  // ---- Loading screen ----
   const [showLoading, setShowLoading] = useState(true);
   const [appReady, setAppReady] = useState(false);
 
-  // Safety fallback: auto-dismiss loading after 10s (in case user never clicks)
+  // Safety fallback: auto-dismiss loading after 10s
   useEffect(() => {
     const timer = setTimeout(() => {
       if (showLoading) {
-        setInitialLoadDone(true);
         setAppReady(true);
         setShowLoading(false);
       }
@@ -54,227 +56,70 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // User clicks "Entrar" — dismiss loading screen
   const handleSkipLoading = useCallback(() => {
-    setInitialLoadDone(true);
     setAppReady(true);
     setShowLoading(false);
   }, []);
+
+  // Mark app ready when initial fetch completes
+  useEffect(() => {
+    if (!loading) {
+      setAppReady(true);
+    }
+  }, [loading]);
+
+  // ---- Search & filter state ----
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('Todos');
   const [proRegionFilter, setProRegionFilter] = useState('');
 
-  // Expanded champion → modal
+  // ---- Champion modal ----
   const [selectedChampion, setSelectedChampion] = useState<Champion | null>(null);
 
-  // Summoner profile state
-  const [summonerName, setSummonerName] = useState('');
-  const [summonerRegion, setSummonerRegion] = useState('LAS');
-  const [summonerData, setSummonerData] = useState<SummonerData | null>(null);
-  const [summonerLoading, setSummonerLoading] = useState(false);
-  const [summonerError, setSummonerError] = useState('');
+  // ---- Favorites (hook) ----
+  const { favorites, toggleFavorite } = useFavorites();
 
-  // Live version state
-  const [liveVersions, setLiveVersions] = useState<{ lol: string; wr: string; gamePatch: string; metaLastUpdated: string }>({ lol: '', wr: '', gamePatch: '', metaLastUpdated: '' });
-  const [lastUpdate, setLastUpdate] = useState('');
-  const [isNewPatch, setIsNewPatch] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  // ---- Summoner search (hook) ----
+  const {
+    summonerName, setSummonerName,
+    summonerRegion, setSummonerRegion,
+    summonerData, summonerLoading, summonerError,
+    handleSearchSummoner,
+  } = useSummonerSearch();
 
-  // Favorites (localStorage) — initialize empty to avoid hydration mismatch
-  const [favorites, setFavorites] = useState<Set<number>>(new Set<number>());
-  const [favoritesHydrated, setFavoritesHydrated] = useState(false);
+  // ---- Global search (hook) ----
+  const {
+    globalSearchOpen, setGlobalSearchOpen,
+    globalSearchQuery, setGlobalSearchQuery,
+    globalSearchRef, searchResults,
+  } = useGlobalSearch(selectedGame, champions);
 
-  // Hydrate favorites from localStorage on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('moba-sage-favorites');
-      if (saved) {
-        setFavorites(new Set(JSON.parse(saved)));
-      }
-    } catch { /* ignore */ }
-    setFavoritesHydrated(true);
-  }, []);
+  // ---- Scroll to top (hook) ----
+  const { showBackToTop, scrollToTop } = useScrollToTop();
 
-  // Game transition flash
+  // ---- Game transition flash ----
   const [flashColor, setFlashColor] = useState<string | null>(null);
 
-  // Mobile sidebar drawer state
+  // ---- Mobile sidebar drawer ----
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Global search state
-  const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
-  const [globalSearchQuery, setGlobalSearchQuery] = useState('');
-  const globalSearchRef = useRef<HTMLInputElement>(null);
-
-  // Back to Top state
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  // ============ FETCH DATA ============
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    setFetchError(false);
-    const safeJson = async <T,>(url: string): Promise<T | null> => {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`${res.status}`);
-        return await res.json() as T;
-      } catch (e) {
-        console.warn(`[MOBA SAGE] Failed: ${url}`, e);
-        return null;
-      }
-    };
-
-    try {
-      const [champsData, patchesData, insightsData, tasksData, proData, combosData, versionData] = await Promise.all<Promise<unknown>>([
-        safeJson('/api/champions'),
-        safeJson('/api/patches'),
-        safeJson('/api/insights'),
-        safeJson('/api/tasks'),
-        safeJson('/api/pro-picks'),
-        safeJson('/api/combos'),
-        safeJson('/api/version'),
-      ]) as [Champion[], PatchNote[], AiInsight[], TaskItem[], ProPick[], BrokenCombo[], { lol: string; wr: string; gamePatch: string; metaLastUpdated: string; fetchedAt?: string } | null];
-
-      if (champsData) setChampions(champsData as Champion[]);
-      if (patchesData) setPatches(patchesData as PatchNote[]);
-      if (insightsData) setInsights(insightsData as AiInsight[]);
-      if (tasksData) setTasks(tasksData as TaskItem[]);
-      if (proData) setProPicks(proData as ProPick[]);
-      if (combosData) setCombos(combosData as BrokenCombo[]);
-
-      if (versionData?.lol) {
-        const fullVer = versionData.lol;
-        setLiveVersions({
-          lol: fullVer.split('.').slice(0, 2).join('.'),
-          wr: versionData.wr || '6.4',
-          gamePatch: versionData.gamePatch || fullVer.split('.').slice(0, 2).join('.'),
-          metaLastUpdated: versionData.metaLastUpdated || '',
-        });
-        updateDdVersion(fullVer);
-        const prevPatch = localStorage.getItem('moba-sage-last-patch');
-        const currentPatch = fullVer.split('.').slice(0, 2).join('.');
-        if (prevPatch && prevPatch !== currentPatch) setIsNewPatch(true);
-        localStorage.setItem('moba-sage-last-patch', currentPatch);
-      }
-      if (versionData?.fetchedAt) {
-        const d = new Date(versionData.fetchedAt);
-        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-        setLastUpdate(`${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`);
-      }
-
-      if (!champsData && !patchesData && !insightsData && !tasksData && !proData && !combosData && !versionData) {
-        setFetchError(true);
-      }
-    } catch (err) {
-      console.error('Unexpected error in fetchData:', err);
-      setFetchError(true);
-    } finally {
-      setLoading(false);
-      setInitialLoadDone(true);
-      setAppReady(true);
-    }
-  }, []);
-
-  useEffect(() => { fetchData(); }, [fetchData]);
-
-  // Silent refresh — re-fetches data without full loading overlay
-  const handleRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    await fetchData();
-    setIsRefreshing(false);
-  }, [fetchData]);
-
-  // Scroll listener for Back to Top
-  useEffect(() => {
-    function handleScroll() {
-      setShowBackToTop(window.scrollY > 300);
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Scroll to top when switching tabs
+  // ---- Tab change with scroll-to-top ----
   const handleTabChange = useCallback((tab: string) => {
     setActiveTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  // Listen for notification bell tab switch + search button
+  // ---- Listen for notification bell tab switch ----
   useEffect(() => {
     function handleTabSwitch(e: Event) {
       const detail = (e as CustomEvent).detail;
       if (typeof detail === 'string') setActiveTab(detail);
     }
-    function handleOpenSearch() {
-      setGlobalSearchOpen(true);
-      setGlobalSearchQuery('');
-    }
     window.addEventListener('moba-sage-switch-tab', handleTabSwitch);
-    window.addEventListener('moba-sage-open-search', handleOpenSearch);
-    return () => {
-      window.removeEventListener('moba-sage-switch-tab', handleTabSwitch);
-      window.removeEventListener('moba-sage-open-search', handleOpenSearch);
-    };
+    return () => window.removeEventListener('moba-sage-switch-tab', handleTabSwitch);
   }, []);
 
-  // Ctrl+K / Cmd+K global search
-  useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        if (selectedGame) {
-          setGlobalSearchOpen(prev => !prev);
-          setGlobalSearchQuery('');
-        }
-      }
-      if (e.key === 'Escape' && globalSearchOpen) {
-        setGlobalSearchOpen(false);
-      }
-    }
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [selectedGame, globalSearchOpen]);
-
-  // Auto-focus search input
-  useEffect(() => {
-    if (globalSearchOpen && globalSearchRef.current) {
-      setTimeout(() => globalSearchRef.current?.focus(), 100);
-    }
-  }, [globalSearchOpen]);
-
-  // Filter champions by search query (memoized)
-  const searchResults = useMemo(() => {
-    return globalSearchQuery.trim().length > 0
-      ? champions.filter(c => c.name.toLowerCase().includes(globalSearchQuery.toLowerCase())).slice(0, 8)
-      : champions.slice(0, 8);
-  }, [globalSearchQuery, champions]);
-
-  function handleSearchSelect(champ: typeof champions[0]) {
-    setSelectedChampion(champ);
-    setGlobalSearchOpen(false);
-    setGlobalSearchQuery('');
-  }
-
-  // Persist favorites (only after hydration to avoid overwriting on mount)
-  useEffect(() => {
-    if (favoritesHydrated) {
-      localStorage.setItem('moba-sage-favorites', JSON.stringify([...favorites]));
-    }
-  }, [favorites, favoritesHydrated]);
-
-  const toggleFavorite = (id: number) => {
-    setFavorites(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
-      return next;
-    });
-  };
-
-  // ============ GAME SELECTION ============
+  // ---- Game selection ----
   const handleSelectGame = (game: GameSelection) => {
     setFlashColor(game === 'lol' ? 'rgba(200,170,110,0.15)' : 'rgba(10,203,230,0.15)');
     setTimeout(() => setFlashColor(null), 400);
@@ -282,43 +127,21 @@ export default function Home() {
     setActiveTab('tierlist');
   };
 
-  const handleBackToSelector = () => {
-    setSelectedGame(null);
-  };
+  const handleBackToSelector = () => setSelectedGame(null);
 
-  // ============ CHAMPION SELECT (opens modal) ============
+  // ---- Champion toggle (modal) ----
   const handleToggleChampion = (champion: Champion) => {
     setSelectedChampion(prev => prev?.id === champion.id ? null : champion);
   };
 
-  // ============ SUMMONER SEARCH ============
-  const handleSearchSummoner = async () => {
-    if (!summonerName.trim()) return;
-    setSummonerLoading(true);
-    setSummonerError('');
-    setSummonerData(null);
-    try {
-      const res = await fetch(`/api/summoner?name=${encodeURIComponent(summonerName)}&region=${summonerRegion}`);
-      if (!res.ok) {
-        try {
-          const errData = await res.json();
-          setSummonerError(errData.error || 'Error al buscar invocador');
-        } catch {
-          setSummonerError(`Error ${res.status}: No se pudo buscar el invocador`);
-        }
-        return;
-      }
-      const data = await res.json();
-      setSummonerData(data);
-    } catch (err) {
-      console.error('Summoner search error:', err);
-      setSummonerError('Error de conexión. Intenta de nuevo.');
-    } finally {
-      setSummonerLoading(false);
-    }
+  // ---- Search select (global command palette) ----
+  const handleSearchSelect = (champ: Champion) => {
+    setSelectedChampion(champ);
+    setGlobalSearchOpen(false);
+    setGlobalSearchQuery('');
   };
 
-  // ============ TASK STATUS TOGGLE ============
+  // ---- Task status toggle ----
   const handleToggleTask = async (task: TaskItem) => {
     const nextStatus = task.status === 'pending' ? 'running' : task.status === 'running' ? 'done' : 'pending';
     try {
@@ -338,19 +161,40 @@ export default function Home() {
     }
   };
 
+  // ---- Build context value ----
+  const contextValue = {
+    activeTab, selectedGame,
+    champions, patches, insights, tasks, combos, proPicks,
+    loading, fetchError,
+    searchQuery, roleFilter, proRegionFilter,
+    favorites,
+    summonerName, summonerRegion, summonerData, summonerLoading, summonerError,
+    liveVersions,
+    onSearchChange: setSearchQuery,
+    onRoleFilterChange: setRoleFilter,
+    onProRegionFilterChange: setProRegionFilter,
+    onToggleFavorite: toggleFavorite,
+    onChampionClick: handleToggleChampion,
+    onSummonerNameChange: setSummonerName,
+    onSummonerRegionChange: setSummonerRegion,
+    onSearchSummoner: handleSearchSummoner,
+    fetchData,
+    handleToggleTask,
+    onRetryFetch: () => { fetchError && fetchData(); },
+  };
+
   // ============ RENDER ============
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden bg-lol-bg" style={{ width: '100%' }}>
       {/* Skip to content — accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold"
-        className="bg-gradient-to-br from-lol-gold to-lol-gold-dark text-lol-bg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-semibold bg-gradient-to-br from-lol-gold to-lol-gold-dark text-lol-bg"
       >
         Ir al contenido principal
       </a>
 
-      {/* Loading Screen — z-210, self-contained, 12s timeline + "Entrar" button */}
+      {/* Loading Screen — z-210, self-contained, timeline + "Entrar" button */}
       <AnimatePresence>
         {showLoading && (
           <LoadingScreen
@@ -403,12 +247,12 @@ export default function Home() {
                       handleSearchSelect(searchResults[0]);
                     }
                   }}
-                  placeholder="Buscar campeón..."
+                  placeholder="Buscar campeon..."
                   className="flex-1 bg-transparent text-lol-text text-lg placeholder:text-lol-dim outline-none lol-title"
                   style={{ fontFamily: 'inherit', letterSpacing: '0.05em' }}
                 />
                 <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] text-lol-dim bg-lol-gold-dark/10 border border-lol-gold-dark/20">
-                  <span className="text-[10px]">⌘</span>K
+                  <span className="text-[10px]">&#8984;</span>K
                 </kbd>
               </div>
 
@@ -449,7 +293,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Activity Popup — only after loading screen is fully gone + 2s delay */}
+      {/* Activity Popup — only after loading screen is fully gone */}
       {appReady && <ActivityPopup />}
 
       {/* Gold Particles */}
@@ -491,44 +335,14 @@ export default function Home() {
             {!selectedGame ? (
               <GameSelectorLanding onSelectGame={handleSelectGame} patchVersion={liveVersions.gamePatch || liveVersions.lol} championCount={champions.length} key="selector" />
             ) : (
-              <TabContent
-                activeTab={activeTab}
-                selectedGame={selectedGame}
-                champions={champions}
-                loading={loading}
-                patches={patches}
-                insights={insights}
-                tasks={tasks}
-                combos={combos}
-                proPicks={proPicks}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                roleFilter={roleFilter}
-                onRoleFilterChange={setRoleFilter}
-                favorites={favorites}
-                onToggleFavorite={toggleFavorite}
-                onChampionClick={handleToggleChampion}
-                summonerName={summonerName}
-                onSummonerNameChange={setSummonerName}
-                summonerRegion={summonerRegion}
-                onSummonerRegionChange={setSummonerRegion}
-                summonerData={summonerData}
-                summonerLoading={summonerLoading}
-                summonerError={summonerError}
-                onSearchSummoner={handleSearchSummoner}
-                liveVersions={liveVersions}
-                fetchData={fetchData}
-                proRegionFilter={proRegionFilter}
-                onProRegionFilterChange={setProRegionFilter}
-                handleToggleTask={handleToggleTask}
-                fetchError={fetchError}
-                onRetryFetch={() => { setFetchError(false); fetchData(); }}
-              />
+              <GameDataContext.Provider value={contextValue}>
+                <TabContent />
+              </GameDataContext.Provider>
             )}
           </AnimatePresence>
         </div>
-            {selectedGame && <FloatingNotes />}
-    </main>
+        {selectedGame && <FloatingNotes />}
+      </main>
 
       {/* Champion Modal */}
       <AnimatePresence>
@@ -548,7 +362,7 @@ export default function Home() {
       {/* Footer — hidden on mobile (sidebar covers it) */}
       <footer className={`border-t border-lol-gold-dark/15 py-4 mt-auto bg-lol-bg/60 ${selectedGame ? 'hidden lg:block' : ''}`}>
         <div className="max-w-6xl mx-auto px-4 flex items-center justify-between text-xs text-lol-gold-dark">
-          <span>MOBA SAGE © 2026</span>
+          <span>MOBA SAGE &copy; 2026</span>
           <span className="flex items-center gap-1">
             <Brain className="w-3 h-3" />
             Powered by IA
@@ -581,4 +395,3 @@ export default function Home() {
     </div>
   );
 }
-

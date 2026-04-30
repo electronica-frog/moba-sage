@@ -198,9 +198,16 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE /api/notes
+// DELETE /api/notes — requires admin secret to prevent unauthorized deletion
 export async function DELETE(request: NextRequest) {
   try {
+    // Auth check: require NOTES_ADMIN_SECRET header or query param
+    const adminSecret = process.env.NOTES_ADMIN_SECRET || '';
+    const providedSecret = request.headers.get('x-admin-secret') || new URL(request.url).searchParams.get('secret') || '';
+    if (adminSecret && providedSecret !== adminSecret) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'ID requerido' }, { status: 400 });

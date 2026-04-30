@@ -4,10 +4,7 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WifiOff, RefreshCw } from 'lucide-react';
 import { WildRiftHeader } from '@/components/moba/wr-banner';
-import type {
-  Champion, PatchNote, AiInsight, TaskItem,
-  ProPick, BrokenCombo, SummonerData, GameSelection,
-} from '@/components/moba/types';
+import { useGameDataContext } from '@/hooks/game-data-context';
 
 // Core tabs loaded eagerly
 import { TierListTab } from '@/components/moba/tabs/tier-list-tab';
@@ -42,54 +39,53 @@ const IdeasTab = dynamic(() => import('@/components/moba/tabs/ideas-tab').then(m
 const ActivityTab = dynamic(() => import('@/components/moba/tabs/activity-tab').then(m => ({ default: m.ActivityTab })), { loading: () => <TabSkeleton /> });
 const RoadmapTab = dynamic(() => import('@/components/moba/tabs/roadmap-tab').then(m => ({ default: m.RoadmapTab })), { loading: () => <TabSkeleton /> });
 
-// ============ TAB CONTENT RENDERER ============
-export function TabContent({
-  activeTab, selectedGame, champions, loading, patches, insights, tasks, combos, proPicks,
-  searchQuery, onSearchChange, roleFilter, onRoleFilterChange, favorites, onToggleFavorite,
-  onChampionClick, summonerName, onSummonerNameChange, summonerRegion, onSummonerRegionChange,
-  summonerData, summonerLoading, summonerError, onSearchSummoner, liveVersions, fetchData,
-  proRegionFilter, onProRegionFilterChange, handleToggleTask, fetchError, onRetryFetch,
-}: {
-  activeTab: string; selectedGame: GameSelection; champions: Champion[];
-  loading: boolean; patches: PatchNote[]; insights: AiInsight[];
-  tasks: TaskItem[]; combos: BrokenCombo[]; proPicks: ProPick[];
-  searchQuery: string; onSearchChange: (q: string) => void;
-  roleFilter: string; onRoleFilterChange: (r: string) => void;
-  favorites: Set<number>; onToggleFavorite: (id: number) => void;
-  onChampionClick: (c: Champion) => void;
-  summonerName: string; onSummonerNameChange: (n: string) => void;
-  summonerRegion: string; onSummonerRegionChange: (r: string) => void;
-  summonerData: SummonerData | null; summonerLoading: boolean;
-  summonerError: string; onSearchSummoner: () => void;
-  liveVersions: { lol: string; wr: string; gamePatch: string; metaLastUpdated: string };
-  fetchData: () => void;
-  proRegionFilter: string; onProRegionFilterChange: (r: string) => void;
-  handleToggleTask: (t: TaskItem) => void;
-  fetchError: boolean; onRetryFetch: () => void;
-}) {
+// ============ TAB CONTENT RENDERER (Context-driven) ============
+export function TabContent() {
+  const ctx = useGameDataContext();
+
   const renderTab = () => {
-    switch (activeTab) {
-      case 'tierlist': return <TierListTab champions={champions} loading={loading} selectedGame={selectedGame} searchQuery={searchQuery} onSearchChange={onSearchChange} roleFilter={roleFilter} onRoleFilterChange={onRoleFilterChange} favorites={favorites} onToggleFavorite={onToggleFavorite} onChampionClick={onChampionClick} metaLastUpdated={liveVersions.metaLastUpdated} proPicks={proPicks} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;
-      case 'patches': return <PatchesMetaTab patches={patches} champions={champions} insights={insights} loading={loading} selectedGame={selectedGame} />;
-      case 'combos': return <CombosTab combos={combos} loading={loading} selectedGame={selectedGame} />;
-      case 'comparison': return <ComparisonTab champions={champions} loading={loading} selectedGame={selectedGame} onChampionClick={onChampionClick} />;
-      case 'coaching': return <CoachingTab selectedGame={selectedGame || ''} />;
-      case 'competitive': return <CompetitiveTab proPicks={proPicks} loading={loading} selectedGame={selectedGame} proRegionFilter={proRegionFilter} onProRegionFilterChange={onProRegionFilterChange} />;
+    switch (ctx.activeTab) {
+      case 'tierlist': return (
+        <TierListTab
+          champions={ctx.champions} loading={ctx.loading} selectedGame={ctx.selectedGame}
+          searchQuery={ctx.searchQuery} onSearchChange={ctx.onSearchChange}
+          roleFilter={ctx.roleFilter} onRoleFilterChange={ctx.onRoleFilterChange}
+          favorites={ctx.favorites} onToggleFavorite={ctx.onToggleFavorite}
+          onChampionClick={ctx.onChampionClick}
+          metaLastUpdated={ctx.liveVersions.metaLastUpdated}
+          proPicks={ctx.proPicks}
+          proRegionFilter={ctx.proRegionFilter} onProRegionFilterChange={ctx.onProRegionFilterChange}
+        />
+      );
+      case 'patches': return <PatchesMetaTab patches={ctx.patches} champions={ctx.champions} insights={ctx.insights} loading={ctx.loading} selectedGame={ctx.selectedGame} />;
+      case 'combos': return <CombosTab combos={ctx.combos} loading={ctx.loading} selectedGame={ctx.selectedGame} />;
+      case 'comparison': return <ComparisonTab champions={ctx.champions} selectedGame={ctx.selectedGame} onChampionClick={ctx.onChampionClick} />;
+      case 'coaching': return <CoachingTab selectedGame={ctx.selectedGame || ''} />;
+      case 'competitive': return <CompetitiveTab proPicks={ctx.proPicks} loading={ctx.loading} selectedGame={ctx.selectedGame} proRegionFilter={ctx.proRegionFilter} onProRegionFilterChange={ctx.onProRegionFilterChange} />;
       case 'guides': return <GuidesTab />;
-      case 'profile': return <ProfileTab summonerName={summonerName} onSummonerNameChange={onSummonerNameChange} summonerRegion={summonerRegion} onSummonerRegionChange={onSummonerRegionChange} summonerData={summonerData} summonerLoading={summonerLoading} summonerError={summonerError} onSearchSummoner={onSearchSummoner} />;
+      case 'profile': return <ProfileTab summonerName={ctx.summonerName} onSummonerNameChange={ctx.onSummonerNameChange} summonerRegion={ctx.summonerRegion} onSummonerRegionChange={ctx.onSummonerRegionChange} summonerData={ctx.summonerData} summonerLoading={ctx.summonerLoading} summonerError={ctx.summonerError} onSearchSummoner={ctx.onSearchSummoner} />;
       case 'novedades': return <ActivityTab />;
       case 'ideas': return <IdeasTab />;
-      case 'tasks': return <TasksTab tasks={tasks} loading={loading} onRefresh={fetchData} onToggleTask={handleToggleTask} />;
+      case 'tasks': return <TasksTab tasks={ctx.tasks} loading={ctx.loading} onRefresh={ctx.fetchData} onToggleTask={ctx.handleToggleTask} />;
       case 'roadmap': return <RoadmapTab />;
-      default: return <TierListTab champions={champions} loading={loading} selectedGame={selectedGame} searchQuery={searchQuery} onSearchChange={onSearchChange} roleFilter={roleFilter} onRoleFilterChange={onRoleFilterChange} favorites={favorites} onToggleFavorite={onToggleFavorite} onChampionClick={onChampionClick} metaLastUpdated={liveVersions.metaLastUpdated} />;
+      default: return (
+        <TierListTab
+          champions={ctx.champions} loading={ctx.loading} selectedGame={ctx.selectedGame}
+          searchQuery={ctx.searchQuery} onSearchChange={ctx.onSearchChange}
+          roleFilter={ctx.roleFilter} onRoleFilterChange={ctx.onRoleFilterChange}
+          favorites={ctx.favorites} onToggleFavorite={ctx.onToggleFavorite}
+          onChampionClick={ctx.onChampionClick}
+          metaLastUpdated={ctx.liveVersions.metaLastUpdated}
+        />
+      );
     }
   };
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div key={activeTab} id={`tabpanel-${activeTab}`} role="tabpanel" aria-label={activeTab} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.15 }}>
-        {selectedGame === 'wildrift' && <WildRiftHeader version={liveVersions.wr} />}
-        {fetchError && !loading ? (
+      <motion.div key={ctx.activeTab} id={`tabpanel-${ctx.activeTab}`} role="tabpanel" aria-label={ctx.activeTab} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.15 }}>
+        {ctx.selectedGame === 'wildrift' && <WildRiftHeader version={ctx.liveVersions.wr} />}
+        {ctx.fetchError && !ctx.loading ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -98,9 +94,9 @@ export function TabContent({
           >
             <WifiOff className="w-12 h-12 mx-auto mb-4 text-lol-danger/60" />
             <h3 className="lol-title text-lg text-lol-text mb-2">Error al cargar datos</h3>
-            <p className="text-sm text-lol-muted mb-6">No se pudo conectar con el servidor. Verificá tu conexión e intentá de nuevo.</p>
+            <p className="text-sm text-lol-muted mb-6">No se pudo conectar con el servidor. Verifica tu conexion e intenta de nuevo.</p>
             <motion.button
-              onClick={onRetryFetch}
+              onClick={ctx.onRetryFetch}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer bg-lol-gold text-lol-bg"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
