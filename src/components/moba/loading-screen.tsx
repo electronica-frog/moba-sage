@@ -7,6 +7,7 @@ import {
   Zap, Globe, Trophy, Flame, Sparkles, ChevronRight,
   Lightbulb, CircleDot
 } from 'lucide-react';
+import { APP_NAME, APP_VERSION } from '@/data/constants';
 
 /* ================================================================
    MOBA SAGE — Loading Screen v8.0
@@ -404,7 +405,7 @@ export function LoadingScreen({ onSkip, dataStats }: LoadingScreenProps) {
 
         <motion.p className="text-[7px] mt-2 tracking-wider" style={{ color: '#1e1e1c' }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3, duration: 0.3 }}>
-          MOBA SAGE v0.3.0 — Datos de Riot Games y comunidad — No afiliado a Riot Games
+          {APP_NAME} v{APP_VERSION} — Datos de Riot Games y comunidad — No afiliado a Riot Games
         </motion.p>
       </div>
     </motion.div>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GAME_TAB_ITEMS, DEV_TAB_ITEMS, DEV_TAB_IDS } from './constants';
 import { Trophy, ScrollText, Flame, User, Rocket, Lightbulb, Wrench, ChevronRight, X, GraduationCap, GitCompare, Crown, BookMarked } from 'lucide-react';
+import { APP_NAME, APP_VERSION } from '@/data/constants';
 
 const DEV_ICONS: Record<string, typeof Wrench> = {
   novedades: Rocket,
@@ -162,7 +163,7 @@ function SidebarContent({ activeTab, onTabChange, gamePatch, onClose }: SidebarN
       {/* Sidebar footer with patch badge */}
       <div className="px-4 py-3 border-t border-[#785a28]/10 mb-20 lg:mb-0">
         <div className="flex items-center justify-between">
-          <p className="text-[9px] text-[#785a28]/60 tracking-wider">MOBA SAGE v2.0</p>
+          <p className="text-[9px] text-[#785a28]/60 tracking-wider">{APP_NAME} v{APP_VERSION}</p>
           {gamePatch && (
             <span className="flex items-center gap-1 text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ background: 'rgba(15,186,129,0.1)', border: '1px solid rgba(15,186,129,0.2)', color: '#0fba81' }}>
               <span className="w-1 h-1 rounded-full bg-[#0fba81] animate-pulse" />
